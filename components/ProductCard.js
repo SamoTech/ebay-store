@@ -16,7 +16,7 @@ export default function ProductCard({ product }) {
         rel="noopener noreferrer"
         className="block bg-blue-600 text-white text-center py-2 rounded mt-2 hover:bg-blue-700"
       >
-        تسوق الآن
+        Shop Now
       </a>
     </div>
   );

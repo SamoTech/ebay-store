@@ -9,8 +9,8 @@ export default function Home() {
     <main className="min-h-screen bg-gray-50">
       <section className="bg-blue-600 text-white py-12 px-4">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl font-bold">متجر العروض والتخفيضات</h1>
-          <p className="mt-4 text-xl">أفضل المنتجات من eBay بأسعار مخفضة</p>
+          <h1 className="text-4xl font-bold">Deals & Discounts Hub</h1>
+          <p className="mt-4 text-xl">Best products from eBay at discounted prices</p>
         </div>
       </section>
 
@@ -30,7 +30,7 @@ export default function Home() {
       </section>
 
       <div className="max-w-6xl mx-auto py-8 px-4">
-        <h2 className="text-2xl font-bold mb-6">أحدث المنتجات</h2>
+        <h2 className="text-2xl font-bold mb-6">Latest Products</h2>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product, index) => (
@@ -41,22 +41,22 @@ export default function Home() {
 
       <section className="bg-gray-100 py-12 mt-12">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold mb-4">ابدأ الربح معنا</h2>
+          <h2 className="text-2xl font-bold mb-4">Start Earning With Us</h2>
           <p className="text-gray-600 mb-6">
-            انضم إلى برنامج affiliate معنا وابدأ بكسب العمولات
+            Join our affiliate program and start earning commissions
           </p>
           <a 
             href="#" 
             className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
           >
-            سجل الآن
+            Join Now
           </a>
         </div>
       </section>
 
       <footer className="bg-gray-800 text-white py-6 mt-12">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <p>متجر العروض -Affiliate مع eBay Partner Network</p>
+          <p>DealsHub - Affiliate with eBay Partner Network</p>
         </div>
       </footer>
     </main>

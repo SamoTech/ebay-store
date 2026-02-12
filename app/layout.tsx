@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "متجر العروض والتخفيضات",
-  description: "أفضل المنتجات من eBay بأسعار مخفضة - تسوق واربح معAffiliate",
+  title: "DealsHub - Best Deals & Discounts",
+  description: "Best products from eBay at discounted prices - Shop and earn with Affiliate",
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Header />
         {children}
