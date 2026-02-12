@@ -8,7 +8,7 @@ export default function ProductCard({ product }) {
       />
       <h3 className="font-bold mt-2 text-sm line-clamp-2">{product.title}</h3>
       <p className="text-green-600 font-bold mt-2">
-        {product.sellingStatus?.[0]?.currentPrice?.[0]?.__value__} {product.sellingStatus?.[0]?.currentPrice?.[0]?.@currencyId}
+        {product.sellingStatus?.[0]?.currentPrice?.[0]?.__value__} {product.sellingStatus?.[0]?.currentPrice?.[0]?.['@currencyId']}
       </p>
       <a 
         href={product.viewItemURL} 
