@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { createSearchLink } from '../../lib/products';
 
-// Blog posts data - 10 comprehensive articles
+// Blog posts data - 10 comprehensive articles with working images
 const blogPosts = [
   {
     id: 1,
@@ -13,7 +12,7 @@ const blogPosts = [
     category: "Electronics",
     date: "February 10, 2025",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1498049860654-af1a5c5668ba?w=800",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800",
     searchQuery: "electronics trends 2025 gadgets",
     content: "The electronics industry is evolving rapidly with AI integration, sustainable materials, and innovative designs leading the way..."
   },
@@ -24,7 +23,7 @@ const blogPosts = [
     category: "Make Money",
     date: "February 8, 2025",
     readTime: "8 min read",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
     searchQuery: "affiliate marketing beginner guide",
     content: "Affiliate marketing is one of the best ways to earn passive income online. Here's your complete roadmap to success..."
   },
@@ -35,7 +34,7 @@ const blogPosts = [
     category: "Sneakers",
     date: "February 5, 2025",
     readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
     searchQuery: "sneakers investment Air Jordan Nike",
     content: "The sneaker resale market continues to grow. Here are the top releases to watch and how to build your collection..."
   },
@@ -46,7 +45,7 @@ const blogPosts = [
     category: "Smart Home",
     date: "February 3, 2025",
     readTime: "7 min read",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+    image: "https://images.unsplash.com/photo-1558002038-1055907df827?w=800",
     searchQuery: "smart home devices Amazon Echo Apple HomePod",
     content: "Creating a smart home has never been easier. Start with these essential devices and build your perfect setup..."
   },
@@ -195,6 +194,10 @@ export default function Blog() {
                   src={featuredPost.image} 
                   alt={featuredPost.title}
                   className="w-full h-64 md:h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'https://via.placeholder.com/800x600?text=Article+Image';
+                  }}
                 />
               </div>
               <div className="md:w-1/2 p-8 flex flex-col justify-center">
@@ -236,6 +239,10 @@ export default function Blog() {
                   src={post.image} 
                   alt={post.title}
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'https://via.placeholder.com/400x300?text=Article+Image';
+                  }}
                 />
                 <span className="absolute top-4 left-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                   {post.category}
