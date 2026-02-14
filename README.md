@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DealsHub - eBay Affiliate Store
 
-## Getting Started
+An affiliate marketing website that features trending products from eBay, targeting customers in the USA, Canada, and Europe.
 
-First, run the development server:
+## 🌐 Live Website
+
+**[DealsHub](https://ebay-store.vercel.app)** - Best Deals & Discounts
+
+## 📋 Overview
+
+DealsHub is a Next.js-based affiliate store that showcases trending products from eBay across multiple categories. The website is designed for English-speaking audiences in North America and Europe.
+
+## ✨ Features
+
+- **24+ Trending Products** across 7 categories
+- **7 Categories**: Electronics, Gaming, Sneakers, Smart Home, Beauty, Collectibles
+- **Category Filtering** - Filter products by category
+- **Affiliate Links** - All products link to eBay with affiliate tracking
+- **Responsive Design** - Works on mobile, tablet, and desktop
+- **Fast Performance** - Built with Next.js and Tailwind CSS
+- **SEO Optimized** - English content for international audience
+
+## 🛍️ Product Categories
+
+| Category | Products |
+|----------|----------|
+| 💻 Electronics | MacBook, iPhone, Samsung, Sony Headphones, Apple Watch |
+| 🎮 Gaming | PlayStation 5, Nintendo Switch, Xbox Series X |
+| 👟 Sneakers | Air Jordan, Nike Air Max, Adidas Ultraboost, Nike Dunk |
+| 🏠 Smart Home | Amazon Echo, Apple HomePod, Ring Doorbell, Philips Hue |
+| 💄 Beauty | Dyson Airwrap, Oral-B iO, Foreo Luna |
+| 🎯 Collectibles | Pokemon Cards, Sports Jerseys, Funko Pops, Rare Coins |
+
+## 🔗 Affiliate Program
+
+This project uses **eBay Partner Network (EPN)** for affiliate tracking.
+
+- **Campaign ID**: 5338903178
+- **Tracking Parameters**: mkcid, mkrid, siteid, campid
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 14
+- **Styling**: Tailwind CSS
+- **Hosting**: Vercel
+- **Source**: GitHub
+
+## 🚀 Getting Started
 
 ```bash
+# Clone the repository
+git clone https://github.com/SamoTech/ebay-store.git
+
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the website.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+ebay-store/
+├── app/
+│   ├── page.tsx          # Main page with products
+│   ├── blog/page.tsx     # Blog page
+│   └── layout.tsx        # Root layout with EPN script
+├── components/
+│   ├── Header.tsx        # Navigation header
+│   └── ProductCard.tsx  # Product display card
+├── lib/
+│   ├── products.js       # Products data with affiliate links
+│   └── categories.js     # Category definitions
+└── public/              # Static assets
+```
 
-## Learn More
+## 📝 License
 
-To learn more about Next.js, take a look at the following resources:
+MIT License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 👤 Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**SamoTech**
 
-## Deploy on Vercel
+- GitHub: [@SamoTech](https://github.com/SamoTech)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔗 Useful Links
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [eBay Partner Network](https://www.ebay.com/partners/affiliate)
+- [Vercel](https://vercel.com)
+- [Next.js Documentation](https://nextjs.org)
