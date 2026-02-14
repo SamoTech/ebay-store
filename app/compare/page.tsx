@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { allProducts } from '../../lib/products';
 import Footer from '../../components/Footer';
+import { trackEvent } from '../../lib/analytics';
 
 function CompareContent() {
   const searchParams = useSearchParams();
@@ -67,7 +68,6 @@ function CompareContent() {
                             alt={product.title}
                             fill
                             className="object-cover"
-                            unoptimized
                           />
                         </div>
                         <h3 className="font-bold text-gray-900 dark:text-white text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors line-clamp-2">
@@ -157,6 +157,7 @@ function CompareContent() {
                         href={product.affiliateLink}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'compare_page', category: product.category })}
                         className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
                       >
                         Shop on eBay
