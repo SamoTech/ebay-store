@@ -24,9 +24,10 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+  const selectedCategoryName = categories.find(c => c.slug === selectedCategory)?.name;
   let filteredProducts = selectedCategory === 'all' 
     ? allProducts 
-    : allProducts.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
+    : allProducts.filter(p => p.category === selectedCategoryName);
 
   // Apply price filter
   filteredProducts = filteredProducts.filter(p => 
