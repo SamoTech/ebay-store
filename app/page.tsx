@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton, { ProductSkeletonGrid } from '../components/ProductSkeleton';
 import SearchBar from '../components/SearchBar';
+import Footer from '../components/Footer';
+import DealOfTheDay from '../components/DealOfTheDay';
 import { useToast } from '../contexts/ToastContext';
 import { allProducts, categories, createSearchLink } from '../lib/products';
 import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
@@ -118,6 +120,11 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Deal of the Day */}
+      {!searchQuery && selectedCategory === 'all' && (
+        <DealOfTheDay />
+      )}
 
       {/* Recently Viewed */}
       {recentlyViewed.length > 0 && !searchQuery && selectedCategory === 'all' && (
@@ -270,16 +277,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8 mt-12">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-gray-400">
-            DealsHub is a participant in the eBay Partner Network, an affiliate advertising program.
-          </p>
-          <p className="mt-2 text-gray-500 text-sm">
-            © 2025 DealsHub. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }

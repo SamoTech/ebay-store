@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { useDarkMode } from '../contexts/DarkModeContext';
+import { CurrencySelector } from '../contexts/CurrencyContext';
 
 export default function Header() {
   const { favorites } = useFavorites();
@@ -15,7 +16,7 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           <Link href="/" className="text-xl font-bold text-blue-600 dark:text-blue-400">
-            DealsHub
+            🛍️ DealsHub
           </Link>
           
           {/* Desktop Navigation */}
@@ -34,6 +35,9 @@ export default function Header() {
                 </span>
               )}
             </Link>
+
+            {/* Currency Selector */}
+            <CurrencySelector />
             
             {/* Dark Mode Toggle */}
             <button

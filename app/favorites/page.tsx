@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useFavorites } from '../../contexts/FavoritesContext';
 import ProductCard from '../../components/ProductCard';
+import Footer from '../../components/Footer';
 import { useToast } from '../../contexts/ToastContext';
 
 export default function FavoritesPage() {
@@ -69,16 +70,7 @@ export default function FavoritesPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8 mt-12">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-gray-400">
-            DealsHub is a participant in the eBay Partner Network, an affiliate advertising program.
-          </p>
-          <p className="mt-2 text-gray-500 text-sm">
-            © 2025 DealsHub. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
