@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" 
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>DealsHub Blog - Best Deals &amp; Shopping Guides</title>
+    <link>https://ebay-store.vercel.app/blog</link>
+    <description>Discover the best deals on eBay with our shopping guides, product reviews, and affiliate marketing tips.</description>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 10 Feb 2025 12:00:00 GMT</lastBuildDate>
+    <atom:link href="https://ebay-store.vercel.app/rss.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>https://ebay-store.vercel.app/logo.png</url>
+      <title>DealsHub Blog</title>
+      <link>https://ebay-store.vercel.app/blog</link>
+    </image>
+    
+    <item>
+      <title>Top 10 Electronics Trends for 2025</title>
+      <link>https://ebay-store.vercel.app/blog/top-electronics-trends-2025</link>
+      <guid isPermaLink="true">https://ebay-store.vercel.app/blog/top-electronics-trends-2025</guid>
+      <pubDate>Mon, 10 Feb 2025 12:00:00 GMT</pubDate>
+      <category>Electronics</category>
+      <description>Discover the hottest electronics trends for 2025, from AI-powered devices to sustainable tech. Find out which gadgets are worth your investment.</description>
+      <content:encoded><![CDATA[
+        <p>Discover the hottest electronics trends for 2025, from AI-powered devices to sustainable tech. Find out which gadgets are worth your investment.</p>
+        <p>The electronics industry is evolving rapidly with AI integration, sustainable materials, and innovative designs leading the way...</p>
+      ]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>How to Start Affiliate Marketing in 2025</title>
+      <link>https://ebay-store.vercel.app/blog/start-affiliate-marketing-2025</link>
+      <guid isPermaLink="true">https://ebay-store.vercel.app/blog/start-affiliate-marketing-2025</guid>
+      <pubDate>Sat, 08 Feb 2025 12:00:00 GMT</pubDate>
+      <category>Make Money</category>
+      <description>A complete beginner's guide to affiliate marketing. Learn how to earn passive income by promoting products you love.</description>
+      <content:encoded><![CDATA[
+        <p>A complete beginner's guide to affiliate marketing. Learn how to earn passive income by promoting products you love.</p>
+        <p>Affiliate marketing is one of the best ways to earn passive income online. Here's your complete roadmap to success...</p>
+      ]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Best Sneakers to Invest In: 2025 Guide</title>
+      <link>https://ebay-store.vercel.app/blog/best-sneakers-invest-2025</link>
+      <guid isPermaLink="true">https://ebay-store.vercel.app/blog/best-sneakers-invest-2025</guid>
+      <pubDate>Wed, 05 Feb 2025 12:00:00 GMT</pubDate>
+      <category>Sneakers</category>
+      <description>Sneaker resale is big business. Learn which kicks are worth investing in this year and how to spot valuable releases.</description>
+      <content:encoded><![CDATA[
+        <p>Sneaker resale is big business. Learn which kicks are worth investing in this year and how to spot valuable releases.</p>
+        <p>The sneaker resale market continues to grow. Here are the top releases to watch and how to build your collection...</p>
+      ]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Smart Home Setup: Beginner to Pro</title>
+      <link>https://ebay-store.vercel.app/blog/smart-home-setup-guide</link>
+      <guid isPermaLink="true">https://ebay-store.vercel.app/blog/smart-home-setup-guide</guid>
+      <pubDate>Mon, 03 Feb 2025 12:00:00 GMT</pubDate>
+      <category>Smart Home</category>
+      <description>Transform your home with smart devices. From basic setups to advanced automation, here's everything you need to know.</description>
+      <content:encoded><![CDATA[
+        <p>Transform your home with smart devices. From basic setups to advanced automation, here's everything you need to know.</p>
+        <p>Creating a smart home has never been easier. Start with these essential devices and build your perfect setup...</p>
+      ]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Gaming Consoles Comparison: PS5 vs Xbox vs Switch</title>
+      <link>https://ebay-store.vercel.app/blog/gaming-consoles-comparison-2025</link>
+      <guid isPermaLink="true">https://ebay-store.vercel.app/blog/gaming-consoles-comparison-2025</guid>
+      <pubDate>Sat, 01 Feb 2025 12:00:00 GMT</pubDate>
+      <category>Gaming</category>
+      <description>Which gaming console is right for you? We compare PlayStation 5, Xbox Series X, and Nintendo Switch in detail.</description>
+      <content:encoded><![CDATA[
+        <p>Which gaming console is right for you? We compare PlayStation 5, Xbox Series X, and Nintendo Switch in detail.</p>
+        <p>Choosing the right gaming console depends on your preferences. Here's the ultimate comparison to help you decide...</p>
+      ]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Beauty Tech: Must-Have Gadgets</title>
+      <link>https://ebay-store.vercel.app/blog/beauty-tech-must-haves</link>
+      <guid isPermaLink="true">https://ebay-store.vercel.app/blog/beauty-tech-must-haves</guid>
+      <pubDate>Tue, 28 Jan 2025 12:00:00 GMT</pubDate>
+      <category>Beauty</category>
+      <description>From Dyson Airwrap to LED masks, discover the beauty tech gadgets that are actually worth the hype.</description>
+      <content:encoded><![CDATA[
+        <p>From Dyson Airwrap to LED masks, discover the beauty tech gadgets that are actually worth the hype.</p>
+        <p>Beauty tech is revolutionizing skincare and haircare. These gadgets deliver professional results at home...</p>
+      ]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Collectibles Investment Guide 2025</title>
+      <link>https://ebay-store.vercel.app/blog/collectibles-investment-guide</link>
+      <guid isPermaLink="true">https://ebay-store.vercel.app/blog/collectibles-investment-guide</guid>
+      <pubDate>Sat, 25 Jan 2025 12:00:00 GMT</pubDate>
+      <category>Collectibles</category>
+      <description>Pokemon cards, Funko Pops, vintage jerseys - learn which collectibles are trending and how to start your collection.</description>
+      <content:encoded><![CDATA[
+        <p>Pokemon cards, Funko Pops, vintage jerseys - learn which collectibles are trending and how to start your collection.</p>
+        <p>Collectibles are becoming serious investments. Learn how to identify valuable items and build a profitable collection...</p>
+      ]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>How to Score the Best Deals on eBay</title>
+      <link>https://ebay-store.vercel.app/blog/ebay-shopping-tips</link>
+      <guid isPermaLink="true">https://ebay-store.vercel.app/blog/ebay-shopping-tips</guid>
+      <pubDate>Wed, 22 Jan 2025 12:00:00 GMT</pubDate>
+      <category>Shopping Tips</category>
+      <description>Master the art of eBay shopping. Tips and tricks to find the best deals, avoid scams, and win auctions.</description>
+      <content:encoded><![CDATA[
+        <p>Master the art of eBay shopping. Tips and tricks to find the best deals, avoid scams, and win auctions.</p>
+        <p>eBay is a treasure trove of deals when you know how to shop. Here are pro tips to save money and shop safely...</p>
+      ]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Fitness Tech: Best Wearables for 2025</title>
+      <link>https://ebay-store.vercel.app/blog/fitness-wearables-2025</link>
+      <guid isPermaLink="true">https://ebay-store.vercel.app/blog/fitness-wearables-2025</guid>
+      <pubDate>Mon, 20 Jan 2025 12:00:00 GMT</pubDate>
+      <category>Fitness</category>
+      <description>Apple Watch, Garmin, Fitbit - which fitness tracker is best for your goals? Complete comparison and reviews.</description>
+      <content:encoded><![CDATA[
+        <p>Apple Watch, Garmin, Fitbit - which fitness tracker is best for your goals? Complete comparison and reviews.</p>
+        <p>Finding the right fitness tracker can transform your health journey. We compare the top options for every budget...</p>
+      ]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Home Office Essentials: Work From Home Setup</title>
+      <link>https://ebay-store.vercel.app/blog/home-office-essentials</link>
+      <guid isPermaLink="true">https://ebay-store.vercel.app/blog/home-office-essentials</guid>
+      <pubDate>Sat, 18 Jan 2025 12:00:00 GMT</pubDate>
+      <category>Office</category>
+      <description>Create the perfect home office with these essential gadgets and furniture. Boost productivity and comfort.</description>
+      <content:encoded><![CDATA[
+        <p>Create the perfect home office with these essential gadgets and furniture. Boost productivity and comfort.</p>
+        <p>A well-designed home office boosts productivity and health. Here's everything you need for the perfect workspace...</p>
+      ]]></content:encoded>
+    </item>
+  </channel>
+</rss>
