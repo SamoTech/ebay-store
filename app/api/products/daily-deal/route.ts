@@ -29,20 +29,29 @@ function getDailyQuery(): string {
   return dealQueries[dayOfYear % dealQueries.length];
 }
 
+// Get deal index based on day of year
+function getDealIndex(totalDeals: number): number {
+  const today = new Date();
+  const start = new Date(today.getFullYear(), 0, 0);
+  const diff = today.getTime() - start.getTime();
+  const dayOfYear = Math.floor(diff / 86400000);
+  
+  return dayOfYear % totalDeals;
+}
+
 export async function GET() {
   const integration = getEbayIntegrationStatus();
 
-  // If API disabled, return featured product based on day
-  if (integration.mode === 'disabled') {
-    const today = new Date();
-    const start = new Date(today.getFullYear(), 0, 0);
-    const diff = today.getTime() - start.getTime();
-    const dayOfYear = Math.floor(diff / 86400000);
-    const dealIndex = dayOfYear % featuredProducts.length;
+  // Select deal from featured products (with original prices = discounts)
+  const dealsWithDiscounts = featuredProducts.filter(p => p.originalPrice && p.originalPrice > p.price);
+  const dealIndex = getDealIndex(dealsWithDiscounts.length);
+  const staticDeal = dealsWithDiscounts[dealIndex];
 
+  // If API disabled, return static featured product
+  if (integration.mode === 'disabled') {
     return NextResponse.json({
       source: 'static',
-      deal: featuredProducts[dealIndex],
+      deal: staticDeal,
       rotatesAt: 'midnight',
     });
   }
@@ -53,34 +62,14 @@ export async function GET() {
     const data = await searchEbayProducts(query, 20);
     const items = data.itemSummaries || [];
 
-    // Filter for items with discounts (have original price)
-    const discountedItems = items.filter(item => {
-      const hasDiscount = item.marketingPrice?.originalPrice?.value && 
-                         item.price?.value &&
-                         item.marketingPrice.originalPrice.value > item.price.value;
-      
-      if (!hasDiscount) return false;
-      
-      // Calculate discount percentage
-      const discount = ((item.marketingPrice!.originalPrice!.value - item.price!.value) / 
-                       item.marketingPrice!.originalPrice!.value) * 100;
-      
-      // Only include items with 20%+ discount
-      return discount >= 20;
-    });
-
     // Map to our product format
-    const dealProducts = discountedItems
-      .map((item, idx) => mapEbayItemToProduct(item, idx + 1, 'Deal'))
+    const dealProducts = items
+      .map((item, idx) => mapEbayItemToProduct(item, idx + 1000, 'Deal'))
       .filter(Boolean);
 
     if (dealProducts.length > 0) {
       // Select deal based on day (for consistency throughout the day)
-      const today = new Date();
-      const start = new Date(today.getFullYear(), 0, 0);
-      const diff = today.getTime() - start.getTime();
-      const dayOfYear = Math.floor(diff / 86400000);
-      const selectedDeal = dealProducts[dayOfYear % dealProducts.length];
+      const selectedDeal = dealProducts[getDealIndex(dealProducts.length)];
 
       return NextResponse.json({
         source: 'ebay_live',
@@ -91,32 +80,20 @@ export async function GET() {
       });
     }
 
-    // Fallback to static if no good deals found
-    const today = new Date();
-    const start = new Date(today.getFullYear(), 0, 0);
-    const diff = today.getTime() - start.getTime();
-    const dayOfYear = Math.floor(diff / 86400000);
-    const dealIndex = dayOfYear % featuredProducts.length;
-
+    // Fallback to static if no products found
     return NextResponse.json({
       source: 'fallback_static',
-      deal: featuredProducts[dealIndex],
+      deal: staticDeal,
       rotatesAt: 'midnight',
-      message: 'No high-discount deals found; using curated deal',
+      message: 'No deals found from API; using curated deal',
     });
   } catch (error) {
     console.error('Error fetching daily deal:', error);
 
     // Fallback to static on error
-    const today = new Date();
-    const start = new Date(today.getFullYear(), 0, 0);
-    const diff = today.getTime() - start.getTime();
-    const dayOfYear = Math.floor(diff / 86400000);
-    const dealIndex = dayOfYear % featuredProducts.length;
-
     return NextResponse.json({
       source: 'fallback_static',
-      deal: featuredProducts[dealIndex],
+      deal: staticDeal,
       rotatesAt: 'midnight',
       error: 'API error',
     });
