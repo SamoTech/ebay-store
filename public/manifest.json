@@ -1,106 +1,94 @@
 {
-  "name": "DealsHub - Best Deals on eBay",
+  "name": "DealsHub - Best eBay Deals & Discounts",
   "short_name": "DealsHub",
-  "description": "Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay",
+  "description": "Find the best deals on eBay with live prices, price drop alerts, and exclusive discounts",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "background_color": "#1e40af",
+  "theme_color": "#1e40af",
   "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "en-US",
-  "dir": "ltr",
   "icons": [
     {
       "src": "/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any"
     },
     {
       "src": "/icon-96x96.png",
       "sizes": "96x96",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any"
     },
     {
       "src": "/icon-128x128.png",
       "sizes": "128x128",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any"
     },
     {
       "src": "/icon-144x144.png",
       "sizes": "144x144",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any"
     },
     {
       "src": "/icon-152x152.png",
       "sizes": "152x152",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any"
     },
     {
       "src": "/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     },
     {
       "src": "/icon-384x384.png",
       "sizes": "384x384",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any"
     },
     {
       "src": "/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     }
   ],
-  "categories": ["shopping", "deals", "e-commerce"],
   "screenshots": [
     {
-      "src": "/screenshot-wide.png",
+      "src": "/screenshot-mobile.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshot-desktop.png",
       "sizes": "1280x720",
       "type": "image/png",
-      "form_factor": "wide",
-      "label": "DealsHub Homepage"
-    },
-    {
-      "src": "/screenshot-narrow.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "DealsHub Mobile"
+      "form_factor": "wide"
     }
   ],
+  "categories": ["shopping", "lifestyle", "productivity"],
   "shortcuts": [
     {
-      "name": "Electronics",
-      "short_name": "Electronics",
-      "description": "Browse electronics deals",
-      "url": "/category/electronics",
-      "icons": [{ "src": "/icon-electronics.png", "sizes": "96x96" }]
+      "name": "Search Deals",
+      "url": "/",
+      "description": "Search for products"
     },
     {
-      "name": "Gaming",
-      "short_name": "Gaming",
-      "description": "Browse gaming deals",
-      "url": "/category/gaming",
-      "icons": [{ "src": "/icon-gaming.png", "sizes": "96x96" }]
+      "name": "Favorites",
+      "url": "/favorites",
+      "description": "View your favorite products"
     },
     {
       "name": "Blog",
-      "short_name": "Blog",
-      "description": "Read shopping guides",
       "url": "/blog",
-      "icons": [{ "src": "/icon-blog.png", "sizes": "96x96" }]
+      "description": "Read product reviews"
     }
   ],
   "related_applications": [],
-  "prefer_related_applications": false,
-  "iarc_rating_id": ""
+  "prefer_related_applications": false
 }
