@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { featuredProducts, Product } from '../lib/products';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { useToast } from '../contexts/ToastContext';
+import { trackEvent } from '../lib/analytics';
 
 export default function DealOfTheDay() {
   const [deal, setDeal] = useState<Product | null>(null);
@@ -78,7 +79,6 @@ export default function DealOfTheDay() {
                 alt={deal.title}
                 fill
                 className="object-cover"
-                unoptimized
               />
               <div className="absolute top-4 left-4 bg-yellow-400 text-black px-4 py-2 rounded-full font-bold text-lg animate-pulse">
                 🔥 -{discount}% OFF
@@ -140,6 +140,7 @@ export default function DealOfTheDay() {
                 href={deal.affiliateLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: deal.id, source: 'deal_of_the_day', category: deal.category })}
                 className="flex-1 bg-white text-orange-600 text-center py-3 rounded-xl font-bold hover:bg-orange-50 transition-colors"
               >
                 Grab This Deal →
@@ -169,19 +170,7 @@ export default function DealOfTheDay() {
               </Link>
             </div>
 
-            {/* Social Proof */}
-            {deal.viewedToday && (
-              <div className="mt-4 flex items-center gap-2 text-sm text-white/80">
-                <span className="flex items-center gap-1">
-                  👀 {deal.viewedToday} people viewed today
-                </span>
-                {deal.trending && (
-                  <span className="bg-yellow-400 text-black px-2 py-0.5 rounded-full text-xs font-medium">
-                    🔥 Trending
-                  </span>
-                )}
-              </div>
-            )}
+
           </div>
         </div>
       </div>

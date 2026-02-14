@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton, { ProductSkeletonGrid } from '../components/ProductSkeleton';
 import SearchBar from '../components/SearchBar';
 import Footer from '../components/Footer';
 import DealOfTheDay from '../components/DealOfTheDay';
 import { useToast } from '../contexts/ToastContext';
-import { allProducts, categories, createSearchLink } from '../lib/products';
+import { allProducts, categories, createSearchLink, Product } from '../lib/products';
 import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
 
 export default function Home() {
@@ -17,6 +18,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState<'price-low' | 'price-high' | 'name'>('name');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
+  const [catalog, setCatalog] = useState<Product[]>(allProducts);
+  const [catalogSource, setCatalogSource] = useState<'static' | 'ebay_live'>('static');
   const { addToast } = useToast();
   const { recentlyViewed } = useRecentlyViewed();
 
@@ -26,10 +29,34 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadCatalog(): Promise<void> {
+      try {
+        const response = await fetch('/api/products/discover');
+        if (!response.ok) return;
+
+        const data = await response.json() as { source?: string; products?: Product[] };
+        if (!isMounted || !data.products?.length) return;
+
+        setCatalog(data.products);
+        setCatalogSource(data.source === 'ebay_live' ? 'ebay_live' : 'static');
+      } catch {
+        // Keep static fallback silently
+      }
+    }
+
+    void loadCatalog();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const selectedCategoryName = categories.find(c => c.slug === selectedCategory)?.name;
   let filteredProducts = selectedCategory === 'all' 
-    ? allProducts 
-    : allProducts.filter(p => p.category === selectedCategoryName);
+    ? catalog 
+    : catalog.filter(p => p.category === selectedCategoryName);
 
   // Apply price filter
   filteredProducts = filteredProducts.filter(p => 
@@ -103,6 +130,15 @@ export default function Home() {
         </section>
       )}
 
+
+      {catalogSource === 'ebay_live' && (
+        <section className="max-w-6xl mx-auto px-4 pt-4">
+          <div className="inline-flex items-center gap-2 rounded-full bg-green-100 text-green-700 px-4 py-1 text-sm font-medium dark:bg-green-900/30 dark:text-green-300">
+            ● Live eBay catalog active
+          </div>
+        </section>
+      )}
+
       {/* Categories */}
       <section className="max-w-6xl mx-auto px-4 -mt-6">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
@@ -134,11 +170,15 @@ export default function Home() {
             {recentlyViewed.slice(0, 5).map((product) => (
               <div key={product.id} className="flex-shrink-0 w-40">
                 <a href={product.affiliateLink} target="_blank" rel="noopener noreferrer">
-                  <img 
-                    src={product.image} 
-                    alt={product.title}
-                    className="w-full h-32 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow"
-                  />
+                  <div className="relative w-full h-32 rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.title}
+                      fill
+                      className="object-cover"
+                      sizes="160px"
+                    />
+                  </div>
                   <p className="text-sm font-medium mt-2 line-clamp-1 text-gray-700 dark:text-gray-300">{product.title}</p>
                   <p className="text-green-600 font-bold text-sm">${product.price}</p>
                 </a>
@@ -257,7 +297,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
-              <p className="text-4xl font-bold">{allProducts.length}+</p>
+              <p className="text-4xl font-bold">{catalog.length}+</p>
               <p className="text-blue-200">Products</p>
             </div>
             <div>

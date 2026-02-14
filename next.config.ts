@@ -1,19 +1,27 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Enable static export for better SEO
   output: 'standalone',
-  
-  // Image optimization
+
   images: {
-    unoptimized: true,
-    domains: ['images.unsplash.com', 'ebay-store.vercel.app'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ebay-store.vercel.app',
+      },
+    ],
   },
-  
-  // Trailing slash for cleaner URLs
+
   trailingSlash: true,
-  
-  // Allow all crawlers
+
   async headers() {
     return [
       {
@@ -49,8 +57,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  
-  // Redirects for clean URLs
+
   async redirects() {
     return [
       {
