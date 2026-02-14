@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
-import { allProducts, categories, createSearchLink } from '../lib/products';
+import { allProducts, categories, createSearchLink, Product } from '../lib/products';
 import ProductCard from './ProductCard';
 import Footer from './Footer';
+import { ProductSkeletonGrid } from './ProductSkeleton';
 import { trackEvent } from '../lib/analytics';
 
 export default function CategoryPageClient({ slug }: { slug: string }) {
@@ -15,15 +16,52 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
   const [sortBy, setSortBy] = useState<'price-low' | 'price-high' | 'name'>('name');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
   const [compareList, setCompareList] = useState<number[]>([]);
+  const [products, setProducts] = useState<Product[]>(allProducts.filter(p => 
+    p.category.toLowerCase() === categoryName.toLowerCase() ||
+    p.category.toLowerCase().replace(' ', '-') === slug
+  ));
+  const [isLoading, setIsLoading] = useState(true);
+  const [dataSource, setDataSource] = useState<'static' | 'ebay_live' | 'fallback_static'>('static');
+
+  // Fetch products from API
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchCategoryProducts() {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`/api/products/category/${slug}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+
+        const data = await response.json();
+        
+        if (isMounted && data.products?.length > 0) {
+          setProducts(data.products);
+          setDataSource(data.source || 'static');
+        }
+      } catch (error) {
+        console.error('Error fetching category products:', error);
+        // Keep static products as fallback
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    fetchCategoryProducts();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [slug, categoryName]);
 
   const categoryProducts = useMemo(() => {
-    let filtered = allProducts.filter(p => 
-      p.category.toLowerCase() === categoryName.toLowerCase() ||
-      p.category.toLowerCase().replace(' ', '-') === slug
-    );
-
     // Apply price filter
-    filtered = filtered.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
+    let filtered = products.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
 
     // Apply sorting
     return [...filtered].sort((a, b) => {
@@ -31,9 +69,9 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
       if (sortBy === 'price-high') return b.price - a.price;
       return a.title.localeCompare(b.title);
     });
-  }, [categoryName, slug, sortBy, priceRange]);
+  }, [products, sortBy, priceRange]);
 
-  const compareProducts = allProducts.filter(p => compareList.includes(p.id));
+  const compareProducts = products.filter(p => compareList.includes(p.id));
 
   const handleCompare = (product: { id: number }) => {
     const currentlySelected = compareList.includes(product.id);
@@ -53,10 +91,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
     });
   };
 
-  const minPrice = Math.min(...allProducts.filter(p => p.category.toLowerCase() === categoryName.toLowerCase()).map(p => p.price));
-  const maxPrice = Math.max(...allProducts.filter(p => p.category.toLowerCase() === categoryName.toLowerCase()).map(p => p.price));
-
-  if (categoryProducts.length === 0 && !category) {
+  if (categoryProducts.length === 0 && !category && !isLoading) {
     return (
       <main className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
@@ -84,8 +119,15 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
             {category?.icon} {categoryName}
           </h1>
           <p className="text-xl text-blue-100">
-            {categoryProducts.length} products available • Best deals on {categoryName.toLowerCase()}
+            {isLoading ? 'Loading products...' : `${products.length} products available • Best deals on ${categoryName.toLowerCase()}`}
           </p>
+          {dataSource === 'ebay_live' && (
+            <div className="mt-4">
+              <span className="inline-flex items-center gap-2 rounded-full bg-green-500 text-white px-4 py-1 text-sm font-medium">
+                ● Live eBay products
+              </span>
+            </div>
+          )}
         </div>
       </section>
 
@@ -168,7 +210,9 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
 
       {/* Products Grid */}
       <section className="max-w-6xl mx-auto px-4 py-8">
-        {categoryProducts.length === 0 ? (
+        {isLoading ? (
+          <ProductSkeletonGrid count={12} />
+        ) : categoryProducts.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-gray-500 dark:text-gray-400 text-lg">No products found in this price range.</p>
             <button 
