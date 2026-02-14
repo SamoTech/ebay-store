@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Product } from '../lib/products';
-import { trackEvent } from '../lib/analytics';
 
 interface PriceAlertFormProps {
   product: Product;
@@ -37,7 +36,6 @@ export default function PriceAlertForm({ product }: PriceAlertFormProps) {
 
       if (response.ok) {
         setSuccess(true);
-        trackEvent({ event: 'price_alert_created', productId: product.id, targetPrice });
         setTimeout(() => {
           setSuccess(false);
           setEmail('');
