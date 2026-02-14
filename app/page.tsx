@@ -20,7 +20,7 @@ export default function Home() {
     setSelectedCategory('all');
   };
 
-  const handleCategoryClick = (slug) => {
+  const handleCategoryClick = (slug: string) => {
     setSelectedCategory(slug);
     setSearchQuery('');
     setShowAllProducts(false);
