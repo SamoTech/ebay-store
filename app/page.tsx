@@ -57,14 +57,16 @@ export default function Home() {
                 Showing all products from eBay matching your search
               </p>
             </div>
-            <a 
-              href={searchResultsLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition-colors font-medium whitespace-nowrap"
-            >
-              View on eBay →
-            </a>
+            {searchResultsLink && (
+              <a 
+                href={searchResultsLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition-colors font-medium whitespace-nowrap"
+              >
+                View on eBay →
+              </a>
+            )}
           </div>
         </section>
       )}
