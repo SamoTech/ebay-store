@@ -14,7 +14,7 @@ export default function Home() {
     ? allProducts 
     : allProducts.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
 
-  const handleSearch = (query) => {
+  const handleSearch = (query: string) => {
     setSearchQuery(query);
     setShowAllProducts(true);
     setSelectedCategory('all');
