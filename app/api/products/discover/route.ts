@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { allProducts, Product, categories } from '../../../../lib/products';
-import { getEbayIntegrationStatus, mapEbayItemToProduct, searchEbayProducts } from '../../../../lib/ebay-api';
+import {
+  getEbayIntegrationStatus,
+  mapEbayItemToProduct,
+  searchEbayProducts,
+} from '../../../../lib/ebay-api';
 
 const categoryQueries: Array<{ category: string; query: string }> = categories
   .filter((entry) => entry.slug !== 'all')
@@ -21,7 +25,13 @@ export async function GET() {
         const items = data.itemSummaries || [];
 
         return items
-          .map((item, itemIdx) => mapEbayItemToProduct(item, idx * 1000 + itemIdx + 1, entry.category))
+          .map((item, itemIdx) =>
+            mapEbayItemToProduct(
+              item,
+              idx * 1000 + itemIdx + 1,
+              entry.category
+            )
+          )
           .filter((item): item is Product => Boolean(item));
       })
     );
@@ -32,7 +42,8 @@ export async function GET() {
       return NextResponse.json({
         source: 'fallback_static',
         products: allProducts,
-        message: 'No eBay credentials or no live products returned; using static catalog fallback.',
+        message:
+          'No eBay credentials or no live products returned; using static catalog fallback.',
         integration,
       });
     }

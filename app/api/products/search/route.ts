@@ -12,16 +12,24 @@ function normalizeCategory(categoryRaw: string | null): string {
 
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get('q');
-  const category = normalizeCategory(request.nextUrl.searchParams.get('category'));
+  const category = normalizeCategory(
+    request.nextUrl.searchParams.get('category')
+  );
 
   if (!query) {
-    return NextResponse.json({ error: 'Missing q parameter' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Missing q parameter' },
+      { status: 400 }
+    );
   }
 
   try {
     const data = await searchEbayProducts(query);
+
     const products = (data.itemSummaries || [])
-      .map((item, index) => mapEbayItemToProduct(item, index + 1, category))
+      .map((item, index) =>
+        mapEbayItemToProduct(item, index + 1, category)
+      )
       .filter((item): item is Product => Boolean(item));
 
     return NextResponse.json({
@@ -32,6 +40,9 @@ export async function GET(request: NextRequest) {
       products,
     });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch products', detail: String(error) }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch products', detail: String(error) },
+      { status: 500 }
+    );
   }
 }
