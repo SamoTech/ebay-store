@@ -6,6 +6,7 @@ export type AnalyticsEventName =
   | 'compare_toggle'
   | 'newsletter_submit'
   | 'price_alert_toggle'
+  | 'chatbot_opened'
   | 'chatbot_message_sent'
   | 'product_shared';
 
