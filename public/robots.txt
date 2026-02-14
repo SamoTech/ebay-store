@@ -1,83 +1,8 @@
-# robots.txt for DealsHub
-# https://ebay-store.vercel.app
-
 User-agent: *
 Allow: /
-
-# Sitemap
-Sitemap: https://ebay-store.vercel.app/sitemap.xml
-
-# Allow all search engines
-User-agent: Googlebot
-Allow: /
-
-User-agent: Googlebot-Image
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Slurp
-Allow: /
-
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: Baiduspider
-Allow: /
-
-User-agent: YandexBot
-Allow: /
-
-# AI Crawlers
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: Anthropic-ai
-Allow: /
-
-User-agent: Claude-Web
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Applebot
-Allow: /
-
-User-agent: cohere-ai
-Allow: /
-
-User-agent: FacebookBot
-Allow: /
-
-# Pinterest
-User-agent: Pinterestbot
-Allow: /
-
-# Reddit
-User-agent: RedditBot
-Allow: /
-
-# Twitter/X
-User-agent: Twitterbot
-Allow: /
-
-# LinkedIn
-User-agent: LinkedInBot
-Allow: /
-
-# Disallow admin and private areas
 Disallow: /admin/
 Disallow: /api/
 Disallow: /_next/
 Disallow: /private/
 
-# Crawl delay for bots
-Crawl-delay: 1
-
-# Host
-Host: https://ebay-store.vercel.app
+Sitemap: https://ebay-store.vercel.app/sitemap.xml
