@@ -5,7 +5,9 @@ export type AnalyticsEventName =
   | 'affiliate_outbound_click'
   | 'compare_toggle'
   | 'newsletter_submit'
-  | 'price_alert_toggle';
+  | 'price_alert_toggle'
+  | 'chatbot_message_sent'
+  | 'product_shared';
 
 export interface AnalyticsEventPayload {
   event: AnalyticsEventName;
