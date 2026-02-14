@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "verify:apis": "node scripts/verify-apis.mjs",
+    "verify:conflicts": "node scripts/check-conflicts.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^1.6.1",
