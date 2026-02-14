@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createSearchLink } from '../../lib/products';
+import Footer from '../../components/Footer';
 
 // Blog posts data - 10 comprehensive articles with working images
 const blogPosts = [
@@ -154,7 +155,7 @@ export default function Blog() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 px-4">
         <div className="max-w-6xl mx-auto text-center">
@@ -175,7 +176,7 @@ export default function Blog() {
               className={`px-4 py-2 rounded-full shadow-sm transition-all font-medium ${
                 selectedCategory === cat.slug
                   ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-white text-gray-700 hover:text-blue-600 hover:shadow-md'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md'
               }`}
             >
               {cat.name}
@@ -187,7 +188,7 @@ export default function Blog() {
       {/* Featured Post */}
       {featuredPost && (
         <section className="max-w-6xl mx-auto px-4 py-12">
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
             <div className="md:flex">
               <div className="md:w-1/2">
                 <img 
@@ -201,12 +202,12 @@ export default function Blog() {
                 />
               </div>
               <div className="md:w-1/2 p-8 flex flex-col justify-center">
-                <span className="inline-block bg-blue-100 text-blue-600 text-sm font-semibold px-3 py-1 rounded-full mb-4 w-fit">
+                <span className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 text-sm font-semibold px-3 py-1 rounded-full mb-4 w-fit">
                   {featuredPost.category}
                 </span>
-                <h2 className="text-3xl font-bold mb-4">{featuredPost.title}</h2>
-                <p className="text-gray-600 mb-4">{featuredPost.excerpt}</p>
-                <div className="flex items-center text-gray-500 text-sm mb-6">
+                <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">{featuredPost.title}</h2>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">{featuredPost.excerpt}</p>
+                <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-6">
                   <span>{featuredPost.date}</span>
                   <span className="mx-2">•</span>
                   <span>{featuredPost.readTime}</span>
@@ -227,13 +228,13 @@ export default function Blog() {
 
       {/* Articles Grid */}
       <section className="max-w-6xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold mb-8">
+        <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-white">
           {selectedCategory === 'all' ? 'Latest Articles' : `${selectedCategory} Articles`}
-          <span className="text-gray-500 text-base font-normal ml-3">({filteredPosts.length} articles)</span>
+          <span className="text-gray-500 dark:text-gray-400 text-base font-normal ml-3">({filteredPosts.length} articles)</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {allPosts.map((post) => (
-            <article key={post.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+            <article key={post.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
               <div className="relative h-48">
                 <img 
                   src={post.image} 
@@ -249,18 +250,18 @@ export default function Blog() {
                 </span>
               </div>
               <div className="p-6">
-                <div className="flex items-center text-gray-500 text-sm mb-3">
+                <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-3">
                   <span>{post.date}</span>
                   <span className="mx-2">•</span>
                   <span>{post.readTime}</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 line-clamp-2">{post.title}</h3>
-                <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+                <h3 className="text-xl font-bold mb-3 line-clamp-2 text-gray-900 dark:text-white">{post.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
                 <a 
                   href={createSearchLink(post.searchQuery)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 font-medium hover:underline"
+                  className="text-blue-600 dark:text-blue-400 font-medium hover:underline"
                 >
                   Read More on eBay →
                 </a>
@@ -303,16 +304,7 @@ export default function Blog() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-gray-400">
-            DealsHub is a participant in the eBay Partner Network, an affiliate advertising program.
-          </p>
-          <p className="mt-2 text-gray-500 text-sm">
-            © 2025 DealsHub. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }

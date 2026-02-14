@@ -11,12 +11,17 @@ export interface Product {
   id: number;
   title: string;
   price: number;
+  originalPrice?: number;
   currency?: string;
   image: string;
   category: string;
   affiliateLink: string;
   description: string;
   featured?: boolean;
+  rating?: number;
+  reviewCount?: number;
+  viewedToday?: number;
+  trending?: boolean;
 }
 
 export interface Category {
@@ -27,14 +32,14 @@ export interface Category {
 }
 
 export const featuredProducts: Product[] = [
-  { id: 1, title: 'Apple MacBook Pro 14" M3 Pro', price: 1999, currency: 'USD', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400', category: 'Electronics', affiliateLink: createSearchLink('MacBook Pro M3'), description: 'Powerful laptop for professionals', featured: true },
-  { id: 2, title: 'iPhone 15 Pro Max 256GB', price: 1199, currency: 'USD', image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400', category: 'Electronics', affiliateLink: createSearchLink('iPhone 15 Pro Max'), description: 'Latest iPhone model', featured: true },
-  { id: 3, title: 'Samsung Galaxy S24 Ultra', price: 1299, currency: 'USD', image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400', category: 'Electronics', affiliateLink: createSearchLink('Samsung Galaxy S24 Ultra'), description: 'Samsung flagship phone', featured: true },
-  { id: 4, title: 'PlayStation 5 Console', price: 499, currency: 'USD', image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400', category: 'Gaming', affiliateLink: createSearchLink('PlayStation 5'), description: 'Next-gen gaming console', featured: true },
-  { id: 5, title: 'Sony WH-1000XM5', price: 299, currency: 'USD', image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400', category: 'Electronics', affiliateLink: createSearchLink('Sony WH-1000XM5'), description: 'Premium headphones', featured: true },
-  { id: 6, title: 'Air Jordan 4 Retro', price: 350, currency: 'USD', image: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=400', category: 'Sneakers', affiliateLink: createSearchLink('Air Jordan 4 Retro'), description: 'Top selling sneaker', featured: true },
-  { id: 7, title: 'Nintendo Switch OLED', price: 349, currency: 'USD', image: 'https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=400', category: 'Gaming', affiliateLink: createSearchLink('Nintendo Switch OLED'), description: 'Handheld gaming', featured: true },
-  { id: 8, title: 'Apple Watch Series 9', price: 399, currency: 'USD', image: 'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400', category: 'Electronics', affiliateLink: createSearchLink('Apple Watch Series 9'), description: 'Smart watch', featured: true }
+  { id: 1, title: 'Apple MacBook Pro 14" M3 Pro', price: 1999, originalPrice: 2499, currency: 'USD', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400', category: 'Electronics', affiliateLink: createSearchLink('MacBook Pro M3'), description: 'Powerful laptop for professionals', featured: true, rating: 5, reviewCount: 2341, viewedToday: 156, trending: true },
+  { id: 2, title: 'iPhone 15 Pro Max 256GB', price: 1199, originalPrice: 1299, currency: 'USD', image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400', category: 'Electronics', affiliateLink: createSearchLink('iPhone 15 Pro Max'), description: 'Latest iPhone model', featured: true, rating: 5, reviewCount: 4521, viewedToday: 289, trending: true },
+  { id: 3, title: 'Samsung Galaxy S24 Ultra', price: 1299, originalPrice: 1419, currency: 'USD', image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400', category: 'Electronics', affiliateLink: createSearchLink('Samsung Galaxy S24 Ultra'), description: 'Samsung flagship phone', featured: true, rating: 4, reviewCount: 1876, viewedToday: 134 },
+  { id: 4, title: 'PlayStation 5 Console', price: 499, originalPrice: 549, currency: 'USD', image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400', category: 'Gaming', affiliateLink: createSearchLink('PlayStation 5'), description: 'Next-gen gaming console', featured: true, rating: 5, reviewCount: 8934, viewedToday: 412, trending: true },
+  { id: 5, title: 'Sony WH-1000XM5', price: 299, originalPrice: 399, currency: 'USD', image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400', category: 'Electronics', affiliateLink: createSearchLink('Sony WH-1000XM5'), description: 'Premium headphones', featured: true, rating: 5, reviewCount: 3211, viewedToday: 178 },
+  { id: 6, title: 'Air Jordan 4 Retro', price: 350, originalPrice: 450, currency: 'USD', image: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=400', category: 'Sneakers', affiliateLink: createSearchLink('Air Jordan 4 Retro'), description: 'Top selling sneaker', featured: true, rating: 5, reviewCount: 2156, viewedToday: 267, trending: true },
+  { id: 7, title: 'Nintendo Switch OLED', price: 349, currency: 'USD', image: 'https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=400', category: 'Gaming', affiliateLink: createSearchLink('Nintendo Switch OLED'), description: 'Handheld gaming', featured: true, rating: 5, reviewCount: 5621, viewedToday: 198 },
+  { id: 8, title: 'Apple Watch Series 9', price: 399, originalPrice: 449, currency: 'USD', image: 'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400', category: 'Electronics', affiliateLink: createSearchLink('Apple Watch Series 9'), description: 'Smart watch', featured: true, rating: 4, reviewCount: 2987, viewedToday: 145 }
 ];
 
 export const allProducts: Product[] = [

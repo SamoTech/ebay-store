@@ -9,6 +9,7 @@ import { ToastProvider } from "../contexts/ToastContext";
 import { FavoritesProvider } from "../contexts/FavoritesContext";
 import { RecentlyViewedProvider } from "../contexts/RecentlyViewedContext";
 import { DarkModeProvider } from "../contexts/DarkModeContext";
+import { CurrencyProvider } from "../contexts/CurrencyContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -318,16 +319,18 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <DarkModeProvider>
-          <ToastProvider>
-            <FavoritesProvider>
-              <RecentlyViewedProvider>
-                <Header />
-                {children}
-                <SpeedInsights />
-                <Analytics />
-              </RecentlyViewedProvider>
-            </FavoritesProvider>
-          </ToastProvider>
+          <CurrencyProvider>
+            <ToastProvider>
+              <FavoritesProvider>
+                <RecentlyViewedProvider>
+                  <Header />
+                  {children}
+                  <SpeedInsights />
+                  <Analytics />
+                </RecentlyViewedProvider>
+              </FavoritesProvider>
+            </ToastProvider>
+          </CurrencyProvider>
         </DarkModeProvider>
         
         {/* eBay Partner Network Tracking Script */}
