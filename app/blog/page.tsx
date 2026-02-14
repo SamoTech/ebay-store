@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { createSearchLink } from '../../lib/products';
 import Footer from '../../components/Footer';
+import { trackEvent } from '../../lib/analytics';
 
 // Blog posts data - 10 comprehensive articles with working images
 const blogPosts = [
@@ -145,9 +147,18 @@ export default function Blog() {
   const featuredPost = filteredPosts[0];
   const allPosts = filteredPosts.slice(1);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
+    if (!email) return;
+
+    const response = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, source: 'blog_newsletter' }),
+    });
+
+    if (response.ok) {
+      trackEvent({ event: 'newsletter_submit', source: 'blog' });
       setSubscribed(true);
       setEmail('');
       setTimeout(() => setSubscribed(false), 3000);
@@ -191,15 +202,15 @@ export default function Blog() {
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
             <div className="md:flex">
               <div className="md:w-1/2">
-                <img 
-                  src={featuredPost.image} 
-                  alt={featuredPost.title}
-                  className="w-full h-64 md:h-full object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = 'https://via.placeholder.com/800x600?text=Article+Image';
-                  }}
-                />
+                <div className="relative w-full h-64 md:h-full min-h-[260px]">
+                  <Image
+                    src={featuredPost.image}
+                    alt={featuredPost.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                </div>
               </div>
               <div className="md:w-1/2 p-8 flex flex-col justify-center">
                 <span className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 text-sm font-semibold px-3 py-1 rounded-full mb-4 w-fit">
@@ -236,14 +247,12 @@ export default function Blog() {
           {allPosts.map((post) => (
             <article key={post.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
               <div className="relative h-48">
-                <img 
-                  src={post.image} 
+                <Image
+                  src={post.image}
                   alt={post.title}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = 'https://via.placeholder.com/400x300?text=Article+Image';
-                  }}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <span className="absolute top-4 left-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                   {post.category}
