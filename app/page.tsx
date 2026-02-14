@@ -1,23 +1,51 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
+import ProductSkeleton, { ProductSkeletonGrid } from '../components/ProductSkeleton';
 import SearchBar from '../components/SearchBar';
+import ToastContainer, { useToast } from '../components/Toast';
 import { allProducts, categories, createSearchLink } from '../lib/products';
+import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showAllProducts, setShowAllProducts] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [sortBy, setSortBy] = useState<'price-low' | 'price-high' | 'name'>('name');
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
+  const { toasts, addToast, setToasts } = useToast();
+  const { recentlyViewed } = useRecentlyViewed();
 
-  const filteredProducts = selectedCategory === 'all' 
+  useEffect(() => {
+    // Simulate loading for better UX
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  let filteredProducts = selectedCategory === 'all' 
     ? allProducts 
     : allProducts.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
+
+  // Apply price filter
+  filteredProducts = filteredProducts.filter(p => 
+    p.price >= priceRange[0] && p.price <= priceRange[1]
+  );
+
+  // Apply sorting
+  filteredProducts = [...filteredProducts].sort((a, b) => {
+    if (sortBy === 'price-low') return a.price - b.price;
+    if (sortBy === 'price-high') return b.price - a.price;
+    if (sortBy === 'name') return a.title.localeCompare(b.title);
+    return 0;
+  });
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     setShowAllProducts(true);
     setSelectedCategory('all');
+    addToast(`Searching for "${query}" on eBay...`, 'info');
   };
 
   const handleCategoryClick = (slug: string) => {
@@ -31,7 +59,9 @@ export default function Home() {
     : null;
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+      <ToastContainer toasts={toasts} setToasts={setToasts} />
+      
       {/* Hero Section with Search */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 px-4">
         <div className="max-w-6xl mx-auto text-center">
@@ -48,12 +78,12 @@ export default function Home() {
       {/* Search Results */}
       {searchQuery && (
         <section className="max-w-6xl mx-auto px-4 py-6">
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
-              <p className="font-bold text-yellow-800">
+              <p className="font-bold text-yellow-800 dark:text-yellow-200">
                 Search results for: "{searchQuery}"
               </p>
-              <p className="text-sm text-yellow-700">
+              <p className="text-sm text-yellow-700 dark:text-yellow-300">
                 Showing all products from eBay matching your search
               </p>
             </div>
@@ -78,21 +108,43 @@ export default function Home() {
             <button
               key={cat.id}
               onClick={() => handleCategoryClick(cat.slug)}
-              className={`bg-white rounded-lg shadow-md p-3 text-center hover:shadow-xl transition-all ${
-                selectedCategory === cat.slug ? 'ring-2 ring-blue-600' : ''
+              className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 text-center hover:shadow-xl transition-all ${
+                selectedCategory === cat.slug ? 'ring-2 ring-blue-600 bg-blue-50 dark:bg-blue-900/30' : ''
               }`}
             >
               <span className="text-2xl">{cat.icon}</span>
-              <p className="font-bold mt-1 text-gray-700 text-sm">{cat.name}</p>
+              <p className="font-bold mt-1 text-gray-700 dark:text-gray-200 text-sm">{cat.name}</p>
             </button>
           ))}
         </div>
       </section>
 
-      {/* Products Grid */}
-      <div className="max-w-6xl mx-auto py-8 px-4">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">
+      {/* Recently Viewed */}
+      {recentlyViewed.length > 0 && !searchQuery && selectedCategory === 'all' && (
+        <section className="max-w-6xl mx-auto px-4 py-8">
+          <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Recently Viewed</h2>
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+            {recentlyViewed.slice(0, 5).map((product) => (
+              <div key={product.id} className="flex-shrink-0 w-40">
+                <a href={product.affiliateLink} target="_blank" rel="noopener noreferrer">
+                  <img 
+                    src={product.image} 
+                    alt={product.title}
+                    className="w-full h-32 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow"
+                  />
+                  <p className="text-sm font-medium mt-2 line-clamp-1 text-gray-700 dark:text-gray-300">{product.title}</p>
+                  <p className="text-green-600 font-bold text-sm">${product.price}</p>
+                </a>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Filters & Sort */}
+      <section className="max-w-6xl mx-auto px-4 py-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
             {searchQuery 
               ? `Search: "${searchQuery}"` 
               : selectedCategory === 'all' 
@@ -101,43 +153,85 @@ export default function Home() {
                   : 'Featured Products' 
                 : categories.find(c => c.slug === selectedCategory)?.name
             }
+            <span className="text-gray-500 dark:text-gray-400 text-base font-normal ml-3">
+              ({filteredProducts.length} products)
+            </span>
           </h2>
-          <span className="text-gray-500">
-            {filteredProducts.length} products
-          </span>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredProducts.slice(0, showAllProducts || searchQuery ? filteredProducts.length : 8).map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-
-        {/* Load More Button */}
-        {!showAllProducts && !searchQuery && filteredProducts.length > 8 && (
-          <div className="text-center mt-8">
-            <button
-              onClick={() => setShowAllProducts(true)}
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+          
+          <div className="flex flex-wrap gap-3">
+            {/* Sort Dropdown */}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+              className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              View All {filteredProducts.length} Products →
-            </button>
-          </div>
-        )}
+              <option value="name">Sort by Name</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
 
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No products found</p>
-            <p className="text-gray-400 mt-2">Try searching for a different product</p>
+            {/* Price Range */}
+            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+              <span className="text-sm text-gray-600 dark:text-gray-400">$</span>
+              <input
+                type="number"
+                value={priceRange[0]}
+                onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
+                className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none"
+                placeholder="Min"
+              />
+              <span className="text-gray-400">-</span>
+              <input
+                type="number"
+                value={priceRange[1]}
+                onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none"
+                placeholder="Max"
+              />
+            </div>
           </div>
+        </div>
+      </section>
+      
+      {/* Products Grid */}
+      <div className="max-w-6xl mx-auto py-8 px-4">
+        {isLoading ? (
+          <ProductSkeletonGrid count={8} />
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {filteredProducts.slice(0, showAllProducts || searchQuery ? filteredProducts.length : 8).map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+
+            {/* Load More Button */}
+            {!showAllProducts && !searchQuery && filteredProducts.length > 8 && (
+              <div className="text-center mt-8">
+                <button
+                  onClick={() => setShowAllProducts(true)}
+                  className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                >
+                  View All {filteredProducts.length} Products →
+                </button>
+              </div>
+            )}
+
+            {filteredProducts.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-gray-500 dark:text-gray-400 text-lg">No products found</p>
+                <p className="text-gray-400 dark:text-gray-500 mt-2">Try adjusting your filters or search</p>
+              </div>
+            )}
+          </>
         )}
       </div>
 
       {/* View More on eBay CTA */}
-      <section className="bg-gray-100 py-12 mt-12">
+      <section className="bg-gray-100 dark:bg-gray-800 py-12 mt-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold mb-4">Can't Find What You're Looking For?</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Can't Find What You're Looking For?</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
             Browse millions of products on eBay with our affiliate links
           </p>
           <a 
@@ -182,7 +276,7 @@ export default function Home() {
             DealsHub is a participant in the eBay Partner Network, an affiliate advertising program.
           </p>
           <p className="mt-2 text-gray-500 text-sm">
-            © 2024 DealsHub. All rights reserved.
+            © 2025 DealsHub. All rights reserved.
           </p>
         </div>
       </footer>

@@ -5,6 +5,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Header from "../components/Header";
+import ToastContainer from "../components/Toast";
+import { FavoritesProvider } from "../contexts/FavoritesContext";
+import { RecentlyViewedProvider } from "../contexts/RecentlyViewedContext";
+import { DarkModeProvider } from "../contexts/DarkModeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -298,7 +302,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="google-site-verification" content="X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg" />
         <Script
@@ -313,10 +317,17 @@ export default function RootLayout({
         <meta name="x-pinterest" content="nopin" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Header />
-        {children}
-        <SpeedInsights />
-        <Analytics />
+        <DarkModeProvider>
+          <FavoritesProvider>
+            <RecentlyViewedProvider>
+              <Header />
+              {children}
+              <ToastContainer toasts={[]} setToasts={() => {}} />
+              <SpeedInsights />
+              <Analytics />
+            </RecentlyViewedProvider>
+          </FavoritesProvider>
+        </DarkModeProvider>
         
         {/* eBay Partner Network Tracking Script */}
         <Script id="epn-config" strategy="afterInteractive">
