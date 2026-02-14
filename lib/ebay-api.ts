@@ -3,6 +3,12 @@ import { Product, createSearchLink } from './products';
 const EBAY_BROWSE_API = 'https://api.ebay.com/buy/browse/v1';
 const EBAY_OAUTH_API = 'https://api.ebay.com/identity/v1/oauth2/token';
 
+// eBay Partner Network Affiliate Tracking
+const CAMPID = '5338903178';
+const SITEID = '0';
+const MKRID = '711-53200-19255-0';
+const MKCID = '1';
+
 interface EbayTokenResponse {
   access_token: string;
   expires_in: number;
@@ -41,6 +47,35 @@ function getOauthScope() {
     process.env.EBAY_OAUTH_SCOPE ||
     'https://api.ebay.com/oauth/api_scope'
   );
+}
+
+/**
+ * Creates an affiliate-tracked URL from an eBay product URL
+ * @param ebayUrl - The original eBay product URL
+ * @param customId - Optional custom tracking ID for granular analytics
+ * @returns Affiliate-tracked URL with Campaign ID
+ */
+export function createAffiliateUrl(ebayUrl: string, customId?: string): string {
+  try {
+    const url = new URL(ebayUrl);
+    
+    // Add required affiliate tracking parameters
+    url.searchParams.set('mkcid', MKCID);
+    url.searchParams.set('mkrid', MKRID);
+    url.searchParams.set('siteid', SITEID);
+    url.searchParams.set('campid', CAMPID);
+    
+    // Optional: Add custom ID for granular tracking
+    if (customId) {
+      url.searchParams.set('customid', encodeURIComponent(customId));
+    }
+    
+    return url.toString();
+  } catch (error) {
+    // If URL parsing fails, return original URL
+    console.error('Error creating affiliate URL:', error);
+    return ebayUrl;
+  }
 }
 
 export function getEbayIntegrationStatus(): EbayIntegrationStatus {
@@ -163,8 +198,11 @@ export function mapEbayItemToProduct(
   }
 
   const image = resolveEbayImage(item);
-  const affiliateLink =
-    item.itemWebUrl || createSearchLink(item.title);
+  
+  // Apply affiliate tracking to the eBay URL with custom ID for category tracking
+  const affiliateLink = item.itemWebUrl 
+    ? createAffiliateUrl(item.itemWebUrl, `api-${category.toLowerCase()}`) 
+    : createSearchLink(item.title, `fallback-${category.toLowerCase()}`);
 
   return {
     id,
@@ -179,3 +217,5 @@ export function mapEbayItemToProduct(
       `Live product from eBay ${category} results.`,
   };
 }
+
+export { CAMPID, SITEID, MKRID, MKCID };
