@@ -18,6 +18,8 @@ export interface EbayItemSummary {
   itemId: string;
   title: string;
   image?: { imageUrl?: string };
+  thumbnailImages?: Array<{ imageUrl?: string }>;
+  additionalImages?: Array<{ imageUrl?: string }>;
   price?: { value?: string; currency?: string };
   itemWebUrl?: string;
   shortDescription?: string;
@@ -93,7 +95,7 @@ async function getEbayAccessToken(): Promise<string | null> {
 
   tokenCache = {
     token: tokenData.access_token,
-    expiresAt: Date.now() + (tokenData.expires_in - 60) * 1000,
+    expiresAt: Date.now() + Math.max(0, tokenData.expires_in - 60) * 1000,
   };
 
   return tokenCache.token;
@@ -101,7 +103,9 @@ async function getEbayAccessToken(): Promise<string | null> {
 
 export async function searchEbayProducts(keyword: string, limit = 20): Promise<EbaySearchResponse> {
   const token = await getEbayAccessToken();
-  if (!token) return { itemSummaries: [], total: 0 };
+  if (!token) {
+    return { itemSummaries: [], total: 0 };
+  }
 
   const response = await fetch(
     `${EBAY_BROWSE_API}/item_summary/search?q=${encodeURIComponent(keyword)}&limit=${limit}`,
@@ -121,6 +125,15 @@ export async function searchEbayProducts(keyword: string, limit = 20): Promise<E
   return response.json();
 }
 
+function resolveEbayImage(item: EbayItemSummary): string {
+  return (
+    item.image?.imageUrl ||
+    item.thumbnailImages?.[0]?.imageUrl ||
+    item.additionalImages?.[0]?.imageUrl ||
+    'https://via.placeholder.com/400x300?text=No+Image'
+  );
+}
+
 export function mapEbayItemToProduct(
   item: EbayItemSummary,
   id: number,
@@ -129,12 +142,8 @@ export function mapEbayItemToProduct(
   const priceValue = Number(item.price?.value || 0);
   if (!item.title || !priceValue || Number.isNaN(priceValue)) return null;
 
-  const image =
-    item.image?.imageUrl ||
-    'https://via.placeholder.com/400x300?text=No+Image';
-
-  const affiliateLink =
-    item.itemWebUrl || createSearchLink(item.title);
+  const image = resolveEbayImage(item);
+  const affiliateLink = item.itemWebUrl || createSearchLink(item.title);
 
   return {
     id,

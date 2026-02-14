@@ -17,6 +17,14 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'ebay-store.vercel.app',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.ebayimg.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'thumbs.ebaystatic.com',
+      },
     ],
   },
 
