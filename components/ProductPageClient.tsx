@@ -9,6 +9,8 @@ import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
 import { useToast } from '../contexts/ToastContext';
 import ProductCard from './ProductCard';
 import Footer from './Footer';
+import ShareButton from './ShareButton';
+import PriceAlertForm from './PriceAlertForm';
 import { trackEvent } from '../lib/analytics';
 
 export default function ProductPageClient({ productId }: { productId: number }) {
@@ -20,7 +22,6 @@ export default function ProductPageClient({ productId }: { productId: number }) 
   
   const [selectedImage, setSelectedImage] = useState(0);
   const [userRating, setUserRating] = useState(0);
-  const [priceAlert, setPriceAlert] = useState(false);
   
   const isFav = product ? isFavorite(product.id) : false;
 
@@ -41,9 +42,6 @@ export default function ProductPageClient({ productId }: { productId: number }) 
         setUserRating(Number(savedRating));
       }
       
-      // Check price alert status
-      const alerts = JSON.parse(localStorage.getItem('priceAlerts') || '[]');
-      setPriceAlert(alerts.includes(product.id));
       trackEvent({ event: 'product_view', productId: product.id, source: 'product_page', category: product.category });
     }
   }, [product]);
@@ -93,44 +91,6 @@ export default function ProductPageClient({ productId }: { productId: number }) 
     addToast(`You rated this product ${rating} stars!`, 'success');
   };
 
-  const handlePriceAlert = () => {
-    const alerts = JSON.parse(localStorage.getItem('priceAlerts') || '[]');
-    if (priceAlert) {
-      const newAlerts = alerts.filter((id: number) => id !== product.id);
-      localStorage.setItem('priceAlerts', JSON.stringify(newAlerts));
-      setPriceAlert(false);
-      addToast('Price alert removed', 'info');
-    } else {
-      alerts.push(product.id);
-      localStorage.setItem('priceAlerts', JSON.stringify(alerts));
-      setPriceAlert(true);
-      addToast('Price alert set! We\'ll notify you when the price drops.', 'success');
-    }
-  };
-
-  const handleShare = async () => {
-    const shareData = {
-      title: product.title,
-      text: `Check out this deal: ${product.title} - $${product.price}`,
-      url: window.location.href,
-    };
-
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-      } catch (err) {
-        console.log('Share canceled');
-      }
-    } else {
-      try {
-        await navigator.clipboard.writeText(`${product.title} - ${window.location.href}`);
-        addToast('Link copied to clipboard!', 'success');
-      } catch (err) {
-        addToast('Failed to copy link', 'error');
-      }
-    }
-  };
-
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       {/* Breadcrumb */}
@@ -165,7 +125,7 @@ export default function ProductPageClient({ productId }: { productId: number }) 
                 )}
               </div>
               
-              {/* Thumbnail placeholder - would have multiple images in real app */}
+              {/* Thumbnail placeholder */}
               <div className="flex gap-2 mt-4">
                 <button className="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden ring-2 ring-blue-500">
                   <Image src={product.image} alt="" width={64} height={64} className="object-cover w-full h-full" />
@@ -180,15 +140,6 @@ export default function ProductPageClient({ productId }: { productId: number }) 
                   {product.category}
                 </span>
                 <div className="flex gap-2">
-                  <button
-                    onClick={handleShare}
-                    className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                    aria-label="Share"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-                    </svg>
-                  </button>
                   <button
                     onClick={handleFavoriteClick}
                     className={`p-2 rounded-full transition-colors ${
@@ -257,23 +208,13 @@ export default function ProductPageClient({ productId }: { productId: number }) 
                 </div>
               </div>
 
-              {/* Price Alert */}
-              <button
-                onClick={handlePriceAlert}
-                className={`flex items-center gap-2 mb-6 px-4 py-2 rounded-lg border transition-colors ${
-                  priceAlert 
-                    ? 'border-green-500 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400' 
-                    : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-blue-500 hover:text-blue-600'
-                }`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                </svg>
-                {priceAlert ? 'Price Alert Active' : 'Set Price Drop Alert'}
-              </button>
+              {/* Share Button */}
+              <div className="mb-4">
+                <ShareButton product={product} className="w-full" />
+              </div>
 
               {/* CTA Buttons */}
-              <div className="space-y-3">
+              <div className="space-y-3 mb-6">
                 <a
                   href={product.affiliateLink}
                   target="_blank"
@@ -294,7 +235,7 @@ export default function ProductPageClient({ productId }: { productId: number }) 
               </div>
 
               {/* Trust Badges */}
-              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
                 <div className="grid grid-cols-3 gap-4 text-center">
                   <div>
                     <svg className="w-8 h-8 mx-auto text-green-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -317,6 +258,11 @@ export default function ProductPageClient({ productId }: { productId: number }) 
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Price Alert Form - Below product details */}
+          <div className="px-6 pb-6 md:px-8 md:pb-8">
+            <PriceAlertForm product={product} />
           </div>
         </div>
       </section>
