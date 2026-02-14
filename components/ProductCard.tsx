@@ -22,7 +22,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
 
   const handleClick = () => {
     trackEvent({ 
-      event: 'product_click', 
+      event: 'product_card_click', 
       productId: product.id, 
       source: isApiProduct ? 'api_product_card' : 'static_product_card', 
       category: product.category 
