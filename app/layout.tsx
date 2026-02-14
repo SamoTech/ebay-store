@@ -26,16 +26,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window._epn = {campaign: 5338903178};`,
-          }}
-        />
-      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Header />
         {children}
+        
+        {/* eBay Partner Network Tracking Script */}
+        <Script id="epn-config" strategy="afterInteractive">
+          {`window._epn = {campaign: 5338903178};`}
+        </Script>
         <Script 
           src="https://epnt.ebay.com/static/epn-smart-tools.js" 
           strategy="afterInteractive"
