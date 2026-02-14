@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton, { ProductSkeletonGrid } from '../components/ProductSkeleton';
 import SearchBar from '../components/SearchBar';
-import ToastContainer, { useToast } from '../components/Toast';
+import { useToast } from '../contexts/ToastContext';
 import { allProducts, categories, createSearchLink } from '../lib/products';
 import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
 
@@ -15,7 +15,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState<'price-low' | 'price-high' | 'name'>('name');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
-  const { toasts, addToast, setToasts } = useToast();
+  const { addToast } = useToast();
   const { recentlyViewed } = useRecentlyViewed();
 
   useEffect(() => {
@@ -60,7 +60,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-      <ToastContainer toasts={toasts} setToasts={setToasts} />
       
       {/* Hero Section with Search */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 px-4">

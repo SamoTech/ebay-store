@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { useFavorites } from '../contexts/FavoritesContext';
 import ProductCard from '../components/ProductCard';
-import ToastContainer, { useToast } from '../components/Toast';
+import { useToast } from '../contexts/ToastContext';
 
 export default function FavoritesPage() {
   const { favorites, clearFavorites } = useFavorites();
-  const { toasts, addToast, setToasts } = useToast();
+  const { addToast } = useToast();
 
   const handleClearAll = () => {
     if (confirm('Are you sure you want to remove all favorites?')) {
@@ -18,7 +18,6 @@ export default function FavoritesPage() {
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-      <ToastContainer toasts={toasts} setToasts={setToasts} />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 px-4">

@@ -2,15 +2,30 @@
 
 import { useFavorites } from '../contexts/FavoritesContext';
 import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
-import { useToast } from './Toast';
+import { useToast } from '../contexts/ToastContext';
 
-export default function ProductCard({ product }) {
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  category: string;
+  affiliateLink: string;
+  description?: string;
+  originalPrice?: number;
+}
+
+interface ProductCardProps {
+  product: Product;
+}
+
+export default function ProductCard({ product }: ProductCardProps) {
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
   const { addToRecentlyViewed } = useRecentlyViewed();
   const { addToast } = useToast();
   const isFav = isFavorite(product.id);
 
-  const handleFavoriteClick = (e) => {
+  const handleFavoriteClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     
@@ -30,7 +45,7 @@ export default function ProductCard({ product }) {
     }
   };
 
-  const handleShare = async (e) => {
+  const handleShare = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     
@@ -77,7 +92,7 @@ export default function ProductCard({ product }) {
           alt={product.title} 
           className="w-full h-full object-cover"
           onError={(e) => {
-            e.target.src = 'https://via.placeholder.com/400x300?text=No+Image';
+            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=No+Image';
           }}
           loading="lazy"
         />
@@ -124,7 +139,9 @@ export default function ProductCard({ product }) {
       </div>
       <div className="p-4">
         <h3 className="font-bold text-sm line-clamp-2 min-h-[2.5rem]">{product.title}</h3>
-        <p className="text-gray-500 text-xs mt-1 line-clamp-2">{product.description}</p>
+        {product.description && (
+          <p className="text-gray-500 text-xs mt-1 line-clamp-2">{product.description}</p>
+        )}
         <div className="flex items-center justify-between mt-2">
           <p className="text-green-600 font-bold text-xl">
             ${product.price.toFixed(2)}

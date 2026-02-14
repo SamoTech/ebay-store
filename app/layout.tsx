@@ -5,7 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Header from "../components/Header";
-import ToastContainer from "../components/Toast";
+import { ToastProvider } from "../contexts/ToastContext";
 import { FavoritesProvider } from "../contexts/FavoritesContext";
 import { RecentlyViewedProvider } from "../contexts/RecentlyViewedContext";
 import { DarkModeProvider } from "../contexts/DarkModeContext";
@@ -318,15 +318,16 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <DarkModeProvider>
-          <FavoritesProvider>
-            <RecentlyViewedProvider>
-              <Header />
-              {children}
-              <ToastContainer toasts={[]} setToasts={() => {}} />
-              <SpeedInsights />
-              <Analytics />
-            </RecentlyViewedProvider>
-          </FavoritesProvider>
+          <ToastProvider>
+            <FavoritesProvider>
+              <RecentlyViewedProvider>
+                <Header />
+                {children}
+                <SpeedInsights />
+                <Analytics />
+              </RecentlyViewedProvider>
+            </FavoritesProvider>
+          </ToastProvider>
         </DarkModeProvider>
         
         {/* eBay Partner Network Tracking Script */}
