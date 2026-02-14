@@ -90,9 +90,10 @@ async function getEbayAccessToken(): Promise<string | null> {
   if (!response.ok) return null;
 
   const tokenData = (await response.json()) as EbayTokenResponse;
+
   tokenCache = {
     token: tokenData.access_token,
-    expiresAt: Date.now() + Math.max(0, tokenData.expires_in - 60) * 1000,
+    expiresAt: Date.now() + (tokenData.expires_in - 60) * 1000,
   };
 
   return tokenCache.token;
@@ -100,9 +101,7 @@ async function getEbayAccessToken(): Promise<string | null> {
 
 export async function searchEbayProducts(keyword: string, limit = 20): Promise<EbaySearchResponse> {
   const token = await getEbayAccessToken();
-  if (!token) {
-    return { itemSummaries: [], total: 0 };
-  }
+  if (!token) return { itemSummaries: [], total: 0 };
 
   const response = await fetch(
     `${EBAY_BROWSE_API}/item_summary/search?q=${encodeURIComponent(keyword)}&limit=${limit}`,
@@ -122,12 +121,20 @@ export async function searchEbayProducts(keyword: string, limit = 20): Promise<E
   return response.json();
 }
 
-export function mapEbayItemToProduct(item: EbayItemSummary, id: number, category: string): Product | null {
+export function mapEbayItemToProduct(
+  item: EbayItemSummary,
+  id: number,
+  category: string
+): Product | null {
   const priceValue = Number(item.price?.value || 0);
   if (!item.title || !priceValue || Number.isNaN(priceValue)) return null;
 
-  const image = item.image?.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image';
-  const affiliateLink = item.itemWebUrl || createSearchLink(item.title);
+  const image =
+    item.image?.imageUrl ||
+    'https://via.placeholder.com/400x300?text=No+Image';
+
+  const affiliateLink =
+    item.itemWebUrl || createSearchLink(item.title);
 
   return {
     id,
@@ -137,6 +144,8 @@ export function mapEbayItemToProduct(item: EbayItemSummary, id: number, category
     image,
     category,
     affiliateLink,
-    description: item.shortDescription || `Live product from eBay ${category} results.`,
+    description:
+      item.shortDescription ||
+      `Live product from eBay ${category} results.`,
   };
 }
