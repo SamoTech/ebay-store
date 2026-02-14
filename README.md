@@ -101,3 +101,20 @@ MIT License
 - [eBay Partner Network](https://www.ebay.com/partners/affiliate)
 - [Vercel](https://vercel.com)
 - [Next.js Documentation](https://nextjs.org)
+
+
+## eBay API (Live Catalog Mode)
+
+The app can run with live eBay Browse API data on the homepage via `/api/products/discover`.
+
+Set these environment variables:
+
+- `EBAY_CLIENT_ID`
+- `EBAY_CLIENT_SECRET`
+- `EBAY_MARKETPLACE_ID` (optional, defaults to `EBAY_US`)
+
+Alternative (manual token):
+
+- `EBAY_OAUTH_TOKEN`
+
+If no credentials/token are provided, the app safely falls back to static products from `lib/products.ts`.
