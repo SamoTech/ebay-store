@@ -94,7 +94,7 @@ export const metadata: Metadata = {
     images: ["/og-image.jpg"],
   },
   verification: {
-    google: "your-google-verification-code",
+    google: "X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg",
     yandex: "your-yandex-verification-code",
     other: {
       "msvalidate.01": "your-bing-verification-code",
@@ -300,6 +300,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="google-site-verification" content="X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg" />
         <Script
           id="structured-data"
           type="application/ld+json"
