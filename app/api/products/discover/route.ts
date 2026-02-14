@@ -8,7 +8,11 @@ import {
 
 // Optimized category queries with better keywords
 const categoryQueries: Array<{ category: string; query: string }> = [
-  { category: 'Electronics', query: 'electronics laptop smartphone tablet trending' },
+  // Electronics split into multiple queries for better results
+  { category: 'Electronics', query: 'laptop MacBook Dell HP Lenovo' },
+  { category: 'Electronics', query: 'smartphone iPhone Samsung Galaxy' },
+  { category: 'Electronics', query: 'tablet iPad Android Surface' },
+  { category: 'Electronics', query: 'headphones AirPods Sony Bose wireless' },
   { category: 'Gaming', query: 'gaming console playstation xbox nintendo switch' },
   { category: 'Sneakers', query: 'sneakers nike jordan adidas running shoes' },
   { category: 'Smart Home', query: 'smart home alexa echo nest devices' },
@@ -36,14 +40,14 @@ export async function GET() {
   }
 
   try {
-    // Fetch 10 products per category for better variety
-    const perCategoryLimit = 10;
+    // Fetch 5 products per query for variety
+    const perQueryLimit = 5;
 
-    // Fetch products from all categories in parallel
-    const categoryResults = await Promise.all(
+    // Fetch products from all queries in parallel
+    const queryResults = await Promise.allSettled(
       categoryQueries.map(async (entry, idx) => {
         try {
-          const data = await searchEbayProducts(entry.query, perCategoryLimit);
+          const data = await searchEbayProducts(entry.query, perQueryLimit);
           const items = data.itemSummaries || [];
 
           return items
@@ -56,27 +60,57 @@ export async function GET() {
             )
             .filter((item): item is Product => Boolean(item));
         } catch (error) {
-          // If one category fails, return empty array for that category
-          console.error(`Failed to fetch ${entry.category}:`, error);
+          console.error(`Failed to fetch ${entry.category} (${entry.query}):`, error);
           return [];
         }
       })
     );
 
-    const liveProducts = categoryResults.flat();
+    // Extract successful results
+    const liveProducts = queryResults
+      .filter((result): result is PromiseFulfilledResult<Product[]> => result.status === 'fulfilled')
+      .flatMap(result => result.value);
 
-    // If we got at least some products from API, use them
-    if (liveProducts.length > 0) {
+    // Group by category to check coverage
+    const categoryCoverage = new Map<string, number>();
+    liveProducts.forEach(product => {
+      categoryCoverage.set(
+        product.category,
+        (categoryCoverage.get(product.category) || 0) + 1
+      );
+    });
+
+    // Add static products for categories with 0 live products
+    const categoriesWithProducts = new Set(categoryCoverage.keys());
+    const allCategories = Array.from(new Set(categoryQueries.map(q => q.category)));
+    
+    const fallbackProducts: Product[] = [];
+    allCategories.forEach(category => {
+      if (!categoriesWithProducts.has(category) || (categoryCoverage.get(category) || 0) < 3) {
+        // Add static products for this category
+        const staticForCategory = allProducts
+          .filter(p => p.category === category)
+          .slice(0, 5);
+        fallbackProducts.push(...staticForCategory);
+      }
+    });
+
+    const finalProducts = [...liveProducts, ...fallbackProducts];
+
+    // If we got at least some products, return them
+    if (finalProducts.length > 0) {
       return NextResponse.json({
-        source: 'ebay_live',
-        products: liveProducts,
-        total: liveProducts.length,
-        categoriesLoaded: categoryResults.filter(r => r.length > 0).length,
+        source: liveProducts.length > 0 ? 'ebay_live_with_fallback' : 'fallback_static',
+        products: finalProducts,
+        total: finalProducts.length,
+        liveCount: liveProducts.length,
+        fallbackCount: fallbackProducts.length,
+        categoryCoverage: Object.fromEntries(categoryCoverage),
         integration,
       });
     }
 
-    // If no products returned, fall back to static
+    // If no products at all, return all static products
     return NextResponse.json({
       source: 'fallback_static',
       products: allProducts,
