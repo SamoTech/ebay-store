@@ -81,11 +81,11 @@ export const metadata: Metadata = {
     description: "Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay. 62+ trending products updated daily.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/og-image.svg",
         width: 1200,
         height: 630,
         alt: "DealsHub - Best Deals on eBay Electronics, Gaming, Sneakers",
-        type: "image/jpeg",
+        type: "image/svg+xml",
       },
     ],
   },
@@ -95,7 +95,7 @@ export const metadata: Metadata = {
     creator: "@dealshub",
     title: "DealsHub - Best Deals & Discounts on eBay | 62+ Products",
     description: "Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay.",
-    images: ["/og-image.jpg"],
+    images: ["/og-image.svg"],
   },
   verification: {
     google: "X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg",
@@ -184,7 +184,7 @@ const structuredData = {
       },
       image: {
         "@type": "ImageObject",
-        url: "https://ebay-store.vercel.app/og-image.jpg",
+        url: "https://ebay-store.vercel.app/og-image.svg",
         width: 1200,
         height: 630,
       },
@@ -215,7 +215,7 @@ const structuredData = {
       },
       primaryImageOfPage: {
         "@type": "ImageObject",
-        url: "https://ebay-store.vercel.app/og-image.jpg",
+        url: "https://ebay-store.vercel.app/og-image.svg",
         width: 1200,
         height: 630,
       },
