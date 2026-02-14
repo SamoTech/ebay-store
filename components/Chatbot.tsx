@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { trackEvent } from '../lib/analytics';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -48,7 +47,6 @@ export default function Chatbot() {
       if (data.reply) {
         const assistantMessage: Message = { role: 'assistant', content: data.reply };
         setMessages(prev => [...prev, assistantMessage]);
-        trackEvent({ event: 'chatbot_message_sent' });
       } else {
         throw new Error('No reply from chatbot');
       }
@@ -76,10 +74,7 @@ export default function Chatbot() {
       {/* Toggle Button */}
       {!isOpen && (
         <button
-          onClick={() => {
-            setIsOpen(true);
-            trackEvent({ event: 'chatbot_opened' });
-          }}
+          onClick={() => setIsOpen(true)}
           className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-2xl transition-all hover:scale-110"
           aria-label="Open chat"
         >
@@ -106,10 +101,7 @@ export default function Chatbot() {
               </div>
             </div>
             <button
-              onClick={() => {
-                setIsOpen(false);
-                trackEvent({ event: 'chatbot_closed' });
-              }}
+              onClick={() => setIsOpen(false)}
               className="text-white/80 hover:text-white transition-colors"
             >
               ✕
