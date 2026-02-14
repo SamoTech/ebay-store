@@ -1,6 +1,6 @@
 # 🤖 Automatic Daily Updates
 
-This project includes a GitHub Actions workflow that automatically updates the website content every day.
+This project uses **Vercel Cron Jobs** to automatically update the website content every day. No GitHub Actions required!
 
 ## What Gets Updated Daily
 
@@ -11,50 +11,61 @@ This project includes a GitHub Actions workflow that automatically updates the w
 
 ## Setup Instructions
 
-### 1. Enable GitHub Actions
-The workflow is already configured in `.github/workflows/daily-update.yml`. It will start running automatically once pushed to GitHub.
+### 1. Configure Vercel Environment Variables
 
-### 2. Schedule
-The workflow runs at **6:00 AM UTC every day**. You can modify this in the workflow file:
-```yaml
-on:
-  schedule:
-    - cron: '0 6 * * *'  # Minute Hour Day Month DayOfWeek
+Go to your Vercel project dashboard → Settings → Environment Variables
+
+Add these variables:
+
+| Variable Name | Value | How to Get It |
+|--------------|-------|---------------|
+| `GITHUB_TOKEN` | Your token | GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token with `repo` scope |
+| `VERCEL_DEPLOY_HOOK` | Deploy hook URL | Vercel → Project → Settings → Git → Deploy Hooks → Create hook |
+| `CRON_SECRET` | Random string | Generate a random string (for manual trigger security) |
+
+**Important:** After adding environment variables, redeploy your project!
+
+### 2. How to Create GitHub Token
+1. Go to https://github.com/settings/tokens
+2. Click "Generate new token (classic)"
+3. Select scopes: ✅ `repo` (Full control of private repositories)
+4. Generate and copy the token
+5. Add to Vercel environment variables as `GITHUB_TOKEN`
+
+### 3. How to Create Vercel Deploy Hook
+1. Go to Vercel → Your Project → Settings → Git
+2. Scroll to "Deploy Hooks"
+3. Create hook:
+   - Name: `Daily Auto Update`
+   - Branch: `main`
+4. Copy the URL and add to Vercel as `VERCEL_DEPLOY_HOOK`
+
+### 4. Schedule
+The cron job runs at **6:00 AM UTC every day**. Modify in `vercel.json`:
+```json
+{
+  "crons": [
+    {
+      "path": "/api/daily-update",
+      "schedule": "0 6 * * *"
+    }
+  ]
+}
 ```
 
-### 3. Manual Trigger
-You can also run the workflow manually:
-1. Go to GitHub repository → Actions tab
-2. Select "Daily Auto Update" workflow
-3. Click "Run workflow"
-
-### 4. Vercel Auto-Deploy (Optional)
-To automatically deploy to Vercel after each update, add these secrets to your GitHub repository:
-
-**Go to:** Settings → Secrets and variables → Actions → New repository secret
-
-| Secret Name | How to Get It |
-|------------|---------------|
-| `VERCEL_PROJECT_ID` | From Vercel project settings → General → Project ID |
-| `VERCEL_DEPLOY_TOKEN` | From Vercel project settings → Git → Deploy Hooks |
-
-**To create a Deploy Hook in Vercel:**
-1. Go to your Vercel project dashboard
-2. Settings → Git → Deploy Hooks
-3. Create hook named "GitHub Actions Daily Update"
-4. Copy the URL and extract the token (last part of the URL)
+Time format: `Minute Hour Day Month DayOfWeek`
 
 ### 5. How It Works
 
 ```
-GitHub Actions (Daily at 6 AM)
+Vercel Cron (Daily at 6 AM UTC)
     ↓
-Runs scripts/daily-update.js
+Calls /api/daily-update
     ↓
-Updates products.ts with:
+Updates products.ts via GitHub API:
   - New timestamp
-  - Rotated featured products
-  - Updated trending indicators
+  - Updated trending category
+  - Fresh content indicators
     ↓
 Commits changes to GitHub
     ↓
@@ -63,40 +74,107 @@ Triggers Vercel redeployment
 Website updated with fresh content! 🎉
 ```
 
+## Manual Trigger
+
+You can manually trigger the update by visiting:
+```
+https://your-domain.com/api/daily-update?secret=YOUR_CRON_SECRET
+```
+
+Replace `YOUR_CRON_SECRET` with the value you set in environment variables.
+
+## Monitoring
+
+### Check Vercel Cron Logs:
+1. Go to Vercel → Your Project → Logs
+2. Filter by "Cron" or look for `/api/daily-update` requests
+
+### Check GitHub Commits:
+1. Go to your GitHub repository
+2. Look for commits with message: "Auto-update: Daily refresh - [date]"
+
+### Check Recent Updates:
+Visit your website and look for the `lastUpdated` timestamp in the footer or product section.
+
 ## Customization
 
 ### Change Update Time
-Edit `.github/workflows/daily-update.yml`:
-```yaml
-# Run at 9:00 AM UTC instead
-cron: '0 9 * * *'
+Edit `vercel.json`:
+```json
+{
+  "crons": [
+    {
+      "path": "/api/daily-update",
+      "schedule": "0 9 * * *"  // 9 AM UTC instead
+    }
+  ]
+}
 ```
 
-### Change Number of Featured Products
-Edit `scripts/daily-update.js`:
-```javascript
+Then commit and push the changes.
+
+### Change Featured Products Logic
+Edit `app/api/daily-update/route.ts`:
+```typescript
+// Modify the rotateFeaturedProducts function
 const FEATURED_COUNT = 8; // Change this number
 ```
 
 ### Add More Updates
-You can extend `scripts/daily-update.js` to:
+You can extend `app/api/daily-update/route.ts` to:
 - Fetch real-time prices from eBay API
 - Update blog posts
 - Change promotional banners
-- Update SEO keywords
-
-## Monitoring
-
-Check the Actions tab in your GitHub repository to see:
-- ✅ Successful updates
-- ❌ Failed runs
-- 📊 Execution logs
+- Modify other files via GitHub API
 
 ## Disable Automatic Updates
 
-To stop automatic updates:
-1. Go to GitHub → Actions tab
-2. Select "Daily Auto Update" workflow
-3. Click "..." → Disable workflow
+To stop automatic updates, either:
 
-Or delete the file: `.github/workflows/daily-update.yml`
+**Option 1:** Delete or rename `vercel.json`
+```bash
+git rm vercel.json
+git commit -m "Disable auto-updates"
+git push
+```
+
+**Option 2:** Remove the cron configuration from `vercel.json`:
+```json
+{
+  "crons": []
+}
+```
+
+**Option 3:** Remove environment variables from Vercel
+
+## Troubleshooting
+
+### Updates not running?
+- Check Vercel Logs for errors
+- Verify environment variables are set correctly
+- Ensure GitHub token has `repo` permissions
+- Check that the cron schedule is valid
+
+### Not deploying after update?
+- Verify `VERCEL_DEPLOY_HOOK` URL is correct
+- Check that the deploy hook is created for the correct branch
+- Look at Vercel deployment logs
+
+### "Unauthorized" error?
+- The CRON_SECRET must match when manually triggering
+- GitHub token might be expired - generate a new one
+
+## Alternative: External Cron Service
+
+If you prefer not to use Vercel Cron Jobs, you can use external services:
+
+1. **cron-job.org** (Free)
+2. **EasyCron** (Free tier available)
+3. **UptimeRobot** (Has cron feature)
+
+Set them to call:
+```
+https://your-domain.com/api/daily-update?secret=YOUR_CRON_SECRET
+```
+
+Then remove the `vercel.json` cron configuration.
