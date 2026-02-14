@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useFavorites } from '../../contexts/FavoritesContext';
+import { Product } from '../../lib/products';
 import ProductCard from '../../components/ProductCard';
 import Footer from '../../components/Footer';
 import { useToast } from '../../contexts/ToastContext';
@@ -16,6 +17,19 @@ export default function FavoritesPage() {
       addToast('All favorites cleared', 'info');
     }
   };
+
+  // Convert FavoriteItem to Product type with required fields
+  const favoriteProducts: Product[] = favorites.map(fav => ({
+    id: fav.id,
+    title: fav.title,
+    price: fav.price,
+    originalPrice: fav.originalPrice,
+    currency: fav.currency || 'USD',
+    image: fav.image,
+    category: fav.category,
+    affiliateLink: fav.affiliateLink,
+    description: fav.description || `${fav.category} product from eBay`,
+  }));
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
@@ -61,7 +75,7 @@ export default function FavoritesPage() {
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {favorites.map((product) => (
+              {favoriteProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
