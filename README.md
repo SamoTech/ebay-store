@@ -4,7 +4,7 @@ An affiliate marketing website that features trending products from eBay, target
 
 ## 🌐 Live Website
 
-**[DealsHub](https://ebay-store.vercel.app)** - Best Deals & Discounts
+**[DealsHub](https://ebay-store.vercel.app)** – Best Deals & Discounts
 
 ## 📋 Overview
 
@@ -14,14 +14,14 @@ DealsHub is a Next.js-based affiliate store that showcases trending products fro
 
 - **62+ Trending Products** across 13 categories
 - **13 Categories**: Electronics, Gaming, Sneakers, Smart Home, Beauty, Collectibles, Home, Fitness, Pet Supplies, Baby, Auto, Office
-- **Category Filtering** - Filter products by category
-- **Search Function** - Search products on eBay directly
-- **Blog Section** - 10 professional articles with shopping guides and tips
-- **Affiliate Links** - All products link to eBay with affiliate tracking
-- **Responsive Design** - Works on mobile, tablet, and desktop
-- **Fast Performance** - Built with Next.js and Tailwind CSS
-- **SEO Optimized** - English content for international audience
-- **Vercel Speed Insights** - Performance monitoring
+- **Category Filtering** – Filter products by category
+- **Search Function** – Search products on eBay directly
+- **Blog Section** – 10 professional articles with shopping guides and tips
+- **Affiliate Links** – All products link to eBay with affiliate tracking
+- **Responsive Design** – Works on mobile, tablet, and desktop
+- **Fast Performance** – Built with Next.js and Tailwind CSS
+- **SEO Optimized** – English content for international audiences
+- **Vercel Speed Insights** – Built-in performance monitoring
 
 ## 🛍️ Product Categories
 
@@ -32,7 +32,7 @@ DealsHub is a Next.js-based affiliate store that showcases trending products fro
 | 👟 Sneakers | Air Jordan, Nike, Adidas, New Balance, Converse |
 | 🏠 Smart Home | Amazon Echo, Apple HomePod, Ring, Philips Hue |
 | 💄 Beauty | Dyson Airwrap, Oral-B iO, Foreo Luna |
-| 🎯 Collectibles | Pokemon Cards, Funko Pops, Jerseys, Coins |
+| 🎯 Collectibles | Pokémon Cards, Funko Pops, Jerseys, Coins |
 | 🛋️ Home | Roomba, Nespresso, Vitamix, Instant Pot |
 | 💪 Fitness | Peloton, Yoga Mat, Dumbbells, Garmin |
 | 🐕 Pet Supplies | Furbo, Auto Feeder, Pet Bed |
@@ -42,16 +42,16 @@ DealsHub is a Next.js-based affiliate store that showcases trending products fro
 
 ## 🔗 Affiliate Program
 
-This project uses **eBay Partner Network (EPN)** for affiliate tracking.
+This project uses the **eBay Partner Network (EPN)** for affiliate tracking.
 
 - **Campaign ID**: 5338903178
-- **Tracking Parameters**: mkcid, mkrid, siteid, campid
+- **Tracking Parameters**: `mkcid`, `mkrid`, `siteid`, `campid`
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 14
-- **Styling**: Tailwind CSS
-- **Hosting**: Vercel
+- **Framework**: [Next.js](https://nextjs.org) 14
+- **Styling**: [Tailwind CSS](https://tailwindcss.com)
+- **Hosting**: [Vercel](https://vercel.com)
 - **Source**: GitHub
 
 ## 🚀 Getting Started
@@ -71,7 +71,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the website.
 
 ## 📁 Project Structure
 
-```
+```text
 ebay-store/
 ├── app/
 │   ├── page.tsx          # Main page with products
@@ -79,11 +79,11 @@ ebay-store/
 │   └── layout.tsx        # Root layout with EPN script
 ├── components/
 │   ├── Header.tsx        # Navigation header
-│   └── ProductCard.tsx  # Product display card
+│   └── ProductCard.tsx   # Product display card
 ├── lib/
-│   ├── products.js       # Products data with affiliate links
-│   └── categories.js     # Category definitions
-└── public/              # Static assets
+│   ├── products.ts       # Product data with affiliate links
+│   └── ebay.ts           # eBay API utilities
+└── public/               # Static assets
 ```
 
 ## 📝 License
