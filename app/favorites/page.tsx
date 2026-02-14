@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useFavorites } from '../contexts/FavoritesContext';
-import ProductCard from '../components/ProductCard';
-import { useToast } from '../contexts/ToastContext';
+import { useFavorites } from '../../contexts/FavoritesContext';
+import ProductCard from '../../components/ProductCard';
+import { useToast } from '../../contexts/ToastContext';
 
 export default function FavoritesPage() {
   const { favorites, clearFavorites } = useFavorites();
