@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { trackEvent } from '../lib/analytics';
 
 interface VoiceSearchProps {
   onSearch: (query: string) => void;
@@ -35,7 +34,6 @@ export default function VoiceSearch({ onSearch, className = '' }: VoiceSearchPro
 
     recognition.onstart = () => {
       setIsListening(true);
-      trackEvent({ event: 'voice_search_started' });
     };
 
     recognition.onend = () => {
@@ -46,13 +44,11 @@ export default function VoiceSearch({ onSearch, className = '' }: VoiceSearchPro
       const transcriptResult = event.results[0][0].transcript;
       setTranscript(transcriptResult);
       onSearch(transcriptResult);
-      trackEvent({ event: 'voice_search_completed', query: transcriptResult });
     };
 
     recognition.onerror = (event: any) => {
       console.error('Speech recognition error:', event.error);
       setIsListening(false);
-      trackEvent({ event: 'voice_search_error', error: event.error });
     };
 
     recognition.start();
@@ -95,7 +91,7 @@ export default function VoiceSearch({ onSearch, className = '' }: VoiceSearchPro
 
       {transcript && !isListening && (
         <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
-          “{transcript}”
+          "{transcript}"
         </div>
       )}
     </div>
