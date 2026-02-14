@@ -92,6 +92,7 @@ async function getEbayAccessToken(): Promise<string | null> {
   if (!response.ok) return null;
 
   const tokenData = (await response.json()) as EbayTokenResponse;
+
   tokenCache = {
     token: tokenData.access_token,
     expiresAt: Date.now() + Math.max(0, tokenData.expires_in - 60) * 1000,
@@ -133,7 +134,11 @@ function resolveEbayImage(item: EbayItemSummary): string {
   );
 }
 
-export function mapEbayItemToProduct(item: EbayItemSummary, id: number, category: string): Product | null {
+export function mapEbayItemToProduct(
+  item: EbayItemSummary,
+  id: number,
+  category: string
+): Product | null {
   const priceValue = Number(item.price?.value || 0);
   if (!item.title || !priceValue || Number.isNaN(priceValue)) return null;
 
@@ -148,6 +153,8 @@ export function mapEbayItemToProduct(item: EbayItemSummary, id: number, category
     image,
     category,
     affiliateLink,
-    description: item.shortDescription || `Live product from eBay ${category} results.`,
+    description:
+      item.shortDescription ||
+      `Live product from eBay ${category} results.`,
   };
 }

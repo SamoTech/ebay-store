@@ -180,6 +180,7 @@ If no credentials/token are provided, the app safely falls back to static produc
 
 If credentials were ever shared in chat/issues/PR comments, rotate them in the eBay Developer portal immediately and replace your environment variables.
 
+
 ## API Verification (تأكيد إن الـ API شغّال)
 
 ### Quick automated check
