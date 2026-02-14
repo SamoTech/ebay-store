@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { allProducts, Product, categories } from '../../../../lib/products';
-import { getEbayIntegrationStatus, mapEbayItemToProduct, searchEbayProducts } from '../../../../lib/ebay-api';
+import {
+  getEbayIntegrationStatus,
+  mapEbayItemToProduct,
+  searchEbayProducts,
+} from '../../../../lib/ebay-api';
 
 const categoryQueries: Array<{ category: string; query: string }> = categories
   .filter((entry) => entry.slug !== 'all')
@@ -22,7 +26,11 @@ export async function GET() {
 
         return items
           .map((item, itemIdx) =>
-            mapEbayItemToProduct(item, idx * 1000 + itemIdx + 1, entry.category)
+            mapEbayItemToProduct(
+              item,
+              idx * 1000 + itemIdx + 1,
+              entry.category
+            )
           )
           .filter((item): item is Product => Boolean(item));
       })

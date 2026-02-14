@@ -37,11 +37,15 @@ function getMarketplaceId() {
 }
 
 function getOauthScope() {
-  return process.env.EBAY_OAUTH_SCOPE || 'https://api.ebay.com/oauth/api_scope';
+  return (
+    process.env.EBAY_OAUTH_SCOPE ||
+    'https://api.ebay.com/oauth/api_scope'
+  );
 }
 
 export function getEbayIntegrationStatus(): EbayIntegrationStatus {
   const explicitToken = process.env.EBAY_OAUTH_TOKEN;
+
   if (explicitToken) {
     return {
       mode: 'manual_token',
@@ -52,7 +56,8 @@ export function getEbayIntegrationStatus(): EbayIntegrationStatus {
 
   const missing: string[] = [];
   if (!process.env.EBAY_CLIENT_ID) missing.push('EBAY_CLIENT_ID');
-  if (!process.env.EBAY_CLIENT_SECRET) missing.push('EBAY_CLIENT_SECRET');
+  if (!process.env.EBAY_CLIENT_SECRET)
+    missing.push('EBAY_CLIENT_SECRET');
 
   return {
     mode: missing.length ? 'disabled' : 'client_credentials',
@@ -73,7 +78,10 @@ async function getEbayAccessToken(): Promise<string | null> {
   const clientSecret = process.env.EBAY_CLIENT_SECRET;
   if (!clientId || !clientSecret) return null;
 
-  const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+  const basicAuth = Buffer.from(
+    `${clientId}:${clientSecret}`
+  ).toString('base64');
+
   const body = new URLSearchParams({
     grant_type: 'client_credentials',
     scope: getOauthScope(),
@@ -91,24 +99,33 @@ async function getEbayAccessToken(): Promise<string | null> {
 
   if (!response.ok) return null;
 
-  const tokenData = (await response.json()) as EbayTokenResponse;
+  const tokenData =
+    (await response.json()) as EbayTokenResponse;
 
   tokenCache = {
     token: tokenData.access_token,
-    expiresAt: Date.now() + Math.max(0, tokenData.expires_in - 60) * 1000,
+    expiresAt:
+      Date.now() +
+      Math.max(0, tokenData.expires_in - 60) * 1000,
   };
 
   return tokenCache.token;
 }
 
-export async function searchEbayProducts(keyword: string, limit = 20): Promise<EbaySearchResponse> {
+export async function searchEbayProducts(
+  keyword: string,
+  limit = 20
+): Promise<EbaySearchResponse> {
   const token = await getEbayAccessToken();
+
   if (!token) {
     return { itemSummaries: [], total: 0 };
   }
 
   const response = await fetch(
-    `${EBAY_BROWSE_API}/item_summary/search?q=${encodeURIComponent(keyword)}&limit=${limit}`,
+    `${EBAY_BROWSE_API}/item_summary/search?q=${encodeURIComponent(
+      keyword
+    )}&limit=${limit}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -140,10 +157,14 @@ export function mapEbayItemToProduct(
   category: string
 ): Product | null {
   const priceValue = Number(item.price?.value || 0);
-  if (!item.title || !priceValue || Number.isNaN(priceValue)) return null;
+
+  if (!item.title || !priceValue || Number.isNaN(priceValue)) {
+    return null;
+  }
 
   const image = resolveEbayImage(item);
-  const affiliateLink = item.itemWebUrl || createSearchLink(item.title);
+  const affiliateLink =
+    item.itemWebUrl || createSearchLink(item.title);
 
   return {
     id,

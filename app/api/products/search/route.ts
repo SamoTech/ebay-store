@@ -12,10 +12,15 @@ function normalizeCategory(categoryRaw: string | null): string {
 
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get('q');
-  const category = normalizeCategory(request.nextUrl.searchParams.get('category'));
+  const category = normalizeCategory(
+    request.nextUrl.searchParams.get('category')
+  );
 
   if (!query) {
-    return NextResponse.json({ error: 'Missing q parameter' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Missing q parameter' },
+      { status: 400 }
+    );
   }
 
   try {
