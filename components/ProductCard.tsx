@@ -12,6 +12,9 @@ interface ProductCardProps {
   isComparing?: boolean;
 }
 
+// ✅ Tiny blur placeholder - 1px transparent PNG (loads instantly)
+const blurDataURL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==';
+
 export default function ProductCard({ product, showCompare, onCompare, isComparing }: ProductCardProps) {
   const discount = product.originalPrice 
     ? Math.round((1 - product.price / product.originalPrice) * 100) 
@@ -43,6 +46,9 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
             src={product.image}
             alt={product.title}
             fill
+            loading="lazy"  // ✅ Lazy load - images only load when scrolled into view
+            placeholder="blur"  // ✅ Show blur effect while loading
+            blurDataURL={blurDataURL}  // ✅ Tiny 1px placeholder (instant load)
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
