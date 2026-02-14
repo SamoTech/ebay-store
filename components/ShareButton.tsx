@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Product } from '../lib/products';
-import { trackEvent } from '../lib/analytics';
 
 interface ShareButtonProps {
   product: Product;
@@ -23,13 +22,11 @@ export default function ShareButton({ product, className = '' }: ShareButtonProp
       if (navigator.share) {
         // Native mobile share
         await navigator.share(shareData);
-        trackEvent({ event: 'product_share', productId: product.id, method: 'native' });
       } else {
         // Fallback: Copy to clipboard
         await navigator.clipboard.writeText(shareData.url);
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3000);
-        trackEvent({ event: 'product_share', productId: product.id, method: 'clipboard' });
       }
     } catch (error) {
       console.error('Error sharing:', error);
