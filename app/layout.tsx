@@ -10,6 +10,7 @@ import { FavoritesProvider } from "../contexts/FavoritesContext";
 import { RecentlyViewedProvider } from "../contexts/RecentlyViewedContext";
 import { DarkModeProvider } from "../contexts/DarkModeContext";
 import { CurrencyProvider } from "../contexts/CurrencyContext";
+import Chatbot from "../components/Chatbot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +26,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#2563eb",
+  themeColor: "#1e40af",
 };
 
 export const metadata: Metadata = {
@@ -142,6 +143,7 @@ export const metadata: Metadata = {
     ],
     apple: [
       { url: "/apple-icon.png", sizes: "180x180" },
+      { url: "/icon-192x192.png", sizes: "192x192" },
     ],
     shortcut: "/favicon.ico",
   },
@@ -306,6 +308,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="google-site-verification" content="X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#1e40af" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="DealsHub" />
         <Script
           id="structured-data"
           type="application/ld+json"
@@ -325,6 +332,10 @@ export default function RootLayout({
                 <RecentlyViewedProvider>
                   <Header />
                   {children}
+                  
+                  {/* ✅ AI Chatbot - Available on all pages */}
+                  <Chatbot />
+                  
                   <SpeedInsights />
                   <Analytics />
                 </RecentlyViewedProvider>
