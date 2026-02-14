@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton, { ProductSkeletonGrid } from '../components/ProductSkeleton';
 import SearchBar from '../components/SearchBar';
@@ -134,11 +135,15 @@ export default function Home() {
             {recentlyViewed.slice(0, 5).map((product) => (
               <div key={product.id} className="flex-shrink-0 w-40">
                 <a href={product.affiliateLink} target="_blank" rel="noopener noreferrer">
-                  <img 
-                    src={product.image} 
-                    alt={product.title}
-                    className="w-full h-32 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow"
-                  />
+                  <div className="relative w-full h-32 rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.title}
+                      fill
+                      className="object-cover"
+                      sizes="160px"
+                    />
+                  </div>
                   <p className="text-sm font-medium mt-2 line-clamp-1 text-gray-700 dark:text-gray-300">{product.title}</p>
                   <p className="text-green-600 font-bold text-sm">${product.price}</p>
                 </a>
