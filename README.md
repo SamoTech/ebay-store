@@ -152,6 +152,8 @@ If no credentials/token are provided, the app safely falls back to static produc
    ```
 
 5. **Verify live eBay mode is active**
+   - Open: `http://localhost:3000/api/ebay/status`
+   - Confirm `integration.mode` is `"client_credentials"` or `"manual_token"` (not `"disabled"`).
    - Open: `http://localhost:3000/api/products/discover`
    - Confirm JSON contains: `"source": "ebay_live"`.
    - Open homepage and confirm products are loading from live discovery.
