@@ -2,13 +2,16 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-interface FavoriteItem {
+export interface FavoriteItem {
   id: number;
   title: string;
   price: number;
   image: string;
   category: string;
   affiliateLink: string;
+  description?: string;  // Optional for backward compatibility
+  originalPrice?: number;
+  currency?: string;
 }
 
 interface FavoritesContextType {
@@ -46,7 +49,12 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
   const addFavorite = (item: FavoriteItem) => {
     setFavorites((prev) => {
       if (prev.some((f) => f.id === item.id)) return prev;
-      return [...prev, item];
+      // Ensure description exists for compatibility
+      const itemWithDescription = {
+        ...item,
+        description: item.description || `${item.category} product from eBay`,
+      };
+      return [...prev, itemWithDescription];
     });
   };
 
