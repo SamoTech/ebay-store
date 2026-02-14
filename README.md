@@ -12,22 +12,32 @@ DealsHub is a Next.js-based affiliate store that showcases trending products fro
 
 ## ✨ Features
 
-- **24+ Trending Products** across 7 categories
-- **7 Categories**: Electronics, Gaming, Sneakers, Smart Home, Beauty, Collectibles
+- **62+ Trending Products** across 13 categories
+- **13 Categories**: Electronics, Gaming, Sneakers, Smart Home, Beauty, Collectibles, Home, Fitness, Pet Supplies, Baby, Auto, Office
 - **Category Filtering** - Filter products by category
+- **Search Function** - Search products on eBay directly
 - **Affiliate Links** - All products link to eBay with affiliate tracking
 - **Responsive Design** - Works on mobile, tablet, and desktop
 - **Fast Performance** - Built with Next.js and Tailwind CSS
 - **SEO Optimized** - English content for international audience
+- **Vercel Speed Insights** - Performance monitoring
 
 ## 🛍️ Product Categories
 
 | Category | Products |
 |----------|----------|
-| 💻 Electronics | MacBook, iPhone, Samsung, Sony Headphones, Apple Watch |
-| 🎮 Gaming | PlayStation 5, Nintendo Switch, Xbox Series X |
-| 👟 Sneakers | Air Jordan, Nike Air Max, Adidas Ultraboost, Nike Dunk |
-| 🏠 Smart Home | Amazon Echo, Apple HomePod, Ring Doorbell, Philips Hue |
+| 💻 Electronics | MacBook, iPhone, iPad, AirPods, Samsung, Sony, Dyson |
+| 🎮 Gaming | PlayStation 5, Xbox, Nintendo Switch, Steam Deck, VR2 |
+| 👟 Sneakers | Air Jordan, Nike, Adidas, New Balance, Converse |
+| 🏠 Smart Home | Amazon Echo, Apple HomePod, Ring, Philips Hue |
+| 💄 Beauty | Dyson Airwrap, Oral-B iO, Foreo, Supersonic |
+| 🎯 Collectibles | Pokemon Cards, Funko Pop, Jerseys, Coins |
+| 🛋️ Home | Roomba, Nespresso, Vitamix, Instant Pot |
+| 💪 Fitness | Peloton, Yoga Mat, Dumbbells, Garmin |
+| 🐕 Pet Supplies | Furbo, Auto Feeder, Pet Bed |
+| 👶 Baby | Stroller, Car Seat, Monitor, Kids Tablet |
+| 🚗 Auto | Dash Cam, Jump Starter |
+| 💼 Office | Standing Desk, Chair, Monitor Stand |
 | 💄 Beauty | Dyson Airwrap, Oral-B iO, Foreo Luna |
 | 🎯 Collectibles | Pokemon Cards, Sports Jerseys, Funko Pops, Rare Coins |
 
