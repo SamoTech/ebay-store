@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { allProducts, Product } from '../../../../lib/products';
-import { mapEbayItemToProduct, searchEbayProducts } from '../../../../lib/ebay-api';
+import { getEbayIntegrationStatus, mapEbayItemToProduct, searchEbayProducts } from '../../../../lib/ebay-api';
 
 const categoryQueries: Array<{ category: string; query: string }> = [
   { category: 'Electronics', query: 'best seller electronics' },
@@ -12,6 +12,8 @@ const categoryQueries: Array<{ category: string; query: string }> = [
 ];
 
 export async function GET() {
+  const integration = getEbayIntegrationStatus();
+
   try {
     const perCategoryLimit = 8;
 
@@ -33,6 +35,7 @@ export async function GET() {
         source: 'fallback_static',
         products: allProducts,
         message: 'No eBay credentials or no live products returned; using static catalog fallback.',
+        integration,
       });
     }
 
@@ -40,13 +43,15 @@ export async function GET() {
       source: 'ebay_live',
       products: liveProducts,
       total: liveProducts.length,
+      integration,
     });
   } catch (error) {
     return NextResponse.json({
       source: 'fallback_static',
       products: allProducts,
       error: 'Failed to fetch live eBay products; using static fallback.',
-      detail: String(error),
+      integration,
+      detail: error instanceof Error ? error.message : 'unknown_error',
     });
   }
 }

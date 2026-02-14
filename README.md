@@ -112,6 +112,7 @@ Set these environment variables:
 - `EBAY_CLIENT_ID`
 - `EBAY_CLIENT_SECRET`
 - `EBAY_MARKETPLACE_ID` (optional, defaults to `EBAY_US`)
+- `EBAY_OAUTH_SCOPE` (optional, defaults to `https://api.ebay.com/oauth/api_scope`)
 
 Alternative (manual token):
 
@@ -171,3 +172,8 @@ If no credentials/token are provided, the app safely falls back to static produc
   3. No extra spaces/quotes in `.env.local` values.
   4. Restarted dev server after editing env vars.
 
+
+
+### Security note
+
+If credentials were ever shared in chat/issues/PR comments, rotate them in the eBay Developer portal immediately and replace your environment variables.

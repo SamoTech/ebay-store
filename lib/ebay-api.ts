@@ -8,6 +8,12 @@ interface EbayTokenResponse {
   expires_in: number;
 }
 
+export interface EbayIntegrationStatus {
+  mode: 'manual_token' | 'client_credentials' | 'disabled';
+  marketplaceId: string;
+  missing: string[];
+}
+
 export interface EbayItemSummary {
   itemId: string;
   title: string;
@@ -24,6 +30,35 @@ export interface EbaySearchResponse {
 
 let tokenCache: { token: string; expiresAt: number } | null = null;
 
+function getMarketplaceId() {
+  return process.env.EBAY_MARKETPLACE_ID || 'EBAY_US';
+}
+
+function getOauthScope() {
+  return process.env.EBAY_OAUTH_SCOPE || 'https://api.ebay.com/oauth/api_scope';
+}
+
+export function getEbayIntegrationStatus(): EbayIntegrationStatus {
+  const explicitToken = process.env.EBAY_OAUTH_TOKEN;
+  if (explicitToken) {
+    return {
+      mode: 'manual_token',
+      marketplaceId: getMarketplaceId(),
+      missing: [],
+    };
+  }
+
+  const missing: string[] = [];
+  if (!process.env.EBAY_CLIENT_ID) missing.push('EBAY_CLIENT_ID');
+  if (!process.env.EBAY_CLIENT_SECRET) missing.push('EBAY_CLIENT_SECRET');
+
+  return {
+    mode: missing.length ? 'disabled' : 'client_credentials',
+    marketplaceId: getMarketplaceId(),
+    missing,
+  };
+}
+
 async function getEbayAccessToken(): Promise<string | null> {
   const explicitToken = process.env.EBAY_OAUTH_TOKEN;
   if (explicitToken) return explicitToken;
@@ -39,7 +74,7 @@ async function getEbayAccessToken(): Promise<string | null> {
   const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
   const body = new URLSearchParams({
     grant_type: 'client_credentials',
-    scope: 'https://api.ebay.com/oauth/api_scope',
+    scope: getOauthScope(),
   });
 
   const response = await fetch(EBAY_OAUTH_API, {
@@ -74,7 +109,7 @@ export async function searchEbayProducts(keyword: string, limit = 20): Promise<E
     {
       headers: {
         Authorization: `Bearer ${token}`,
-        'X-EBAY-C-MARKETPLACE-ID': process.env.EBAY_MARKETPLACE_ID || 'EBAY_US',
+        'X-EBAY-C-MARKETPLACE-ID': getMarketplaceId(),
       },
       next: { revalidate: 3600 },
     }
