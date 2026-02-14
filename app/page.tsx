@@ -8,7 +8,7 @@ import { allProducts, categories, createSearchLink } from '../lib/products';
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [showAllProducts, setShowAllProducts] = useState(true);
 
   const filteredProducts = selectedCategory === 'all' 
     ? allProducts 
