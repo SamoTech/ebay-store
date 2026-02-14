@@ -16,6 +16,7 @@ DealsHub is a Next.js-based affiliate store that showcases trending products fro
 - **13 Categories**: Electronics, Gaming, Sneakers, Smart Home, Beauty, Collectibles, Home, Fitness, Pet Supplies, Baby, Auto, Office
 - **Category Filtering** - Filter products by category
 - **Search Function** - Search products on eBay directly
+- **Blog Section** - 10 professional articles with shopping guides and tips
 - **Affiliate Links** - All products link to eBay with affiliate tracking
 - **Responsive Design** - Works on mobile, tablet, and desktop
 - **Fast Performance** - Built with Next.js and Tailwind CSS
@@ -30,16 +31,14 @@ DealsHub is a Next.js-based affiliate store that showcases trending products fro
 | 🎮 Gaming | PlayStation 5, Xbox, Nintendo Switch, Steam Deck, VR2 |
 | 👟 Sneakers | Air Jordan, Nike, Adidas, New Balance, Converse |
 | 🏠 Smart Home | Amazon Echo, Apple HomePod, Ring, Philips Hue |
-| 💄 Beauty | Dyson Airwrap, Oral-B iO, Foreo, Supersonic |
-| 🎯 Collectibles | Pokemon Cards, Funko Pop, Jerseys, Coins |
+| 💄 Beauty | Dyson Airwrap, Oral-B iO, Foreo Luna |
+| 🎯 Collectibles | Pokemon Cards, Funko Pops, Jerseys, Coins |
 | 🛋️ Home | Roomba, Nespresso, Vitamix, Instant Pot |
 | 💪 Fitness | Peloton, Yoga Mat, Dumbbells, Garmin |
 | 🐕 Pet Supplies | Furbo, Auto Feeder, Pet Bed |
 | 👶 Baby | Stroller, Car Seat, Monitor, Kids Tablet |
 | 🚗 Auto | Dash Cam, Jump Starter |
 | 💼 Office | Standing Desk, Chair, Monitor Stand |
-| 💄 Beauty | Dyson Airwrap, Oral-B iO, Foreo Luna |
-| 🎯 Collectibles | Pokemon Cards, Sports Jerseys, Funko Pops, Rare Coins |
 
 ## 🔗 Affiliate Program
 
