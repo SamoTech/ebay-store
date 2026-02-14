@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
 import { useToast } from '../contexts/ToastContext';
+import { trackEvent } from '../lib/analytics';
 
 interface Product {
   id: number;
@@ -16,7 +17,6 @@ interface Product {
   description?: string;
   originalPrice?: number;
   rating?: number;
-  reviewCount?: number;
 }
 
 interface ProductCardProps {
@@ -84,6 +84,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
   };
 
   const handleProductClick = () => {
+    trackEvent({ event: 'product_card_click', productId: product.id, source: 'product_card', category: product.category });
     addToRecentlyViewed({
       id: product.id,
       title: product.title,
@@ -99,6 +100,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
     e.stopPropagation();
     if (onCompare) {
       onCompare(product);
+      trackEvent({ event: 'compare_toggle', productId: product.id, source: 'product_card', category: product.category, metadata: { enabled: !Boolean(isComparing) } });
     }
   };
 
@@ -115,9 +117,6 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
           </svg>
         ))}
-        {product.reviewCount && (
-          <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">({product.reviewCount})</span>
-        )}
       </div>
     );
   };
@@ -132,7 +131,6 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            unoptimized
           />
           
           {/* Category Badge */}
@@ -243,7 +241,10 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
           href={product.affiliateLink} 
           target="_blank" 
           rel="noopener noreferrer"
-          onClick={handleProductClick}
+          onClick={() => {
+            handleProductClick();
+            trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'product_card', category: product.category });
+          }}
           className="block w-full bg-blue-600 text-white text-center py-2 rounded mt-3 hover:bg-blue-700 transition-colors font-medium active:scale-95 transform"
         >
           Shop Now on eBay

@@ -101,3 +101,126 @@ MIT License
 - [eBay Partner Network](https://www.ebay.com/partners/affiliate)
 - [Vercel](https://vercel.com)
 - [Next.js Documentation](https://nextjs.org)
+
+
+## eBay API (Live Catalog Mode)
+
+The app can run with live eBay Browse API data on the homepage via `/api/products/discover`.
+
+Set these environment variables:
+
+- `EBAY_CLIENT_ID`
+- `EBAY_CLIENT_SECRET`
+- `EBAY_MARKETPLACE_ID` (optional, defaults to `EBAY_US`)
+- `EBAY_OAUTH_SCOPE` (optional, defaults to `https://api.ebay.com/oauth/api_scope`)
+
+Alternative (manual token):
+
+- `EBAY_OAUTH_TOKEN`
+
+If no credentials/token are provided, the app safely falls back to static products from `lib/products.ts`.
+
+## Step-by-step: Configure Option A (`EBAY_CLIENT_ID` + `EBAY_CLIENT_SECRET`)
+
+1. **Open eBay Developer Program**
+   - Sign in at https://developer.ebay.com/
+   - Go to your application keys page.
+
+2. **Copy Production keys**
+   - Copy **App ID (Client ID)** and **Cert ID (Client Secret)** from your Production keyset.
+   - Do **not** commit these values into Git.
+
+3. **Create local environment file**
+   - Copy the example file and fill your values:
+
+   ```bash
+   cp env.example .env.local
+   ```
+
+   Then edit `.env.local`:
+
+   ```env
+   EBAY_CLIENT_ID=YOUR_APP_ID
+   EBAY_CLIENT_SECRET=YOUR_CERT_ID
+   EBAY_MARKETPLACE_ID=EBAY_US
+   ```
+
+4. **Start the app**
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Verify live eBay mode is active**
+   - Open: `http://localhost:3000/api/ebay/status`
+   - Confirm `integration.mode` is `"client_credentials"` or `"manual_token"` (not `"disabled"`).
+   - Open: `http://localhost:3000/api/products/discover`
+   - Confirm JSON contains: `"source": "ebay_live"`.
+   - Open homepage and confirm products are loading from live discovery.
+
+6. **Configure Vercel (production)**
+   - Vercel Project → **Settings** → **Environment Variables**
+   - Add:
+     - `EBAY_CLIENT_ID`
+     - `EBAY_CLIENT_SECRET`
+     - `EBAY_MARKETPLACE_ID` (optional)
+   - Redeploy.
+
+### Troubleshooting
+
+- If `source` is `fallback_static`, check:
+  1. Key names are exact (`EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`).
+  2. Keys are Production keys (not sandbox if using production APIs).
+  3. No extra spaces/quotes in `.env.local` values.
+  4. Restarted dev server after editing env vars.
+
+
+
+### Security note
+
+If credentials were ever shared in chat/issues/PR comments, rotate them in the eBay Developer portal immediately and replace your environment variables.
+
+## API Verification (تأكيد إن الـ API شغّال)
+
+### Quick automated check
+
+1. Start the app:
+
+```bash
+npm run dev
+```
+
+2. In another terminal, run:
+
+```bash
+npm run verify:apis
+```
+
+If everything is healthy, you should see `API verification PASSED`.
+
+### Manual checks (optional)
+
+```bash
+curl -s http://127.0.0.1:3000/api/ebay/status
+curl -s http://127.0.0.1:3000/api/products/discover | jq '.source, (.products | length)'
+curl -s -X POST http://127.0.0.1:3000/api/subscribe -H 'content-type: application/json' -d '{"email":"check@example.com","source":"manual"}'
+```
+
+Expected behavior:
+
+- Search API supports category mapping: `/api/products/search?q=iphone&category=electronics` so returned products are grouped under the selected category.
+- `/api/ebay/status` returns integration mode and `ok`.
+- `/api/products/discover` returns `source` as `ebay_live` (when credentials are set) or `fallback_static` (without credentials).
+- Subscribe/alerts/track endpoints return `ok: true` for valid payloads.
+
+### Conflict check before push (PR file conflict fix)
+
+If you had a PR/file conflict and deleted it, run this before pushing:
+
+```bash
+npm run verify:conflicts
+```
+
+- If it prints `No merge conflict markers found.` you're clean.
+- If it fails, remove conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`) from listed files.
+
