@@ -2,12 +2,31 @@ const CAMPID = '5338903178';
 const SITEID = '0';
 const MKRID = '711-53200-19255-0';
 
-function createSearchLink(keyword) {
+export function createSearchLink(keyword: string): string {
   const kw = encodeURIComponent(keyword);
   return `https://www.ebay.com/sch/i.html?_nkw=${kw}&mkcid=1&mkrid=${MKRID}&siteid=${SITEID}&campid=${CAMPID}`;
 }
 
-export const featuredProducts = [
+export interface Product {
+  id: number;
+  title: string;
+  price: number;
+  currency?: string;
+  image: string;
+  category: string;
+  affiliateLink: string;
+  description: string;
+  featured?: boolean;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  icon: string;
+  slug: string;
+}
+
+export const featuredProducts: Product[] = [
   { id: 1, title: 'Apple MacBook Pro 14" M3 Pro', price: 1999, currency: 'USD', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400', category: 'Electronics', affiliateLink: createSearchLink('MacBook Pro M3'), description: 'Powerful laptop for professionals', featured: true },
   { id: 2, title: 'iPhone 15 Pro Max 256GB', price: 1199, currency: 'USD', image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400', category: 'Electronics', affiliateLink: createSearchLink('iPhone 15 Pro Max'), description: 'Latest iPhone model', featured: true },
   { id: 3, title: 'Samsung Galaxy S24 Ultra', price: 1299, currency: 'USD', image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400', category: 'Electronics', affiliateLink: createSearchLink('Samsung Galaxy S24 Ultra'), description: 'Samsung flagship phone', featured: true },
@@ -18,7 +37,7 @@ export const featuredProducts = [
   { id: 8, title: 'Apple Watch Series 9', price: 399, currency: 'USD', image: 'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400', category: 'Electronics', affiliateLink: createSearchLink('Apple Watch Series 9'), description: 'Smart watch', featured: true }
 ];
 
-export const allProducts = [
+export const allProducts: Product[] = [
   ...featuredProducts,
   { id: 9, title: 'iPad Pro 12.9" M3', price: 1099, image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400', category: 'Electronics', affiliateLink: createSearchLink('iPad Pro M3'), description: 'Professional tablet' },
   { id: 10, title: 'iPad Air M2', price: 599, image: 'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400', category: 'Electronics', affiliateLink: createSearchLink('iPad Air M2'), description: 'Portable tablet' },
@@ -76,7 +95,7 @@ export const allProducts = [
   { id: 62, title: 'Wireless Keyboard', price: 99, image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400', category: 'Office', affiliateLink: createSearchLink('Wireless Keyboard'), description: 'Keyboard mouse' }
 ];
 
-export const categories = [
+export const categories: Category[] = [
   { id: 1, name: 'All Products', icon: '🛍️', slug: 'all' },
   { id: 2, name: 'Electronics', icon: '💻', slug: 'electronics' },
   { id: 3, name: 'Gaming', icon: '🎮', slug: 'gaming' },
@@ -92,4 +111,4 @@ export const categories = [
   { id: 13, name: 'Office', icon: '💼', slug: 'office' }
 ];
 
-export { createSearchLink, CAMPID, SITEID, MKRID };
+export { CAMPID, SITEID, MKRID };
