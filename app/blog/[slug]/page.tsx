@@ -1,10 +1,31 @@
-'use client';
-
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+import { Metadata } from 'next';
 import Footer from '../../../components/Footer';
 import { blogArticles } from '../../../lib/blog-data';
+
+// Generate static params for all blog articles
+export async function generateStaticParams() {
+  return blogArticles.map((article) => ({
+    slug: article.slug,
+  }));
+}
+
+// Generate metadata for each article
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const article = blogArticles.find(a => a.slug === params.slug);
+  
+  if (!article) {
+    return {
+      title: 'Article Not Found',
+    };
+  }
+
+  return {
+    title: `${article.title} | DealsHub Blog`,
+    description: article.excerpt,
+  };
+}
 
 export default function BlogArticlePage({ params }: { params: { slug: string } }) {
   const article = blogArticles.find(a => a.slug === params.slug);
@@ -56,7 +77,7 @@ export default function BlogArticlePage({ params }: { params: { slug: string } }
         {/* Featured Image */}
         <div className={`h-96 rounded-2xl bg-gradient-to-br ${article.gradient} mb-10 relative overflow-hidden`}>
           <div className="absolute inset-0 bg-black/20"></div>
-          <div className="absolute bottom-8 left-8 text-white">
+          <div className="absolute bottom-8 left-8 right-8 text-white">
             <p className="text-lg font-semibold opacity-90">{article.excerpt}</p>
           </div>
         </div>
@@ -144,6 +165,19 @@ export default function BlogArticlePage({ params }: { params: { slug: string } }
                   </div>
                 </Link>
               ))}
+          </div>
+          
+          {/* Back to Blog Link */}
+          <div className="mt-12 text-center">
+            <Link 
+              href="/blog"
+              className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to All Articles
+            </Link>
           </div>
         </div>
       </section>
