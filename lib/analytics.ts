@@ -5,6 +5,8 @@ export type AnalyticsEventName =
   | 'affiliate_outbound_click'
   | 'compare_toggle'
   | 'newsletter_submit'
+  | 'newsletter_popup_shown'
+  | 'newsletter_popup_closed'
   | 'price_alert_toggle'
   | 'chatbot_opened'
   | 'chatbot_message_sent'
