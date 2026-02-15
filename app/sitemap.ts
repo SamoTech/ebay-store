@@ -38,48 +38,44 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'smart-home',
     'beauty',
     'collectibles',
-    'home',
-    'fitness',
-    'pet-supplies',
-    'baby',
-    'auto',
-    'office',
   ];
 
   const categoryPages = categories.map((category) => ({
     url: `${baseUrl}/category/${category}`,
     lastModified: now,
     changeFrequency: 'daily' as const,
-    priority: 0.9,
+    priority: 0.7,
   }));
 
-  // Product pages (ALL products, including API-generated ones)
-  const productPages = allProducts.map((product) => ({
-    url: `${baseUrl}/product/${product.id}`,
-    lastModified: now,
-    changeFrequency: 'daily' as const,
-    priority: 0.8,
-  }));
+  // Product pages (only static products < 1000)
+  const productPages = allProducts
+    .filter(p => p.id < 1000) // Only static products
+    .map((product) => ({
+      url: `${baseUrl}/product/${product.id}`,
+      lastModified: now,
+      changeFrequency: 'daily' as const,
+      priority: 0.6,
+    }));
 
-  // User pages
-  const userPages = [
+  // Other pages
+  const otherPages = [
     {
       url: `${baseUrl}/favorites`,
       lastModified: now,
       changeFrequency: 'weekly' as const,
-      priority: 0.6,
+      priority: 0.5,
     },
     {
-      url: `${baseUrl}/comparison`,
+      url: `${baseUrl}/compare`,
       lastModified: now,
       changeFrequency: 'weekly' as const,
-      priority: 0.6,
+      priority: 0.5,
     },
     {
       url: `${baseUrl}/search`,
       lastModified: now,
       changeFrequency: 'daily' as const,
-      priority: 0.7,
+      priority: 0.6,
     },
   ];
 
@@ -89,6 +85,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...blogPages,
     ...categoryPages,
     ...productPages,
-    ...userPages,
+    ...otherPages,
   ];
 }
