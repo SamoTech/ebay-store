@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Product } from '../lib/products';
 
 export default function SearchBar() {
@@ -95,9 +94,11 @@ export default function SearchBar() {
           <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
             <div className="py-2">
               {results.map((result) => (
-                <Link
+                <a
                   key={result.id}
-                  href={`/product/${result.id}`}
+                  href={result.affiliateLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => {
                     setIsOpen(false);
                     setQuery('');
@@ -122,7 +123,10 @@ export default function SearchBar() {
                       </span>
                     </div>
                   </div>
-                </Link>
+                  <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
               ))}
             </div>
             <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-3 bg-gray-50 dark:bg-gray-900">
