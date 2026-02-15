@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton, { ProductSkeletonGrid } from '../components/ProductSkeleton';
-import SearchBar from '../components/SearchBar';
 import Footer from '../components/Footer';
 import DealOfTheDay from '../components/DealOfTheDay';
 import { useToast } from '../contexts/ToastContext';
 import { allProducts, categories, createSearchLink, Product } from '../lib/products';
 import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
+import Link from 'next/link';
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -71,13 +71,6 @@ export default function Home() {
     return 0;
   });
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    setShowAllProducts(true);
-    setSelectedCategory('all');
-    addToast(`Searching for "${query}" on eBay...`, 'info');
-  };
-
   const handleCategoryClick = (slug: string) => {
     setSelectedCategory(slug);
     setSearchQuery('');
@@ -91,16 +84,32 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       
-      {/* Hero Section with Search */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 px-4">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            DealsHub - Best Prices Online
+            🛍️ DealsHub - Best Prices Online
           </h1>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-blue-100 mb-6">
             Discover amazing deals on electronics, gaming, sneakers and more from eBay
           </p>
-          <SearchBar onSearch={handleSearch} />
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link
+              href="#products"
+              className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg"
+            >
+              Browse Products
+            </Link>
+            <Link
+              href="/blog"
+              className="bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-400 transition-colors"
+            >
+              Shopping Guides
+            </Link>
+          </div>
+          <p className="text-sm text-blue-200 mt-4">
+            🔍 Use the search bar above to find specific products
+          </p>
         </div>
       </section>
 
@@ -140,7 +149,7 @@ export default function Home() {
       )}
 
       {/* Categories */}
-      <section className="max-w-6xl mx-auto px-4 -mt-6">
+      <section id="products" className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
           {categories.map((cat) => (
             <button
