@@ -38,7 +38,8 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       title: product.title,
       description: product.description,
       images: [product.image],
-      type: 'product',
+      // Note: 'product' type not supported by Next.js OpenGraph
+      // Using default 'website' type
     },
   };
 }
