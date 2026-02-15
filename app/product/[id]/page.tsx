@@ -9,9 +9,9 @@ import RelatedProducts from '../../../components/RelatedProducts';
 import SocialShare from '../../../components/SocialShare';
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -23,7 +23,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const product = allProducts.find(p => p.id === parseInt(params.id));
+  const { id } = await params;
+  const product = allProducts.find(p => p.id === parseInt(id));
   
   if (!product) {
     return {
@@ -44,8 +45,9 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   };
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
-  const product = allProducts.find(p => p.id === parseInt(params.id));
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { id } = await params;
+  const product = allProducts.find(p => p.id === parseInt(id));
 
   if (!product) {
     notFound();
