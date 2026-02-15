@@ -1,186 +1,208 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { blogPosts, getBlogPost } from '../../../lib/blog-data';
+import SocialShare from '../../../components/SocialShare';
 import Footer from '../../../components/Footer';
-import { blogArticles } from '../../../lib/blog-data';
 
-// Generate static params for all blog articles
+interface BlogPostPageProps {
+  params: {
+    slug: string;
+  };
+}
+
 export async function generateStaticParams() {
-  return blogArticles.map((article) => ({
-    slug: article.slug,
+  return blogPosts.map((post) => ({
+    slug: post.slug,
   }));
 }
 
-// Generate metadata for each article
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const article = blogArticles.find(a => a.slug === params.slug);
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const post = getBlogPost(params.slug);
   
-  if (!article) {
+  if (!post) {
     return {
-      title: 'Article Not Found',
+      title: 'Blog Post Not Found',
     };
   }
 
   return {
-    title: `${article.title} | DealsHub Blog`,
-    description: article.excerpt,
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: 'article',
+      publishedTime: post.date,
+      authors: [post.author],
+      tags: [post.category],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+    },
   };
 }
 
-export default function BlogArticlePage({ params }: { params: { slug: string } }) {
-  const article = blogArticles.find(a => a.slug === params.slug);
+export default function BlogPostPage({ params }: BlogPostPageProps) {
+  const post = getBlogPost(params.slug);
 
-  if (!article) {
+  if (!post) {
     notFound();
   }
+
+  const postUrl = `https://ebay-store.vercel.app/blog/${post.slug}`;
+  const relatedPosts = blogPosts
+    .filter(p => p.category === post.category && p.slug !== post.slug)
+    .slice(0, 3);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <article className="max-w-4xl mx-auto px-4 py-12">
-        {/* Breadcrumb */}
-        <nav className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-          <Link href="/" className="hover:text-blue-600">Home</Link>
-          <span className="mx-2">/</span>
-          <Link href="/blog" className="hover:text-blue-600">Blog</Link>
-          <span className="mx-2">/</span>
-          <span className="text-gray-900 dark:text-white">{article.title}</span>
-        </nav>
+      <div className="relative py-16 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
+        <div className="max-w-4xl mx-auto px-4">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Blog
+          </Link>
 
-        {/* Article Header */}
-        <header className="mb-8">
-          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
-            <span className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full font-medium">
-              {article.category}
+          <div className="mb-4">
+            <span className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm text-white text-sm font-semibold rounded-full">
+              {post.category}
             </span>
-            <span>•</span>
-            <span>{article.readTime}</span>
-            <span>•</span>
-            <span>{article.date}</span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-            {article.title}
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+            {post.title}
           </h1>
 
-          <div className="flex items-center gap-4 pb-6 border-b border-gray-200 dark:border-gray-700">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-              {article.author.charAt(0)}
+          <div className="flex items-center gap-6 text-white/90">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span>{post.author}</span>
             </div>
-            <div>
-              <p className="font-semibold text-gray-900 dark:text-white">{article.author}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Expert Contributor</p>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{post.readTime}</span>
             </div>
           </div>
-        </header>
+        </div>
+      </div>
 
-        {/* Featured Image */}
-        <div className={`h-96 rounded-2xl bg-gradient-to-br ${article.gradient} mb-10 relative overflow-hidden`}>
-          <div className="absolute inset-0 bg-black/20"></div>
-          <div className="absolute bottom-8 left-8 right-8 text-white">
-            <p className="text-lg font-semibold opacity-90">{article.excerpt}</p>
-          </div>
+      {/* Article Content */}
+      <article className="max-w-4xl mx-auto px-4 py-12">
+        {/* Social Share - Top */}
+        <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+          <SocialShare
+            url={postUrl}
+            title={post.title}
+            description={post.excerpt}
+            hashtags={['DealsHub', 'eBayShopping', post.category.replace(/\s+/g, '')]}
+          />
         </div>
 
-        {/* Article Content */}
-        <div className="prose prose-lg dark:prose-invert max-w-none">
-          {article.content.map((section, index) => (
-            <div key={index} className="mb-8">
-              {section.type === 'heading' && (
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mt-12 mb-6">
-                  {section.text}
-                </h2>
-              )}
-              {section.type === 'paragraph' && (
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 text-lg">
-                  {section.text}
-                </p>
-              )}
-              {section.type === 'list' && (
-                <ul className="space-y-3 mb-6">
-                  {section.items?.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-gray-700 dark:text-gray-300">
-                      <span className="text-blue-600 dark:text-blue-400 mt-1">✓</span>
-                      <span className="text-lg">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {section.type === 'quote' && (
-                <blockquote className="border-l-4 border-blue-600 pl-6 py-4 my-8 bg-blue-50 dark:bg-blue-900/20 rounded-r-lg">
-                  <p className="text-xl italic text-gray-800 dark:text-gray-200">{section.text}</p>
-                </blockquote>
-              )}
-            </div>
-          ))}
+        {/* Excerpt */}
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 mb-8">
+          <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+            {post.excerpt}
+          </p>
         </div>
 
-        {/* Call to Action */}
-        <div className="mt-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-center text-white">
-          <h3 className="text-2xl font-bold mb-4">Ready to Start Shopping?</h3>
-          <p className="text-blue-100 mb-6">Browse our curated collection of verified deals</p>
-          <Link 
-            href="/"
-            className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
-          >
-            Browse All Deals →
-          </Link>
+        {/* Main Content */}
+        <div 
+          className="prose prose-lg dark:prose-invert max-w-none
+            prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white
+            prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed
+            prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
+            prose-strong:text-gray-900 dark:prose-strong:text-white
+            prose-ul:text-gray-700 dark:prose-ul:text-gray-300
+            prose-ol:text-gray-700 dark:prose-ol:text-gray-300
+            prose-li:my-2
+            prose-img:rounded-xl prose-img:shadow-lg
+            prose-code:text-blue-600 dark:prose-code:text-blue-400
+            prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
+
+        {/* Social Share - Bottom */}
+        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+            Found this helpful? Share it with your network!
+          </p>
+          <SocialShare
+            url={postUrl}
+            title={post.title}
+            description={post.excerpt}
+            hashtags={['DealsHub', 'eBayShopping', post.category.replace(/\s+/g, '')]}
+          />
         </div>
 
         {/* Author Bio */}
-        <div className="mt-12 bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
-          <div className="flex items-start gap-6">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-3xl flex-shrink-0">
-              {article.author.charAt(0)}
+        <div className="mt-12 p-6 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl">
+          <div className="flex items-start gap-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <span className="text-2xl font-bold text-white">
+                {post.author.charAt(0)}
+              </span>
             </div>
             <div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">About {article.author}</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                About {post.author}
+              </h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                {article.authorBio}
+                Expert deal hunter and shopping guide author. Helping thousands save money on their favorite products through smart shopping strategies and insider tips.
               </p>
             </div>
           </div>
         </div>
       </article>
 
-      {/* Related Articles */}
-      <section className="bg-white dark:bg-gray-800 py-16 mt-12">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Related Articles</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {blogArticles
-              .filter(a => a.category === article.category && a.id !== article.id)
-              .slice(0, 3)
-              .map(related => (
-                <Link
-                  key={related.id}
-                  href={`/blog/${related.slug}`}
-                  className="bg-gray-50 dark:bg-gray-900 rounded-xl overflow-hidden hover:shadow-xl transition-shadow"
-                >
-                  <div className={`h-40 bg-gradient-to-br ${related.gradient}`}></div>
-                  <div className="p-4">
-                    <p className="text-sm text-blue-600 dark:text-blue-400 mb-2">{related.category}</p>
-                    <h3 className="font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">{related.title}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{related.readTime}</p>
-                  </div>
-                </Link>
-              ))}
+      {/* Related Posts */}
+      {relatedPosts.length > 0 && (
+        <section className="max-w-4xl mx-auto px-4 py-12">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            Related Articles
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {relatedPosts.map((relatedPost) => (
+              <Link
+                key={relatedPost.slug}
+                href={`/blog/${relatedPost.slug}`}
+                className="group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all"
+              >
+                <div className="h-32 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500"></div>
+                <div className="p-4">
+                  <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+                    {relatedPost.category}
+                  </span>
+                  <h3 className="font-bold text-gray-900 dark:text-white mt-2 mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    {relatedPost.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {relatedPost.readTime}
+                  </p>
+                </div>
+              </Link>
+            ))}
           </div>
-          
-          {/* Back to Blog Link */}
-          <div className="mt-12 text-center">
-            <Link 
-              href="/blog"
-              className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              Back to All Articles
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <Footer />
     </main>
