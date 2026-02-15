@@ -1,61 +1,94 @@
-import type { MetadataRoute } from 'next';
-import { allProducts, categories } from '../lib/products';
+import { MetadataRoute } from 'next';
+import { allProducts } from '../lib/products';
+import { blogPosts } from '../lib/blog-data';
 
-const SITE_URL = 'https://ebay-store.vercel.app';
+const baseUrl = 'https://ebay-store.vercel.app';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  // Static pages with high priority
-  const staticRoutes: MetadataRoute.Sitemap = [
-    {
-      url: `${SITE_URL}/`,
-      lastModified: now,
-      changeFrequency: 'hourly',
-      priority: 1.0,
-    },
-    {
-      url: `${SITE_URL}/blog`,
-      lastModified: now,
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/favorites`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
-    {
-      url: `${SITE_URL}/compare`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
+  // Homepage
+  const homepage = {
+    url: baseUrl,
+    lastModified: now,
+    changeFrequency: 'hourly' as const,
+    priority: 1.0,
+  };
+
+  // Blog pages
+  const blogIndex = {
+    url: `${baseUrl}/blog`,
+    lastModified: now,
+    changeFrequency: 'daily' as const,
+    priority: 0.9,
+  };
+
+  const blogPages = blogPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
+  // Category pages
+  const categories = [
+    'electronics',
+    'gaming',
+    'sneakers',
+    'smart-home',
+    'beauty',
+    'collectibles',
+    'home',
+    'fitness',
+    'pet-supplies',
+    'baby',
+    'auto',
+    'office',
   ];
 
-  // Category pages - important for SEO
-  const categoryRoutes: MetadataRoute.Sitemap = categories
-    .filter((category) => category.slug !== 'all')
-    .map((category) => ({
-      url: `${SITE_URL}/category/${category.slug}`,
-      lastModified: now,
-      changeFrequency: 'daily' as const,
-      priority: 0.9,
-    }));
+  const categoryPages = categories.map((category) => ({
+    url: `${baseUrl}/category/${category}`,
+    lastModified: now,
+    changeFrequency: 'daily' as const,
+    priority: 0.9,
+  }));
 
-  // Product pages - core content
-  const productRoutes: MetadataRoute.Sitemap = allProducts.map((product) => ({
-    url: `${SITE_URL}/product/${product.id}`,
+  // Product pages (ALL products, including API-generated ones)
+  const productPages = allProducts.map((product) => ({
+    url: `${baseUrl}/product/${product.id}`,
     lastModified: now,
     changeFrequency: 'daily' as const,
     priority: 0.8,
   }));
 
-  // Combine all routes
+  // User pages
+  const userPages = [
+    {
+      url: `${baseUrl}/favorites`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/comparison`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/search`,
+      lastModified: now,
+      changeFrequency: 'daily' as const,
+      priority: 0.7,
+    },
+  ];
+
   return [
-    ...staticRoutes,
-    ...categoryRoutes,
-    ...productRoutes,
+    homepage,
+    blogIndex,
+    ...blogPages,
+    ...categoryPages,
+    ...productPages,
+    ...userPages,
   ];
 }
