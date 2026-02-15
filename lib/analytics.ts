@@ -14,7 +14,8 @@ export type AnalyticsEventName =
   | 'price_alert_toggle'
   | 'chatbot_opened'
   | 'chatbot_message_sent'
-  | 'product_shared';
+  | 'product_shared'
+  | 'social_share';
 
 export interface AnalyticsEventPayload {
   event: AnalyticsEventName;
@@ -22,6 +23,9 @@ export interface AnalyticsEventPayload {
   source?: string;
   category?: string;
   email_domain?: string;
+  platform?: string;
+  url?: string;
+  title?: string;
   metadata?: Record<string, string | number | boolean | null | undefined>;
 }
 
