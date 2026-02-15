@@ -3,18 +3,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-
-interface SearchResult {
-  id: string;
-  title: string;
-  price: number;
-  image: string;
-  category: string;
-}
+import { Product } from '../lib/products';
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<Product[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
