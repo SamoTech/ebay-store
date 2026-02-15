@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { useDarkMode } from '../contexts/DarkModeContext';
 import { CurrencySelector } from '../contexts/CurrencyContext';
+import SearchBar from './SearchBar';
 
 export default function Header() {
   const { favorites } = useFavorites();
@@ -13,9 +14,10 @@ export default function Header() {
 
   return (
     <nav className="sticky top-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-md transition-colors duration-200">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Top Row: Logo + Navigation + Icons */}
         <div className="flex justify-between items-center py-4">
-          <Link href="/" className="text-xl font-bold text-blue-600 dark:text-blue-400">
+          <Link href="/" className="text-xl font-bold text-blue-600 dark:text-blue-400 whitespace-nowrap">
             🛍️ DealsHub
           </Link>
           
@@ -73,9 +75,19 @@ export default function Header() {
           </button>
         </div>
 
+        {/* Search Bar Row - Desktop */}
+        <div className="hidden md:block pb-4">
+          <SearchBar />
+        </div>
+
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700">
+            {/* Mobile Search Bar */}
+            <div className="mb-4">
+              <SearchBar />
+            </div>
+            
             <div className="flex flex-col gap-4">
               <Link 
                 href="/" 
@@ -103,6 +115,9 @@ export default function Header() {
                   </span>
                 )}
               </Link>
+              <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
+                <CurrencySelector />
+              </div>
               <button
                 onClick={() => {
                   toggleDarkMode();
