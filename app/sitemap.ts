@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { allProducts } from '../lib/products';
-import { blogPosts } from '../lib/blog-data';
+import { blogArticles } from '../lib/blog-data';
 
 const baseUrl = 'https://ebay-store.vercel.app';
 
@@ -23,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   };
 
-  const blogPages = blogPosts.map((post) => ({
+  const blogPages = blogArticles.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(post.date),
     changeFrequency: 'monthly' as const,

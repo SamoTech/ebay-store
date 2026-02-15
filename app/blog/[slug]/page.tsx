@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { blogPosts, getBlogPost } from '../../../lib/blog-data';
+import { blogArticles, BlogArticle } from '../../../lib/blog-data';
 import SocialShare from '../../../components/SocialShare';
 import Footer from '../../../components/Footer';
 
@@ -11,8 +11,13 @@ interface BlogPostPageProps {
   };
 }
 
+// Helper function to get blog post by slug
+function getBlogPost(slug: string): BlogArticle | undefined {
+  return blogArticles.find((post) => post.slug === slug);
+}
+
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
+  return blogArticles.map((post) => ({
     slug: post.slug,
   }));
 }
@@ -53,9 +58,25 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const postUrl = `https://ebay-store.vercel.app/blog/${post.slug}`;
-  const relatedPosts = blogPosts
+  const relatedPosts = blogArticles
     .filter(p => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
+
+  // Convert content array to HTML string
+  const contentHtml = post.content.map((block) => {
+    switch (block.type) {
+      case 'heading':
+        return `<h2 class="text-2xl font-bold mt-8 mb-4">${block.text}</h2>`;
+      case 'paragraph':
+        return `<p class="mb-4">${block.text}</p>`;
+      case 'list':
+        return `<ul class="list-disc pl-6 mb-4 space-y-2">${block.items?.map(item => `<li>${item}</li>`).join('')}</ul>`;
+      case 'quote':
+        return `<blockquote class="border-l-4 border-blue-500 pl-4 italic my-6 text-lg">${block.text}</blockquote>`;
+      default:
+        return '';
+    }
+  }).join('');
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -93,7 +114,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+              <span>{post.date}</span>
             </div>
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -137,7 +158,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             prose-img:rounded-xl prose-img:shadow-lg
             prose-code:text-blue-600 dark:prose-code:text-blue-400
             prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 
         {/* Social Share - Bottom */}
@@ -166,7 +187,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 About {post.author}
               </h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                Expert deal hunter and shopping guide author. Helping thousands save money on their favorite products through smart shopping strategies and insider tips.
+                {post.authorBio}
               </p>
             </div>
           </div>
@@ -186,7 +207,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 href={`/blog/${relatedPost.slug}`}
                 className="group block bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all"
               >
-                <div className="h-32 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500"></div>
+                <div className={`h-32 bg-gradient-to-br ${relatedPost.gradient}`}></div>
                 <div className="p-4">
                   <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
                     {relatedPost.category}
