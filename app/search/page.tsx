@@ -50,8 +50,6 @@ export default function SearchPage() {
         return b.price - a.price;
       case 'rating':
         return (b.rating || 0) - (a.rating || 0);
-      case 'reviews':
-        return (b.reviews || 0) - (a.reviews || 0);
       default:
         return 0;
     }
@@ -125,7 +123,6 @@ export default function SearchPage() {
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
                 <option value="rating">Highest Rated</option>
-                <option value="reviews">Most Reviews</option>
               </select>
             </div>
           </div>
@@ -183,7 +180,7 @@ export default function SearchPage() {
               We couldn't find any products matching "{query}". Try different keywords or browse our
               categories.
             </p>
-            <div className="flex gap-4 justify-center">
+            <div className="flex gap-4 justify-center flex-wrap">
               <Link
                 href="/"
                 className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
