@@ -28,7 +28,8 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  trailingSlash: true,
+  // Removed trailingSlash: true - was causing 404s on static pages
+  // Next.js default (false) works better with static generation
 
   async headers() {
     return [
