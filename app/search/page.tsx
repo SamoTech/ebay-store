@@ -5,19 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import ProductCard from '../../components/ProductCard';
 import Footer from '../../components/Footer';
-
-interface Product {
-  id: string;
-  title: string;
-  price: number;
-  originalPrice?: number;
-  image: string;
-  rating: number;
-  reviews: number;
-  seller: string;
-  category: string;
-  ebayLink: string;
-}
+import { Product } from '../../lib/products';
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
