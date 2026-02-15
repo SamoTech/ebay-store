@@ -15,7 +15,8 @@ export type AnalyticsEventName =
   | 'chatbot_opened'
   | 'chatbot_message_sent'
   | 'product_shared'
-  | 'social_share';
+  | 'social_share'
+  | 'link_copied';
 
 export interface AnalyticsEventPayload {
   event: AnalyticsEventName;
