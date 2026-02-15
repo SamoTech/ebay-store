@@ -49,9 +49,9 @@ export default function SearchPage() {
       case 'price-high':
         return b.price - a.price;
       case 'rating':
-        return b.rating - a.rating;
+        return (b.rating || 0) - (a.rating || 0);
       case 'reviews':
-        return b.reviews - a.reviews;
+        return (b.reviews || 0) - (a.reviews || 0);
       default:
         return 0;
     }
