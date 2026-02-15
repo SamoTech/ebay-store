@@ -1,8 +1,19 @@
+# robots.txt for DealsHub
+# Allow all search engines to crawl the site
+
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /api/
-Disallow: /_next/
-Disallow: /private/
 
+# Disallow admin or sensitive areas (if any)
+# Disallow: /admin/
+# Disallow: /api/
+
+# Sitemap location
 Sitemap: https://ebay-store.vercel.app/sitemap.xml
+
+# Crawl delay (optional, in seconds)
+# Crawl-delay: 1
+
+# Block specific bots (optional)
+# User-agent: BadBot
+# Disallow: /
