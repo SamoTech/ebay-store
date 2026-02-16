@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { trackEvent } from '../lib/analytics';
+import { useToast } from '../contexts/ToastContext';
 
 interface NewsletterPopupProps {
   delay?: number; // Show after X seconds
@@ -12,6 +13,8 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const { addToast } = useToast();
 
   useEffect(() => {
     // Check if user already subscribed
@@ -55,29 +58,41 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
     if (!email || isLoading) return;
 
     setIsLoading(true);
+    setError('');
     trackEvent({ event: 'newsletter_signup_attempt', email_domain: email.split('@')[1] });
 
     try {
-      // TODO: Connect to your email service (Mailchimp, ConvertKit, etc.)
       const response = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success) {
         setIsSubmitted(true);
         localStorage.setItem('newsletter_subscribed', 'true');
         trackEvent({ event: 'newsletter_signup_success', source: 'popup' });
+        addToast('✅ Successfully subscribed to newsletter!', 'success');
         
         // Auto-close after showing success message for 2 seconds
         setTimeout(() => {
           setIsVisible(false);
           setIsSubmitted(false);
         }, 2000);
+      } else {
+        // Handle error response
+        const errorMessage = data.error || 'Subscription failed. Please try again.';
+        setError(errorMessage);
+        addToast(`❌ ${errorMessage}`, 'error');
+        trackEvent({ event: 'newsletter_signup_failed', error: errorMessage });
       }
     } catch (error) {
       console.error('Newsletter signup error:', error);
+      const errorMessage = 'Network error. Please check your connection and try again.';
+      setError(errorMessage);
+      addToast(`❌ ${errorMessage}`, 'error');
       trackEvent({ event: 'newsletter_signup_error' });
     } finally {
       setIsLoading(false);
@@ -153,14 +168,21 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
               </ul>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none transition-colors"
-                />
+                <div>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    required
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none transition-colors"
+                  />
+                  {error && (
+                    <p className="text-red-600 dark:text-red-400 text-sm mt-2">
+                      {error}
+                    </p>
+                  )}
+                </div>
                 <button
                   type="submit"
                   disabled={isLoading}
