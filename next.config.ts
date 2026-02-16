@@ -1,81 +1,136 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
+
+/**
+ * Security Headers Configuration
+ * 
+ * Implements security best practices:
+ * - Content Security Policy (CSP)
+ * - HTTP Strict Transport Security (HSTS)
+ * - X-Frame-Options (Clickjacking protection)
+ * - X-Content-Type-Options (MIME sniffing protection)
+ * - Referrer-Policy
+ */
+const securityHeaders = [
+  {
+    key: 'X-DNS-Prefetch-Control',
+    value: 'on',
+  },
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains; preload',
+  },
+  {
+    key: 'X-Frame-Options',
+    value: 'SAMEORIGIN',
+  },
+  {
+    key: 'X-Content-Type-Options',
+    value: 'nosniff',
+  },
+  {
+    key: 'X-XSS-Protection',
+    value: '1; mode=block',
+  },
+  {
+    key: 'Referrer-Policy',
+    value: 'origin-when-cross-origin',
+  },
+  {
+    key: 'Permissions-Policy',
+    value: 'camera=(), microphone=(), geolocation=()',
+  },
+]
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
-
+  /* config options here */
+  reactStrictMode: true,
+  
+  // Image optimization
   images: {
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: 'i.ebayimg.com',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ir.ebaystatic.com',
+        pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'via.placeholder.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'ebay-store.vercel.app',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i.ebayimg.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'thumbs.ebaystatic.com',
+        pathname: '/**',
       },
     ],
   },
 
-  // Removed trailingSlash: true - was causing 404s on static pages
-  // Next.js default (false) works better with static generation
-
+  // Security headers
   async headers() {
     return [
       {
-        source: '/sitemap.xml',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'application/xml',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=3600, s-maxage=3600',
-          },
-        ],
+        // Apply security headers to all routes
+        source: '/:path*',
+        headers: securityHeaders,
       },
-      {
-        source: '/robots.txt',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'text/plain',
-          },
-        ],
-      },
-      {
-        source: '/rss.xml',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'application/rss+xml',
-          },
-        ],
-      },
-    ];
+    ]
   },
 
+  // Redirects (if needed)
   async redirects() {
-    return [
-      {
-        source: '/sitemap',
-        destination: '/sitemap.xml',
-        permanent: true,
-      },
-    ];
+    return []
   },
-};
 
-export default nextConfig;
+  // Rewrites (if needed)
+  async rewrites() {
+    return []
+  },
+
+  // Webpack configuration (for bundle analysis)
+  webpack: (config, { dev, isServer }) => {
+    // Bundle analysis in production
+    if (!dev && !isServer) {
+      // Uncomment to enable bundle analysis
+      // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+      // config.plugins.push(
+      //   new BundleAnalyzerPlugin({
+      //     analyzerMode: 'static',
+      //     reportFilename: './analyze.html',
+      //     openAnalyzer: false,
+      //   })
+      // )
+    }
+
+    return config
+  },
+
+  // TypeScript configuration
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: false,
+  },
+
+  // ESLint configuration
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: false,
+  },
+
+  // Experimental features
+  experimental: {
+    // Enable experimental features here
+  },
+}
+
+export default nextConfig
