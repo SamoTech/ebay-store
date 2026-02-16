@@ -5,12 +5,16 @@ export function middleware(request: NextRequest) {
   // Get the pathname
   const { pathname } = request.nextUrl;
 
-  // Skip middleware for static files, API routes, and Next.js internals
+  // Skip middleware for sitemaps, robots.txt, static files, API routes, and Next.js internals
   if (
+    pathname === '/sitemap.xml' ||
+    pathname === '/sitemap-index.xml' ||
+    pathname === '/robots.txt' ||
+    pathname.startsWith('/sitemaps/') ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/static') ||
-    pathname.match(/\.(ico|png|jpg|jpeg|svg|gif|webp|css|js|woff|woff2|ttf|otf)$/)
+    pathname.match(/\.(ico|png|jpg|jpeg|svg|gif|webp|css|js|woff|woff2|ttf|otf|xml|txt)$/)
   ) {
     return NextResponse.next();
   }
@@ -35,7 +39,9 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - public folder files
+     * - sitemap files
+     * - robots.txt
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)).*)',
+    '/((?!_next/static|_next/image|favicon.ico|sitemap|robots|sitemaps|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|xml|txt)).*)',
   ],
 };
