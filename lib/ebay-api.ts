@@ -97,21 +97,25 @@ let tokenCache: { token: string; expiresAt: number } | null = null;
 async function getEbayAccessToken(): Promise<string | null> {
   // Priority 1: Manual token from env
   if (EBAY_CONFIG.oauthToken) {
+    console.log('✅ Using manual OAuth token from env');
     return EBAY_CONFIG.oauthToken;
   }
 
   // Priority 2: Cached token (if still valid)
   if (tokenCache && tokenCache.expiresAt > Date.now()) {
+    console.log('✅ Using cached OAuth token');
     return tokenCache.token;
   }
 
   // Priority 3: Generate new token via client credentials
   const { clientId, clientSecret, oauthScope } = EBAY_CONFIG;
   if (!clientId || !clientSecret) {
-    return null; // Fall back to Finding API
+    console.warn('⚠️ No OAuth credentials, cannot get token');
+    return null;
   }
 
   try {
+    console.log('🔄 Requesting new eBay OAuth token...');
     const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
     const body = new URLSearchParams({
       grant_type: 'client_credentials',
@@ -125,11 +129,11 @@ async function getEbayAccessToken(): Promise<string | null> {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: body.toString(),
-      cache: 'no-store',
     });
 
     if (!response.ok) {
-      console.error('❌ Failed to get eBay OAuth token:', response.status);
+      const errorText = await response.text();
+      console.error('❌ Failed to get eBay OAuth token:', response.status, errorText);
       return null;
     }
 
@@ -140,7 +144,7 @@ async function getEbayAccessToken(): Promise<string | null> {
       expiresAt: Date.now() + Math.max(0, tokenData.expires_in - 60) * 1000,
     };
 
-    console.log('✅ eBay OAuth token acquired (Browse API)');
+    console.log(`✅ eBay OAuth token acquired (expires in ${tokenData.expires_in}s)`);
     return tokenCache.token;
   } catch (error) {
     console.error('❌ Error getting eBay access token:', error);
@@ -237,14 +241,16 @@ export async function searchEbayBrowseAPI(
   keyword: string,
   limit = 20
 ): Promise<EbaySearchResponse> {
-  const token = await getEbayAccessToken();
-
-  if (!token) {
-    console.warn('⚠️ No OAuth token available, falling back to Finding API');
-    return { itemSummaries: [], total: 0 };
-  }
-
   try {
+    const token = await getEbayAccessToken();
+
+    if (!token) {
+      console.warn('⚠️ No OAuth token available');
+      return { itemSummaries: [], total: 0 };
+    }
+
+    console.log(`🔍 Searching eBay Browse API: "${keyword}" (limit: ${limit})`);
+
     const response = await fetch(
       `${EBAY_BROWSE_API}/item_summary/search?q=${encodeURIComponent(keyword)}&limit=${limit}`,
       {
@@ -252,17 +258,18 @@ export async function searchEbayBrowseAPI(
           Authorization: `Bearer ${token}`,
           'X-EBAY-C-MARKETPLACE-ID': EBAY_CONFIG.marketplaceId,
         },
-        next: { revalidate: 3600 }, // Cache for 1 hour
       }
     );
 
     if (!response.ok) {
-      console.error('❌ eBay Browse API error:', response.status);
+      const errorText = await response.text();
+      console.error(`❌ eBay Browse API error (${response.status}):`, errorText);
       return { itemSummaries: [], total: 0 };
     }
 
     const data = await response.json();
-    console.log(`✅ eBay Browse API: Found ${data.itemSummaries?.length || 0} items for "${keyword}"`);
+    const itemCount = data.itemSummaries?.length || 0;
+    console.log(`✅ eBay Browse API: Found ${itemCount} items for "${keyword}"`);
     return data;
   } catch (error) {
     console.error('❌ Error fetching from eBay Browse API:', error);
@@ -286,7 +293,7 @@ export async function searchEbayFindingAPI(
 ): Promise<EbayProduct[]> {
   try {
     if (!EBAY_CONFIG.appId) {
-      console.warn('⚠️ eBay App ID not configured. API search disabled.');
+      console.warn('⚠️ eBay App ID not configured');
       return [];
     }
 
@@ -301,11 +308,9 @@ export async function searchEbayFindingAPI(
       `&paginationInput.entriesPerPage=${maxResults}` +
       `&sortOrder=BestMatch`;
 
-    console.log('🔍 Fetching from eBay Finding API:', keyword);
+    console.log(`🔍 Searching eBay Finding API: "${keyword}"`);
 
-    const response = await fetch(url, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
+    const response = await fetch(url);
 
     if (!response.ok) {
       console.error('❌ eBay Finding API error:', response.status, response.statusText);
@@ -352,17 +357,21 @@ export async function searchEbayProducts(
         .map((item, index) => mapBrowseItemToProduct(item, index, 'Search'))
         .filter((p): p is Product => p !== null);
     }
+    console.warn(`⚠️ Browse API returned no results for "${keyword}"`);
   }
 
-  // Fallback to Finding API
-  if (status.apiType === 'Finding' || status.apiType === 'Browse') {
+  // Fallback to Finding API if available
+  if (status.apiType === 'Finding' || (status.apiType === 'Browse' && EBAY_CONFIG.appId)) {
+    console.log('🔄 Falling back to Finding API...');
     const findingResults = await searchEbayFindingAPI(keyword, maxResults);
-    return findingResults
-      .map((item, index) => mapFindingItemToProduct(item, index, 'Search'))
-      .filter((p): p is Product => p !== null);
+    if (findingResults.length > 0) {
+      return findingResults
+        .map((item, index) => mapFindingItemToProduct(item, index, 'Search'))
+        .filter((p): p is Product => p !== null);
+    }
   }
 
-  console.warn('⚠️ No eBay API configured');
+  console.warn(`⚠️ No results found for "${keyword}"`);
   return [];
 }
 
