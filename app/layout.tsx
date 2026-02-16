@@ -1,303 +1,82 @@
-import { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "../components/Header";
-import { ToastProvider } from "../contexts/ToastContext";
-import { FavoritesProvider } from "../contexts/FavoritesContext";
-import { RecentlyViewedProvider } from "../contexts/RecentlyViewedContext";
-import { DarkModeProvider } from "../contexts/DarkModeContext";
-import { CurrencyProvider } from "../contexts/CurrencyContext";
-import Chatbot from "../components/Chatbot";
-import GoogleAnalytics from "../components/GoogleAnalytics";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import NewsletterPopup from "@/components/NewsletterPopup";
+import { ToastProvider } from "@/contexts/ToastContext";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 5,
-  themeColor: "#1e40af",
-};
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ebay-store.vercel.app"),
+  metadataBase: new URL('https://ebay-store.vercel.app'),
   title: {
-    default: "DealsHub - Best Deals & Discounts on eBay | Affiliate Store 2025",
-    template: "%s | DealsHub",
+    default: 'DealsHub - Find the Best eBay Deals & Offers',
+    template: '%s | DealsHub'
   },
-  description: "Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay. Find trending products at discounted prices with our affiliate store. Updated daily with 62+ products.",
+  description: 'Discover amazing deals on eBay with AI-powered search. Find electronics, fashion, home goods, and more at unbeatable prices. Shop smarter with DealsHub.',
   keywords: [
-    "eBay deals",
-    "best prices 2025",
-    "electronics deals",
-    "gaming consoles",
-    "sneakers investment",
-    "smart home devices",
-    "beauty products deals",
-    "collectibles investment",
-    "online shopping deals",
-    "affiliate marketing",
-    "discount codes",
-    "trending products 2025",
-    "MacBook deals",
-    "iPhone deals",
-    "PlayStation 5 deals",
-    "Nintendo Switch deals",
-    "Air Jordan sneakers",
-    "Dyson products deals",
-    "eBay shopping guide",
-    "best affiliate store",
+    'eBay deals',
+    'online shopping',
+    'best offers',
+    'discount products',
+    'eBay search',
+    'shopping deals',
+    'cheap products',
+    'online marketplace',
+    'deal finder',
+    'price comparison',
+    'electronics deals',
+    'fashion deals',
+    'home goods',
+    'bargain shopping'
   ],
-  authors: [{ name: "DealsHub Team" }],
-  creator: "DealsHub",
-  publisher: "DealsHub",
+  authors: [{ name: 'Ossama Hashim', url: 'https://github.com/SamoTech' }],
+  creator: 'SamoTech',
+  publisher: 'DealsHub',
   robots: {
     index: true,
     follow: true,
-    nocache: false,
     googleBot: {
       index: true,
       follow: true,
-      noimageindex: false,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
   },
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://ebay-store.vercel.app",
-    siteName: "DealsHub",
-    title: "DealsHub - Best Deals & Discounts on eBay | 62+ Trending Products",
-    description: "Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay. 62+ trending products updated daily.",
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://ebay-store.vercel.app',
+    title: 'DealsHub - Find the Best eBay Deals & Offers',
+    description: 'Discover amazing deals on eBay with AI-powered search. Shop smarter with DealsHub.',
+    siteName: 'DealsHub',
     images: [
       {
-        url: "/og-image.svg",
+        url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: "DealsHub - Best Deals on eBay Electronics, Gaming, Sneakers",
-        type: "image/svg+xml",
+        alt: 'DealsHub - Best eBay Deals Finder',
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    site: "@dealshub",
-    creator: "@dealshub",
-    title: "DealsHub - Best Deals & Discounts on eBay | 62+ Products",
-    description: "Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay.",
-    images: ["/og-image.svg"],
-  },
-  verification: {
-    google: "X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg",
-    yandex: "your-yandex-verification-code",
-    other: {
-      "msvalidate.01": "your-bing-verification-code",
-      "p:domain_verify": "your-pinterest-code",
-    },
+    card: 'summary_large_image',
+    title: 'DealsHub - Find the Best eBay Deals & Offers',
+    description: 'Discover amazing deals on eBay with AI-powered search. Shop smarter with DealsHub.',
+    creator: '@SamoTech',
+    images: ['/og-image.png'],
   },
   alternates: {
-    canonical: "https://ebay-store.vercel.app",
-    types: {
-      "application/rss+xml": "https://ebay-store.vercel.app/rss.xml",
-      "application/atom+xml": "https://ebay-store.vercel.app/rss.xml",
-    },
-    languages: {
-      "en-US": "https://ebay-store.vercel.app",
-      "en-GB": "https://ebay-store.vercel.app",
-      "en-CA": "https://ebay-store.vercel.app",
-    },
+    canonical: 'https://ebay-store.vercel.app',
   },
-  category: "shopping",
-  classification: "e-commerce, affiliate marketing, deals, online shopping",
-  referrer: "origin-when-cross-origin",
-  other: {
-    "pinterest-rich-pin": "true",
-    "reddit-og": "true",
-    "ai-content": "shopping deals affiliate",
+  verification: {
+    google: 'google-site-verification-code-here',
   },
-  appleWebApp: {
-    capable: true,
-    title: "DealsHub",
-    statusBarStyle: "black-translucent",
-  },
-  formatDetection: {
-    telephone: false,
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon-192x192.png", type: "image/png", sizes: "192x192" },
-      { url: "/icon-512x512.png", type: "image/png", sizes: "512x512" },
-    ],
-    apple: [
-      { url: "/apple-icon.png", sizes: "180x180" },
-      { url: "/icon-192x192.png", sizes: "192x192" },
-    ],
-    shortcut: "/favicon.ico",
-  },
-  manifest: "/manifest.json",
-};
-
-// JSON-LD Structured Data
-const structuredData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://ebay-store.vercel.app/#website",
-      url: "https://ebay-store.vercel.app",
-      name: "DealsHub",
-      description: "Best deals and discounts on eBay products - 62+ trending products in electronics, gaming, sneakers, smart home, beauty, and collectibles",
-      inLanguage: "en-US",
-      publisher: {
-        "@id": "https://ebay-store.vercel.app/#organization",
-      },
-      potentialAction: {
-        "@type": "SearchAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: "https://ebay-store.vercel.app/search?q={search_term_string}",
-        },
-        "query-input": "required name=search_term_string",
-      },
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://ebay-store.vercel.app/#organization",
-      name: "DealsHub",
-      url: "https://ebay-store.vercel.app",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://ebay-store.vercel.app/icon-512x512.png",
-        width: 512,
-        height: 512,
-        caption: "DealsHub Logo",
-      },
-      image: {
-        "@type": "ImageObject",
-        url: "https://ebay-store.vercel.app/og-image.svg",
-        width: 1200,
-        height: 630,
-      },
-      sameAs: [
-        "https://twitter.com/dealshub",
-        "https://www.facebook.com/dealshub",
-        "https://www.instagram.com/dealshub",
-        "https://www.pinterest.com/dealshub",
-        "https://www.reddit.com/r/dealshub",
-        "https://www.linkedin.com/company/dealshub",
-      ],
-      contactPoint: {
-        "@type": "ContactPoint",
-        contactType: "customer support",
-        availableLanguage: ["English"],
-      },
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://ebay-store.vercel.app/#webpage",
-      url: "https://ebay-store.vercel.app",
-      name: "DealsHub - Best Deals & Discounts on eBay",
-      isPartOf: {
-        "@id": "https://ebay-store.vercel.app/#website",
-      },
-      about: {
-        "@id": "https://ebay-store.vercel.app/#organization",
-      },
-      primaryImageOfPage: {
-        "@type": "ImageObject",
-        url: "https://ebay-store.vercel.app/og-image.svg",
-        width: 1200,
-        height: 630,
-      },
-      breadcrumb: {
-        "@id": "https://ebay-store.vercel.app/#breadcrumb",
-      },
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://ebay-store.vercel.app/#breadcrumb",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://ebay-store.vercel.app",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Products",
-          item: "https://ebay-store.vercel.app/#products",
-        },
-      ],
-    },
-    {
-      "@type": "ItemList",
-      name: "Product Categories",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Electronics",
-          item: "https://ebay-store.vercel.app/category/electronics",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Gaming",
-          item: "https://ebay-store.vercel.app/category/gaming",
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "Sneakers",
-          item: "https://ebay-store.vercel.app/category/sneakers",
-        },
-        {
-          "@type": "ListItem",
-          position: 4,
-          name: "Smart Home",
-          item: "https://ebay-store.vercel.app/category/smart-home",
-        },
-        {
-          "@type": "ListItem",
-          position: 5,
-          name: "Beauty",
-          item: "https://ebay-store.vercel.app/category/beauty",
-        },
-        {
-          "@type": "ListItem",
-          position: 6,
-          name: "Collectibles",
-          item: "https://ebay-store.vercel.app/category/collectibles",
-        },
-      ],
-    },
-    {
-      "@type": "Blog",
-      "@id": "https://ebay-store.vercel.app/blog",
-      url: "https://ebay-store.vercel.app/blog",
-      name: "DealsHub Blog",
-      description: "Shopping guides, product reviews, and affiliate marketing tips",
-      publisher: {
-        "@id": "https://ebay-store.vercel.app/#organization",
-      },
-    },
-  ],
+  category: 'e-commerce',
 };
 
 export default function RootLayout({
@@ -306,56 +85,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
-        <meta name="google-site-verification" content="X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#1e40af" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="DealsHub" />
-        <Script
-          id="structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-        <link rel="alternate" type="application/rss+xml" title="DealsHub Blog RSS" href="/rss.xml" />
-        <meta name="pinterest-rich-pin" content="true" />
-        <meta name="reddit-og" content="true" />
-        <meta name="ai-content" content="shopping deals affiliate products" />
-        <meta name="x-pinterest" content="nopin" />
+        <meta name="theme-color" content="#3b82f6" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* Google Analytics */}
-        <GoogleAnalytics />
-        
-        <DarkModeProvider>
-          <CurrencyProvider>
-            <ToastProvider>
-              <FavoritesProvider>
-                <RecentlyViewedProvider>
-                  <Header />
-                  {children}
-                  
-                  {/* ✅ AI Chatbot - Available on all pages */}
-                  <Chatbot />
-                  
-                  <SpeedInsights />
-                  <Analytics />
-                </RecentlyViewedProvider>
-              </FavoritesProvider>
-            </ToastProvider>
-          </CurrencyProvider>
-        </DarkModeProvider>
-        
-        {/* eBay Partner Network Tracking Script */}
-        <Script id="epn-config" strategy="afterInteractive">
-          {`window._epn = {campaign: 5338903178};`}
-        </Script>
-        <Script 
-          src="https://epnt.ebay.com/static/epn-smart-tools.js" 
-          strategy="afterInteractive"
-        />
+      <body className={inter.className}>
+        <ToastProvider>
+          <Navbar />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+          <NewsletterPopup delay={5000} />
+        </ToastProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -15,10 +15,21 @@ export default function robots(): MetadataRoute.Robots {
           '/private/',
         ],
       },
-      // Allow specific API endpoints if needed
       {
-        userAgent: '*',
-        allow: '/api/products/search',
+        userAgent: 'Googlebot',
+        allow: '/',
+        disallow: [
+          '/api/',
+          '/admin/',
+        ],
+      },
+      {
+        userAgent: 'Bingbot',
+        allow: '/',
+        disallow: [
+          '/api/',
+          '/admin/',
+        ],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
