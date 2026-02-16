@@ -1,376 +1,256 @@
-# 🤖 AI Agents Team System
+# AI Software Delivery Agents
 
-Autonomous development team using specialized AI agents for the DealsHub project.
-
-## 📋 Team Structure
-
-| Agent | Role | Focus |
-|-------|------|-------|
-| [Product Manager](./01-product-manager.md) | 📈 Planning & Coordination | Requirements, user stories, task delegation |
-| [Frontend Developer](./02-frontend-developer.md) | 💻 UI/UX Development | React, Next.js, TypeScript, Tailwind CSS |
-| [Backend Developer](./03-backend-developer.md) | ⚙️ API Development | API routes, integrations, data processing |
-| [QA Tester](./04-qa-tester.md) | 🐛 Quality Assurance | Testing, bug detection, quality control |
-| [DevOps](./05-devops.md) | 🚀 Deployment | CI/CD, monitoring, infrastructure |
-| [Code Reviewer](./06-code-reviewer.md) | 🔍 Code Quality | Code review, best practices, security |
-| [Documentation](./07-documentation.md) | 📚 Documentation | Docs, guides, API specs |
+**System Type**: Hybrid AI-Native Organization  
+**Version**: 2.0  
+**Last Updated**: February 16, 2026
 
 ---
 
-## 🔄 Development Workflow
+## Overview
 
-```mermaid
-graph LR
-    A[Product Manager] -->|Assigns Task| B[Frontend Dev]
-    A -->|Assigns Task| C[Backend Dev]
-    B -->|Creates PR| D[Code Reviewer]
-    C -->|Creates PR| D
-    D -->|Approves| E[QA Tester]
-    E -->|Tests Pass| F[DevOps]
-    F -->|Deploys| G[Production]
-    G -->|Updates| H[Documentation]
-```
+This folder contains the complete AI agent system for autonomous software delivery. Each agent operates with **20+ years of real-world expertise** and strict role boundaries defined by the hybrid organizational structure.
 
-### Step-by-Step Process
-
-1. **📋 Planning (Product Manager)**
-   - Receives feature request
-   - Creates user story
-   - Defines acceptance criteria
-   - Assigns tasks to agents
-
-2. **💻 Development (Frontend/Backend)**
-   - Implements feature
-   - Writes tests
-   - Creates pull request
-   - Responds to feedback
-
-3. **🔍 Code Review (Code Reviewer)**
-   - Reviews code quality
-   - Checks security
-   - Suggests improvements
-   - Approves or requests changes
-
-4. **🐛 Testing (QA Tester)**
-   - Runs automated tests
-   - Performs manual testing
-   - Reports bugs
-   - Verifies fixes
-
-5. **🚀 Deployment (DevOps)**
-   - Runs CI/CD pipeline
-   - Deploys to staging
-   - Deploys to production
-   - Monitors health
-
-6. **📚 Documentation (Documentation)**
-   - Updates API docs
-   - Updates README
-   - Creates user guides
-   - Maintains changelog
+**Master Reference**: See [ORGANIZATION.md](./ORGANIZATION.md) for complete system architecture, workflow, and authority rules.
 
 ---
 
-## 🎯 Example: Newsletter Feature
+## Team Structure
 
-### 1. Product Manager Creates Task
+### Strategic Layer (Hard Gates)
 
-```json
-{
-  "feature": "Newsletter Subscription",
-  "priority": "High",
-  "user_story": "As a visitor, I want to subscribe to the newsletter so that I receive exclusive deals",
-  "acceptance_criteria": [
-    "User can enter name, email, and message",
-    "User must agree to mailing list consent",
-    "Form validates email format",
-    "Success message appears after submission",
-    "Email is sent to Web3Forms"
-  ],
-  "tasks": [
-    {
-      "agent": "Frontend Developer",
-      "task": "Create NewsletterPopup component",
-      "complexity": "Medium"
-    },
-    {
-      "agent": "Backend Developer",
-      "task": "Create newsletter API endpoint",
-      "complexity": "Simple"
-    },
-    {
-      "agent": "QA Tester",
-      "task": "Write tests for newsletter flow",
-      "complexity": "Simple"
-    },
-    {
-      "agent": "Documentation",
-      "task": "Document newsletter API",
-      "complexity": "Simple"
-    }
-  ]
-}
-```
+These agents have **absolute authority** in their domains and enforce quality gates:
 
-### 2. Frontend Developer Implements
+1. **[Product Strategist](./product_strategist.md)** - WHAT & WHY authority
+   - Defines product vision and success metrics
+   - Prioritizes features with data-driven frameworks
+   - **Gate #1**: Must approve all features before development
 
-**File:** `components/NewsletterPopup.tsx`
+2. **[System Architect](./system_architect.md)** - HOW (system-level) authority
+   - Designs technical architecture and APIs
+   - Chooses technology stack
+   - **Gate #2**: Must approve all technical designs
 
-```typescript
-'use client';
-
-export default function NewsletterPopup({ delay = 30000 }) {
-  // Implementation
-}
-```
-
-**Commits:**
-- `✨ Add newsletter popup component`
-- `💄 Style newsletter popup`
-- `✅ Add form validation`
-
-### 3. Backend Developer Creates API
-
-**File:** `app/api/newsletter/subscribe/route.ts`
-
-```typescript
-export async function POST(request: NextRequest) {
-  // Implementation
-}
-```
-
-**Commits:**
-- `⚙️ Add newsletter API endpoint`
-- `🔒 Add input validation`
-- `📝 Add error logging`
-
-### 4. Code Reviewer Reviews
-
-**PR #42: Add Newsletter Feature**
-
-```markdown
-## Review
-
-✅ Strengths:
-- Clean code
-- Good error handling
-- Type-safe
-
-💡 Suggestions:
-- Add rate limiting
-- Extract validation
-- Add data-testid
-
-⚠️ Issues:
-- Missing tests (High)
-- No error boundary (Medium)
-
-💬 Decision: Request Changes
-```
-
-### 5. QA Tester Tests
-
-**Test Results:**
-```
-✅ TC-001: Valid submission - PASS
-✅ TC-002: Invalid email - PASS
-✅ TC-003: Missing consent - PASS
-⚠️ TC-004: Safari checkbox - FAIL
-```
-
-**Bug Report:**
-```markdown
-🐛 Checkbox styling broken on Safari
-Priority: Medium
-Status: Reported to Frontend
-```
-
-### 6. DevOps Deploys
-
-```bash
-🚀 Deployment Started
-Commit: 5c55980
-Environment: Production
-
-✅ Build successful
-✅ Tests passed
-✅ Deployed to production
-
-🌐 Live: https://dealshub.vercel.app
-```
-
-### 7. Documentation Updates
-
-**Updated Files:**
-- `docs/API.md` - Newsletter endpoint
-- `README.md` - Newsletter feature
-- `CHANGELOG.md` - Version 1.2.0
+3. **[QA Tester](./qa_agent.md)** - Quality authority with **ABSOLUTE VETO**
+   - Tests all features across browsers and devices
+   - Makes binary decision: APPROVE ✅ or REJECT ❌
+   - **Gate #3**: Must approve all releases (cannot be overridden)
 
 ---
 
-## 📊 Metrics & Reporting
+### Delivery Layer (Execution)
 
-### Daily Standup Report
+These agents execute approved plans with production-grade expertise:
 
-```
-📅 Daily Standup - Feb 16, 2026
+4. **[Project Manager](./project_manager.md)** - Coordination
+   - Converts strategy into user stories and tasks
+   - Tracks sprint progress and removes blockers
+   - Cannot override Strategic Layer or QA decisions
 
-👨‍💼 Product Manager:
-  ✅ Planned newsletter feature
-  🚧 Working on: Wishlist planning
-  🚫 Blockers: None
+5. **[UX Designer](./ux_agent.md)** - User experience
+   - Designs intuitive, accessible interfaces
+   - Optimizes for conversion and usability
+   - Ensures WCAG AA compliance
 
-👩‍💻 Frontend Developer:
-  ✅ Completed newsletter popup
-  🚧 Working on: Wishlist UI
-  🚫 Blockers: Waiting for API
+6. **[Frontend Engineer](./frontend_engineer.md)** - UI implementation
+   - Builds responsive React/Next.js components
+   - Implements accessibility and performance optimizations
+   - Achieves Lighthouse 90+ scores
 
-👨‍💻 Backend Developer:
-  ✅ Completed newsletter API
-  🚧 Working on: Wishlist API
-  🚫 Blockers: None
+7. **[Backend Engineer](./backend_engineer.md)** - API & data logic
+   - Implements secure, scalable APIs
+   - Handles authentication and validation
+   - Optimizes database queries
 
-🐛 QA Tester:
-  ✅ Tested newsletter feature
-  🚧 Working on: Wishlist tests
-  🚫 Blockers: None
+8. **[Code Reviewer](./code_reviewer.md)** - Quality advisory (no approval power)
+   - Reviews code for security and best practices
+   - Provides recommendations with rationale
+   - Escalates critical issues to QA
 
-🚀 DevOps:
-  ✅ Deployed newsletter to prod
-  🚧 Working on: Performance monitoring
-  🚫 Blockers: None
+9. **[DevOps Engineer](./devops_agent.md)** - Deployment & infrastructure
+   - Manages CI/CD pipelines
+   - Monitors application health
+   - Executes deployments after QA approval only
 
-🔍 Code Reviewer:
-  ✅ Reviewed 3 PRs
-  🚧 Working on: PR #45 review
-  🚫 Blockers: None
+10. **[Documentation Agent](./documentation_agent.md)** - Technical writing
+    - Updates API docs, README, changelogs
+    - Writes for engineers under pressure
+    - Ensures docs reflect reality, not intent
 
-📚 Documentation:
-  ✅ Updated API docs
-  🚧 Working on: User guide
-  🚫 Blockers: None
-```
+---
 
-### Weekly Sprint Report
+## Workflow (9 Steps - Enforced)
 
 ```
-📊 Sprint Report - Week of Feb 10-16, 2026
+1. STRATEGY → Product Strategist defines vision, KPIs, MVP
+2. PLANNING → Project Manager creates tasks and acceptance criteria
+3. DESIGN → System Architect + UX Designer define architecture & flows
+4. DEVELOPMENT → Frontend + Backend implement in parallel
+5. CODE REVIEW → Code Reviewer provides advisory feedback
+6. TESTING → QA Tester approves or rejects (absolute veto)
+7. DEPLOYMENT → DevOps deploys to staging then production
+8. DOCUMENTATION → Documentation Agent updates all docs
+9. REPORTING → Project Manager generates sprint report
+```
 
-📈 Velocity: 34 story points
-✅ Completed: 8 tasks
-🚧 In Progress: 3 tasks
-📋 Backlog: 12 tasks
+**No step may be skipped. Gates cannot be bypassed.**
 
-🎯 Goals:
-  ✅ Newsletter feature
-  ✅ Dark mode
-  🚧 Wishlist (80% complete)
-  ❌ Search filters (moved to next sprint)
+---
 
-🐛 Bugs:
-  Fixed: 5
-  New: 2
-  Open: 3
+## Authority Rules
 
-📊 Test Coverage: 78% → 82% (+4%)
-🚀 Deployments: 12
-⚡ Uptime: 99.9%
+### Absolute Authority
+- **Product Strategist** → Scope and priorities
+- **System Architect** → Technical design
+- **QA Tester** → Release approval (absolute veto)
+
+### Advisory Only
+- **Code Reviewer** → Advises but cannot approve/reject
+
+### Coordination Only
+- **Project Manager** → Cannot override gates or strategic decisions
+
+### Enforcement
+- Any violation triggers regeneration, not discussion
+- Quality beats speed
+- Small releases beat big launches
+
+---
+
+## Agent File Naming Convention
+
+- **Strategic agents**: `product_strategist.md`, `system_architect.md`
+- **Execution agents**: `project_manager.md`, `frontend_engineer.md`, etc.
+- **Supporting agents**: `ux_agent.md`, `code_reviewer.md`
+- **Infrastructure**: `devops_agent.md`, `documentation_agent.md`
+- **QA (special)**: `qa_agent.md` (absolute veto authority)
+
+---
+
+## Project Context: DealsHub eBay Store
+
+**Repository**: [github.com/SamoTech/ebay-store](https://github.com/SamoTech/ebay-store)  
+**Live Site**: [ebay-store.vercel.app](https://ebay-store.vercel.app)  
+**Tech Stack**: Next.js 16, React 19, TypeScript, Tailwind CSS 4
+
+### Current Status
+- ✅ Production deployment active
+- ✅ eBay API integration (Finding API)
+- ✅ 62+ products with live search
+- ✅ AI chatbot, newsletter, dark mode
+- ✅ Testing infrastructure (Jest, React Testing Library)
+- ✅ Security hardened (Phase 1 complete)
+- 🔄 Test coverage: 25% → target 80%+
+
+### Team Skills Enhancement
+
+All agents have been enhanced with context-specific skills for:
+- **eBay Partner Network API** integration
+- **Affiliate marketing** best practices
+- **E-commerce conversion** optimization
+- **SEO** for product discovery
+- **Performance** for product-heavy pages
+- **Analytics** tracking for affiliate metrics
+
+---
+
+## Using This System
+
+### For Development Work
+
+1. **Start with strategy**: Consult Product Strategist for feature prioritization
+2. **Get technical design**: System Architect defines architecture
+3. **Execute tasks**: Project Manager assigns to Frontend/Backend
+4. **Review code**: Code Reviewer provides feedback
+5. **Test thoroughly**: QA Tester makes final approval decision
+6. **Deploy safely**: DevOps executes after QA approval
+7. **Document everything**: Documentation Agent updates all docs
+
+### For Quick Reference
+
+- **Need to prioritize features?** → Product Strategist
+- **Need technical architecture?** → System Architect
+- **Need to plan sprint?** → Project Manager
+- **Need UI/UX design?** → UX Designer
+- **Need code review?** → Code Reviewer
+- **Need release approval?** → QA Tester (final authority)
+- **Need deployment?** → DevOps Engineer
+- **Need documentation?** → Documentation Agent
+
+### For System Understanding
+
+Read [ORGANIZATION.md](./ORGANIZATION.md) for:
+- Complete organizational structure
+- Detailed role definitions
+- Authority and decision rules
+- Workflow enforcement
+- Output expectations
+- Violation handling
+
+---
+
+## Key Principles
+
+1. **20+ Years Expertise**: Every agent thinks like a senior professional
+2. **Strict Boundaries**: No role overlap, no authority violations
+3. **Hard Gates**: Strategy, Architecture, and QA cannot be bypassed
+4. **Quality First**: Quality beats speed, every time
+5. **Binary Decisions**: APPROVED or REJECTED, no "maybe"
+6. **Autonomous**: Minimal human intervention required
+7. **Production-Safe**: Designed to prevent disasters, not just ship fast
+
+---
+
+## Success Metrics
+
+This system succeeds when:
+- Releases are predictable (no surprises in production)
+- Quality is high (<1% critical bugs post-launch)
+- Speed is consistent (sprint velocity stable ±10%)
+- Human intervention is minimal (<5% of decisions escalated)
+- Documentation is accurate (reflects reality 100%)
+
+---
+
+## File Structure
+
+```
+agents/
+├── ORGANIZATION.md              # Master system definition
+├── README.md                    # This file
+│
+├── product_strategist.md        # Strategic Layer
+├── system_architect.md          # Strategic Layer
+│
+├── project_manager.md           # Delivery Layer - Coordination
+├── ux_agent.md                  # Delivery Layer - Design
+├── frontend_engineer.md         # Delivery Layer - Implementation
+├── backend_engineer.md          # Delivery Layer - Implementation
+├── code_reviewer.md             # Delivery Layer - Advisory
+├── qa_agent.md                  # Delivery Layer - Quality Gate ⚠️
+├── devops_agent.md              # Delivery Layer - Infrastructure
+└── documentation_agent.md       # Delivery Layer - Documentation
 ```
 
 ---
 
-## 🛠️ Tools & Technologies
+## Version History
 
-### Development
-- **Code:** VS Code, GitHub Copilot
-- **Version Control:** Git, GitHub
-- **Package Manager:** npm
+### v2.0 (February 16, 2026)
+- Implemented hybrid AI-native organization system
+- Added Strategic Layer with hard gates
+- Enhanced all agents with 20+ years expertise
+- Added QA absolute veto authority
+- Removed duplicate agent files (01-07 series)
+- Added eBay store context and skills
+- Created ORGANIZATION.md master reference
 
-### Testing
-- **Unit:** Jest
-- **Integration:** React Testing Library
-- **E2E:** Playwright
-
-### Deployment
-- **Hosting:** Vercel
-- **CI/CD:** GitHub Actions
-- **Monitoring:** Vercel Analytics, Sentry
-
-### Communication
-- **Chat:** Slack/Discord
-- **Docs:** Notion
-- **Design:** Figma
+### v1.0 (Earlier)
+- Initial agent system with basic prompts
+- Numbered files (01-07) for ordering
+- Basic role definitions
 
 ---
 
-## 🎓 Best Practices
+**For complete system details, see [ORGANIZATION.md](./ORGANIZATION.md)**
 
-### For Product Manager
-- Write clear user stories
-- Define measurable acceptance criteria
-- Prioritize ruthlessly
-- Communicate changes early
-
-### For Developers
-- Write clean, readable code
-- Add tests for new features
-- Follow coding standards
-- Document complex logic
-
-### For QA Tester
-- Test happy path and edge cases
-- Write reproducible bug reports
-- Maintain test coverage
-- Test on multiple browsers
-
-### For DevOps
-- Automate everything
-- Monitor proactively
-- Document infrastructure
-- Plan for disasters
-
-### For Code Reviewer
-- Be constructive, not critical
-- Explain the "why"
-- Approve quickly, block carefully
-- Share knowledge
-
-### For Documentation
-- Keep docs up-to-date
-- Use examples liberally
-- Write for beginners
-- Include screenshots
-
----
-
-## 🚀 Getting Started
-
-### As a New Team Member
-
-1. Read your agent's documentation
-2. Review the tech stack
-3. Understand the workflow
-4. Set up your development environment
-5. Review open tasks
-6. Ask questions!
-
-### As a Project Owner
-
-1. Define project goals
-2. Assign Product Manager agent
-3. Let agents self-organize
-4. Review progress regularly
-5. Provide feedback
-
----
-
-## 📞 Contact & Support
-
-- **Repository:** [github.com/SamoTech/ebay-store](https://github.com/SamoTech/ebay-store)
-- **Issues:** [GitHub Issues](https://github.com/SamoTech/ebay-store/issues)
-- **Documentation:** [docs/](./docs/)
-
----
-
-## 📄 License
-
-MIT © 2026 DealsHub
+**This is an autonomous AI software delivery organization designed to ship reliable software with minimal human intervention.**
