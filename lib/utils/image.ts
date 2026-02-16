@@ -94,7 +94,8 @@ export async function extractDominantColor(imageUrl: string): Promise<string> {
 export async function isImageAccessible(url: string): Promise<boolean> {
   try {
     const response = await fetch(url, { method: 'HEAD' })
-    return response.ok && response.headers.get('content-type')?.startsWith('image/')
+    const contentType = response.headers.get('content-type')
+    return response.ok && (contentType?.startsWith('image/') ?? false)
   } catch {
     return false
   }
