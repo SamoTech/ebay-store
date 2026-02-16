@@ -1,4 +1,4 @@
-import { searchEbayProducts, mapEbayItemToProduct, getEbayIntegrationStatus } from '@/lib/ebay-api';
+import { searchEbayProducts, mapBrowseItemToProduct, getEbayIntegrationStatus } from '@/lib/ebay-api';
 import { NextResponse } from 'next/server';
 
 /**
@@ -35,11 +35,11 @@ export async function GET() {
       );
     }
     
-    // Try to fetch sample products
+    // Try to fetch sample products (returns Product[] already mapped)
     const testQuery = 'electronics';
-    const response = await searchEbayProducts(testQuery, 5);
+    const products = await searchEbayProducts(testQuery, 5);
     
-    if (!response.itemSummaries || response.itemSummaries.length === 0) {
+    if (!products || products.length === 0) {
       return NextResponse.json(
         {
           success: false,
@@ -51,12 +51,8 @@ export async function GET() {
       );
     }
     
-    // Map first product to verify affiliate tracking
-    const sampleProduct = mapEbayItemToProduct(
-      response.itemSummaries[0],
-      1,
-      'Electronics'
-    );
+    // Get sample product (already mapped by searchEbayProducts)
+    const sampleProduct = products[0];
     
     // Verify affiliate tracking
     const hasAffiliateTracking = sampleProduct?.affiliateLink.includes('campid=5338903178');
@@ -66,16 +62,15 @@ export async function GET() {
       status,
       test: {
         query: testQuery,
-        productsFound: response.itemSummaries.length,
-        totalAvailable: response.total || 0,
+        productsFound: products.length,
         affiliateTrackingActive: hasAffiliateTracking,
-        sampleProduct: sampleProduct ? {
+        sampleProduct: {
           title: sampleProduct.title,
           price: sampleProduct.price,
           currency: sampleProduct.currency,
           affiliateLink: sampleProduct.affiliateLink,
           hasCorrectCampaignId: hasAffiliateTracking,
-        } : null,
+        },
       },
       timestamp: new Date().toISOString(),
     });

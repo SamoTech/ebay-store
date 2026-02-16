@@ -2,100 +2,64 @@ import { NextResponse } from 'next/server';
 import { featuredProducts } from '../../../../lib/products';
 import {
   getEbayIntegrationStatus,
-  mapEbayItemToProduct,
   searchEbayProducts,
 } from '../../../../lib/ebay-api';
 
 export const revalidate = 3600; // 1 hour
 
-// Daily rotating search queries for variety
-const dealQueries = [
-  'electronics trending deals discount',
-  'gaming console playstation xbox deals',
-  'nike jordan sneakers limited',
-  'apple macbook iphone deals',
-  'smart home alexa echo discount',
-  'beauty dyson trending deals',
-  'collectibles pokemon cards rare',
-];
-
-// Get query based on day of year
-function getDailyQuery(): string {
-  const today = new Date();
-  const start = new Date(today.getFullYear(), 0, 0);
-  const diff = today.getTime() - start.getTime();
-  const dayOfYear = Math.floor(diff / 86400000);
-  
-  return dealQueries[dayOfYear % dealQueries.length];
-}
-
-// Get deal index based on day of year
-function getDealIndex(totalDeals: number): number {
-  const today = new Date();
-  const start = new Date(today.getFullYear(), 0, 0);
-  const diff = today.getTime() - start.getTime();
-  const dayOfYear = Math.floor(diff / 86400000);
-  
-  return dayOfYear % totalDeals;
-}
-
+/**
+ * Get daily deal - rotates featured products or fetches trending from eBay
+ */
 export async function GET() {
-  const integration = getEbayIntegrationStatus();
-
-  // Select deal from featured products (with original prices = discounts)
-  const dealsWithDiscounts = featuredProducts.filter(p => p.originalPrice && p.originalPrice > p.price);
-  const dealIndex = getDealIndex(dealsWithDiscounts.length);
-  const staticDeal = dealsWithDiscounts[dealIndex];
-
-  // If API disabled, return static featured product
-  if (integration.mode === 'disabled') {
-    return NextResponse.json({
-      source: 'static',
-      deal: staticDeal,
-      rotatesAt: 'midnight',
-    });
-  }
-
   try {
-    // Fetch products with today's query
-    const query = getDailyQuery();
-    const data = await searchEbayProducts(query, 20);
-    const items = data.itemSummaries || [];
+    const status = getEbayIntegrationStatus();
 
-    // Map to our product format
-    const dealProducts = items
-      .map((item, idx) => mapEbayItemToProduct(item, idx + 1000, 'Deal'))
-      .filter(Boolean);
+    // Use eBay API if available
+    if (status.mode !== 'disabled') {
+      const dayOfWeek = new Date().getDay();
+      const trendingKeywords = [
+        'iPhone 15 Pro',
+        'PlayStation 5',
+        'Nike Air Jordan',
+        'MacBook Pro M3',
+        'Samsung Galaxy S24',
+        'Nintendo Switch OLED',
+        'Apple Watch Series 9',
+      ];
 
-    if (dealProducts.length > 0) {
-      // Select deal based on day (for consistency throughout the day)
-      const selectedDeal = dealProducts[getDealIndex(dealProducts.length)];
+      const keyword = trendingKeywords[dayOfWeek];
+      console.log(`📅 Daily deal keyword: ${keyword}`);
 
-      return NextResponse.json({
-        source: 'ebay_live',
-        deal: selectedDeal,
-        rotatesAt: 'midnight',
-        totalDealsAvailable: dealProducts.length,
-        query,
-      });
+      // searchEbayProducts returns Product[] already mapped
+      const products = await searchEbayProducts(keyword, 1);
+
+      if (products.length > 0) {
+        const deal = products[0];
+        return NextResponse.json({
+          deal,
+          source: 'ebay-api',
+          keyword,
+        });
+      }
     }
 
-    // Fallback to static if no products found
+    // Fallback to featured products
+    const randomIndex = Math.floor(Math.random() * featuredProducts.length);
+    const deal = featuredProducts[randomIndex];
+
     return NextResponse.json({
-      source: 'fallback_static',
-      deal: staticDeal,
-      rotatesAt: 'midnight',
-      message: 'No deals found from API; using curated deal',
+      deal,
+      source: 'fallback',
     });
   } catch (error) {
-    console.error('Error fetching daily deal:', error);
+    console.error('❌ Error fetching daily deal:', error);
 
-    // Fallback to static on error
+    const randomIndex = Math.floor(Math.random() * featuredProducts.length);
+    const deal = featuredProducts[randomIndex];
+
     return NextResponse.json({
-      source: 'fallback_static',
-      deal: staticDeal,
-      rotatesAt: 'midnight',
-      error: 'API error',
+      deal,
+      source: 'fallback-error',
     });
   }
 }
