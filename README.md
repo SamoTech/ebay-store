@@ -42,6 +42,8 @@
 - ⭐ **Favorites System** - Save and track your favorite products
 - 📧 **Newsletter** - Subscribe for exclusive deals and updates
 - 🔔 **Price Alerts** - Get notified when prices drop
+- 🔄 **Recently Viewed** - Track your browsing history
+- 🎨 **Product Comparison** - Compare multiple products side-by-side
 
 ### Technical Features
 - ⚡ **ISR (Incremental Static Regeneration)** - Lightning-fast page loads with fresh content
@@ -50,7 +52,7 @@
 - 🎨 **Responsive Design** - Perfect on mobile, tablet, and desktop
 - ♿ **Accessibility** - WCAG 2.1 AA compliant
 - 📊 **Analytics** - Vercel Analytics & Speed Insights integrated
-- 🔒 **Security** - Rate limiting, input validation, secure headers
+- 🔒 **Security Middleware** - Rate limiting, input validation, secure headers
 - 🧪 **Comprehensive Testing** - 65%+ test coverage with Jest
 
 ---
@@ -102,59 +104,117 @@ See [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for detailed configuration.
 ```
 ebay-store/
 ├── app/                      # Next.js 16 App Router
+│   ├── about/               # About page
 │   ├── api/                 # API routes
 │   │   └── newsletter/      # Newsletter subscription
-│   ├── product/[id]/        # Product pages (ISR enabled)
-│   ├── category/[slug]/     # Category pages (ISR enabled)
 │   ├── blog/                # Blog section
-│   ├── layout.tsx           # Root layout
+│   │   └── [slug]/          # Individual blog posts
+│   ├── category/[slug]/     # Category pages (ISR enabled)
+│   ├── compare/             # Product comparison tool
+│   ├── contact/             # Contact page
+│   ├── faq/                 # Frequently asked questions
+│   ├── favorites/           # User favorites page
+│   ├── privacy/             # Privacy policy
+│   ├── product/[id]/        # Product pages (ISR enabled)
+│   ├── search/              # Search results page
+│   ├── sitemap.xml/         # Dynamic sitemap generation
+│   ├── terms/               # Terms of service
+│   ├── layout.tsx           # Root layout with providers
+│   ├── loading.tsx          # Global loading state
+│   ├── not-found.tsx        # 404 page
 │   └── page.tsx             # Homepage
 ├── components/              # React components (19 total)
-│   ├── ErrorBoundary.tsx    # Error handling
-│   ├── Header.tsx           # Navigation
-│   ├── Footer.tsx           # Footer
-│   ├── ProductCard.tsx      # Product display
-│   ├── SearchBar.tsx        # Search functionality
-│   ├── Chatbot.tsx          # AI assistant
-│   └── ...                  # 13 more components
+│   ├── BlogSkeleton.tsx     # Blog loading skeleton
+│   ├── CategoryPageClient.tsx # Category page client component
+│   ├── Chatbot.tsx          # AI shopping assistant
+│   ├── DealOfTheDay.tsx     # Daily deal showcase
+│   ├── ErrorBoundary.tsx    # Error handling wrapper
+│   ├── FilterSidebar.tsx    # Product filtering
+│   ├── Footer.tsx           # Site footer
+│   ├── GoogleAnalytics.tsx  # GA4 integration
+│   ├── Header.tsx           # Navigation header
+│   ├── PriceAlertForm.tsx   # Price alert subscription
+│   ├── ProductCard.tsx      # Product display card
+│   ├── ProductPageClient.tsx # Product page client component
+│   ├── ProductSkeleton.tsx  # Product loading skeleton
+│   ├── RelatedProducts.tsx  # Related products display
+│   ├── SearchBar.tsx        # Search with autocomplete
+│   ├── ShareButton.tsx      # Social sharing
+│   ├── SocialShare.tsx      # Social media sharing
+│   ├── TrustBadges.tsx      # Trust indicators
+│   └── VoiceSearch.tsx      # Voice search input
 ├── contexts/                # React contexts (5 total)
-│   ├── DarkModeContext.tsx  # Theme management
-│   ├── FavoritesContext.tsx # Favorites system
-│   ├── CurrencyContext.tsx  # Currency conversion
-│   └── ...                  # 2 more contexts
+│   ├── CurrencyContext.tsx  # Currency conversion & formatting
+│   ├── DarkModeContext.tsx  # Theme management (light/dark)
+│   ├── FavoritesContext.tsx # Favorites management
+│   ├── RecentlyViewedContext.tsx # Recently viewed products tracking
+│   └── ToastContext.tsx     # Toast notification system
+├── content/                 # Content & data files
+│   └── blog/                # Blog posts (MDX/Markdown)
 ├── lib/                     # Utilities & business logic
-│   ├── ebay-api.ts         # eBay API integration
-│   ├── products.ts         # Product data
-│   ├── env.ts              # Environment validation
-│   ├── rate-limit.ts       # API rate limiting
-│   ├── analytics.ts        # Analytics tracking
-│   ├── utils/              # Utility functions
-│   │   ├── cache.ts        # Caching layer
-│   │   └── image.ts        # Image optimization
-│   └── seo/                # SEO utilities
-│       ├── metadata.ts     # Site metadata
-│       └── structured-data.ts # JSON-LD schemas
+│   ├── analytics.ts         # Analytics tracking utilities
+│   ├── blog-data.ts         # Blog posts data source
+│   ├── ebay-api.ts          # eBay API integration
+│   ├── env-validation.ts    # Environment variable validation
+│   ├── env.ts               # Environment configuration
+│   ├── error-handler.ts     # Error handling utilities
+│   ├── products.ts          # Product data & operations
+│   ├── rate-limit.ts        # API rate limiting
+│   ├── schema.ts            # Data validation schemas
+│   ├── seo.ts               # SEO utilities
+│   ├── validation.ts        # Input validation helpers
+│   ├── server/              # Server-only utilities
+│   │   └── jsonStore.ts     # JSON data storage
+│   ├── seo/                 # SEO utilities
+│   │   ├── metadata.ts      # Dynamic metadata generation
+│   │   └── structured-data.ts # JSON-LD schemas
+│   └── utils/               # General utility functions
+│       ├── cache.ts         # Caching layer
+│       └── image.ts         # Image optimization helpers
 ├── __tests__/              # Test suites (65%+ coverage)
+│   ├── api/                # API route tests
+│   │   └── newsletter/     # Newsletter API tests (14 tests)
 │   ├── components/         # Component tests
-│   ├── lib/                # Utility tests
-│   └── integration/        # Integration tests
-├── agents/                 # AI Agent system
-│   ├── README.md           # Agent documentation
-│   └── ORGANIZATION.md     # Team structure
-├── docs/                   # Documentation
-│   ├── API_DOCUMENTATION.md
-│   ├── COMPONENTS.md
-│   ├── TESTING_GUIDE.md
-│   ├── PERFORMANCE.md
-│   ├── ACCESSIBILITY_CHECKLIST.md
-│   └── ...                 # 10+ more docs
+│   │   ├── ErrorBoundary.test.tsx (12 tests)
+│   │   └── ProductCard.test.tsx (15 tests)
+│   ├── integration/        # Integration tests
+│   │   ├── product-flow.test.tsx
+│   │   └── favorites-flow.test.tsx
+│   └── lib/                # Utility tests
+│       ├── cache.test.ts (20 tests)
+│       ├── image.test.ts (15 tests)
+│       ├── metadata.test.ts (25 tests)
+│       └── structured-data.test.ts
+├── agents/                 # AI Agent system documentation
+│   ├── README.md           # Agent system overview
+│   └── ORGANIZATION.md     # 11-agent team structure
+├── docs/                   # Documentation (15+ files)
+│   ├── API_DOCUMENTATION.md # Complete API reference
+│   ├── COMPONENTS.md       # Component library docs
+│   ├── TESTING_GUIDE.md    # Testing best practices
+│   ├── PERFORMANCE.md      # Performance optimization guide
+│   ├── ACCESSIBILITY_CHECKLIST.md # WCAG 2.1 compliance
+│   ├── DEPLOYMENT_COMPLETE.md # Deployment instructions
+│   ├── SEO_OPTIMIZATION.md # SEO best practices
+│   ├── SETUP_GUIDE.md      # Detailed setup guide
+│   ├── SPRINT_SECURITY_FIXES.md # Security improvements
+│   └── FINAL_STATUS.md     # Project status report
 ├── public/                 # Static assets
-│   ├── icons/             # PWA icons
-│   └── images/            # Images
-├── next.config.ts         # Next.js configuration
-├── jest.config.js         # Jest configuration
-├── tsconfig.json          # TypeScript configuration
-└── package.json           # Dependencies
+│   ├── icons/              # PWA & app icons
+│   ├── images/             # Static images
+│   └── robots.txt          # Robots file
+├── scripts/                # Build & utility scripts
+│   ├── verify-apis.mjs     # API validation script
+│   └── check-conflicts.mjs # Conflict detection
+├── middleware.ts           # Next.js middleware (security headers)
+├── next.config.ts          # Next.js configuration (ISR, images, bundle analyzer)
+├── jest.config.js          # Jest test configuration
+├── jest.setup.js           # Jest setup & mocks
+├── tsconfig.json           # TypeScript configuration
+├── postcss.config.mjs      # PostCSS configuration
+├── eslint.config.mjs       # ESLint configuration
+├── vercel.json             # Vercel deployment config
+└── package.json            # Dependencies & scripts
 ```
 
 ---
@@ -169,6 +229,7 @@ ebay-store/
 
 ### Backend & APIs
 - **Next.js API Routes** - Serverless API endpoints
+- **Next.js Middleware** - Request/response interception & security
 - **eBay Partner Network API** - Product data & affiliate links
 - **Web3Forms** - Newsletter subscription service
 
@@ -187,7 +248,7 @@ ebay-store/
 - **[Vercel](https://vercel.com/)** - Hosting & deployment
 - **Vercel Analytics** - Real-user monitoring
 - **Speed Insights** - Core Web Vitals tracking
-- **GitHub Actions** - CI/CD (future)
+- **GitHub** - Version control
 
 ### SEO & Analytics
 - **Google Analytics 4** - User analytics
@@ -348,7 +409,7 @@ See [DEPLOYMENT_COMPLETE.md](docs/DEPLOYMENT_COMPLETE.md) for detailed instructi
 - ✅ **Environment validation** - Startup checks for required vars
 - ✅ **Rate limiting** - 5 req/15min for newsletter, 100 req/hr for eBay
 - ✅ **Input sanitization** - All user inputs validated
-- ✅ **Security headers** - HSTS, CSP, XSS protection
+- ✅ **Security headers** - Middleware adds HSTS, CSP, XSS protection
 - ✅ **HTTPS only** - Enforced in production
 
 ---
@@ -415,6 +476,8 @@ See [agents/README.md](agents/README.md) for the complete agent system.
 
 - **Lines of Code**: 15,000+
 - **Components**: 19
+- **Contexts**: 5
+- **Pages/Routes**: 15+
 - **API Routes**: 3+
 - **Test Files**: 11
 - **Test Coverage**: 65%+
@@ -438,7 +501,7 @@ Free to use for personal and commercial projects.
 
 - 🌐 GitHub: [@SamoTech](https://github.com/SamoTech)
 - 📧 Email: samo.hossam@gmail.com
-- 🔗 LinkedIn: [Connect with me](https://linkedin.com/in/ossama-hashim)
+- 🔗 LinkedIn: [ossamahashim](https://www.linkedin.com/in/ossamahashim/)
 - 🌍 Location: Al Haram, Giza, Egypt
 
 ---
