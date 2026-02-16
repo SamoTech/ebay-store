@@ -16,9 +16,10 @@ const categoryQueryMap: Record<string, { query: string; categoryName: string }> 
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = params;
+  // Next.js 16: params is now a Promise
+  const { slug } = await params;
 
   const categoryInfo = categoryQueryMap[slug];
   if (!categoryInfo) {
