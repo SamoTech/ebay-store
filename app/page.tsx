@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import ProductCard from '../components/ProductCard';
-import ProductSkeleton, { ProductSkeletonGrid } from '../components/ProductSkeleton';
-import Footer from '../components/Footer';
-import DealOfTheDay from '../components/DealOfTheDay';
-import NewsletterPopup from '../components/NewsletterPopup';
-import { useToast } from '../contexts/ToastContext';
-import { allProducts, categories, createSearchLink, Product } from '../lib/products';
-import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
+import ProductCard from '@/components/ProductCard';
+import ProductSkeleton, { ProductSkeletonGrid } from '@/components/ProductSkeleton';
+import Footer from '@/components/Footer';
+import DealOfTheDay from '@/components/DealOfTheDay';
+import NewsletterPopup from '@/components/NewsletterPopup';
+import { useToast } from '@/contexts/ToastContext';
+import { allProducts, categories, createSearchLink, Product } from '@/lib/products';
+import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import Link from 'next/link';
 
 export default function Home() {
