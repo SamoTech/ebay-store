@@ -15,16 +15,19 @@ export async function POST(request: NextRequest) {
     // Get Web3Forms access key from environment variable
     const accessKey = process.env.WEB3FORMS_ACCESS_KEY || '82cf49f9-69e0-4082-84eb-bf8aa798179c';
 
-    console.log('Sending to Web3Forms:', email);
+    console.log('📧 Sending newsletter subscription to Web3Forms:', email);
 
-    // Send to Web3Forms with proper field names
+    // Web3Forms requires: access_key, name, email, message (all required)
     const formData = {
       access_key: accessKey,
-      subject: '🎉 New Newsletter Subscription - DealsHub',
-      name: 'Newsletter Subscriber',
+      name: email.split('@')[0] || 'Newsletter Subscriber', // Use email username as name
       email: email,
-      message: `New newsletter subscription request\n\nEmail: ${email}\nSource: Website Newsletter Popup\nTimestamp: ${new Date().toLocaleString('en-US', { timeZone: 'Africa/Cairo' })}`,
+      message: `Newsletter subscription request from DealsHub\n\nSubscribed at: ${new Date().toLocaleString('en-US', { timeZone: 'Africa/Cairo', dateStyle: 'full', timeStyle: 'short' })}\nSource: Website Newsletter Popup`,
+      subject: '🎉 New Newsletter Subscription - DealsHub',
+      from_name: 'DealsHub',
     };
+
+    console.log('📤 Sending data:', { ...formData, access_key: '***' });
 
     const web3FormsResponse = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
@@ -35,12 +38,27 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify(formData),
     });
 
-    const data = await web3FormsResponse.json();
+    const responseText = await web3FormsResponse.text();
+    console.log('📥 Web3Forms raw response:', responseText);
 
-    console.log('Web3Forms response:', data);
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('❌ Failed to parse Web3Forms response:', parseError);
+      return NextResponse.json(
+        { 
+          error: 'Invalid response from email service',
+          success: false 
+        },
+        { status: 500 }
+      );
+    }
+
+    console.log('📊 Web3Forms parsed response:', data);
 
     if (!web3FormsResponse.ok || !data.success) {
-      console.error('Web3Forms error:', data);
+      console.error('❌ Web3Forms error:', data);
       return NextResponse.json(
         { 
           error: data.message || 'Failed to submit to Web3Forms',
@@ -61,7 +79,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Newsletter subscription error:', error);
+    console.error('💥 Newsletter subscription error:', error);
     return NextResponse.json(
       { 
         error: error instanceof Error ? error.message : 'Subscription failed. Please try again.',
