@@ -11,6 +11,7 @@ import { RecentlyViewedProvider } from "../contexts/RecentlyViewedContext";
 import { DarkModeProvider } from "../contexts/DarkModeContext";
 import { CurrencyProvider } from "../contexts/CurrencyContext";
 import Chatbot from "../components/Chatbot";
+import GoogleAnalytics from "../components/GoogleAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -325,6 +326,9 @@ export default function RootLayout({
         <meta name="x-pinterest" content="nopin" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {/* Google Analytics */}
+        <GoogleAnalytics />
+        
         <DarkModeProvider>
           <CurrencyProvider>
             <ToastProvider>
