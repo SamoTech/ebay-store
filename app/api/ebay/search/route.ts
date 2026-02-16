@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getEbayProducts, getTrendingProducts } from '@/lib/ebay';
+import { searchEbayFindingAPI, getTrendingProducts } from '@/lib/ebay-api';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       products = await getTrendingProducts();
     } else if (query) {
       // Search by keyword
-      products = await getEbayProducts(query, limit);
+      products = await searchEbayFindingAPI(query, limit);
     } else {
       return NextResponse.json(
         { error: 'Please provide ?q=keyword or ?trending=true' },

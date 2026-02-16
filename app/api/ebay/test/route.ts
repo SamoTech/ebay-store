@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { EBAY_CONFIG } from '@/lib/ebay';
+import { EBAY_CONFIG } from '@/lib/ebay-api';
 
 export const dynamic = 'force-dynamic';
 
