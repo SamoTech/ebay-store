@@ -10,6 +10,7 @@ export type AnalyticsEventName =
   | 'newsletter_popup_dismissed'
   | 'newsletter_signup_attempt'
   | 'newsletter_signup_success'
+  | 'newsletter_signup_failed'
   | 'newsletter_signup_error'
   | 'price_alert_toggle'
   | 'chatbot_opened'
@@ -27,6 +28,7 @@ export interface AnalyticsEventPayload {
   platform?: string;
   url?: string;
   title?: string;
+  error?: string;
   metadata?: Record<string, string | number | boolean | null | undefined>;
 }
 
