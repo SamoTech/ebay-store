@@ -7,6 +7,14 @@ import { trackEvent } from '../../../lib/analytics';
 import Footer from '../../../components/Footer';
 import RelatedProducts from '../../../components/RelatedProducts';
 import SocialShare from '../../../components/SocialShare';
+import { generateBlurDataURL } from '../../../lib/utils/image';
+
+/**
+ * ISR Configuration
+ * Revalidate product pages every hour for fresh content while maintaining performance
+ */
+export const revalidate = 3600; // 1 hour in seconds
+export const dynamic = 'force-static';
 
 interface ProductPageProps {
   params: Promise<{
@@ -83,6 +91,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 fill
                 className="object-cover"
                 priority
+                placeholder="blur"
+                blurDataURL={generateBlurDataURL(800, 800)}
               />
               {discount > 0 && (
                 <span className="absolute top-4 right-4 bg-red-500 text-white text-lg px-4 py-2 rounded-full font-bold shadow-lg">

@@ -41,6 +41,15 @@ const securityHeaders = [
   },
 ]
 
+/**
+ * Bundle Analyzer Configuration
+ * Enable with: ANALYZE=true npm run build
+ */
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+  openAnalyzer: true,
+})
+
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
@@ -93,24 +102,6 @@ const nextConfig: NextConfig = {
     return []
   },
 
-  // Webpack configuration (for bundle analysis)
-  webpack: (config, { dev, isServer }) => {
-    // Bundle analysis in production
-    if (!dev && !isServer) {
-      // Uncomment to enable bundle analysis
-      // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-      // config.plugins.push(
-      //   new BundleAnalyzerPlugin({
-      //     analyzerMode: 'static',
-      //     reportFilename: './analyze.html',
-      //     openAnalyzer: false,
-      //   })
-      // )
-    }
-
-    return config
-  },
-
   // TypeScript configuration
   typescript: {
     // !! WARN !!
@@ -133,4 +124,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig)
