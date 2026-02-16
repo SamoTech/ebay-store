@@ -37,21 +37,23 @@ interface RateLimitOptions {
 }
 
 // In-memory store for rate limiting
-// Note: This resets on server restart. For production, consider Redis.
+// Note: This resets on server restart. For production at scale, consider Redis.
 const store: RateLimitStore = {};
 
 // Cleanup old entries every 5 minutes to prevent memory leaks
-setInterval(() => {
-  const now = Date.now();
-  const oneHourAgo = now - (60 * 60 * 1000);
-  
-  for (const key in store) {
-    store[key] = store[key].filter(time => time > oneHourAgo);
-    if (store[key].length === 0) {
-      delete store[key];
+if (typeof setInterval !== 'undefined') {
+  setInterval(() => {
+    const now = Date.now();
+    const oneHourAgo = now - (60 * 60 * 1000);
+    
+    for (const key in store) {
+      store[key] = store[key].filter(time => time > oneHourAgo);
+      if (store[key].length === 0) {
+        delete store[key];
+      }
     }
-  }
-}, 5 * 60 * 1000);
+  }, 5 * 60 * 1000);
+}
 
 /**
  * Check rate limit for a given identifier
@@ -103,27 +105,33 @@ export function rateLimit(
 
 /**
  * Get client identifier from request
- * Uses IP address or falls back to a hash of user agent
+ * Uses IP address from headers or falls back to user agent hash
  */
 export function getIdentifier(request: NextRequest): string {
-  // Try to get real IP from headers (for proxies like Vercel)
+  // Try to get real IP from headers (Vercel/proxies set these)
   const forwarded = request.headers.get('x-forwarded-for');
   const realIp = request.headers.get('x-real-ip');
   
-  // Use IP if available
+  // Use forwarded IP if available (comma-separated list, first is client)
   if (forwarded) {
-    return forwarded.split(',')[0].trim();
+    const clientIp = forwarded.split(',')[0].trim();
+    if (clientIp) {
+      return clientIp;
+    }
   }
+  
+  // Use real IP header
   if (realIp) {
     return realIp;
   }
-  if (request.ip) {
-    return request.ip;
-  }
   
-  // Fallback: Use hash of user agent (less reliable)
+  // Fallback: Use hash of user agent + accept headers
+  // Less reliable but better than nothing
   const userAgent = request.headers.get('user-agent') || 'unknown';
-  return `ua-${hashString(userAgent)}`;
+  const acceptLang = request.headers.get('accept-language') || '';
+  const combined = `${userAgent}-${acceptLang}`;
+  
+  return `ua-${hashString(combined)}`;
 }
 
 /**
