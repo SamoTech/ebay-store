@@ -5,6 +5,10 @@ import {
   searchEbayProducts,
 } from '../../../../../lib/ebay-api';
 
+// Force dynamic rendering - required for runtime environment variables
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Category-specific search queries mapped by slug
 const categoryQueryMap: Record<string, { query: string; categoryName: string }> = {
   electronics: { query: 'electronics', categoryName: 'Electronics' },
@@ -33,6 +37,7 @@ export async function GET(
 
   try {
     const status = getEbayIntegrationStatus();
+    console.log(`🔍 Category "${categoryName}" - eBay Status:`, status.mode);
 
     // Use eBay API if configured
     if (status.mode !== 'disabled') {
@@ -42,6 +47,7 @@ export async function GET(
       const products = await searchEbayProducts(query, 20);
 
       if (products.length > 0) {
+        console.log(`✅ Found ${products.length} eBay products for ${categoryName}`);
         return NextResponse.json({
           products,
           category: categoryName,
@@ -49,6 +55,10 @@ export async function GET(
           total: products.length,
         });
       }
+
+      console.warn(`⚠️ No eBay results for ${categoryName}, using fallback`);
+    } else {
+      console.warn(`⚠️ eBay API disabled for ${categoryName}`);
     }
 
     // Fallback to static products
