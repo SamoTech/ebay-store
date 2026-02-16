@@ -1,3 +1,15 @@
+/**
+ * Schema.org Structured Data for SEO
+ * 
+ * Provides JSON-LD schema markup for:
+ * - Products (rich snippets)
+ * - Organization (brand identity)
+ * - Breadcrumbs (navigation)
+ * - Articles (blog posts)
+ * 
+ * Cache bust: 2026-02-17
+ */
+
 import React from 'react';
 import { Product } from './products';
 
