@@ -1,65 +1,89 @@
 import { NextResponse } from 'next/server';
-import { featuredProducts } from '../../../../lib/products';
+import { allProducts } from '../../../../lib/products';
 import {
   getEbayIntegrationStatus,
   searchEbayProducts,
 } from '../../../../lib/ebay-api';
 
-export const revalidate = 3600; // 1 hour
+// Force dynamic rendering - required for runtime environment variables
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-/**
- * Get daily deal - rotates featured products or fetches trending from eBay
- */
+// Daily rotating deal categories
+const dealCategories = [
+  'iPhone 15',           // Sunday
+  'PlayStation 5',       // Monday
+  'Nike Sneakers',       // Tuesday
+  'MacBook Pro',         // Wednesday
+  'Samsung Galaxy',      // Thursday
+  'Nintendo Switch',     // Friday
+  'Apple Watch',         // Saturday
+];
+
 export async function GET() {
   try {
+    const dayOfWeek = new Date().getDay();
+    const todayCategory = dealCategories[dayOfWeek];
+
     const status = getEbayIntegrationStatus();
+    console.log(`🔍 Daily Deal (${todayCategory}) - eBay Status:`, status.mode);
 
-    // Use eBay API if available
+    // Use eBay API if configured
     if (status.mode !== 'disabled') {
-      const dayOfWeek = new Date().getDay();
-      const trendingKeywords = [
-        'iPhone 15 Pro',
-        'PlayStation 5',
-        'Nike Air Jordan',
-        'MacBook Pro M3',
-        'Samsung Galaxy S24',
-        'Nintendo Switch OLED',
-        'Apple Watch Series 9',
-      ];
-
-      const keyword = trendingKeywords[dayOfWeek];
-      console.log(`📅 Daily deal keyword: ${keyword}`);
-
-      // searchEbayProducts returns Product[] already mapped
-      const products = await searchEbayProducts(keyword, 1);
+      console.log(`🔍 Fetching daily deal from eBay: ${todayCategory}`);
+      
+      const products = await searchEbayProducts(todayCategory, 1);
 
       if (products.length > 0) {
         const deal = products[0];
+        console.log(`✅ Daily deal found: ${deal.title}`);
+        
         return NextResponse.json({
           deal,
+          category: todayCategory,
           source: 'ebay-api',
-          keyword,
+          expiresAt: getEndOfDay(),
         });
       }
+
+      console.warn(`⚠️ No eBay deal for ${todayCategory}, using fallback`);
+    } else {
+      console.warn('⚠️ eBay API disabled for daily deal');
     }
 
-    // Fallback to featured products
-    const randomIndex = Math.floor(Math.random() * featuredProducts.length);
-    const deal = featuredProducts[randomIndex];
+    // Fallback: Random product from static list
+    const randomDeal = allProducts[Math.floor(Math.random() * allProducts.length)];
 
     return NextResponse.json({
-      deal,
+      deal: randomDeal,
+      category: todayCategory,
       source: 'fallback',
+      expiresAt: getEndOfDay(),
     });
   } catch (error) {
     console.error('❌ Error fetching daily deal:', error);
 
-    const randomIndex = Math.floor(Math.random() * featuredProducts.length);
-    const deal = featuredProducts[randomIndex];
+    const randomDeal = allProducts[Math.floor(Math.random() * allProducts.length)];
 
     return NextResponse.json({
-      deal,
+      deal: randomDeal,
+      category: 'Mixed',
       source: 'fallback-error',
+      expiresAt: getEndOfDay(),
     });
   }
+}
+
+function getEndOfDay(): string {
+  const now = new Date();
+  const endOfDay = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    23,
+    59,
+    59,
+    999
+  );
+  return endOfDay.toISOString();
 }

@@ -1,49 +1,76 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { Product } from '../../../../lib/products';
-import { searchEbayProducts } from '../../../../lib/ebay-api';
+import { NextResponse } from 'next/server';
+import {
+  getEbayIntegrationStatus,
+  searchEbayProducts,
+} from '../../../../lib/ebay-api';
+import { allProducts } from '../../../../lib/products';
 
-function normalizeCategory(categoryRaw: string | null): string {
-  if (!categoryRaw) return 'General';
-  return categoryRaw.trim() || 'General';
-}
+// Force dynamic rendering - required for runtime environment variables
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get('q') || '';
+  const limit = parseInt(searchParams.get('limit') || '12', 10);
+
+  if (!query) {
+    return NextResponse.json(
+      { error: 'Query parameter is required', products: [] },
+      { status: 400 }
+    );
+  }
+
   try {
-    const { searchParams } = new URL(request.url);
-    const query = searchParams.get('q');
-    const category = normalizeCategory(searchParams.get('category'));
-    const maxResults = parseInt(searchParams.get('limit') || '20', 10);
+    const status = getEbayIntegrationStatus();
+    console.log(`🔍 Search query: "${query}" - eBay Status:`, status.mode);
 
-    if (!query) {
-      return NextResponse.json(
-        { error: 'Query parameter "q" is required' },
-        { status: 400 }
-      );
+    // Use eBay API if configured
+    if (status.mode !== 'disabled') {
+      console.log(`🔍 Searching eBay API for: "${query}"`);
+      
+      const products = await searchEbayProducts(query, limit);
+
+      if (products.length > 0) {
+        console.log(`✅ Found ${products.length} eBay products for "${query}"`);
+        return NextResponse.json({
+          products,
+          query,
+          source: 'ebay-api',
+          total: products.length,
+        });
+      }
+
+      console.warn(`⚠️ No eBay results for "${query}", using fallback`);
+    } else {
+      console.warn('⚠️ eBay API disabled, using fallback search');
     }
 
-    console.log(`🔍 Product search: "${query}" in ${category}`);
-
-    // searchEbayProducts returns Product[] already mapped
-    const ebayProducts = await searchEbayProducts(query, maxResults);
+    // Fallback to static products
+    const fallbackProducts = allProducts.filter((p) =>
+      p.title.toLowerCase().includes(query.toLowerCase()) ||
+      p.category.toLowerCase().includes(query.toLowerCase())
+    );
 
     return NextResponse.json({
-      products: ebayProducts,
+      products: fallbackProducts.slice(0, limit),
       query,
-      category,
-      total: ebayProducts.length,
-      source: 'ebay-api',
+      source: 'fallback',
+      total: fallbackProducts.length,
     });
   } catch (error) {
-    console.error('❌ Error in /api/products/search:', error);
-    return NextResponse.json(
-      {
-        error: 'Failed to search products',
-        products: [],
-        query: '',
-        category: 'General',
-        total: 0,
-      },
-      { status: 500 }
+    console.error(`❌ Error searching for "${query}":`, error);
+
+    const fallbackProducts = allProducts.filter((p) =>
+      p.title.toLowerCase().includes(query.toLowerCase())
     );
+
+    return NextResponse.json({
+      products: fallbackProducts.slice(0, limit),
+      query,
+      source: 'fallback-error',
+      total: fallbackProducts.length,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
   }
 }
