@@ -1,3 +1,4 @@
+import React from 'react';
 import { Product } from './products';
 
 // Product Schema for rich snippets in Google Search
