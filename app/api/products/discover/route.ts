@@ -5,6 +5,10 @@ import {
   searchEbayProducts,
 } from '../../../../lib/ebay-api';
 
+// Force dynamic rendering - required for runtime environment variables
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Optimized category queries with better keywords
 const categoryQueries: Array<{ category: string; query: string }> = [
   { category: 'Electronics', query: 'bluetooth headphones' },
@@ -17,6 +21,7 @@ const categoryQueries: Array<{ category: string; query: string }> = [
 export async function GET() {
   try {
     const status = getEbayIntegrationStatus();
+    console.log('🔍 eBay Integration Status:', JSON.stringify(status));
 
     // Use eBay API if configured
     if (status.mode !== 'disabled') {
@@ -31,17 +36,23 @@ export async function GET() {
       const products = results.flat();
 
       if (products.length > 0) {
+        console.log(`✅ Found ${products.length} live eBay products`);
+        
         // Shuffle and limit
         const shuffled = products.sort(() => Math.random() - 0.5);
         const limited = shuffled.slice(0, 20);
 
         return NextResponse.json({
           products: limited,
-          source: 'ebay-api',
+          source: 'ebay_live',
           total: limited.length,
           categories: categoryQueries.map((c) => c.category),
         });
       }
+
+      console.warn('⚠️ eBay API returned 0 products, using fallback');
+    } else {
+      console.warn('⚠️ eBay API disabled - missing credentials:', status.missing);
     }
 
     // Fallback: Return shuffled static products
