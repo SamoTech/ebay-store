@@ -26,7 +26,7 @@ export default function ContactPage() {
               Send us a Message
             </h2>
             
-            <form className="space-y-6" action="https://formspree.io/f/your-form-id" method="POST">
+            <form className="space-y-6" action="https://formspree.io/f/mpqjrzzy" method="POST">
               {/* Name */}
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
