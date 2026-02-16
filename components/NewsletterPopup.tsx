@@ -60,6 +60,7 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (!formData.email || !formData.name || !formData.agree || isLoading) {
       if (!formData.agree) {
         setError('Please agree to join our mailing list');
@@ -69,28 +70,26 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
 
     setIsLoading(true);
     setError('');
-    trackEvent({ event: 'newsletter_signup_attempt', email_domain: formData.email.split('@')[1] });
+    trackEvent({ 
+      event: 'newsletter_signup_attempt', 
+      email_domain: formData.email.split('@')[1] 
+    });
 
     try {
-      // Send directly to Web3Forms API
-      const response = await fetch('https://api.web3forms.com/submit', {
+      // ✅ Use secure server-side API route
+      const response = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
         },
         body: JSON.stringify({
-          access_key: '82cf49f9-69e0-4082-84eb-bf8aa798179c',
           name: formData.name,
           email: formData.email,
           message: formData.message,
-          subject: '🎉 New Newsletter Subscription - DealsHub',
-          from_name: 'DealsHub Newsletter',
         }),
       });
 
       const data = await response.json();
-      console.log('Web3Forms response:', data);
 
       if (response.ok && data.success) {
         setIsSubmitted(true);
@@ -104,14 +103,14 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
           setIsSubmitted(false);
         }, 3000);
       } else {
-        const errorMessage = data.message || 'Subscription failed. Please try again.';
+        const errorMessage = data.error || 'Subscription failed. Please try again.';
         setError(errorMessage);
         addToast(`❌ ${errorMessage}`, 'error');
         trackEvent({ event: 'newsletter_signup_failed', error: errorMessage });
       }
     } catch (error) {
       console.error('Newsletter signup error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Network error. Please try again.';
+      const errorMessage = 'Network error. Please try again.';
       setError(errorMessage);
       addToast(`❌ ${errorMessage}`, 'error');
       trackEvent({ event: 'newsletter_signup_error', error: errorMessage });
@@ -138,13 +137,17 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
       />
       
       {/* Popup */}
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 animate-in zoom-in-95 duration-300">
+      <div 
+        data-testid="newsletter-popup"
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-4 animate-in zoom-in-95 duration-300"
+      >
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-8 relative max-h-[90vh] overflow-y-auto">
           {/* Close button */}
           <button
             onClick={handleDismiss}
             className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors z-10"
             aria-label="Close"
+            data-testid="newsletter-close"
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -197,6 +200,7 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
                   <input
                     type="text"
                     id="name"
+                    data-testid="newsletter-name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="Your name"
@@ -213,6 +217,7 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
                   <input
                     type="email"
                     id="email"
+                    data-testid="newsletter-email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="your@email.com"
@@ -228,6 +233,7 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
                   </label>
                   <textarea
                     id="message"
+                    data-testid="newsletter-message"
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     rows={2}
@@ -240,6 +246,7 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
                   <input
                     type="checkbox"
                     id="agree"
+                    data-testid="newsletter-consent"
                     checked={formData.agree}
                     onChange={(e) => setFormData({ ...formData, agree: e.target.checked })}
                     required
@@ -251,13 +258,17 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
                 </div>
 
                 {error && (
-                  <p className="text-red-600 dark:text-red-400 text-sm">
+                  <p 
+                    className="text-red-600 dark:text-red-400 text-sm"
+                    data-testid="newsletter-error"
+                  >
                     {error}
                   </p>
                 )}
 
                 <button
                   type="submit"
+                  data-testid="newsletter-submit"
                   disabled={isLoading || !formData.agree}
                   className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 rounded-lg transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
@@ -280,7 +291,10 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
               </p>
             </>
           ) : (
-            <div className="text-center py-8">
+            <div 
+              className="text-center py-8"
+              data-testid="newsletter-success"
+            >
               <div className="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-6 animate-in zoom-in-50 duration-300">
                 <svg className="w-10 h-10 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
