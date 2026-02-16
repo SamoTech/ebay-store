@@ -6,7 +6,6 @@ import ProductCard from '@/components/ProductCard';
 import ProductSkeleton, { ProductSkeletonGrid } from '@/components/ProductSkeleton';
 import Footer from '@/components/Footer';
 import DealOfTheDay from '@/components/DealOfTheDay';
-import NewsletterPopup from '@/components/NewsletterPopup';
 import { useToast } from '@/contexts/ToastContext';
 import { allProducts, categories, createSearchLink, Product } from '@/lib/products';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
@@ -328,9 +327,6 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
-      
-      {/* Newsletter popup - shows after 30 seconds or on exit intent */}
-      <NewsletterPopup delay={30000} />
     </main>
   );
 }
