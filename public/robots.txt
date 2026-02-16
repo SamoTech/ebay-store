@@ -17,5 +17,7 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 
-# Sitemap
+# Sitemaps
 Sitemap: https://ebay-store.vercel.app/sitemap.xml
+Sitemap: https://ebay-store.vercel.app/sitemaps/sitemap.xml
+Sitemap: https://ebay-store.vercel.app/sitemap-index.xml
