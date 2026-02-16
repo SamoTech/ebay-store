@@ -10,7 +10,12 @@ interface NewsletterPopupProps {
 
 export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: 'I would like to receive exclusive deals and updates from DealsHub.',
+    agree: false,
+  });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -55,20 +60,37 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || isLoading) return;
+    if (!formData.email || !formData.name || !formData.agree || isLoading) {
+      if (!formData.agree) {
+        setError('Please agree to join our mailing list');
+      }
+      return;
+    }
 
     setIsLoading(true);
     setError('');
-    trackEvent({ event: 'newsletter_signup_attempt', email_domain: email.split('@')[1] });
+    trackEvent({ event: 'newsletter_signup_attempt', email_domain: formData.email.split('@')[1] });
 
     try {
-      const response = await fetch('/api/newsletter/subscribe', {
+      // Send directly to Web3Forms API
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: '82cf49f9-69e0-4082-84eb-bf8aa798179c',
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          subject: '🎉 New Newsletter Subscription - DealsHub',
+          from_name: 'DealsHub Newsletter',
+        }),
       });
 
       const data = await response.json();
+      console.log('Web3Forms response:', data);
 
       if (response.ok && data.success) {
         setIsSubmitted(true);
@@ -76,24 +98,23 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
         trackEvent({ event: 'newsletter_signup_success', source: 'popup' });
         addToast('✅ Successfully subscribed to newsletter!', 'success');
         
-        // Auto-close after showing success message for 2 seconds
+        // Auto-close after showing success message for 3 seconds
         setTimeout(() => {
           setIsVisible(false);
           setIsSubmitted(false);
-        }, 2000);
+        }, 3000);
       } else {
-        // Handle error response
-        const errorMessage = data.error || 'Subscription failed. Please try again.';
+        const errorMessage = data.message || 'Subscription failed. Please try again.';
         setError(errorMessage);
         addToast(`❌ ${errorMessage}`, 'error');
         trackEvent({ event: 'newsletter_signup_failed', error: errorMessage });
       }
     } catch (error) {
       console.error('Newsletter signup error:', error);
-      const errorMessage = 'Network error. Please check your connection and try again.';
+      const errorMessage = error instanceof Error ? error.message : 'Network error. Please try again.';
       setError(errorMessage);
       addToast(`❌ ${errorMessage}`, 'error');
-      trackEvent({ event: 'newsletter_signup_error' });
+      trackEvent({ event: 'newsletter_signup_error', error: errorMessage });
     } finally {
       setIsLoading(false);
     }
@@ -118,11 +139,11 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
       
       {/* Popup */}
       <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 animate-in zoom-in-95 duration-300">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-8 relative max-h-[90vh] overflow-y-auto">
           {/* Close button */}
           <button
             onClick={handleDismiss}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors z-10"
             aria-label="Close"
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -146,21 +167,21 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
                 Join 10,000+ deal hunters and get daily alerts for:
               </p>
 
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                  <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   <span>⚡ Flash sales (up to 70% off)</span>
                 </li>
-                <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                  <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   <span>📉 Price drop alerts</span>
                 </li>
-                <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                  <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <li className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   <span>🎯 Exclusive coupon codes</span>
@@ -168,24 +189,76 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
               </ul>
 
               <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Name */}
                 <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Your name"
+                    required
+                    className="w-full px-4 py-2.5 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none transition-colors"
+                  />
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Email *
+                  </label>
                   <input
                     type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
+                    id="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="your@email.com"
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none transition-colors"
+                    className="w-full px-4 py-2.5 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none transition-colors"
                   />
-                  {error && (
-                    <p className="text-red-600 dark:text-red-400 text-sm mt-2">
-                      {error}
-                    </p>
-                  )}
                 </div>
+
+                {/* Message */}
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Message (optional)
+                  </label>
+                  <textarea
+                    id="message"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    rows={2}
+                    className="w-full px-4 py-2.5 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none transition-colors resize-none"
+                  />
+                </div>
+
+                {/* Consent Checkbox */}
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="agree"
+                    checked={formData.agree}
+                    onChange={(e) => setFormData({ ...formData, agree: e.target.checked })}
+                    required
+                    className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                  <label htmlFor="agree" className="text-sm text-gray-600 dark:text-gray-400">
+                    I agree to join the DealsHub mailing list and receive exclusive deals, updates, and promotional content.
+                  </label>
+                </div>
+
+                {error && (
+                  <p className="text-red-600 dark:text-red-400 text-sm">
+                    {error}
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isLoading || !formData.agree}
                   className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 rounded-lg transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   {isLoading ? (
@@ -197,7 +270,7 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
                       Subscribing...
                     </span>
                   ) : (
-                    'Get My Deals! 🚀'
+                    'Subscribe Now! 🚀'
                   )}
                 </button>
               </form>
@@ -217,10 +290,10 @@ export default function NewsletterPopup({ delay = 30000 }: NewsletterPopupProps)
                 You're In! 🎉
               </h3>
               <p className="text-gray-600 dark:text-gray-300 text-lg">
-                Check your inbox for exclusive deals.
+                Welcome to DealsHub, {formData.name}!
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
-                Closing in 2 seconds...
+              <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">
+                Check your inbox for exclusive deals.
               </p>
             </div>
           )}
