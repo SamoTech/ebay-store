@@ -9,13 +9,15 @@ import {
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// Optimized category queries with better keywords
-const categoryQueries: Array<{ category: string; query: string }> = [
-  { category: 'Electronics', query: 'bluetooth headphones' },
-  { category: 'Gaming', query: 'xbox series x' },
-  { category: 'Smart Home', query: 'smart light bulbs' },
-  { category: 'Sneakers', query: 'nike air max' },
-  { category: 'Home & Kitchen', query: 'air fryer' },
+// Rotating daily categories for variety
+const DAILY_KEYWORDS = [
+  'electronics bluetooth wireless',     // Sunday
+  'gaming console accessories',         // Monday  
+  'smart home devices',                 // Tuesday
+  'nike adidas sneakers shoes',        // Wednesday
+  'kitchen appliances gadgets',        // Thursday
+  'laptop macbook accessories',        // Friday
+  'headphones earbuds audio',          // Saturday
 ];
 
 export async function GET() {
@@ -27,26 +29,26 @@ export async function GET() {
     if (status.mode !== 'disabled') {
       console.log('🔍 Discovering products from eBay API...');
 
-      // Search multiple categories in parallel
-      const productPromises = categoryQueries.map(({ category, query }) =>
-        searchEbayProducts(query, 4)
-      );
+      // Use rotating keyword based on day of week
+      const dayOfWeek = new Date().getDay();
+      const keyword = DAILY_KEYWORDS[dayOfWeek];
+      
+      console.log(`📅 Today's discovery keyword: "${keyword}"`);
 
-      const results = await Promise.all(productPromises);
-      const products = results.flat();
+      // Single optimized search - much faster than multiple parallel calls
+      const products = await searchEbayProducts(keyword, 20);
 
       if (products.length > 0) {
         console.log(`✅ Found ${products.length} live eBay products`);
         
-        // Shuffle and limit
+        // Shuffle for variety
         const shuffled = products.sort(() => Math.random() - 0.5);
-        const limited = shuffled.slice(0, 20);
 
         return NextResponse.json({
-          products: limited,
+          products: shuffled,
           source: 'ebay_live',
-          total: limited.length,
-          categories: categoryQueries.map((c) => c.category),
+          total: shuffled.length,
+          keyword,
         });
       }
 
