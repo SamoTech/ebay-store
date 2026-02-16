@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "verify:apis": "node scripts/verify-apis.mjs",
     "verify:conflicts": "node scripts/check-conflicts.mjs"
   },
@@ -19,11 +22,17 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.1.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.5.0",
+    "@types/jest": "^29.5.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "tailwindcss": "^4",
     "typescript": "5.9.3"
   }
