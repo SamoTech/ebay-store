@@ -1,75 +1,86 @@
-// Schema.org markup generators for SEO
-
 import { Product } from './products';
 
-export interface SchemaProduct {
+// Product Schema for rich snippets in Google Search
+export interface ProductSchema {
+  '@context': string;
+  '@type': string;
   name: string;
-  price: number;
   image: string;
   description: string;
-  url: string;
-  brand?: string;
-  rating?: number;
-  reviewCount?: number;
+  offers: {
+    '@type': string;
+    price: string;
+    priceCurrency: string;
+    availability: string;
+    url: string;
+    seller: {
+      '@type': string;
+      name: string;
+    };
+  };
 }
 
-// Product Schema
-export function generateProductSchema(product: SchemaProduct) {
+export function generateProductSchema(product: Product): ProductSchema {
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: product.name,
+    name: product.title,
     image: product.image,
     description: product.description,
-    url: product.url,
-    brand: {
-      '@type': 'Brand',
-      name: product.brand || 'Various Brands'
-    },
     offers: {
       '@type': 'Offer',
-      url: product.url,
+      price: product.price.toString(),
       priceCurrency: 'USD',
-      price: product.price,
       availability: 'https://schema.org/InStock',
+      url: product.affiliateLink,
       seller: {
         '@type': 'Organization',
         name: 'eBay'
       }
-    },
-    ...(product.rating && product.reviewCount && {
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: product.rating,
-        reviewCount: product.reviewCount
-      }
-    })
-  };
-}
-
-// Organization Schema
-export function generateOrganizationSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'DealsHub',
-    description: 'Your trusted source for the best eBay deals on electronics, gaming, sneakers, and more',
-    url: 'https://ebay-store.vercel.app',
-    logo: 'https://ebay-store.vercel.app/logo.png',
-    sameAs: [
-      'https://twitter.com/dealshub',
-      'https://facebook.com/dealshub'
-    ],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'Customer Service',
-      email: 'support@dealshub.com'
     }
   };
 }
 
-// Breadcrumb Schema
-export function generateBreadcrumbSchema(items: { name: string; url: string }[]) {
+// Organization Schema for brand identity
+export interface OrganizationSchema {
+  '@context': string;
+  '@type': string;
+  name: string;
+  url: string;
+  logo: string;
+  description: string;
+  sameAs: string[];
+}
+
+export function generateOrganizationSchema(siteUrl: string): OrganizationSchema {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'DealsHub',
+    url: siteUrl,
+    logo: `${siteUrl}/logo.png`,
+    description: 'Your trusted source for the best deals from eBay. Find electronics, gaming, sneakers, smart home devices, and more at unbeatable prices.',
+    sameAs: [
+      'https://twitter.com/dealshub',
+      'https://facebook.com/dealshub',
+      'https://instagram.com/dealshub'
+    ]
+  };
+}
+
+// Breadcrumb Schema for navigation
+export interface BreadcrumbSchema {
+  '@context': string;
+  '@type': string;
+  itemListElement: Array<{
+    '@type': string;
+    position: number;
+    name: string;
+    item?: string;
+  }>;
+}
+
+export function generateBreadcrumbSchema(items: Array<{ name: string; url?: string }>): BreadcrumbSchema {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -77,29 +88,51 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      item: item.url
+      ...(item.url && { item: item.url })
     }))
   };
 }
 
-// Article/Blog Post Schema
+// Article Schema for blog posts
+export interface ArticleSchema {
+  '@context': string;
+  '@type': string;
+  headline: string;
+  description: string;
+  image: string;
+  datePublished: string;
+  dateModified: string;
+  author: {
+    '@type': string;
+    name: string;
+  };
+  publisher: {
+    '@type': string;
+    name: string;
+    logo: {
+      '@type': string;
+      url: string;
+    };
+  };
+}
+
 export function generateArticleSchema(article: {
   title: string;
   description: string;
-  author: string;
-  datePublished: string;
-  dateModified: string;
   image: string;
-  url: string;
-}) {
+  publishedAt: string;
+  modifiedAt?: string;
+  author: string;
+  siteUrl: string;
+}): ArticleSchema {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: article.title,
     description: article.description,
     image: article.image,
-    datePublished: article.datePublished,
-    dateModified: article.dateModified,
+    datePublished: article.publishedAt,
+    dateModified: article.modifiedAt || article.publishedAt,
     author: {
       '@type': 'Person',
       name: article.author
@@ -109,34 +142,14 @@ export function generateArticleSchema(article: {
       name: 'DealsHub',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://ebay-store.vercel.app/logo.png'
+        url: `${article.siteUrl}/logo.png`
       }
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': article.url
     }
   };
 }
 
-// FAQ Schema
-export function generateFAQSchema(faqs: { question: string; answer: string }[]) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(faq => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer
-      }
-    }))
-  };
-}
-
 // Helper to inject schema into page
-export function SchemaScript({ schema }: { schema: object }) {
+export function SchemaScript({ schema }: { schema: any }) {
   return (
     <script
       type="application/ld+json"
