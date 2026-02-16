@@ -8,7 +8,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38bdf8?logo=tailwind-css)](https://tailwindcss.com/)
 [![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://vercel.com/)
 
-🔗 **Live Demo:** [https://deals-hub.vercel.app](https://deals-hub.vercel.app)
+🔗 **Live Demo:** [https://ebay-store.vercel.app](https://ebay-store.vercel.app)
 
 ---
 
