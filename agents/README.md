@@ -1,8 +1,8 @@
 # AI Software Delivery Agents
 
 **System Type**: Hybrid AI-Native Organization  
-**Version**: 2.0  
-**Last Updated**: February 16, 2026
+**Version**: 2.1  
+**Last Updated**: February 17, 2026
 
 ---
 
@@ -76,6 +76,12 @@ These agents execute approved plans with production-grade expertise:
     - Writes for engineers under pressure
     - Ensures docs reflect reality, not intent
 
+11. **[Content Writer](./content_writer.md)** - SEO & marketing content ✨ NEW
+    - Writes SEO-optimized blog posts and product descriptions
+    - Creates affiliate marketing content with FTC compliance
+    - Develops email campaigns and landing pages
+    - Tracks content performance and conversions
+
 ---
 
 ## Workflow (9 Steps - Enforced)
@@ -105,6 +111,7 @@ These agents execute approved plans with production-grade expertise:
 
 ### Advisory Only
 - **Code Reviewer** → Advises but cannot approve/reject
+- **Content Writer** → Recommends content strategy but works with Product Strategist
 
 ### Coordination Only
 - **Project Manager** → Cannot override gates or strategic decisions
@@ -116,16 +123,6 @@ These agents execute approved plans with production-grade expertise:
 
 ---
 
-## Agent File Naming Convention
-
-- **Strategic agents**: `product_strategist.md`, `system_architect.md`
-- **Execution agents**: `project_manager.md`, `frontend_engineer.md`, etc.
-- **Supporting agents**: `ux_agent.md`, `code_reviewer.md`
-- **Infrastructure**: `devops_agent.md`, `documentation_agent.md`
-- **QA (special)**: `qa_agent.md` (absolute veto authority)
-
----
-
 ## Project Context: DealsHub eBay Store
 
 **Repository**: [github.com/SamoTech/ebay-store](https://github.com/SamoTech/ebay-store)  
@@ -134,12 +131,13 @@ These agents execute approved plans with production-grade expertise:
 
 ### Current Status
 - ✅ Production deployment active
-- ✅ eBay API integration (Finding API)
+- ✅ eBay API integration (Browse API with 24h cache)
 - ✅ 62+ products with live search
 - ✅ AI chatbot, newsletter, dark mode
 - ✅ Testing infrastructure (Jest, React Testing Library)
 - ✅ Security hardened (Phase 1 complete)
 - 🔄 Test coverage: 25% → target 80%+
+- 🆕 Content Writer agent added for SEO & affiliate content
 
 ### Team Skills Enhancement
 
@@ -150,6 +148,7 @@ All agents have been enhanced with context-specific skills for:
 - **SEO** for product discovery
 - **Performance** for product-heavy pages
 - **Analytics** tracking for affiliate metrics
+- **Content strategy** for organic traffic growth (NEW)
 
 ---
 
@@ -164,6 +163,7 @@ All agents have been enhanced with context-specific skills for:
 5. **Test thoroughly**: QA Tester makes final approval decision
 6. **Deploy safely**: DevOps executes after QA approval
 7. **Document everything**: Documentation Agent updates all docs
+8. **Create content**: Content Writer develops marketing materials (NEW)
 
 ### For Quick Reference
 
@@ -175,16 +175,7 @@ All agents have been enhanced with context-specific skills for:
 - **Need release approval?** → QA Tester (final authority)
 - **Need deployment?** → DevOps Engineer
 - **Need documentation?** → Documentation Agent
-
-### For System Understanding
-
-Read [ORGANIZATION.md](./ORGANIZATION.md) for:
-- Complete organizational structure
-- Detailed role definitions
-- Authority and decision rules
-- Workflow enforcement
-- Output expectations
-- Violation handling
+- **Need blog posts or product descriptions?** → Content Writer (NEW)
 
 ---
 
@@ -208,6 +199,7 @@ This system succeeds when:
 - Speed is consistent (sprint velocity stable ±10%)
 - Human intervention is minimal (<5% of decisions escalated)
 - Documentation is accurate (reflects reality 100%)
+- Content drives organic traffic and conversions (NEW)
 
 ---
 
@@ -228,12 +220,19 @@ agents/
 ├── code_reviewer.md             # Delivery Layer - Advisory
 ├── qa_agent.md                  # Delivery Layer - Quality Gate ⚠️
 ├── devops_agent.md              # Delivery Layer - Infrastructure
-└── documentation_agent.md       # Delivery Layer - Documentation
+├── documentation_agent.md       # Delivery Layer - Documentation
+└── content_writer.md            # Delivery Layer - SEO & Marketing ✨
 ```
 
 ---
 
 ## Version History
+
+### v2.1 (February 17, 2026)
+- **Added Content Writer agent** (Agent #11)
+- Specialized in SEO, affiliate marketing, and e-commerce content
+- Enhanced team with content strategy capabilities
+- Updated workflow to include content creation step
 
 ### v2.0 (February 16, 2026)
 - Implemented hybrid AI-native organization system
