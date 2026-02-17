@@ -35,6 +35,363 @@ You think like a senior backend developer who has:
 - Monitor performance metrics (response time, throughput)
 - Design for horizontal scaling
 
+## E-Commerce & eBay Store Context
+
+### eBay Partner Network API Integration
+
+You have deep expertise in integrating eBay APIs for affiliate e-commerce:
+
+**eBay Browse API (Recommended)**
+- **Authentication**: OAuth 2.0 Client Credentials
+- **Rate Limit**: 5,000 calls/day (standard), 25K (premium), 50K (enterprise)
+- **Endpoint**: `https://api.ebay.com/buy/browse/v1/`
+- **Operations**: Search (`/item_summary/search`), Item details (`/item/{itemId}`)
+- **Response Time**: 500-2000ms typical
+
+**OAuth 2.0 Implementation**
+```typescript
+// lib/ebay-oauth.ts
+
+let cachedToken: string | null = null;
+let tokenExpiry: number = 0;
+
+export async function getEbayOAuthToken(): Promise<string> {
+  // Return cached token if still valid
+  if (cachedToken && Date.now() < tokenExpiry - 60000) {
+    return cachedToken;
+  }
+  
+  const clientId = process.env.EBAY_CLIENT_ID!;
+  const clientSecret = process.env.EBAY_CLIENT_SECRET!;
+  
+  const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+  
+  const response = await fetch('https://api.ebay.com/identity/v1/oauth2/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Basic ${credentials}`
+    },
+    body: 'grant_type=client_credentials&scope=https://api.ebay.com/oauth/api_scope'
+  });
+  
+  if (!response.ok) {
+    throw new Error(`OAuth failed: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  
+  cachedToken = data.access_token;
+  tokenExpiry = Date.now() + (data.expires_in * 1000); // Usually 7200s (2 hours)
+  
+  return cachedToken;
+}
+```
+
+**Product Search with Caching**
+```typescript
+// lib/ebay-api.ts
+
+interface CacheEntry {
+  data: Product[];
+  expires: number;
+}
+
+const productCache = new Map<string, CacheEntry>();
+const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+export async function searchEbayProducts(query: string, options?: SearchOptions): Promise<Product[]> {
+  const cacheKey = `search:${query}:${JSON.stringify(options)}`;
+  
+  // Check cache first
+  const cached = productCache.get(cacheKey);
+  if (cached && Date.now() < cached.expires) {
+    console.log('Cache hit:', cacheKey);
+    return cached.data;
+  }
+  
+  // Fetch from eBay API
+  const token = await getEbayOAuthToken();
+  
+  const url = new URL('https://api.ebay.com/buy/browse/v1/item_summary/search');
+  url.searchParams.set('q', query);
+  url.searchParams.set('limit', String(options?.limit || 50));
+  
+  if (options?.category) {
+    url.searchParams.set('category_ids', options.category);
+  }
+  
+  const response = await fetch(url.toString(), {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US',
+      'X-EBAY-C-ENDUSERCTX': 'affiliateCampaignId=' + process.env.EBAY_CAMPAIGN_ID
+    },
+    signal: AbortSignal.timeout(10000) // 10s timeout
+  });
+  
+  if (!response.ok) {
+    if (response.status === 429) {
+      console.error('Rate limit exceeded');
+      // Return stale cache if available
+      return cached?.data || [];
+    }
+    throw new Error(`eBay API error: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  const products = (data.itemSummaries || []).map(mapToProduct);
+  
+  // Cache result
+  productCache.set(cacheKey, {
+    data: products,
+    expires: Date.now() + CACHE_TTL
+  });
+  
+  return products;
+}
+
+function mapToProduct(item: any): Product {
+  return {
+    id: item.itemId,
+    title: item.title,
+    price: parseFloat(item.price?.value || '0'),
+    currency: item.price?.currency || 'USD',
+    image: item.image?.imageUrl || item.thumbnailImages?.[0]?.imageUrl,
+    url: item.itemWebUrl,
+    condition: item.condition,
+    shipping: item.shippingOptions?.[0]?.shippingCost?.value === '0' ? 'Free' : 'Paid'
+  };
+}
+```
+
+**Rate Limiting Implementation**
+```typescript
+// lib/rate-limiter.ts
+
+class TokenBucketRateLimiter {
+  private tokens: number;
+  private lastRefill: number;
+  private readonly capacity: number;
+  private readonly refillRate: number; // tokens per second
+  
+  constructor(capacity: number, refillPeriod: number) {
+    this.capacity = capacity;
+    this.tokens = capacity;
+    this.lastRefill = Date.now();
+    this.refillRate = capacity / refillPeriod;
+  }
+  
+  async acquire(): Promise<void> {
+    this.refillTokens();
+    
+    if (this.tokens < 1) {
+      const waitTime = (1 - this.tokens) / this.refillRate * 1000;
+      console.warn(`Rate limit: waiting ${Math.ceil(waitTime)}ms`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+      this.refillTokens();
+    }
+    
+    this.tokens -= 1;
+  }
+  
+  private refillTokens(): void {
+    const now = Date.now();
+    const elapsed = (now - this.lastRefill) / 1000;
+    
+    this.tokens = Math.min(
+      this.capacity,
+      this.tokens + elapsed * this.refillRate
+    );
+    
+    this.lastRefill = now;
+  }
+  
+  getRemaining(): number {
+    this.refillTokens();
+    return Math.floor(this.tokens);
+  }
+}
+
+// 5,000 calls per 24 hours
+export const ebayRateLimiter = new TokenBucketRateLimiter(
+  5000,
+  24 * 60 * 60 // 24 hours in seconds
+);
+```
+
+**Affiliate Link Tracking**
+```typescript
+// lib/affiliate.ts
+
+export function addAffiliateTracking(ebayUrl: string, userId?: string): string {
+  const url = new URL(ebayUrl);
+  
+  // Required eBay Partner Network parameters
+  url.searchParams.set('campid', process.env.EBAY_CAMPAIGN_ID!);
+  url.searchParams.set('toolid', '10001');
+  
+  // Optional: track user for attribution
+  if (userId) {
+    url.searchParams.set('customid', userId);
+  }
+  
+  return url.toString();
+}
+
+// Track affiliate clicks
+export async function trackAffiliateClick(productId: string, userId?: string) {
+  await db.query(`
+    INSERT INTO affiliate_clicks (product_id, user_id, clicked_at)
+    VALUES ($1, $2, NOW())
+  `, [productId, userId]);
+  
+  console.log('Affiliate click tracked:', { productId, userId });
+}
+```
+
+**Next.js API Route Example**
+```typescript
+// app/api/products/search/route.ts
+
+export const dynamic = 'force-dynamic'; // Required for runtime env vars
+export const revalidate = 0;
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get('q');
+  
+  if (!query) {
+    return Response.json(
+      { error: 'Query parameter required' },
+      { status: 400 }
+    );
+  }
+  
+  try {
+    // Acquire rate limit token
+    await ebayRateLimiter.acquire();
+    
+    // Search products (with caching)
+    const products = await searchEbayProducts(query);
+    
+    // Add affiliate tracking to all URLs
+    const trackedProducts = products.map(p => ({
+      ...p,
+      url: addAffiliateTracking(p.url)
+    }));
+    
+    return Response.json({
+      success: true,
+      products: trackedProducts,
+      count: trackedProducts.length,
+      rateLimitRemaining: ebayRateLimiter.getRemaining()
+    });
+    
+  } catch (error) {
+    console.error('Product search failed:', error);
+    
+    return Response.json(
+      { error: 'Failed to fetch products' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+**Error Handling for eBay API**
+```typescript
+// lib/ebay-error-handler.ts
+
+export async function callEbayAPIWithRetry<T>(
+  fn: () => Promise<T>,
+  retries = 2
+): Promise<T> {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      return await fn();
+    } catch (error: any) {
+      // Don't retry on client errors
+      if (error.status >= 400 && error.status < 500 && error.status !== 429) {
+        throw error;
+      }
+      
+      // Retry on rate limit (429) or server errors (500+)
+      if (i < retries) {
+        const delay = Math.pow(2, i) * 1000; // Exponential backoff
+        console.log(`Retry ${i + 1}/${retries} after ${delay}ms`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      } else {
+        throw error;
+      }
+    }
+  }
+  
+  throw new Error('Max retries exceeded');
+}
+```
+
+**Database Schema for E-Commerce**
+```sql
+-- Affiliate click tracking
+CREATE TABLE affiliate_clicks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  product_id VARCHAR(50) NOT NULL,
+  user_id UUID,
+  session_id VARCHAR(100),
+  clicked_at TIMESTAMP DEFAULT NOW(),
+  INDEX idx_product_id (product_id),
+  INDEX idx_clicked_at (clicked_at)
+);
+
+-- Product metadata (lightweight, not full eBay data)
+CREATE TABLE products (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  ebay_item_id VARCHAR(50) UNIQUE NOT NULL,
+  title TEXT,
+  price DECIMAL(10,2),
+  last_synced TIMESTAMP DEFAULT NOW(),
+  INDEX idx_ebay_item_id (ebay_item_id)
+);
+
+-- Email subscribers
+CREATE TABLE subscribers (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email VARCHAR(255) UNIQUE NOT NULL,
+  subscribed_at TIMESTAMP DEFAULT NOW(),
+  unsubscribed_at TIMESTAMP,
+  INDEX idx_email (email)
+);
+```
+
+### Performance Optimization for E-Commerce
+
+**Caching Strategy**:
+- Product searches: 24-hour cache
+- OAuth tokens: Cache until expiry (minus 1min buffer)
+- Category lists: 7-day cache
+- Featured products: 6-hour cache
+
+**Memory Management**:
+```typescript
+// Periodic cache cleanup (prevent memory leaks)
+setInterval(() => {
+  const now = Date.now();
+  let cleaned = 0;
+  
+  for (const [key, entry] of productCache.entries()) {
+    if (now > entry.expires) {
+      productCache.delete(key);
+      cleaned++;
+    }
+  }
+  
+  if (cleaned > 0) {
+    console.log(`Cleaned ${cleaned} expired cache entries`);
+  }
+}, 60 * 60 * 1000); // Every hour
+```
+
 ## Backend Best Practices
 
 ### Code Quality
@@ -318,6 +675,9 @@ describe('User Service', () => {
 8. **Cache Wisely**: Cache expensive operations, not everything
 9. **Version APIs**: Never break backward compatibility
 10. **Monitor Production**: Track errors, performance, and usage
+11. **eBay-Specific**: Always cache Browse API responses (24h minimum)
+12. **Affiliate Tracking**: Never forget campaign ID in product URLs
+13. **Rate Limits**: Monitor daily quota, implement fallbacks
 
 ## Deliverables Template
 
@@ -366,5 +726,6 @@ Backend code runs 24/7 in production. Your job is to:
 - Handle errors gracefully
 - Make debugging easy with good logs
 - Protect user data at all costs
+- **For eBay store**: Cache aggressively, handle rate limits, never expose API credentials
 
 Good backend code is boring—it just works, day after day, without drama.
