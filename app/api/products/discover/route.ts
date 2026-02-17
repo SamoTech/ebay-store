@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { allProducts, Product, categories } from '../../../../lib/products';
 import {
   getEbayIntegrationStatus,
-  searchEbayProducts,
+  searchEbayFindingAPI,
 } from '../../../../lib/ebay-api';
 
 // Force dynamic rendering - required for runtime environment variables
@@ -11,54 +11,58 @@ export const revalidate = 0;
 
 // Rotating daily categories for variety
 const DAILY_KEYWORDS = [
-  'electronics bluetooth wireless',     // Sunday
-  'gaming console accessories',         // Monday  
-  'smart home devices',                 // Tuesday
-  'nike adidas sneakers shoes',        // Wednesday
-  'kitchen appliances gadgets',        // Thursday
-  'laptop macbook accessories',        // Friday
-  'headphones earbuds audio',          // Saturday
+  'electronics bluetooth',     // Sunday
+  'gaming console',            // Monday  
+  'smart home',                // Tuesday
+  'nike sneakers',             // Wednesday
+  'kitchen appliances',        // Thursday
+  'laptop accessories',        // Friday
+  'wireless headphones',       // Saturday
 ];
 
 export async function GET() {
   try {
     const status = getEbayIntegrationStatus();
-    console.log('🔍 eBay Integration Status:', JSON.stringify(status));
+    console.log('🔍 eBay Status:', status.mode);
 
-    // Use eBay API if configured
+    // Use Finding API directly (no OAuth, faster)
     if (status.mode !== 'disabled') {
-      console.log('🔍 Discovering products from eBay API...');
-
-      // Use rotating keyword based on day of week
       const dayOfWeek = new Date().getDay();
       const keyword = DAILY_KEYWORDS[dayOfWeek];
       
-      console.log(`📅 Today's discovery keyword: "${keyword}"`);
+      console.log(`🔍 Searching eBay: "${keyword}"`);
 
-      // Single optimized search - much faster than multiple parallel calls
-      const products = await searchEbayProducts(keyword, 20);
+      // Use Finding API directly - fast and reliable
+      const ebayItems = await searchEbayFindingAPI(keyword, 20);
 
-      if (products.length > 0) {
-        console.log(`✅ Found ${products.length} live eBay products`);
-        
-        // Shuffle for variety
-        const shuffled = products.sort(() => Math.random() - 0.5);
+      if (ebayItems.length > 0) {
+        // Map to Product format
+        const products: Product[] = ebayItems.map((item, index) => ({
+          id: index + 1000,
+          title: item.title,
+          price: parseFloat(item.price),
+          currency: 'USD',
+          image: item.image,
+          category: 'eBay',
+          affiliateLink: item.viewItemURL || `https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(item.title)}`,
+          description: `${item.condition || 'New'} - Live from eBay`,
+        }));
+
+        console.log(`✅ Found ${products.length} eBay products`);
 
         return NextResponse.json({
-          products: shuffled,
+          products,
           source: 'ebay_live',
-          total: shuffled.length,
+          total: products.length,
           keyword,
         });
       }
 
-      console.warn('⚠️ eBay API returned 0 products, using fallback');
-    } else {
-      console.warn('⚠️ eBay API disabled - missing credentials:', status.missing);
+      console.warn('⚠️ No eBay results');
     }
 
-    // Fallback: Return shuffled static products
-    console.log('⚠️ Using fallback discover products');
+    // Fallback
+    console.log('⚠️ Using static fallback');
     const shuffled = [...allProducts].sort(() => Math.random() - 0.5);
     const limited = shuffled.slice(0, 20);
 
@@ -66,10 +70,9 @@ export async function GET() {
       products: limited,
       source: 'fallback',
       total: limited.length,
-      categories: categories.map((c) => c.name),
     });
   } catch (error) {
-    console.error('❌ Error in discover endpoint:', error);
+    console.error('❌ Error:', error);
 
     const shuffled = [...allProducts].sort(() => Math.random() - 0.5);
     const limited = shuffled.slice(0, 20);
