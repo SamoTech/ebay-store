@@ -29,6 +29,11 @@ const DAILY_KEYWORDS = [
 export async function GET() {
   try {
     const now = Date.now();
+    const staticFallback = {
+      products: allProducts,
+      source: 'fallback_static',
+      total: allProducts.length,
+    };
     
     // Return cached products if still valid
     if (productCache && now < cacheExpiry) {
@@ -75,8 +80,8 @@ export async function GET() {
           productCache = products;
           cacheExpiry = now + (24 * 60 * 60 * 1000);
           
-          // Shuffle for variety
-          const shuffled = products.sort(() => Math.random() - 0.5);
+          // Shuffle for variety (without mutating cache)
+          const shuffled = [...products].sort(() => Math.random() - 0.5);
 
           return NextResponse.json({
             products: shuffled,
@@ -90,21 +95,16 @@ export async function GET() {
         console.error('❌ eBay API returned 0 products - this should not happen with valid credentials');
         console.error('🔍 Check Vercel Function Logs for OAuth token errors');
         
-        // Return error instead of fallback
-        return NextResponse.json(
-          {
-            error: 'eBay API returned no products',
-            source: 'error',
-            details: {
-              keyword,
-              status: status.mode,
-              message: 'OAuth may have failed or API rate limit reached',
-            },
-            products: [],
-            total: 0,
+        // Use static fallback so homepage still shows products
+        return NextResponse.json({
+          ...staticFallback,
+          warning: 'eBay API returned no products, serving static fallback catalog',
+          details: {
+            keyword,
+            status: status.mode,
+            message: 'OAuth may have failed or API rate limit reached',
           },
-          { status: 503 }
-        );
+        });
       } catch (apiError) {
         console.error('❌ searchEbayProducts threw error:', apiError);
         
@@ -125,39 +125,29 @@ export async function GET() {
           });
         }
         
-        // Return error without static fallback
-        return NextResponse.json(
-          {
-            error: 'Failed to fetch from eBay API',
-            source: 'error',
-            details: {
-              message: apiError instanceof Error ? apiError.message : 'Unknown error',
-            },
-            products: [],
-            total: 0,
+        // Fall back to static catalog so homepage keeps working
+        return NextResponse.json({
+          ...staticFallback,
+          warning: 'Using static fallback catalog due to eBay API error',
+          details: {
+            message: apiError instanceof Error ? apiError.message : 'Unknown error',
           },
-          { status: 503 }
-        );
+        });
       }
     }
 
-    // API disabled - return configuration error
+    // API disabled - return static fallback catalog
     console.error('❌ eBay API is DISABLED');
     console.error('Missing credentials:', status.missing);
-    
-    return NextResponse.json(
-      {
-        error: 'eBay API not configured',
-        source: 'error',
-        details: {
-          missing: status.missing,
-          message: 'Set EBAY_CLIENT_ID and EBAY_CLIENT_SECRET environment variables',
-        },
-        products: [],
-        total: 0,
+
+    return NextResponse.json({
+      ...staticFallback,
+      warning: 'eBay API not configured, serving static fallback catalog',
+      details: {
+        missing: status.missing,
+        message: 'Set EBAY_CLIENT_ID and EBAY_CLIENT_SECRET environment variables',
       },
-      { status: 503 }
-    );
+    });
   } catch (error) {
     console.error('❌ Fatal error in discover endpoint:', error);
 
@@ -171,18 +161,15 @@ export async function GET() {
       });
     }
 
-    // Return error without static fallback
-    return NextResponse.json(
-      {
-        error: 'Server error',
-        source: 'error',
-        details: {
-          message: error instanceof Error ? error.message : 'Unknown error',
-        },
-        products: [],
-        total: 0,
+    // Always return fallback catalog to avoid empty homepage
+    return NextResponse.json({
+      products: allProducts,
+      source: 'fallback_static',
+      total: allProducts.length,
+      warning: 'Serving static fallback catalog due to server error',
+      details: {
+        message: error instanceof Error ? error.message : 'Unknown error',
       },
-      { status: 500 }
-    );
+    });
   }
 }

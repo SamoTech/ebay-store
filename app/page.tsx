@@ -77,7 +77,7 @@ export default function Home() {
           setApiError('API returned no products. Check Vercel Function Logs.');
           setCatalogSource('error');
           setIsLoading(false);
-          addToast('⚠️ No products returned from eBay', 'warning');
+          addToast('⚠️ No products returned from eBay', 'info');
           return;
         }
 
