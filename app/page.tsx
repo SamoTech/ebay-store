@@ -77,7 +77,7 @@ export default function Home() {
           setApiError('API returned no products. Check Vercel Function Logs.');
           setCatalogSource('error');
           setIsLoading(false);
-          addToast('⚠️ No products returned from eBay', 'warning');
+          addToast('⚠️ No products returned from eBay', 'info');
           return;
         }
 
@@ -164,7 +164,7 @@ export default function Home() {
 
       {catalogSource === 'ebay_live' && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="inline-flex items-center gap-2 rounded-full bg-green-100 text-green-700 px-4 py-1 text-sm font-medium dark:bg-green-900/30 dark:text-green-300">● Live eBay catalog active</div></section>)}
 
-      {apiError && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4"><div className="flex items-start gap-3"><div className="text-2xl">❌</div><div className="flex-1"><p className="font-bold text-red-800 dark:text-red-200 mb-2">Failed to Load Live Products</p><p className="text-sm text-red-700 dark:text-red-300 mb-3">{apiError}</p><div className="flex flex-col sm:flex-row gap-2"><a href="/api/health" target="_blank" className="text-sm bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors inline-block text-center">Check API Health</a><a href="https://github.com/SamoTech/ebay-store/issues/16" target="_blank" rel="noopener noreferrer" className="text-sm bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors inline-block text-center">View Troubleshooting Guide</a></div></div></div></div></section>)}
+      {apiError && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4"><div className="flex items-start gap-3"><div className="text-2xl">❌</div><div className="flex-1"><p className="font-bold text-red-800 dark:text-red-200 mb-2">Failed to Load Live Products</p><p className="text-sm text-red-700 dark:text-red-300 mb-3 whitespace-pre-wrap">{apiError}</p><div className="flex flex-col sm:flex-row gap-2"><a href="/api/health" target="_blank" className="text-sm bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors inline-block text-center">Check API Health</a><a href="https://github.com/SamoTech/ebay-store/issues/16" target="_blank" rel="noopener noreferrer" className="text-sm bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors inline-block text-center">View Troubleshooting Guide</a></div></div></div></div></section>)}
 
       <section id="products" className="max-w-6xl mx-auto px-4 py-8"><div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">{categories.map((cat) => (<button key={cat.id} onClick={() => handleCategoryClick(cat.slug)} className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 text-center hover:shadow-xl transition-all ${selectedCategory === cat.slug ? 'ring-2 ring-blue-600 bg-blue-50 dark:bg-blue-900/30' : ''}`}><span className="text-2xl">{cat.icon}</span><p className="font-bold mt-1 text-gray-700 dark:text-gray-200 text-sm">{cat.name}</p></button>))}</div></section>
 
