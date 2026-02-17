@@ -1,7 +1,7 @@
 # AI Software Delivery Agents
 
 **System Type**: Hybrid AI-Native Organization  
-**Version**: 2.1  
+**Version**: 2.2  
 **Last Updated**: February 17, 2026
 
 ---
@@ -24,16 +24,19 @@ These agents have **absolute authority** in their domains and enforce quality ga
    - Defines product vision and success metrics
    - Prioritizes features with data-driven frameworks
    - **Gate #1**: Must approve all features before development
+   - **✨ eBay Store Skills**: Marketplace strategy, affiliate metrics, commission optimization
 
 2. **[System Architect](./system_architect.md)** - HOW (system-level) authority
    - Designs technical architecture and APIs
    - Chooses technology stack
    - **Gate #2**: Must approve all technical designs
+   - **✨ eBay Store Skills**: API integration patterns, caching strategy, affiliate link architecture
 
 3. **[QA Tester](./qa_agent.md)** - Quality authority with **ABSOLUTE VETO**
    - Tests all features across browsers and devices
    - Makes binary decision: APPROVE ✅ or REJECT ❌
    - **Gate #3**: Must approve all releases (cannot be overridden)
+   - **✨ eBay Store Skills**: Affiliate link validation, product page testing, e-commerce flows
 
 ---
 
@@ -45,42 +48,50 @@ These agents execute approved plans with production-grade expertise:
    - Converts strategy into user stories and tasks
    - Tracks sprint progress and removes blockers
    - Cannot override Strategic Layer or QA decisions
+   - **✨ eBay Store Skills**: Revenue-focused planning, conversion tracking, e-commerce sprints
 
 5. **[UX Designer](./ux_agent.md)** - User experience
    - Designs intuitive, accessible interfaces
    - Optimizes for conversion and usability
    - Ensures WCAG AA compliance
+   - **✨ eBay Store Skills**: E-commerce UI patterns, product discovery, conversion optimization
 
 6. **[Frontend Engineer](./frontend_engineer.md)** - UI implementation
    - Builds responsive React/Next.js components
    - Implements accessibility and performance optimizations
    - Achieves Lighthouse 90+ scores
+   - **✨ eBay Store Skills**: Product cards, image optimization, affiliate link tracking
 
 7. **[Backend Engineer](./backend_engineer.md)** - API & data logic
    - Implements secure, scalable APIs
    - Handles authentication and validation
    - Optimizes database queries
+   - **✨ eBay Store Skills**: eBay API integration, OAuth, rate limiting, product caching
 
 8. **[Code Reviewer](./code_reviewer.md)** - Quality advisory (no approval power)
    - Reviews code for security and best practices
    - Provides recommendations with rationale
    - Escalates critical issues to QA
+   - **✨ eBay Store Skills**: Affiliate compliance, performance checks, API security
 
 9. **[DevOps Engineer](./devops_agent.md)** - Deployment & infrastructure
    - Manages CI/CD pipelines
    - Monitors application health
    - Executes deployments after QA approval only
+   - **✨ eBay Store Skills**: eBay API credentials, monitoring affiliate metrics, performance
 
 10. **[Documentation Agent](./documentation_agent.md)** - Technical writing
     - Updates API docs, README, changelogs
     - Writes for engineers under pressure
     - Ensures docs reflect reality, not intent
+    - **✨ eBay Store Skills**: eBay API integration docs, affiliate guidelines, setup guides
 
-11. **[Content Writer](./content_writer.md)** - SEO & marketing content ✨ NEW
+11. **[Content Writer](./content_writer.md)** - SEO & marketing content
     - Writes SEO-optimized blog posts and product descriptions
     - Creates affiliate marketing content with FTC compliance
     - Develops email campaigns and landing pages
     - Tracks content performance and conversions
+    - **✨ eBay Store Skills**: Product copywriting, eBay-specific SEO, affiliate content
 
 ---
 
@@ -137,18 +148,47 @@ These agents execute approved plans with production-grade expertise:
 - ✅ Testing infrastructure (Jest, React Testing Library)
 - ✅ Security hardened (Phase 1 complete)
 - 🔄 Test coverage: 25% → target 80%+
-- 🆕 Content Writer agent added for SEO & affiliate content
+- 🆕 All agents enhanced with E-commerce skills v2.2
 
-### Team Skills Enhancement
+### Team Skills Enhancement v2.2
 
-All agents have been enhanced with context-specific skills for:
-- **eBay Partner Network API** integration
-- **Affiliate marketing** best practices
-- **E-commerce conversion** optimization
-- **SEO** for product discovery
-- **Performance** for product-heavy pages
-- **Analytics** tracking for affiliate metrics
-- **Content strategy** for organic traffic growth (NEW)
+**ALL agents now have context-specific expertise for:**
+
+1. **eBay Partner Network API**
+   - Browse API (OAuth 2.0)
+   - Finding API (legacy)
+   - Rate limiting strategies
+   - Error handling patterns
+
+2. **Affiliate Marketing**
+   - Commission optimization
+   - FTC compliance
+   - Link tracking
+   - Conversion funnel analysis
+
+3. **E-Commerce Optimization**
+   - Product page performance
+   - Search & filter UX
+   - Checkout flow optimization
+   - Trust signals & social proof
+
+4. **Performance**
+   - Image lazy loading
+   - Product catalog caching
+   - API response optimization
+   - Core Web Vitals for e-commerce
+
+5. **SEO for Products**
+   - Product schema markup
+   - Category page optimization
+   - Internal linking strategy
+   - Meta tags for product pages
+
+6. **Analytics & Tracking**
+   - Affiliate click tracking
+   - Conversion rate monitoring
+   - User journey analysis
+   - Revenue attribution
 
 ---
 
@@ -163,7 +203,7 @@ All agents have been enhanced with context-specific skills for:
 5. **Test thoroughly**: QA Tester makes final approval decision
 6. **Deploy safely**: DevOps executes after QA approval
 7. **Document everything**: Documentation Agent updates all docs
-8. **Create content**: Content Writer develops marketing materials (NEW)
+8. **Create content**: Content Writer develops marketing materials
 
 ### For Quick Reference
 
@@ -175,7 +215,7 @@ All agents have been enhanced with context-specific skills for:
 - **Need release approval?** → QA Tester (final authority)
 - **Need deployment?** → DevOps Engineer
 - **Need documentation?** → Documentation Agent
-- **Need blog posts or product descriptions?** → Content Writer (NEW)
+- **Need blog posts or product descriptions?** → Content Writer
 
 ---
 
@@ -188,6 +228,7 @@ All agents have been enhanced with context-specific skills for:
 5. **Binary Decisions**: APPROVED or REJECTED, no "maybe"
 6. **Autonomous**: Minimal human intervention required
 7. **Production-Safe**: Designed to prevent disasters, not just ship fast
+8. **E-Commerce Ready**: All agents understand eBay affiliate context (v2.2)
 
 ---
 
@@ -199,7 +240,8 @@ This system succeeds when:
 - Speed is consistent (sprint velocity stable ±10%)
 - Human intervention is minimal (<5% of decisions escalated)
 - Documentation is accurate (reflects reality 100%)
-- Content drives organic traffic and conversions (NEW)
+- Content drives organic traffic and conversions
+- Affiliate revenue grows month-over-month
 
 ---
 
@@ -221,12 +263,26 @@ agents/
 ├── qa_agent.md                  # Delivery Layer - Quality Gate ⚠️
 ├── devops_agent.md              # Delivery Layer - Infrastructure
 ├── documentation_agent.md       # Delivery Layer - Documentation
-└── content_writer.md            # Delivery Layer - SEO & Marketing ✨
+└── content_writer.md            # Delivery Layer - SEO & Marketing
 ```
 
 ---
 
 ## Version History
+
+### v2.2 (February 17, 2026) 🆕
+- **Enhanced all 10 existing agents with E-commerce skills**
+- Added eBay Partner Network API expertise to all agents
+- Added affiliate marketing knowledge
+- Added e-commerce conversion optimization patterns
+- Added performance optimization for product catalogs
+- Added SEO best practices for product discovery
+- Added analytics tracking for affiliate metrics
+- Backend Engineer: eBay API caching, OAuth, rate limiting
+- Frontend Engineer: Product cards, image optimization
+- QA Tester: Affiliate link validation, e-commerce flows
+- DevOps: eBay credential management, monitoring
+- All agents now context-aware for eBay affiliate store
 
 ### v2.1 (February 17, 2026)
 - **Added Content Writer agent** (Agent #11)
@@ -252,4 +308,4 @@ agents/
 
 **For complete system details, see [ORGANIZATION.md](./ORGANIZATION.md)**
 
-**This is an autonomous AI software delivery organization designed to ship reliable software with minimal human intervention.**
+**This is an autonomous AI software delivery organization designed to ship reliable, high-converting e-commerce software with minimal human intervention.**
