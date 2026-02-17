@@ -24,11 +24,7 @@ export default function Home() {
   const { addToast } = useToast();
   const { recentlyViewed } = useRecentlyViewed();
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 500);
-    return () => clearTimeout(timer);
-  }, []);
-
+  // Load catalog from eBay API on mount
   useEffect(() => {
     let isMounted = true;
 
@@ -36,7 +32,7 @@ export default function Home() {
       console.log('🔄 Loading catalog from /api/products/discover...');
       
       try {
-        // Increase timeout to 15 seconds for eBay API
+        // 15 second timeout for eBay API (OAuth + API call)
         const controller = new AbortController();
         const timeoutId = setTimeout(() => {
           console.warn('⏱️ Fetch timeout after 15s');
@@ -52,6 +48,10 @@ export default function Home() {
 
         if (!response.ok) {
           console.error('❌ API returned error:', response.status, response.statusText);
+          // Use static fallback
+          if (isMounted) {
+            setIsLoading(false);
+          }
           return;
         }
 
@@ -60,15 +60,18 @@ export default function Home() {
         if (!isMounted) return;
 
         if (!data.products?.length) {
-          console.warn('⚠️ API returned 0 products');
+          console.warn('⚠️ API returned 0 products, using static fallback');
+          setIsLoading(false);
           return;
         }
 
         console.log(`✅ Loaded ${data.products.length} products from source: ${data.source}`);
         
+        // Update catalog with live products
         setCatalog(data.products);
         setCatalogSource(data.source === 'ebay_live' ? 'ebay_live' : 'static');
         
+        // Show success notification for live products
         if (data.source === 'ebay_live') {
           addToast('✅ Live eBay products loaded!', 'success');
         }
@@ -83,7 +86,12 @@ export default function Home() {
             console.error('❌ Fetch error:', error.message);
           }
         }
-        // Keep static fallback
+        // Keep static fallback on error
+      } finally {
+        // Always hide loading after API completes (success or fail)
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     }
 
@@ -133,13 +141,13 @@ export default function Home() {
 
       {searchQuery && (<section className="max-w-6xl mx-auto px-4 py-6"><div className="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 flex flex-col md:flex-row justify-between items-center gap-4"><div><p className="font-bold text-yellow-800 dark:text-yellow-200">Search results for: "{searchQuery}"</p><p className="text-sm text-yellow-700 dark:text-yellow-300">Showing all products from eBay matching your search</p></div>{searchResultsLink && (<a href={searchResultsLink} target="_blank" rel="noopener noreferrer" className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition-colors font-medium whitespace-nowrap">View on eBay →</a>)}</div></section>)}
 
-      {catalogSource === 'ebay_live' && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="inline-flex items-center gap-2 rounded-full bg-green-100 text-green-700 px-4 py-1 text-sm font-medium dark:bg-green-900/30 dark:text-green-300">● Live eBay catalog active</div></section>)}
+      {catalogSource === 'ebay_live' && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="inline-flex items-center gap-2 rounded-full bg-green-100 text-green-700 px-4 py-1 text-sm font-medium dark:bg-green-900/30 dark:text-green-300">● Live eBay catalog active</div></section>)}
 
       <section id="products" className="max-w-6xl mx-auto px-4 py-8"><div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">{categories.map((cat) => (<button key={cat.id} onClick={() => handleCategoryClick(cat.slug)} className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 text-center hover:shadow-xl transition-all ${selectedCategory === cat.slug ? 'ring-2 ring-blue-600 bg-blue-50 dark:bg-blue-900/30' : ''}`}><span className="text-2xl">{cat.icon}</span><p className="font-bold mt-1 text-gray-700 dark:text-gray-200 text-sm">{cat.name}</p></button>))}</div></section>
 
-      {!searchQuery && selectedCategory === 'all' && (<DealOfTheDay />)}
+      {!searchQuery && selectedCategory === 'all' && !isLoading && (<DealOfTheDay />)}
 
-      {recentlyViewed.length > 0 && !searchQuery && selectedCategory === 'all' && (<section className="max-w-6xl mx-auto px-4 py-8"><h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Recently Viewed</h2><div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">{recentlyViewed.slice(0, 5).map((product) => (<div key={product.id} className="flex-shrink-0 w-40"><a href={product.affiliateLink} target="_blank" rel="noopener noreferrer"><div className="relative w-full h-32 rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden"><Image src={product.image} alt={product.title} fill className="object-cover" sizes="160px" /></div><p className="text-sm font-medium mt-2 line-clamp-1 text-gray-700 dark:text-gray-300">{product.title}</p><p className="text-green-600 font-bold text-sm">${product.price}</p></a></div>))}</div></section>)}
+      {recentlyViewed.length > 0 && !searchQuery && selectedCategory === 'all' && !isLoading && (<section className="max-w-6xl mx-auto px-4 py-8"><h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Recently Viewed</h2><div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">{recentlyViewed.slice(0, 5).map((product) => (<div key={product.id} className="flex-shrink-0 w-40"><a href={product.affiliateLink} target="_blank" rel="noopener noreferrer"><div className="relative w-full h-32 rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden"><Image src={product.image} alt={product.title} fill className="object-cover" sizes="160px" /></div><p className="text-sm font-medium mt-2 line-clamp-1 text-gray-700 dark:text-gray-300">{product.title}</p><p className="text-green-600 font-bold text-sm">${product.price}</p></a></div>))}</div></section>)}
 
       <section className="max-w-6xl mx-auto px-4 py-6"><div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"><h2 className="text-2xl font-bold text-gray-800 dark:text-white">{searchQuery ? `Search: "${searchQuery}"` : selectedCategory === 'all' ? showAllProducts ? 'All Products' : 'Featured Products' : categories.find(c => c.slug === selectedCategory)?.name}<span className="text-gray-500 dark:text-gray-400 text-base font-normal ml-3">({filteredProducts.length} products)</span></h2><div className="flex flex-wrap gap-3"><select value={sortBy} onChange={(e) => setSortBy(e.target.value as any)} className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"><option value="name">Sort by Name</option><option value="price-low">Price: Low to High</option><option value="price-high">Price: High to Low</option></select><div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"><span className="text-sm text-gray-600 dark:text-gray-400">$</span><input type="number" value={priceRange[0]} onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])} className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none" placeholder="Min" /><span className="text-gray-400">-</span><input type="number" value={priceRange[1]} onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])} className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none" placeholder="Max" /></div></div></div></section>
       
