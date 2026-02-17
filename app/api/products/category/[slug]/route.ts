@@ -1,9 +1,10 @@
-import { NextResponse } from 'next/server';
-import { allProducts, categories } from '../../../../../lib/products';
+import { NextRequest, NextResponse } from 'next/server';
+import { allProducts } from '../../../../../lib/products';
 import {
   getEbayIntegrationStatus,
   searchEbayProducts,
 } from '../../../../../lib/ebay-api';
+import { getIdentifier, rateLimit } from '../../../../../lib/rate-limit';
 
 // Force dynamic rendering - required for runtime environment variables
 export const dynamic = 'force-dynamic';
@@ -19,9 +20,29 @@ const categoryQueryMap: Record<string, { query: string; categoryName: string }> 
 };
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  const identifier = `products-category:${getIdentifier(request)}`;
+  const rateLimitResult = rateLimit(identifier, 60, 60 * 1000);
+
+  if (!rateLimitResult.success) {
+    const retryAfter = Math.ceil((rateLimitResult.resetAt - Date.now()) / 1000);
+
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.', success: false, retryAfter },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': retryAfter.toString(),
+          'X-RateLimit-Limit': '60',
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': rateLimitResult.resetAt.toString(),
+        },
+      }
+    );
+  }
+
   // Next.js 16: params is now a Promise
   const { slug } = await params;
 

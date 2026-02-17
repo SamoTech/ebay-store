@@ -1,10 +1,11 @@
-import { NextResponse } from 'next/server';
-import { allProducts, Product, categories } from '../../../../lib/products';
+import { NextRequest, NextResponse } from 'next/server';
+import { allProducts, Product } from '../../../../lib/products';
 import {
   getEbayIntegrationStatus,
   searchEbayProducts,
   EBAY_CONFIG,
 } from '../../../../lib/ebay-api';
+import { getIdentifier, rateLimit } from '../../../../lib/rate-limit';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -26,7 +27,27 @@ const DAILY_KEYWORDS = [
   'headphones earbuds audio',          // Saturday
 ];
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const identifier = `products-discover:${getIdentifier(request)}`;
+  const rateLimitResult = rateLimit(identifier, 60, 60 * 1000);
+
+  if (!rateLimitResult.success) {
+    const retryAfter = Math.ceil((rateLimitResult.resetAt - Date.now()) / 1000);
+
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.', success: false, retryAfter },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': retryAfter.toString(),
+          'X-RateLimit-Limit': '60',
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': rateLimitResult.resetAt.toString(),
+        },
+      }
+    );
+  }
+
   try {
     const now = Date.now();
     const staticFallback = {
@@ -43,6 +64,12 @@ export async function GET() {
         source: 'ebay_cached',
         total: productCache.length,
         expiresIn: Math.round((cacheExpiry - now) / 1000 / 60), // minutes
+      }, {
+        headers: {
+          'X-RateLimit-Limit': '60',
+          'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+          'X-RateLimit-Reset': rateLimitResult.resetAt.toString(),
+        }
       });
     }
 
