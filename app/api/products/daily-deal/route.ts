@@ -4,6 +4,7 @@ import {
   getEbayIntegrationStatus,
   searchEbayProducts,
 } from '../../../../lib/ebay-api';
+import { withRateLimit } from '../../../../lib/rate-limit';
 
 // Force dynamic rendering - required for runtime environment variables
 export const dynamic = 'force-dynamic';
@@ -20,7 +21,7 @@ const dealCategories = [
   'Apple Watch',         // Saturday
 ];
 
-export async function GET() {
+async function getDailyDeal() {
   try {
     const dayOfWeek = new Date().getDay();
     const todayCategory = dealCategories[dayOfWeek];
@@ -87,3 +88,9 @@ function getEndOfDay(): string {
   );
   return endOfDay.toISOString();
 }
+
+
+export const GET = withRateLimit(getDailyDeal, {
+  maxRequests: 60,
+  windowMs: 60 * 1000,
+});

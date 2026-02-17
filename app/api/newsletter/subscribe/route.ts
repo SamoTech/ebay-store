@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { withRateLimit } from '../../../../lib/rate-limit';
 
 interface NewsletterRequest {
   name: string;
@@ -25,7 +26,7 @@ function sanitizeInput(input: string): string {
     .substring(0, 500); // Limit length
 }
 
-export async function POST(request: NextRequest) {
+async function subscribeNewsletter(request: NextRequest) {
   try {
     // Parse request body
     const body: NewsletterRequest = await request.json();
@@ -164,3 +165,9 @@ export async function GET() {
     version: '1.0.0',
   });
 }
+
+
+export const POST = withRateLimit(subscribeNewsletter, {
+  maxRequests: 10,
+  windowMs: 15 * 60 * 1000,
+});

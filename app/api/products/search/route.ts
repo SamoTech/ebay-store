@@ -4,12 +4,13 @@ import {
   searchEbayProducts,
 } from '../../../../lib/ebay-api';
 import { allProducts } from '../../../../lib/products';
+import { withRateLimit } from '../../../../lib/rate-limit';
 
 // Force dynamic rendering - required for runtime environment variables
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-export async function GET(request: Request) {
+async function searchProducts(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q') || '';
   const limit = parseInt(searchParams.get('limit') || '12', 10);
@@ -74,3 +75,9 @@ export async function GET(request: Request) {
     });
   }
 }
+
+
+export const GET = withRateLimit(searchProducts, {
+  maxRequests: 60,
+  windowMs: 60 * 1000,
+});
