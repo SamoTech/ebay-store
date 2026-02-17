@@ -36,7 +36,7 @@
 
 ### Core Features
 - 🔍 **Smart Search** - AI-powered product search across eBay with autocomplete
-- 💰 **Best Deals** - Real-time price tracking and deal alerts
+- 💰 **Live eBay Products** - Real-time product data via eBay Browse API with OAuth 2.0
 - 🤖 **AI Chatbot** - Personalized shopping recommendations
 - 🎯 **Deal of the Day** - Curated daily deals with countdown timers
 - ⭐ **Favorites System** - Save and track your favorite products
@@ -44,6 +44,7 @@
 - 🔔 **Price Alerts** - Get notified when prices drop
 - 🔄 **Recently Viewed** - Track your browsing history
 - 🎨 **Product Comparison** - Compare multiple products side-by-side
+- 💸 **Affiliate Tracking** - eBay Partner Network integration for commission tracking
 
 ### Technical Features
 - ⚡ **ISR (Incremental Static Regeneration)** - Lightning-fast page loads with fresh content
@@ -54,6 +55,8 @@
 - 📊 **Analytics** - Vercel Analytics & Speed Insights integrated
 - 🔒 **Security Middleware** - Rate limiting, input validation, secure headers
 - 🧪 **Comprehensive Testing** - 65%+ test coverage with Jest
+- 🔄 **24-Hour Product Caching** - Optimized API usage with automatic refresh
+- 📅 **Daily Rotating Keywords** - Fresh product variety every day
 
 ---
 
@@ -62,6 +65,8 @@
 ### Prerequisites
 - **Node.js** 20.x or higher
 - **npm** 10.x or higher
+- **eBay Developer Account** - [Sign up here](https://developer.ebay.com/)
+- **eBay Partner Network Account** - [Sign up here](https://partnernetwork.ebay.com/)
 
 ### Installation
 
@@ -76,26 +81,94 @@ npm install
 # Copy environment variables
 cp .env.example .env.local
 
+# Configure your eBay API credentials (see below)
+
 # Start development server
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Environment Variables
+### Environment Variables Setup
 
-Create `.env.local` with:
+#### 1. Get eBay Browse API Credentials (OAuth 2.0)
+
+1. Visit [eBay Developer Portal](https://developer.ebay.com/my/keys)
+2. Create a **Production** Application Keyset
+3. Copy your `Client ID` and `Client Secret`
+
+#### 2. Get eBay Partner Network Campaign ID
+
+1. Visit [eBay Partner Network](https://partnernetwork.ebay.com/)
+2. Create a campaign and get your `Campaign ID`
+3. This is used for affiliate commission tracking
+
+#### 3. Configure `.env.local`
 
 ```env
-# Required
-WEB3FORMS_ACCESS_KEY=your_web3forms_key
-EBAY_APP_ID=your_ebay_app_id
+# ═══════════════════════════════════════════════════════════
+# eBay Browse API (OAuth 2.0) - REQUIRED for Live Products
+# ═══════════════════════════════════════════════════════════
+# Get credentials from: https://developer.ebay.com/my/keys
+# Create a "Production" keyset for live data
 
-# Optional
-NEXT_PUBLIC_GA_ID=your_google_analytics_id
+EBAY_CLIENT_ID=your_production_client_id
+EBAY_CLIENT_SECRET=your_production_client_secret
+
+# ═══════════════════════════════════════════════════════════
+# eBay Partner Network - REQUIRED for Affiliate Tracking
+# ═══════════════════════════════════════════════════════════
+# Get Campaign ID from: https://epn.ebay.com/
+# This is used to track affiliate commissions
+
+EBAY_CAMPAIGN_ID=your_campaign_id
+
+# ═══════════════════════════════════════════════════════════
+# eBay API Configuration (Advanced - Optional)
+# ═══════════════════════════════════════════════════════════
+
+EBAY_MARKETPLACE_ID=EBAY_US
+EBAY_OAUTH_SCOPE=https://api.ebay.com/oauth/api_scope
+
+# ═══════════════════════════════════════════════════════════
+# Other Services (Optional but Recommended)
+# ═══════════════════════════════════════════════════════════
+
+# Groq AI - FREE Chatbot (https://console.groq.com/)
+GROQ_API_KEY=gsk_your_groq_api_key_here
+
+# Web3Forms - FREE Email Service (https://web3forms.com/)
+WEB3FORMS_ACCESS_KEY=your_web3forms_access_key_here
+
+# Google Analytics (Optional)
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
-See [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for detailed configuration.
+**Important Notes:**
+- ❌ **Do NOT use** the old Finding API credentials (`EBAY_APP_ID`, `EBAY_CERT_ID`, `EBAY_DEV_ID`)
+- ✅ **Use** OAuth 2.0 credentials (`EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`) for Browse API
+- 🔒 Never commit `.env.local` to version control
+- 🚀 For Vercel deployment, add these variables in your Vercel project settings
+
+### Verify eBay API Setup
+
+After configuration, test your setup:
+
+```bash
+# Start dev server
+npm run dev
+
+# Visit http://localhost:3000
+# You should see:
+# - "● Live eBay catalog active" badge
+# - Real products from eBay within 15 seconds
+# - Console log: "✅ eBay OAuth token acquired"
+
+# Check API health (coming soon)
+# Visit http://localhost:3000/api/health
+```
+
+See [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for detailed configuration and troubleshooting.
 
 ---
 
@@ -106,7 +179,9 @@ ebay-store/
 ├── app/                      # Next.js 16 App Router
 │   ├── about/               # About page
 │   ├── api/                 # API routes
-│   │   └── newsletter/      # Newsletter subscription
+│   │   ├── newsletter/      # Newsletter subscription
+│   │   └── products/        # Product data endpoints
+│   │       └── discover/    # Live eBay product discovery
 │   ├── blog/                # Blog section
 │   │   └── [slug]/          # Individual blog posts
 │   ├── category/[slug]/     # Category pages (ISR enabled)
@@ -154,7 +229,7 @@ ebay-store/
 ├── lib/                     # Utilities & business logic
 │   ├── analytics.ts         # Analytics tracking utilities
 │   ├── blog-data.ts         # Blog posts data source
-│   ├── ebay-api.ts          # eBay API integration
+│   ├── ebay-api.ts          # eBay API integration (OAuth + Browse API)
 │   ├── env-validation.ts    # Environment variable validation
 │   ├── env.ts               # Environment configuration
 │   ├── error-handler.ts     # Error handling utilities
@@ -230,14 +305,17 @@ ebay-store/
 ### Backend & APIs
 - **Next.js API Routes** - Serverless API endpoints
 - **Next.js Middleware** - Request/response interception & security
-- **eBay Partner Network API** - Product data & affiliate links
+- **eBay Browse API (OAuth 2.0)** - Live product data & search
+- **eBay Partner Network** - Affiliate link generation & commission tracking
 - **Web3Forms** - Newsletter subscription service
+- **Groq AI** - Chatbot intelligence
 
 ### Performance & Optimization
 - **ISR (Incremental Static Regeneration)** - Fast, fresh content
 - **Image Optimization** - AVIF/WebP with blur placeholders
 - **Bundle Analyzer** - Monitor bundle sizes
-- **In-Memory Caching** - API response caching
+- **24-Hour Product Caching** - Minimize API calls
+- **OAuth Token Caching** - Reuse tokens until expiry
 
 ### Testing & Quality
 - **[Jest 29](https://jestjs.io/)** - Test framework
@@ -249,6 +327,7 @@ ebay-store/
 - **Vercel Analytics** - Real-user monitoring
 - **Speed Insights** - Core Web Vitals tracking
 - **GitHub** - Version control
+- **GitHub Actions** - CI/CD (coming soon)
 
 ### SEO & Analytics
 - **Google Analytics 4** - User analytics
@@ -273,6 +352,9 @@ ebay-store/
 - **[Security Fixes](docs/SPRINT_SECURITY_FIXES.md)** - Security improvements
 - **[Deployment Guide](docs/DEPLOYMENT_COMPLETE.md)** - Deployment instructions
 - **[SEO Optimization](docs/SEO_OPTIMIZATION.md)** - SEO best practices
+
+### Troubleshooting
+- **[Issue #16: Live Products Not Showing](https://github.com/SamoTech/ebay-store/issues/16)** - Common setup issues
 
 ---
 
@@ -337,11 +419,13 @@ See [TESTING_GUIDE.md](docs/TESTING_GUIDE.md) for details.
 - **Best Practices**: 100/100
 - **SEO**: 100/100
 
-### ISR Configuration
+### ISR & Caching Configuration
 
 - **Product Pages**: Revalidate every 1 hour (3600s)
 - **Category Pages**: Revalidate every 30 minutes (1800s)
 - **Homepage**: Static with on-demand revalidation
+- **Live Products**: 24-hour cache with daily keyword rotation
+- **OAuth Tokens**: Cached until expiry (typically 2 hours)
 
 See [PERFORMANCE.md](docs/PERFORMANCE.md) for optimization details.
 
@@ -383,11 +467,16 @@ npm run verify:conflicts # Check for conflicts
 
 1. Click "Deploy" button above
 2. Connect your GitHub account
-3. Add environment variables:
-   - `WEB3FORMS_ACCESS_KEY`
-   - `EBAY_APP_ID`
+3. Add environment variables in Vercel dashboard:
+   - `EBAY_CLIENT_ID` (from eBay Developer Portal)
+   - `EBAY_CLIENT_SECRET` (from eBay Developer Portal)
+   - `EBAY_CAMPAIGN_ID` (from eBay Partner Network)
+   - `WEB3FORMS_ACCESS_KEY` (optional)
+   - `GROQ_API_KEY` (optional)
    - `NEXT_PUBLIC_GA_ID` (optional)
-4. Deploy!
+4. **Important**: Do NOT add `EBAY_APP_ID` - it's deprecated
+5. Deploy!
+6. Check `/api/health` endpoint to verify eBay API setup
 
 ### Manual Deployment
 
@@ -399,6 +488,18 @@ npm run build
 npm start
 ```
 
+### Deployment Checklist
+
+- [ ] eBay OAuth credentials configured (CLIENT_ID, CLIENT_SECRET)
+- [ ] eBay Campaign ID configured for affiliate tracking
+- [ ] No deprecated `EBAY_APP_ID` variable set
+- [ ] Environment variables set in Vercel dashboard
+- [ ] Build succeeds without errors
+- [ ] Live products appear on homepage
+- [ ] "● Live eBay catalog active" badge visible
+- [ ] Affiliate links include campaign ID
+- [ ] Core Web Vitals in green zone
+
 See [DEPLOYMENT_COMPLETE.md](docs/DEPLOYMENT_COMPLETE.md) for detailed instructions.
 
 ---
@@ -407,10 +508,12 @@ See [DEPLOYMENT_COMPLETE.md](docs/DEPLOYMENT_COMPLETE.md) for detailed instructi
 
 - ✅ **No exposed secrets** - All API keys server-side only
 - ✅ **Environment validation** - Startup checks for required vars
-- ✅ **Rate limiting** - 5 req/15min for newsletter, 100 req/hr for eBay
+- ✅ **Rate limiting** - 5 req/15min for newsletter, intelligent API caching
 - ✅ **Input sanitization** - All user inputs validated
 - ✅ **Security headers** - Middleware adds HSTS, CSP, XSS protection
 - ✅ **HTTPS only** - Enforced in production
+- ✅ **OAuth 2.0** - Secure token-based eBay API access
+- ✅ **Token caching** - Reduces attack surface with minimal token requests
 
 ---
 
@@ -456,19 +559,24 @@ Contributions are welcome! Please follow these steps:
 
 This project was developed using a sophisticated 11-agent AI system:
 
-- **Product Strategist** - Strategy & Vision
-- **System Architect** - Technical Architecture
-- **QA Agent** - Quality Assurance
-- **Project Manager** - Coordination
-- **Frontend Engineer** - UI Development
-- **Backend Engineer** - API Development
-- **Code Reviewer** - Code Quality
-- **DevOps Agent** - Infrastructure
-- **Documentation Agent** - Technical Writing
-- **UX Agent** - User Experience
-- **Security Specialist** - Security
+**Strategic Layer:**
+- **Product Strategist** - Strategy & Vision, KPI definitions
+- **System Architect** - Technical Architecture, API design
 
-See [agents/README.md](agents/README.md) for the complete agent system.
+**Execution Layer:**
+- **Project Manager** - Coordination, issue management
+- **Frontend Engineer** - UI Development, React components
+- **Backend Engineer** - API Development, eBay integration
+- **Code Reviewer** - Code Quality, standards enforcement
+- **QA Agent** - Quality Assurance, testing
+- **DevOps Agent** - Infrastructure, deployment
+- **Documentation Agent** - Technical Writing, guides
+
+**Supporting Agents:**
+- **UX Agent** - User Experience design
+- **Content Writer** - Marketing content, blog posts
+
+See [agents/README.md](agents/README.md) for the complete agent system documentation.
 
 ---
 
@@ -478,12 +586,25 @@ See [agents/README.md](agents/README.md) for the complete agent system.
 - **Components**: 19
 - **Contexts**: 5
 - **Pages/Routes**: 15+
-- **API Routes**: 3+
+- **API Routes**: 4+
 - **Test Files**: 11
 - **Test Coverage**: 65%+
 - **Documentation Pages**: 15+
 - **Lighthouse Score**: 98/100
 - **Project Score**: 100/100 ⭐
+
+---
+
+## 🔄 Recent Updates
+
+### February 2026
+- ✅ Migrated to eBay Browse API with OAuth 2.0
+- ✅ Added 24-hour product caching strategy
+- ✅ Implemented daily rotating keywords
+- ✅ Enhanced affiliate link tracking
+- ✅ Updated documentation for OAuth setup
+- ✅ Deprecated Finding API support
+- 🚧 Health check endpoint in progress
 
 ---
 
@@ -501,8 +622,8 @@ Free to use for personal and commercial projects.
 
 - 🌐 GitHub: [@SamoTech](https://github.com/SamoTech)
 - 📧 Email: samo.hossam@gmail.com
-- 🔗 LinkedIn: [ossamahashim](https://www.linkedin.com/in/ossamahashim/)
-- 🌍 Location: Al Haram, Giza, Egypt
+- 🐦 Twitter: [@OssamaHashim](https://twitter.com/OssamaHashim)
+- 📍 Location: Cairo, Egypt
 
 ---
 
@@ -535,6 +656,7 @@ Need help? Have questions?
 
 - 📖 Check the [documentation](docs/)
 - 🐛 [Open an issue](https://github.com/SamoTech/ebay-store/issues)
+- 💬 [Issue #16: Live Products Setup](https://github.com/SamoTech/ebay-store/issues/16)
 - 📧 Email: samo.hossam@gmail.com
 
 ---
