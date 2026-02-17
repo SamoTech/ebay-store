@@ -33,23 +33,63 @@ export default function Home() {
     let isMounted = true;
 
     async function loadCatalog(): Promise<void> {
+      console.log('🔄 Loading catalog from /api/products/discover...');
+      
       try {
-        const response = await fetch('/api/products/discover');
-        if (!response.ok) return;
+        // Increase timeout to 15 seconds for eBay API
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => {
+          console.warn('⏱️ Fetch timeout after 15s');
+          controller.abort();
+        }, 15000);
+
+        const response = await fetch('/api/products/discover', {
+          signal: controller.signal,
+          cache: 'no-store',
+        });
+        
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          console.error('❌ API returned error:', response.status, response.statusText);
+          return;
+        }
 
         const data = await response.json() as { source?: string; products?: Product[] };
-        if (!isMounted || !data.products?.length) return;
+        
+        if (!isMounted) return;
 
+        if (!data.products?.length) {
+          console.warn('⚠️ API returned 0 products');
+          return;
+        }
+
+        console.log(`✅ Loaded ${data.products.length} products from source: ${data.source}`);
+        
         setCatalog(data.products);
         setCatalogSource(data.source === 'ebay_live' ? 'ebay_live' : 'static');
-      } catch {
-        // Keep static fallback silently
+        
+        if (data.source === 'ebay_live') {
+          addToast('✅ Live eBay products loaded!', 'success');
+        }
+      } catch (error) {
+        if (!isMounted) return;
+        
+        if (error instanceof Error) {
+          if (error.name === 'AbortError') {
+            console.error('❌ Fetch aborted (timeout)');
+            addToast('⏱️ eBay API timeout, using cached products', 'info');
+          } else {
+            console.error('❌ Fetch error:', error.message);
+          }
+        }
+        // Keep static fallback
       }
     }
 
     void loadCatalog();
     return () => { isMounted = false; };
-  }, []);
+  }, [addToast]);
 
   const selectedCategoryName = categories.find(c => c.slug === selectedCategory)?.name;
   let filteredProducts = selectedCategory === 'all' 
