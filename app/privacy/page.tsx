@@ -37,7 +37,7 @@ export default function PrivacyPage() {
               DealsHub is an affiliate marketing website that helps users find deals on eBay. We collect minimal information:
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
-              <li><strong>Email addresses:</strong> When you subscribe to our newsletter for deal alerts</li>
+              <li><strong>Email addresses:</strong> When you contact us through forms on the site</li>
               <li><strong>Analytics data:</strong> We use cookies and analytics tools to understand how visitors use our site</li>
               <li><strong>Preferences:</strong> We store your favorite products and recently viewed items in your browser local storage</li>
             </ul>
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
               2. How We Use Your Information
             </h2>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Send you deal alerts and newsletters (only if you subscribe)</li>
+              <li>Respond to your inquiries and support requests</li>
               <li>Improve our website and user experience</li>
               <li>Analyze site traffic and user behavior</li>
               <li>Comply with legal obligations</li>
@@ -93,7 +93,7 @@ export default function PrivacyPage() {
               5. Data Storage and Security
             </h2>
             <p className="text-gray-700 dark:text-gray-300">
-              We store your data securely and do not sell your personal information to third parties. Email addresses are stored securely and only used for sending newsletters you have subscribed to.
+              We store your data securely and do not sell your personal information to third parties. Email addresses are only used to respond to requests you submit through our forms.
             </p>
           </section>
 
@@ -105,7 +105,7 @@ export default function PrivacyPage() {
               You have the right to:
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Unsubscribe from our newsletter at any time (link in every email)</li>
+              <li>Request deletion of data you submitted via contact forms</li>
               <li>Request deletion of your email address from our database</li>
               <li>Clear your local storage data (favorites, recently viewed) by clearing your browser data</li>
               <li>Opt out of analytics tracking using browser extensions or settings</li>

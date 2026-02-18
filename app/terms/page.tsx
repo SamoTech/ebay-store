@@ -48,7 +48,7 @@ export default function TermsPage() {
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
               <li>Curates and displays deals from eBay</li>
               <li>Provides shopping guides and product reviews</li>
-              <li>Offers newsletter subscriptions for deal alerts</li>
+              <li>Provides deal discovery tools and product search features</li>
               <li>Earns commissions from qualifying purchases made through our affiliate links</li>
             </ul>
           </section>
@@ -144,10 +144,10 @@ export default function TermsPage() {
 
           <section>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              9. Newsletter and Communications
+              9. Contact Communications
             </h2>
             <p className="text-gray-700 dark:text-gray-300">
-              By subscribing to our newsletter, you agree to receive emails about deals, products, and promotions. You can unsubscribe at any time using the link in any email.
+              If you contact us through forms, you agree that we may use your submitted email to respond to your request.
             </p>
           </section>
 

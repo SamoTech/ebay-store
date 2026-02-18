@@ -162,7 +162,6 @@ ebay-store/
 ├── app/                      # Next.js 16 App Router
 │   ├── about/               # About page
 │   ├── api/                 # API routes
-│   │   ├── newsletter/      # Newsletter subscription
 │   │   └── products/        # Product data endpoints
 │   │       └── discover/    # Live eBay product discovery
 │   ├── blog/                # Blog section
@@ -231,7 +230,6 @@ ebay-store/
 │       └── image.ts         # Image optimization helpers
 ├── __tests__/              # Test suites (65%+ coverage)
 │   ├── api/                # API route tests
-│   │   └── newsletter/     # Newsletter API tests (14 tests)
 │   ├── components/         # Component tests
 │   │   ├── ErrorBoundary.test.tsx (12 tests)
 │   │   └── ProductCard.test.tsx (15 tests)
@@ -491,7 +489,7 @@ See [DEPLOYMENT_COMPLETE.md](docs/DEPLOYMENT_COMPLETE.md) for detailed instructi
 
 - ✅ **No exposed secrets** - All API keys server-side only
 - ✅ **Environment validation** - Startup checks for required vars
-- ✅ **Rate limiting** - 5 req/15min for newsletter, intelligent API caching
+- ✅ **Rate limiting** - Applied to product APIs with intelligent caching
 - ✅ **Input sanitization** - All user inputs validated
 - ✅ **Security headers** - Middleware adds HSTS, CSP, XSS protection
 - ✅ **HTTPS only** - Enforced in production
