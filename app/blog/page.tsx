@@ -175,27 +175,6 @@ export default function BlogPage() {
           </div>
         </div>
 
-        {/* Newsletter CTA */}
-        <div className="mt-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl shadow-xl p-8 md:p-12 text-center text-white">
-          <h3 className="text-3xl font-bold mb-4">
-            📬 Never Miss a Deal
-          </h3>
-          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-            Get weekly shopping guides, exclusive deals, and insider tips delivered to your inbox. Join 10,000+ smart shoppers.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input 
-              type="email" 
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
-              Subscribe Free
-            </button>
-          </div>
-          <p className="text-xs text-blue-200 mt-3">No spam. Unsubscribe anytime.</p>
-        </div>
-
         {/* Back to Shopping CTA */}
         <div className="mt-12 text-center bg-gray-100 dark:bg-gray-800 rounded-2xl p-8">
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">

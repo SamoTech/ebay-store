@@ -5,7 +5,7 @@
  * and provides a typed interface for accessing them throughout the app.
  * 
  * Required environment variables:
- * - WEB3FORMS_ACCESS_KEY: API key for Web3Forms newsletter service
+ * - WEB3FORMS_ACCESS_KEY: API key for Web3Forms-backed contact/alert forms
  * - EBAY_APP_ID: eBay Partner Network application ID
  * - NEXT_PUBLIC_GA_ID: Google Analytics measurement ID
  */
@@ -79,7 +79,7 @@ validateEnv();
  * @example
  * import { env } from '@/lib/env';
  * 
- * const apiKey = env.web3FormsKey;
+ * const apiKey = process.env.WEB3FORMS_ACCESS_KEY;
  */
 export const env = {
   // Required variables

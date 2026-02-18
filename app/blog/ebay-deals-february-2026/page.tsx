@@ -106,7 +106,7 @@ export default function DealsPage() {
           </section>
 
           <section className="bg-blue-600 text-white rounded-lg p-8 mb-12">
-            <h2 className="text-3xl font-bold mb-4">🚀 Never Miss a Deal</h2>
+            <h2 className="text-3xl font-bold mb-4">🚀 Explore More Deals</h2>
             <p className="text-lg text-blue-100 mb-6">
               New deals added every Monday and Thursday. Bookmark this page or follow us for instant notifications.
             </p>
