@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { withRateLimit } from '../../../../lib/rate-limit';
 
 interface NewsletterRequest {
   name: string;
