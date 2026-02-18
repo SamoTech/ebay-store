@@ -1,73 +1,34 @@
 import { NextResponse } from 'next/server';
 import { allProducts } from '../../../../lib/products';
-import {
-  getEbayIntegrationStatus,
-  searchEbayProducts,
-} from '../../../../lib/ebay-api';
+import { getEbayIntegrationStatus, searchEbayProducts } from '../../../../lib/ebay-api';
 import { withRateLimit } from '../../../../lib/rate-limit';
 
-// Force dynamic rendering - required for runtime environment variables
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 600;
 
-// Daily rotating deal categories
-const dealCategories = [
-  'iPhone 15',           // Sunday
-  'PlayStation 5',       // Monday
-  'Nike Sneakers',       // Tuesday
-  'MacBook Pro',         // Wednesday
-  'Samsung Galaxy',      // Thursday
-  'Nintendo Switch',     // Friday
-  'Apple Watch',         // Saturday
-];
+const dealCategories = ['iPhone 15', 'PlayStation 5', 'Nike Sneakers', 'MacBook Pro', 'Samsung Galaxy', 'Nintendo Switch', 'Apple Watch'];
 
 async function getDailyDeal() {
   try {
-    const dayOfWeek = new Date().getDay();
-    const todayCategory = dealCategories[dayOfWeek];
-
+    const todayCategory = dealCategories[new Date().getDay()];
     const status = getEbayIntegrationStatus();
-    console.log(`🔍 Daily Deal (${todayCategory}) - eBay Status:`, status.mode);
 
-    // Use eBay API if configured
     if (status.mode !== 'disabled') {
-      console.log(`🔍 Fetching daily deal from eBay: ${todayCategory}`);
-      
       const products = await searchEbayProducts(todayCategory, 1);
-
       if (products.length > 0) {
-        const deal = products[0];
-        console.log(`✅ Daily deal found: ${deal.title}`);
-        
-        return NextResponse.json({
-          deal,
-          category: todayCategory,
-          source: 'ebay-api',
-          expiresAt: getEndOfDay(),
-        });
+        return NextResponse.json({ deal: products[0], category: todayCategory, source: 'ebay-api', expiresAt: getEndOfDay() });
       }
-
-      console.warn(`⚠️ No eBay deal for ${todayCategory}, using fallback`);
-    } else {
-      console.warn('⚠️ eBay API disabled for daily deal');
     }
 
-    // Fallback: Random product from static list
-    const randomDeal = allProducts[Math.floor(Math.random() * allProducts.length)];
-
     return NextResponse.json({
-      deal: randomDeal,
+      deal: allProducts[Math.floor(Math.random() * allProducts.length)],
       category: todayCategory,
       source: 'fallback',
       expiresAt: getEndOfDay(),
     });
-  } catch (error) {
-    console.error('❌ Error fetching daily deal:', error);
-
-    const randomDeal = allProducts[Math.floor(Math.random() * allProducts.length)];
-
+  } catch {
     return NextResponse.json({
-      deal: randomDeal,
+      deal: allProducts[Math.floor(Math.random() * allProducts.length)],
       category: 'Mixed',
       source: 'fallback-error',
       expiresAt: getEndOfDay(),
@@ -77,20 +38,7 @@ async function getDailyDeal() {
 
 function getEndOfDay(): string {
   const now = new Date();
-  const endOfDay = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    23,
-    59,
-    59,
-    999
-  );
-  return endOfDay.toISOString();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).toISOString();
 }
 
-
-export const GET = withRateLimit(getDailyDeal, {
-  maxRequests: 60,
-  windowMs: 60 * 1000,
-});
+export const GET = withRateLimit(getDailyDeal, { maxRequests: 60, windowMs: 60 * 1000 });

@@ -1,26 +1,12 @@
-/**
- * Consolidated eBay API Integration
- * 
- * This module provides:
- * 1. eBay Finding API (public search)
- * 2. eBay Browse API (OAuth-based)
- * 3. Affiliate link generation with Campaign ID
- * 4. Product data mapping and normalization
- * 
- * Supports both Finding API (simple) and Browse API (advanced)
- */
-
 import { Product, createSearchLink } from './products';
-
-// ═══════════════════════════════════════════════════════════
-// CONFIGURATION
-// ═══════════════════════════════════════════════════════════
+import { TokenManager } from '@/src/lib/token-manager';
+import { logger } from '@/src/lib/logger';
+import { LruRequestCache } from '@/src/features/search/services/search-cache';
 
 const EBAY_FINDING_API = 'https://svcs.ebay.com/services/search/FindingService/v1';
 const EBAY_BROWSE_API = 'https://api.ebay.com/buy/browse/v1';
 const EBAY_OAUTH_API = 'https://api.ebay.com/identity/v1/oauth2/token';
 
-// eBay Partner Network Affiliate Tracking
 const CAMPID = '5338903178';
 const SITEID = '0';
 const MKRID = '711-53200-19255-0';
@@ -36,33 +22,23 @@ export const EBAY_CONFIG = {
   oauthScope: process.env.EBAY_OAUTH_SCOPE || 'https://api.ebay.com/oauth/api_scope',
 };
 
-// ═══════════════════════════════════════════════════════════
-// TYPES
-// ═══════════════════════════════════════════════════════════
-
-export interface EbayProduct {
+export interface EbayFindingItem {
   title: string;
   price: string;
   image: string;
   itemId: string;
   viewItemURL?: string;
   condition?: string;
-  shippingInfo?: any;
 }
 
 export interface EbayFindingApiResponse {
   findItemsByKeywordsResponse?: Array<{
     searchResult?: Array<{
-      item?: EbayProduct[];
+      item?: EbayFindingItem[];
       '@count'?: string;
     }>;
     ack?: Array<string>;
   }>;
-}
-
-export interface EbayTokenResponse {
-  access_token: string;
-  expires_in: number;
 }
 
 export interface EbayIntegrationStatus {
@@ -88,168 +64,52 @@ export interface EbaySearchResponse {
   total?: number;
 }
 
-// ═══════════════════════════════════════════════════════════
-// TOKEN MANAGEMENT (Browse API)
-// ═══════════════════════════════════════════════════════════
+const tokenManager = new TokenManager({
+  clientId: EBAY_CONFIG.clientId,
+  clientSecret: EBAY_CONFIG.clientSecret,
+  scope: EBAY_CONFIG.oauthScope,
+  tokenUrl: EBAY_OAUTH_API,
+  manualToken: EBAY_CONFIG.oauthToken,
+});
 
-let tokenCache: { token: string; expiresAt: number } | null = null;
+const browseCache = new LruRequestCache<EbaySearchResponse>(200);
 
-async function getEbayAccessToken(): Promise<string | null> {
-  // Priority 1: Manual token from env
-  if (EBAY_CONFIG.oauthToken) {
-    console.log('✅ Using manual OAuth token from env');
-    return EBAY_CONFIG.oauthToken;
-  }
-
-  // Priority 2: Cached token (if still valid)
-  if (tokenCache && tokenCache.expiresAt > Date.now()) {
-    console.log('✅ Using cached OAuth token');
-    return tokenCache.token;
-  }
-
-  // Priority 3: Generate new token via client credentials
-  const { clientId, clientSecret, oauthScope } = EBAY_CONFIG;
-  if (!clientId || !clientSecret) {
-    console.warn('⚠️ No OAuth credentials, cannot get token');
-    return null;
-  }
-
-  try {
-    console.log('🔄 Requesting new eBay OAuth token...');
-    const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-    const body = new URLSearchParams({
-      grant_type: 'client_credentials',
-      scope: oauthScope,
-    });
-
-    const response = await fetch(EBAY_OAUTH_API, {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${basicAuth}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: body.toString(),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('❌ Failed to get eBay OAuth token:', response.status, errorText);
-      return null;
-    }
-
-    const tokenData = (await response.json()) as EbayTokenResponse;
-
-    tokenCache = {
-      token: tokenData.access_token,
-      expiresAt: Date.now() + Math.max(0, tokenData.expires_in - 60) * 1000,
-    };
-
-    console.log(`✅ eBay OAuth token acquired (expires in ${tokenData.expires_in}s)`);
-    return tokenCache.token;
-  } catch (error) {
-    console.error('❌ Error getting eBay access token:', error);
-    return null;
-  }
-}
-
-// ═══════════════════════════════════════════════════════════
-// AFFILIATE TRACKING
-// ═══════════════════════════════════════════════════════════
-
-/**
- * Creates an affiliate-tracked URL from an eBay product URL
- * @param ebayUrl - The original eBay product URL
- * @param customId - Optional custom tracking ID for granular analytics
- * @returns Affiliate-tracked URL with Campaign ID
- */
 export function createAffiliateUrl(ebayUrl: string, customId?: string): string {
   try {
     const url = new URL(ebayUrl);
-    
-    // Add required affiliate tracking parameters
     url.searchParams.set('mkcid', MKCID);
     url.searchParams.set('mkrid', MKRID);
     url.searchParams.set('siteid', SITEID);
     url.searchParams.set('campid', CAMPID);
-    
-    // Optional: Add custom ID for granular tracking
     if (customId) {
       url.searchParams.set('customid', encodeURIComponent(customId));
     }
-    
     return url.toString();
-  } catch (error) {
-    console.error('❌ Error creating affiliate URL:', error);
+  } catch {
     return ebayUrl;
   }
 }
 
-// ═══════════════════════════════════════════════════════════
-// INTEGRATION STATUS
-// ═══════════════════════════════════════════════════════════
-
 export function getEbayIntegrationStatus(): EbayIntegrationStatus {
   const { oauthToken, clientId, clientSecret, appId, marketplaceId } = EBAY_CONFIG;
 
-  // Check OAuth (Browse API)
-  if (oauthToken) {
-    return {
-      mode: 'manual_token',
-      marketplaceId,
-      missing: [],
-      apiType: 'Browse',
-    };
-  }
+  if (oauthToken) return { mode: 'manual_token', marketplaceId, missing: [], apiType: 'Browse' };
 
   const missingOAuth: string[] = [];
   if (!clientId) missingOAuth.push('EBAY_CLIENT_ID');
   if (!clientSecret) missingOAuth.push('EBAY_CLIENT_SECRET');
 
-  if (missingOAuth.length === 0) {
-    return {
-      mode: 'client_credentials',
-      marketplaceId,
-      missing: [],
-      apiType: 'Browse',
-    };
-  }
+  if (missingOAuth.length === 0) return { mode: 'client_credentials', marketplaceId, missing: [], apiType: 'Browse' };
+  if (appId) return { mode: 'finding_api', marketplaceId, missing: missingOAuth, apiType: 'Finding' };
 
-  // Check Finding API (fallback)
-  if (appId) {
-    return {
-      mode: 'finding_api',
-      marketplaceId,
-      missing: missingOAuth,
-      apiType: 'Finding',
-    };
-  }
-
-  // No API configured
-  return {
-    mode: 'disabled',
-    marketplaceId,
-    missing: [...missingOAuth, 'EBAY_APP_ID'],
-    apiType: 'None',
-  };
+  return { mode: 'disabled', marketplaceId, missing: [...missingOAuth, 'EBAY_APP_ID'], apiType: 'None' };
 }
 
-// ═══════════════════════════════════════════════════════════
-// BROWSE API (OAuth-based, advanced features)
-// ═══════════════════════════════════════════════════════════
-
-export async function searchEbayBrowseAPI(
-  keyword: string,
-  limit = 20
-): Promise<EbaySearchResponse> {
-  try {
-    const token = await getEbayAccessToken();
-
-    if (!token) {
-      console.warn('⚠️ No OAuth token available');
-      return { itemSummaries: [], total: 0 };
-    }
-
-    console.log(`🔍 Searching eBay Browse API: "${keyword}" (limit: ${limit})`);
+export async function searchEbayBrowseAPI(keyword: string, limit = 20): Promise<EbaySearchResponse> {
+  const cacheKey = `browse:${keyword}:${limit}`;
+  return browseCache.getOrCompute(cacheKey, 600, async () => {
+    const token = await tokenManager.getToken();
+    if (!token) return { itemSummaries: [], total: 0 };
 
     const response = await fetch(
       `${EBAY_BROWSE_API}/item_summary/search?q=${encodeURIComponent(keyword)}&limit=${limit}`,
@@ -258,98 +118,47 @@ export async function searchEbayBrowseAPI(
           Authorization: `Bearer ${token}`,
           'X-EBAY-C-MARKETPLACE-ID': EBAY_CONFIG.marketplaceId,
         },
-      }
+        next: { revalidate: 600 },
+      },
     );
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`❌ eBay Browse API error (${response.status}):`, errorText);
+      logger.warn('Browse API request failed', { status: response.status, keyword });
       return { itemSummaries: [], total: 0 };
     }
 
-    const data = await response.json();
-    const itemCount = data.itemSummaries?.length || 0;
-    console.log(`✅ eBay Browse API: Found ${itemCount} items for "${keyword}"`);
-    return data;
-  } catch (error) {
-    console.error('❌ Error fetching from eBay Browse API:', error);
-    return { itemSummaries: [], total: 0 };
-  }
+    return (await response.json()) as EbaySearchResponse;
+  });
 }
 
-// ═══════════════════════════════════════════════════════════
-// FINDING API (Public, no OAuth required)
-// ═══════════════════════════════════════════════════════════
-
-/**
- * Fetch products from eBay Finding API (public search)
- * @param keyword - Search keyword
- * @param maxResults - Maximum number of results (default: 12)
- * @returns Array of eBay products
- */
-export async function searchEbayFindingAPI(
-  keyword: string,
-  maxResults: number = 12
-): Promise<EbayProduct[]> {
-  try {
-    if (!EBAY_CONFIG.appId) {
-      console.warn('⚠️ eBay App ID not configured');
-      return [];
-    }
-
-    const url =
-      `${EBAY_FINDING_API}?` +
-      `OPERATION-NAME=findItemsByKeywords` +
-      `&SERVICE-VERSION=1.13.0` +
-      `&SECURITY-APPNAME=${EBAY_CONFIG.appId}` +
-      `&RESPONSE-DATA-FORMAT=JSON` +
-      `&REST-PAYLOAD` +
-      `&keywords=${encodeURIComponent(keyword)}` +
-      `&paginationInput.entriesPerPage=${maxResults}` +
-      `&sortOrder=BestMatch`;
-
-    console.log(`🔍 Searching eBay Finding API: "${keyword}"`);
-
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      console.error('❌ eBay Finding API error:', response.status, response.statusText);
-      return [];
-    }
-
-    const data: EbayFindingApiResponse = await response.json();
-
-    const items = data.findItemsByKeywordsResponse?.[0]?.searchResult?.[0]?.item || [];
-    const ack = data.findItemsByKeywordsResponse?.[0]?.ack?.[0];
-
-    if (ack === 'Success') {
-      console.log(`✅ eBay Finding API: Found ${items.length} items for "${keyword}"`);
-      return items;
-    } else {
-      console.warn('⚠️ eBay Finding API returned non-success:', ack);
-      return [];
-    }
-  } catch (error) {
-    console.error('❌ Error fetching from eBay Finding API:', error);
+export async function searchEbayFindingAPI(keyword: string, maxResults = 12): Promise<EbayFindingItem[]> {
+  if (!EBAY_CONFIG.appId) {
     return [];
   }
+
+  const url =
+    `${EBAY_FINDING_API}?` +
+    `OPERATION-NAME=findItemsByKeywords` +
+    `&SERVICE-VERSION=1.13.0` +
+    `&SECURITY-APPNAME=${EBAY_CONFIG.appId}` +
+    `&RESPONSE-DATA-FORMAT=JSON` +
+    `&REST-PAYLOAD` +
+    `&keywords=${encodeURIComponent(keyword)}` +
+    `&paginationInput.entriesPerPage=${maxResults}` +
+    `&sortOrder=BestMatch`;
+
+  const response = await fetch(url, { next: { revalidate: 600 } });
+  if (!response.ok) return [];
+
+  const data = (await response.json()) as EbayFindingApiResponse;
+  const items = data.findItemsByKeywordsResponse?.[0]?.searchResult?.[0]?.item ?? [];
+  const ack = data.findItemsByKeywordsResponse?.[0]?.ack?.[0];
+  return ack === 'Success' ? items : [];
 }
 
-// ═══════════════════════════════════════════════════════════
-// UNIFIED SEARCH (Auto-selects best API)
-// ═══════════════════════════════════════════════════════════
-
-/**
- * Search eBay products using the best available API
- * Automatically falls back from Browse API to Finding API
- */
-export async function searchEbayProducts(
-  keyword: string,
-  maxResults: number = 12
-): Promise<Product[]> {
+export async function searchEbayProducts(keyword: string, maxResults = 12): Promise<Product[]> {
   const status = getEbayIntegrationStatus();
 
-  // Try Browse API first (if OAuth available)
   if (status.apiType === 'Browse') {
     const browseResults = await searchEbayBrowseAPI(keyword, maxResults);
     if (browseResults.itemSummaries && browseResults.itemSummaries.length > 0) {
@@ -357,12 +166,9 @@ export async function searchEbayProducts(
         .map((item, index) => mapBrowseItemToProduct(item, index, 'Search'))
         .filter((p): p is Product => p !== null);
     }
-    console.warn(`⚠️ Browse API returned no results for "${keyword}"`);
   }
 
-  // Fallback to Finding API if available
   if (status.apiType === 'Finding' || (status.apiType === 'Browse' && EBAY_CONFIG.appId)) {
-    console.log('🔄 Falling back to Finding API...');
     const findingResults = await searchEbayFindingAPI(keyword, maxResults);
     if (findingResults.length > 0) {
       return findingResults
@@ -371,82 +177,36 @@ export async function searchEbayProducts(
     }
   }
 
-  console.warn(`⚠️ No results found for "${keyword}"`);
   return [];
 }
 
-/**
- * Search multiple keywords and combine results
- * @param keywords - Array of search terms
- * @param perKeyword - Results per keyword (default: 4)
- * @returns Combined array of products
- */
-export async function searchMultipleKeywords(
-  keywords: string[],
-  perKeyword: number = 4
-): Promise<Product[]> {
-  try {
-    const results = await Promise.all(
-      keywords.map(keyword => searchEbayProducts(keyword, perKeyword))
-    );
-
-    return results.flat();
-  } catch (error) {
-    console.error('❌ Error in multi-keyword search:', error);
-    return [];
-  }
+export async function searchMultipleKeywords(keywords: string[], perKeyword = 4): Promise<Product[]> {
+  const results = await Promise.all(keywords.map((keyword) => searchEbayProducts(keyword, perKeyword)));
+  return results.flat();
 }
 
-/**
- * Get trending products from eBay for today
- * Rotates categories based on day of week
- */
 export async function getTrendingProducts(): Promise<Product[]> {
   const dayOfWeek = new Date().getDay();
-
   const categoryKeywords = [
-    'iPhone 15 Pro',           // Sunday
-    'PlayStation 5',           // Monday
-    'Nike Air Jordan',         // Tuesday
-    'MacBook Pro M3',          // Wednesday
-    'Samsung Galaxy S24',      // Thursday
-    'Nintendo Switch OLED',    // Friday
-    'Apple Watch Series 9',    // Saturday
+    'iPhone 15 Pro',
+    'PlayStation 5',
+    'Nike Air Jordan',
+    'MacBook Pro M3',
+    'Samsung Galaxy S24',
+    'Nintendo Switch OLED',
+    'Apple Watch Series 9',
   ];
-
-  const keyword = categoryKeywords[dayOfWeek];
-  console.log(`📅 Today's trending category: ${keyword}`);
-
-  return searchEbayProducts(keyword, 8);
+  return searchEbayProducts(categoryKeywords[dayOfWeek], 8);
 }
-
-// ═══════════════════════════════════════════════════════════
-// DATA MAPPING
-// ═══════════════════════════════════════════════════════════
 
 function resolveEbayImage(item: EbayItemSummary): string {
-  return (
-    item.image?.imageUrl ||
-    item.thumbnailImages?.[0]?.imageUrl ||
-    item.additionalImages?.[0]?.imageUrl ||
-    'https://via.placeholder.com/400x300?text=No+Image'
-  );
+  return item.image?.imageUrl || item.thumbnailImages?.[0]?.imageUrl || item.additionalImages?.[0]?.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image';
 }
 
-export function mapBrowseItemToProduct(
-  item: EbayItemSummary,
-  id: number,
-  category: string
-): Product | null {
+export function mapBrowseItemToProduct(item: EbayItemSummary, id: number, category: string): Product | null {
   const priceValue = Number(item.price?.value || 0);
+  if (!item.title || !priceValue || Number.isNaN(priceValue)) return null;
 
-  if (!item.title || !priceValue || Number.isNaN(priceValue)) {
-    return null;
-  }
-
-  const image = resolveEbayImage(item);
-
-  // Apply affiliate tracking to the eBay URL with custom ID for category tracking
   const affiliateLink = item.itemWebUrl
     ? createAffiliateUrl(item.itemWebUrl, `browse-${category.toLowerCase()}`)
     : createSearchLink(item.title, `fallback-${category.toLowerCase()}`);
@@ -456,27 +216,17 @@ export function mapBrowseItemToProduct(
     title: item.title,
     price: priceValue,
     currency: item.price?.currency || 'USD',
-    image,
+    image: resolveEbayImage(item),
     category,
     affiliateLink,
-    description:
-      item.shortDescription ||
-      `Live product from eBay ${category} results.`,
+    description: item.shortDescription || `Live product from eBay ${category} results.`,
   };
 }
 
-export function mapFindingItemToProduct(
-  item: EbayProduct,
-  id: number,
-  category: string
-): Product | null {
-  const priceValue = parseFloat(item.price);
+export function mapFindingItemToProduct(item: EbayFindingItem, id: number, category: string): Product | null {
+  const priceValue = Number.parseFloat(item.price);
+  if (!item.title || !priceValue || Number.isNaN(priceValue)) return null;
 
-  if (!item.title || !priceValue || Number.isNaN(priceValue)) {
-    return null;
-  }
-
-  // Apply affiliate tracking
   const affiliateLink = item.viewItemURL
     ? createAffiliateUrl(item.viewItemURL, `finding-${category.toLowerCase()}`)
     : createSearchLink(item.title, `fallback-${category.toLowerCase()}`);
@@ -493,11 +243,5 @@ export function mapFindingItemToProduct(
   };
 }
 
-// ═══════════════════════════════════════════════════════════
-// EXPORTS
-// ═══════════════════════════════════════════════════════════
-
 export { CAMPID, SITEID, MKRID, MKCID };
-
-// Re-export legacy function names for backward compatibility
 export const getEbayProducts = searchEbayFindingAPI;
