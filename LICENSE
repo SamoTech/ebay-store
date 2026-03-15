@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Ossama Hashim (SamoTech)
+Copyright (c) 2026 Ossama Hashim
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,40 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-IMPORTANT NOTICES:
-
-1. eBay Partner Network:
-   This project uses the eBay Partner Network (EPN) for affiliate commissions.
-   Users must comply with eBay's Partner Network policies and terms of service.
-   Register at: https://partnernetwork.ebay.com/
-
-2. eBay API:
-   Integration with eBay Browse API requires separate registration and approval.
-   API usage must comply with eBay Developer Program Agreement.
-   Register at: https://developer.ebay.com/
-
-3. Affiliate Disclosure:
-   Websites using this software must include proper FTC-compliant affiliate
-   disclosure statements informing users that the site may earn commissions
-   from qualifying purchases.
-
-4. Trademark Notice:
-   eBay, the eBay logo, and other eBay trademarks are property of eBay Inc.
-   This project is not affiliated with, endorsed, or sponsored by eBay Inc.
-
-5. Content Responsibility:
-   Users are responsible for all content, product descriptions, and reviews
-   published using this software. Ensure accuracy and comply with advertising
-   standards and consumer protection laws.
-
-6. Data Privacy:
-   This software may collect user data (analytics, favorites, recently viewed).
-   Implement appropriate privacy policies and comply with GDPR, CCPA, and
-   other applicable data protection regulations.
-
-7. Tax Obligations:
-   Affiliate earnings may be subject to income tax. Users are responsible for
-   reporting earnings and complying with tax laws in their jurisdiction.
