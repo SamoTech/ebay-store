@@ -1,0 +1,20 @@
+name: DevLens Health Check
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 8 * * 1'  # Every Monday at 8 AM UTC
+
+permissions:
+  contents: write
+
+jobs:
+  devlens:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: SamoTech/devlens@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          groq_api_key: ${{ secrets.GROQ_API_KEY }}
