@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300">
+  <defs>
+    <linearGradient id="bg-eb" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f0f;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a1200;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" fill="url(#bg-eb)" rx="12"/>
+  <rect x="0" y="0" width="6" height="300" fill="#f59e0b" rx="3"/>
+  <g transform="translate(55, 85)">
+    <rect x="8" y="36" width="64" height="56" rx="8" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="2"/>
+    <path d="M20 36 V26 C20 10 60 10 60 26 V36" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="22" y="55" width="36" height="20" rx="4" fill="#f59e0b" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1"/>
+    <text x="40" y="69" font-family="'Segoe UI', system-ui" font-size="12" fill="#fbbf24" text-anchor="middle" font-weight="700">$</text>
+    <text x="10" y="108" font-family="'Segoe UI', system-ui" font-size="14" fill="#f59e0b">&#9733;&#9733;&#9733;&#9733;&#9733;</text>
+  </g>
+  <text x="200" y="140" font-family="'Segoe UI', system-ui, sans-serif" font-size="72" font-weight="700" fill="#fef3c7" letter-spacing="-2">eBay Store</text>
+  <text x="202" y="182" font-family="'Segoe UI', system-ui, sans-serif" font-size="22" fill="#f59e0b">Affiliate storefront · Live product feeds · TypeScript</text>
+  <rect x="202" y="204" width="110" height="28" rx="14" fill="#f59e0b" fill-opacity="0.12" stroke="#f59e0b" stroke-width="1"/>
+  <text x="257" y="223" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" fill="#fbbf24" text-anchor="middle">Next.js 14</text>
+  <rect x="324" y="204" width="110" height="28" rx="14" fill="#f59e0b" fill-opacity="0.12" stroke="#f59e0b" stroke-width="1"/>
+  <text x="379" y="223" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" fill="#fbbf24" text-anchor="middle">TypeScript</text>
+  <rect x="446" y="204" width="100" height="28" rx="14" fill="#f59e0b" fill-opacity="0.12" stroke="#f59e0b" stroke-width="1"/>
+  <text x="496" y="223" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" fill="#fbbf24" text-anchor="middle">Vercel</text>
+  <g transform="translate(820, 50)">
+    <rect x="0" y="0" width="150" height="200" rx="10" fill="#1a1200" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="10" y="10" width="130" height="100" rx="6" fill="#2a2000"/>
+    <text x="75" y="65" font-family="'Segoe UI', system-ui" font-size="36" text-anchor="middle">&#x1F4E6;</text>
+    <rect x="10" y="120" width="80" height="10" rx="5" fill="#f59e0b" fill-opacity="0.3"/>
+    <rect x="10" y="138" width="60" height="8" rx="4" fill="#f59e0b" fill-opacity="0.2"/>
+    <text x="75" y="175" font-family="'Segoe UI', system-ui" font-size="18" fill="#f59e0b" text-anchor="middle" font-weight="700">$29.99</text>
+    <rect x="170" y="30" width="150" height="200" rx="10" fill="#1a1200" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="180" y="40" width="130" height="100" rx="6" fill="#2a2000"/>
+    <text x="245" y="95" font-family="'Segoe UI', system-ui" font-size="36" text-anchor="middle">&#x1F6CD;&#xFE0F;</text>
+    <rect x="180" y="150" width="80" height="10" rx="5" fill="#f59e0b" fill-opacity="0.3"/>
+    <rect x="180" y="168" width="60" height="8" rx="4" fill="#f59e0b" fill-opacity="0.2"/>
+    <text x="245" y="205" font-family="'Segoe UI', system-ui" font-size="18" fill="#f59e0b" text-anchor="middle" font-weight="700">$49.99</text>
+  </g>
+</svg>
