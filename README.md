@@ -23,12 +23,12 @@
 ## 🏥 Repo Health
 
 <!-- DEVLENS:START -->
-![DevLens Health](https://img.shields.io/badge/DevLens%20Health-70%2F100-green?style=flat&logo=github) **Overall health: 70/100** — *Last updated: 2026-07-13*
+![DevLens Health](https://img.shields.io/badge/DevLens%20Health-65%2F100-green?style=flat&logo=github) **Overall health: 65/100** — *Last updated: 2026-07-20*
 
 | Dimension | Progress | Score | Weight |
 |---|---|---|---|
 | 📝 **README Quality** | `████████░░` | ![78](https://img.shields.io/badge/78-green?style=flat-square) | 20% |
-| 🔥 **Commit Activity** | `████████░░` | ![75](https://img.shields.io/badge/75-green?style=flat-square) | 20% |
+| 🔥 **Commit Activity** | `█████░░░░░` | ![50](https://img.shields.io/badge/50-yellow?style=flat-square) | 20% |
 | 🌿 **Repo Freshness** | `██████████` | ![100](https://img.shields.io/badge/100-brightgreen?style=flat-square) | 15% |
 | 📚 **Documentation** | `███░░░░░░░` | ![32](https://img.shields.io/badge/32-red?style=flat-square) | 15% |
 | ⚙️ **CI/CD Setup** | `██████░░░░` | ![60](https://img.shields.io/badge/60-green?style=flat-square) | 15% |
