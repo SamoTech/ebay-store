@@ -65,8 +65,8 @@ export default function PhoneComparisonPage() {
                 <tbody>
                   <tr>
                     <td className="border p-3 font-semibold">Display</td>
-                    <td className="border p-3">6.1" OLED, 120Hz</td>
-                    <td className="border p-3 text-green-600">6.2" AMOLED, 120Hz LTPO ✓</td>
+                    <td className="border p-3">6.1&quot; OLED, 120Hz</td>
+                    <td className="border p-3 text-green-600">6.2&quot; AMOLED, 120Hz LTPO ✓</td>
                   </tr>
                   <tr>
                     <td className="border p-3 font-semibold">Processor</td>
@@ -101,13 +101,13 @@ export default function PhoneComparisonPage() {
 
             <h3>Performance & Gaming</h3>
             <p>
-              Apple's A17 Pro chip is technically faster in benchmarks, but the <strong>Snapdragon 8 Gen 3</strong> in the S24 
+              Apple&apos;s A17 Pro chip is technically faster in benchmarks, but the <strong>Snapdragon 8 Gen 3</strong> in the S24 
               delivers comparable real-world performance. Both handle Genshin Impact and Call of Duty Mobile at max settings.
             </p>
 
             <h3>Battery Life Winner</h3>
             <p>
-              Samsung S24's larger 4,000 mAh battery easily outlasts the iPhone, providing 1.5 days of mixed use vs iPhone's 
+              Samsung S24&apos;s larger 4,000 mAh battery easily outlasts the iPhone, providing 1.5 days of mixed use vs iPhone&apos;s 
               full-day lifespan. Charging is faster too (25W vs 20W).
             </p>
 
@@ -144,7 +144,7 @@ export default function PhoneComparisonPage() {
             <h2>FAQ</h2>
             <details className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-3">
               <summary className="font-semibold cursor-pointer">Which has better resale value?</summary>
-              <p className="mt-2">iPhone 15 Pro holds value better—typically 60% after 2 years vs S24's 45%.</p>
+              <p className="mt-2">iPhone 15 Pro holds value better—typically 60% after 2 years vs S24&apos;s 45%.</p>
             </details>
             <details className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-3">
               <summary className="font-semibold cursor-pointer">Can I use both phones internationally?</summary>

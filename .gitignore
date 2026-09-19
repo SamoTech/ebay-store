@@ -54,3 +54,6 @@ Thumbs.db
 
 # Bundle analyzer
 .next/analyze/
+
+# runtime data (analytics events, subscribers, price alerts)
+/data

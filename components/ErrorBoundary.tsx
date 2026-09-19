@@ -72,6 +72,16 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   /**
+   * Recover automatically when the children are replaced (e.g. after a retry
+   * renders different content) — otherwise the fallback would stick forever.
+   */
+  componentDidUpdate(prevProps: Props) {
+    if (this.state.hasError && prevProps.children !== this.props.children) {
+      this.resetError()
+    }
+  }
+
+  /**
    * Reset error state (for retry button)
    */
   resetError = () => {

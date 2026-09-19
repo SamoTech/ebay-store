@@ -2,6 +2,38 @@
 
 import { useState, useEffect } from 'react';
 
+interface SpeechRecognitionAlternativeLike {
+  transcript: string;
+}
+
+interface SpeechRecognitionResultLike {
+  results: ArrayLike<ArrayLike<SpeechRecognitionAlternativeLike>>;
+}
+
+interface SpeechRecognitionErrorLike {
+  error: string;
+}
+
+interface SpeechRecognitionLike {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onstart: (() => void) | null;
+  onend: (() => void) | null;
+  onresult: ((event: SpeechRecognitionResultLike) => void) | null;
+  onerror: ((event: SpeechRecognitionErrorLike) => void) | null;
+  start: () => void;
+}
+
+interface SpeechRecognitionConstructor {
+  new (): SpeechRecognitionLike;
+}
+
+type SpeechWindow = Window & {
+  webkitSpeechRecognition?: SpeechRecognitionConstructor;
+  SpeechRecognition?: SpeechRecognitionConstructor;
+};
+
 interface VoiceSearchProps {
   onSearch: (query: string) => void;
   className?: string;
@@ -25,7 +57,10 @@ export default function VoiceSearch({ onSearch, className = '' }: VoiceSearchPro
       return;
     }
 
-    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+    const speechWindow = window as SpeechWindow;
+    const SpeechRecognition = speechWindow.webkitSpeechRecognition || speechWindow.SpeechRecognition;
+
+    if (!SpeechRecognition) return;
     const recognition = new SpeechRecognition();
 
     recognition.continuous = false;
@@ -40,13 +75,13 @@ export default function VoiceSearch({ onSearch, className = '' }: VoiceSearchPro
       setIsListening(false);
     };
 
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionResultLike) => {
       const transcriptResult = event.results[0][0].transcript;
       setTranscript(transcriptResult);
       onSearch(transcriptResult);
     };
 
-    recognition.onerror = (event: any) => {
+    recognition.onerror = (event: SpeechRecognitionErrorLike) => {
       console.error('Speech recognition error:', event.error);
       setIsListening(false);
     };
@@ -91,7 +126,7 @@ export default function VoiceSearch({ onSearch, className = '' }: VoiceSearchPro
 
       {transcript && !isListening && (
         <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
-          "{transcript}"
+          &quot;{transcript}&quot;
         </div>
       )}
     </div>

@@ -63,7 +63,7 @@ export default function DealsPage() {
           <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6 mb-8">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">⏰ Limited Time Offers</h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              These deals expire within 48-72 hours. Stock is limited. All items ship from US sellers with eBay's Money Back Guarantee.
+              These deals expire within 48-72 hours. Stock is limited. All items ship from US sellers with eBay&apos;s Money Back Guarantee.
             </p>
             <div className="flex gap-3">
               <span className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 px-3 py-1 rounded-full text-sm font-semibold">
@@ -76,7 +76,7 @@ export default function DealsPage() {
           </div>
 
           <section className="mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">This Week's Hottest Deals</h2>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">This Week&apos;s Hottest Deals</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {deals.map((deal, idx) => (
                 <div key={deal.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
@@ -128,7 +128,7 @@ export default function DealsPage() {
             </p>
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
               <li>Sellers have 98%+ positive feedback</li>
-              <li>Prices are genuinely discounted (not fake "sales")</li>
+              <li>Prices are genuinely discounted (not fake &quot;sales&quot;)</li>
               <li>Products are authentic and ship from verified locations</li>
               <li>Free or low-cost shipping is available</li>
             </ul>
@@ -146,7 +146,7 @@ export default function DealsPage() {
             <h2>FAQ</h2>
             <details className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-3">
               <summary className="font-semibold cursor-pointer">Are these deals legit?</summary>
-              <p className="mt-2">Yes! All deals are from eBay's verified seller network with buyer protection.</p>
+              <p className="mt-2">Yes! All deals are from eBay&apos;s verified seller network with buyer protection.</p>
             </details>
             <details className="bg-white dark:bg-gray-800 rounded-lg p-4">
               <summary className="font-semibold cursor-pointer">How often are deals updated?</summary>

@@ -8,20 +8,21 @@ All API routes are located in `app/api/` and follow Next.js 16 App Router conven
 
 ---
 
-## 📧 Newsletter API
+## 📧 Subscribe API
 
-### `POST /api/newsletter`
+### `POST /api/subscribe`
 
-**Description**: Subscribe a user to the newsletter mailing list.
+**Description**: Add an email address to the deals newsletter. Addresses are normalised, deduplicated and persisted to `subscribers.json` (see `DEALSHUB_DATA_DIR`). When `WEB3FORMS_ACCESS_KEY` is set the address is also forwarded to Web3Forms.
 
 #### Request
 
-```typescript
-POST /api/newsletter
+```http
+POST /api/subscribe
 Content-Type: application/json
 
 {
-  "email": "user@example.com"
+  "email": "user@example.com",
+  "source": "footer"
 }
 ```
 
@@ -29,71 +30,87 @@ Content-Type: application/json
 
 **Success (200)**:
 ```json
-{
-  "message": "Successfully subscribed to newsletter"
-}
+{ "ok": true }
 ```
 
-**Error (400)**: Invalid email
+Re-submitting a known address returns the same shape with `"alreadySubscribed": true`.
+
+**Error (400)**: Missing or invalid email
 ```json
-{
-  "error": "Invalid email address"
-}
+{ "ok": false, "error": "Please enter a valid email address" }
 ```
 
-**Error (409)**: Already subscribed
-```json
-{
-  "error": "Email already subscribed"
-}
-```
-
-**Error (429)**: Rate limit exceeded
-```json
-{
-  "error": "Too many requests. Please try again later."
-}
-```
-
-**Error (500)**: Server error
-```json
-{
-  "error": "Failed to subscribe"
-}
-```
-
-#### Rate Limiting
-
-- **Limit**: 5 requests per 15 minutes per IP
-- **Window**: Sliding window
-- **Header**: `X-RateLimit-Remaining`
+**Error (429)**: Rate limit exceeded (5 requests per minute per IP)
 
 #### Example Usage
 
 ```typescript
-const subscribeToNewsletter = async (email: string) => {
-  try {
-    const response = await fetch('/api/newsletter', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    })
+const subscribe = async (email: string) => {
+  const response = await fetch('/api/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, source: 'footer' }),
+  })
 
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.error)
-    }
-
-    const data = await response.json()
-    return data
-  } catch (error) {
-    console.error('Newsletter subscription failed:', error)
-    throw error
+  const data = await response.json()
+  if (!response.ok || !data.ok) {
+    throw new Error(data.error ?? 'Subscription failed')
   }
+  return data
 }
 ```
+
+> **Note**: the legacy `POST /api/newsletter` path never existed in this repository — use `/api/subscribe`.
+
+---
+
+## 📊 Analytics API
+
+### `POST /api/track`
+
+Records a first-party analytics event (product views, affiliate clicks, search terms). Persistence is best-effort so tracking can never break a user request.
+
+```http
+POST /api/track
+Content-Type: application/json
+
+{
+  "event": "product_view",
+  "productId": 1,
+  "source": "home",
+  "category": "electronics",
+  "pathname": "/product/1"
+}
+```
+
+```json
+{ "ok": true, "persisted": true }
+```
+
+### `GET /api/track`
+
+Returns aggregated analytics: `{ totalEvents, totals, latest }`.
+
+Access rules:
+
+| Environment | `ANALYTICS_READ_TOKEN` | Result |
+|---|---|---|
+| production | set | requires `Authorization: Bearer <token>` or `?token=<token>` |
+| production | unset | `403` — read access is disabled |
+| development | either | open, for local tooling |
+
+---
+
+## ♻️ Deprecated endpoints
+
+These routes were consolidated and now return permanent redirects instead of leaking credential details:
+
+| Path | Redirects to |
+|---|---|
+| `GET /api/ebay-status` | `/api/ebay/status` (308) |
+| `GET /api/ebay-test` | `/api/health` (308) |
+| `GET /api/debug/ebay-status` | `/api/health` (308) |
+| `GET /api/test/ebay-finding` | `/api/health` (308) |
 
 ---
 

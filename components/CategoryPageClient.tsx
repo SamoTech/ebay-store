@@ -61,7 +61,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
 
   const categoryProducts = useMemo(() => {
     // Apply price filter
-    let filtered = products.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
+    const filtered = products.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
 
     // Apply sorting
     return [...filtered].sort((a, b) => {
@@ -96,7 +96,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
       <main className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">Category Not Found</h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">The category you're looking for doesn't exist.</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-8">The category you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
             Back to Home
           </Link>
@@ -196,7 +196,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
               <span className="text-gray-600 dark:text-gray-400">Sort by:</span>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => setSortBy(e.target.value as 'name' | 'price-low' | 'price-high')}
                 className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="name">Name</option>

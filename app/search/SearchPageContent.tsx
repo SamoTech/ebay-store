@@ -32,7 +32,7 @@ export default function SearchPageContent() {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Search Results for "{query}"</h1>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Search Results for &quot;{query}&quot;</h1>
               {!isLoading && <p className="text-gray-600 dark:text-gray-400">{totalResults} {totalResults === 1 ? 'product' : 'products'} found</p>}
             </div>
             <div className="flex items-center gap-3">

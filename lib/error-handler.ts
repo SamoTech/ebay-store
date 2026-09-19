@@ -41,7 +41,7 @@ export class ExternalAPIError extends AppError {
 /**
  * Log error with appropriate level
  */
-export function logError(error: Error | AppError, context?: Record<string, any>) {
+export function logError(error: Error | AppError, context?: Record<string, unknown>) {
   const errorInfo = {
     message: error.message,
     stack: error.stack,

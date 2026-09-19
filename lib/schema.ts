@@ -163,7 +163,7 @@ export function generateArticleSchema(article: {
  * Helper to inject schema into page
  * Uses React.createElement to avoid JSX parsing issues with Turbopack
  */
-export function SchemaScript({ schema }: { schema: any }) {
+export function SchemaScript({ schema }: { schema: Record<string, unknown> }) {
   return React.createElement('script', {
     type: 'application/ld+json',
     dangerouslySetInnerHTML: { __html: JSON.stringify(schema) }
