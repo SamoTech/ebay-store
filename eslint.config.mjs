@@ -33,6 +33,11 @@ const eslintConfig = defineConfig([
   },
   {
     rules: {
+      // Allow explicitly-unused parameters/variables (prefixed with `_`).
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],
       // The app intentionally loads data in effects (client-side fetch with
       // loading/error state). The React Compiler rule is stricter than this
       // data-fetching pattern allows, so it is reported as a warning.

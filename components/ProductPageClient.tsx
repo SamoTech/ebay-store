@@ -21,7 +21,6 @@ export default function ProductPageClient({ productId }: { productId: number }) 
   const { addToRecentlyViewed } = useRecentlyViewed();
   const { addToast } = useToast();
   
-  const [selectedImage, setSelectedImage] = useState(0);
   const [userRating, setUserRating] = useState(0);
   
   const isFav = product ? isFavorite(product.id) : false;
@@ -32,6 +31,7 @@ export default function ProductPageClient({ productId }: { productId: number }) 
         id: product.id,
         title: product.title,
         price: product.price,
+        currency: product.currency,
         image: product.image,
         category: product.category,
         affiliateLink: product.affiliateLink,
@@ -45,7 +45,7 @@ export default function ProductPageClient({ productId }: { productId: number }) 
       
       trackEvent({ event: 'product_view', productId: product.id, source: 'product_page', category: product.category });
     }
-  }, [product]);
+  }, [product, addToRecentlyViewed]);
 
   if (!product) {
     return (

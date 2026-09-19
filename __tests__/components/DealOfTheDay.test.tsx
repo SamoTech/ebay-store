@@ -21,17 +21,6 @@ jest.mock('next/image', () => ({
   },
 }));
 
-const mockDeal = {
-  id: 4,
-  title: 'Gaming Laptop RTX 4060',
-  price: 899.99,
-  originalPrice: 1299.99,
-  currency: 'USD',
-  image: '/images/laptop.jpg',
-  category: 'Gaming',
-  affiliateLink: 'https://www.ebay.com/itm/1?campid=5338903178',
-  description: 'Test deal',
-};
 
 const renderWithProviders = (component: React.ReactElement) => {
   return render(
@@ -156,7 +145,6 @@ describe('DealOfTheDay Component', () => {
 
   describe('User Interactions', () => {
     it('should have buy now button', async () => {
-      const user = userEvent.setup({ delay: null });
       renderWithProviders(<DealOfTheDay />);
       
       await waitFor(() => {

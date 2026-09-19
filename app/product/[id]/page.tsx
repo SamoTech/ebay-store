@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { allProducts } from '../../../lib/products';
-import { trackEvent } from '../../../lib/analytics';
 import Footer from '../../../components/Footer';
 import RelatedProducts from '../../../components/RelatedProducts';
 import SocialShare from '../../../components/SocialShare';

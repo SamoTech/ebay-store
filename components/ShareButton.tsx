@@ -35,7 +35,7 @@ export default function ShareButton({ product, className = '' }: ShareButtonProp
         await navigator.clipboard.writeText(shareData.url);
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3000);
-      } catch (e) {
+      } catch {
         alert('Could not share this product');
       }
     }

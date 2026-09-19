@@ -83,6 +83,7 @@ export function optimizeEbayImage(
  * - Cloudinary's auto-color feature
  */
 export async function extractDominantColor(imageUrl: string): Promise<string> {
+  void imageUrl;
   // TODO: Implement actual color extraction
   // For now, return a default gray
   return '#E5E7EB'

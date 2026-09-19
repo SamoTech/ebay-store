@@ -44,7 +44,7 @@ export default function PriceAlertForm({ product }: PriceAlertFormProps) {
       } else {
         setError('Failed to create price alert. Please try again.');
       }
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
