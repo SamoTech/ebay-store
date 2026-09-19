@@ -9,6 +9,8 @@ interface CurrencyContextType {
   setCurrency: (currency: Currency) => void;
   convertPrice: (priceUSD: number) => number;
   formatPrice: (priceUSD: number) => string;
+  /** Alias of `formatPrice` — kept for API compatibility. */
+  formatCurrency: (amountUSD: number) => string;
   currencySymbol: string;
 }
 
@@ -58,6 +60,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
       setCurrency,
       convertPrice,
       formatPrice,
+      formatCurrency: formatPrice,
       currencySymbol: currencySymbols[currency],
     }}>
       {children}

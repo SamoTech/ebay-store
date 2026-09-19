@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 import { allProducts } from '../../lib/products';
 import Footer from '../../components/Footer';
 import { trackEvent } from '../../lib/analytics';
+import { formatPrice } from '../../lib/utils/price';
 
 function CompareContent() {
   const searchParams = useSearchParams();
@@ -91,14 +92,14 @@ function CompareContent() {
                             ? 'text-red-500' 
                             : 'text-gray-900 dark:text-white'
                       }`}>
-                        ${product.price.toFixed(2)}
+                        {formatPrice(product.price, product.currency)}
                       </span>
                       {product.price === lowestPrice && (
                         <span className="block text-xs text-green-600 dark:text-green-400 mt-1">Best Price!</span>
                       )}
                       {product.originalPrice && (
                         <span className="block text-sm text-gray-400 line-through">
-                          ${product.originalPrice.toFixed(2)}
+                          {formatPrice(product.originalPrice, product.currency)}
                         </span>
                       )}
                     </td>
@@ -135,7 +136,7 @@ function CompareContent() {
                       {product.originalPrice ? (
                         <div>
                           <span className="text-green-600 dark:text-green-400 font-bold">
-                            ${(product.originalPrice - product.price).toFixed(2)} off
+                            {formatPrice(product.originalPrice - product.price, product.currency)} off
                           </span>
                           <span className="block text-sm text-gray-500">
                             ({Math.round((1 - product.price / product.originalPrice) * 100)}% discount)
@@ -179,9 +180,9 @@ function CompareContent() {
           </h2>
           <p className="text-green-700 dark:text-green-300">
             Based on price alone, the <strong>{products.find(p => p.price === lowestPrice)?.title}</strong> offers 
-            the best value at <strong>${lowestPrice.toFixed(2)}</strong>. 
+            the best value at <strong>{formatPrice(lowestPrice)}</strong>. 
             {highestPrice - lowestPrice > 0 && (
-              <> That's a savings of <strong>${(highestPrice - lowestPrice).toFixed(2)}</strong> compared to the most expensive option.</>
+              <> That&apos;s a savings of <strong>{formatPrice(highestPrice - lowestPrice)}</strong> compared to the most expensive option.</>
             )}
           </p>
         </div>

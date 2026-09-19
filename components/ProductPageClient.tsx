@@ -9,6 +9,7 @@ import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
 import { useToast } from '../contexts/ToastContext';
 import ProductCard from './ProductCard';
 import Footer from './Footer';
+import { formatPrice } from '../lib/utils/price';
 import ShareButton from './ShareButton';
 import PriceAlertForm from './PriceAlertForm';
 import { trackEvent } from '../lib/analytics';
@@ -51,7 +52,7 @@ export default function ProductPageClient({ productId }: { productId: number }) 
       <main className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">Product Not Found</h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">The product you're looking for doesn't exist.</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-8">The product you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
             Back to Home
           </Link>
@@ -193,15 +194,15 @@ export default function ProductPageClient({ productId }: { productId: number }) 
               <div className="mb-6">
                 <div className="flex items-baseline gap-3">
                   <span className="text-4xl font-bold text-green-600 dark:text-green-400">
-                    ${product.price.toFixed(2)}
+                    {formatPrice(product.price, product.currency)}
                   </span>
                   {product.originalPrice && (
                     <>
                       <span className="text-xl text-gray-400 line-through">
-                        ${product.originalPrice.toFixed(2)}
+                        {formatPrice(product.originalPrice, product.currency)}
                       </span>
                       <span className="text-red-500 font-semibold">
-                        Save ${(product.originalPrice - product.price).toFixed(2)}
+                        Save {formatPrice(product.originalPrice - product.price, product.currency)}
                       </span>
                     </>
                   )}

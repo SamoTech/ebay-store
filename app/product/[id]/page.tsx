@@ -8,6 +8,7 @@ import Footer from '../../../components/Footer';
 import RelatedProducts from '../../../components/RelatedProducts';
 import SocialShare from '../../../components/SocialShare';
 import { generateBlurDataURL } from '../../../lib/utils/image';
+import { formatPrice } from '../../../lib/utils/price';
 
 /**
  * ISR Configuration
@@ -124,15 +125,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
             <div className="flex items-baseline gap-4 mb-6">
               <span className="text-4xl font-bold text-green-600 dark:text-green-400">
-                ${product.price.toFixed(2)}
+                {formatPrice(product.price, product.currency)}
               </span>
               {product.originalPrice && (
                 <>
                   <span className="text-2xl text-gray-400 line-through">
-                    ${product.originalPrice.toFixed(2)}
+                    {formatPrice(product.originalPrice, product.currency)}
                   </span>
                   <span className="text-lg font-semibold text-red-600 dark:text-red-400">
-                    Save ${(product.originalPrice - product.price).toFixed(2)}
+                    Save {formatPrice(product.originalPrice - product.price, product.currency)}
                   </span>
                 </>
               )}
