@@ -3,21 +3,17 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /admin/
 Disallow: /_next/
-Disallow: /private/
+Disallow: /favorites
+Disallow: /compare
 
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
-Disallow: /admin/
 
 User-agent: Bingbot
 Allow: /
 Disallow: /api/
-Disallow: /admin/
 
 # Sitemaps
 Sitemap: https://ebay-store.vercel.app/sitemap.xml
-Sitemap: https://ebay-store.vercel.app/sitemaps/sitemap.xml
-Sitemap: https://ebay-store.vercel.app/sitemap-index.xml

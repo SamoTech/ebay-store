@@ -19,7 +19,7 @@
  * ```
  */
 
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 interface RateLimitStore {
   [key: string]: number[]; // timestamp array
@@ -40,9 +40,10 @@ interface RateLimitOptions {
 // Note: This resets on server restart. For production at scale, consider Redis.
 const store: RateLimitStore = {};
 
-// Cleanup old entries every 5 minutes to prevent memory leaks
-if (typeof setInterval !== 'undefined') {
-  setInterval(() => {
+// Cleanup old entries every 5 minutes to prevent memory leaks.
+// `unref()` keeps this timer from holding the event loop open (important for
+// short-lived serverless invocations and for Jest's "did not exit" warnings).
+const cleanupTimer = typeof setInterval !== 'undefined' ? setInterval(() => {
     const now = Date.now();
     const oneHourAgo = now - (60 * 60 * 1000);
     
@@ -52,7 +53,10 @@ if (typeof setInterval !== 'undefined') {
         delete store[key];
       }
     }
-  }, 5 * 60 * 1000);
+  }, 5 * 60 * 1000) : null;
+
+if (cleanupTimer && typeof cleanupTimer === 'object' && 'unref' in cleanupTimer) {
+  (cleanupTimer as { unref: () => void }).unref();
 }
 
 /**
@@ -166,13 +170,13 @@ function hashString(str: string): string {
  * ```
  */
 export function withRateLimit(
-  handler: (request: NextRequest) => Promise<NextResponse>,
+  handler: (request: NextRequest) => Promise<Response>,
   options: RateLimitOptions = {}
 ) {
   const maxRequests = options.maxRequests || 10;
   const windowMs = options.windowMs || 60000;
   
-  return async (request: NextRequest): Promise<NextResponse> => {
+  return async (request: NextRequest): Promise<Response> => {
     const identifier = getIdentifier(request);
     const { success, remaining, resetAt } = rateLimit(
       identifier,
@@ -184,7 +188,7 @@ export function withRateLimit(
     if (!success) {
       const retryAfter = Math.ceil((resetAt - Date.now()) / 1000);
       
-      return NextResponse.json(
+      return Response.json(
         { 
           error: 'Too many requests. Please try again later.',
           success: false,
