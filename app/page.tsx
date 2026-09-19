@@ -3,18 +3,18 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import ProductCard from '@/components/ProductCard';
-import ProductSkeleton, { ProductSkeletonGrid } from '@/components/ProductSkeleton';
+import { ProductSkeletonGrid } from '@/components/ProductSkeleton';
 import Footer from '@/components/Footer';
 import DealOfTheDay from '@/components/DealOfTheDay';
 import TrustBadges from '@/components/TrustBadges';
 import { useToast } from '@/contexts/ToastContext';
-import { allProducts, categories, createSearchLink, Product } from '@/lib/products';
+import { categories, createSearchLink, Product } from '@/lib/products';
+import { formatPrice } from '@/lib/utils/price';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState('');
   const [showAllProducts, setShowAllProducts] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -52,7 +52,7 @@ export default function Home() {
           source?: string; 
           products?: Product[];
           error?: string;
-          details?: any;
+          details?: unknown;
         };
         
         if (!isMounted) return;
@@ -133,7 +133,6 @@ export default function Home() {
     return 0;
   });
 
-  const searchResultsLink = searchQuery ? createSearchLink(searchQuery) : null;
   const isHomepage = pathname === '/';
 
   return (
@@ -146,13 +145,12 @@ export default function Home() {
             <Link href="#products" className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg">Browse Products</Link>
             <Link href="/blog" className="bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-400 transition-colors">Shopping Guides</Link>
           </div>
-          <p className="text-sm text-blue-200 mt-4">🔍 Use the search bar above to find specific products</p>
+          <p className="text-sm text-blue-200 mt-4">🔍 Use <Link href="/search" className="underline hover:text-white">advanced search</Link> to filter by price, condition and category</p>
         </div>
       </section>
 
       <TrustBadges />
 
-      {searchQuery && (<section className="max-w-6xl mx-auto px-4 py-6"><div className="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 flex flex-col md:flex-row justify-between items-center gap-4"><div><p className="font-bold text-yellow-800 dark:text-yellow-200">Search results for: "{searchQuery}"</p><p className="text-sm text-yellow-700 dark:text-yellow-300">Showing all products from eBay matching your search</p></div>{searchResultsLink && (<a href={searchResultsLink} target="_blank" rel="noopener noreferrer" className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition-colors font-medium whitespace-nowrap">View on eBay →</a>)}</div></section>)}
 
       {catalogSource === 'ebay_live' && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="inline-flex items-center gap-2 rounded-full bg-green-100 text-green-700 px-4 py-1 text-sm font-medium dark:bg-green-900/30 dark:text-green-300">● Live eBay catalog active</div></section>)}
 
@@ -181,15 +179,15 @@ export default function Home() {
         </div>
       </section>
 
-      {!searchQuery && !isLoading && !apiError && (<DealOfTheDay />)}
+      {!isLoading && !apiError && (<DealOfTheDay />)}
 
-      {recentlyViewed.length > 0 && !searchQuery && !isLoading && (<section className="max-w-6xl mx-auto px-4 py-8"><h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Recently Viewed</h2><div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">{recentlyViewed.slice(0, 5).map((product) => (<div key={product.id} className="flex-shrink-0 w-40"><a href={product.affiliateLink} target="_blank" rel="noopener noreferrer"><div className="relative w-full h-32 rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden"><Image src={product.image} alt={product.title} fill className="object-cover" sizes="160px" /></div><p className="text-sm font-medium mt-2 line-clamp-1 text-gray-700 dark:text-gray-300">{product.title}</p><p className="text-green-600 font-bold text-sm">${product.price}</p></a></div>))}</div></section>)}
+      {recentlyViewed.length > 0 && !isLoading && (<section className="max-w-6xl mx-auto px-4 py-8"><h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Recently Viewed</h2><div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">{recentlyViewed.slice(0, 5).map((product) => (<div key={product.id} className="flex-shrink-0 w-40"><a href={product.affiliateLink} target="_blank" rel="noopener noreferrer"><div className="relative w-full h-32 rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden"><Image src={product.image} alt={product.title} fill className="object-cover" sizes="160px" /></div><p className="text-sm font-medium mt-2 line-clamp-1 text-gray-700 dark:text-gray-300">{product.title}</p><p className="text-green-600 font-bold text-sm">{formatPrice(product.price, product.currency)}</p></a></div>))}</div></section>)}
 
-      <section className="max-w-6xl mx-auto px-4 py-6"><div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"><h2 className="text-2xl font-bold text-gray-800 dark:text-white">{searchQuery ? `Search: "${searchQuery}"` : showAllProducts ? 'All Products' : 'Featured Products'}<span className="text-gray-500 dark:text-gray-400 text-base font-normal ml-3">({filteredProducts.length} products)</span></h2><div className="flex flex-wrap gap-3"><select value={sortBy} onChange={(e) => setSortBy(e.target.value as any)} className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"><option value="name">Sort by Name</option><option value="price-low">Price: Low to High</option><option value="price-high">Price: High to Low</option></select><div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"><span className="text-sm text-gray-600 dark:text-gray-400">$</span><input type="number" value={priceRange[0]} onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])} className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none" placeholder="Min" /><span className="text-gray-400">-</span><input type="number" value={priceRange[1]} onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])} className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none" placeholder="Max" /></div></div></div></section>
+      <section className="max-w-6xl mx-auto px-4 py-6"><div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"><h2 className="text-2xl font-bold text-gray-800 dark:text-white">{showAllProducts ? 'All Products' : 'Featured Products'}<span className="text-gray-500 dark:text-gray-400 text-base font-normal ml-3">({filteredProducts.length} products)</span></h2><div className="flex flex-wrap gap-3"><select value={sortBy} onChange={(e) => setSortBy(e.target.value as 'price-low' | 'price-high' | 'name')} className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"><option value="name">Sort by Name</option><option value="price-low">Price: Low to High</option><option value="price-high">Price: High to Low</option></select><div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"><span className="text-sm text-gray-600 dark:text-gray-400">$</span><input type="number" value={priceRange[0]} onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])} className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none" placeholder="Min" /><span className="text-gray-400">-</span><input type="number" value={priceRange[1]} onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])} className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none" placeholder="Max" /></div></div></div></section>
       
-      <div className="max-w-6xl mx-auto py-8 px-4">{isLoading ? (<ProductSkeletonGrid count={8} />) : (<><div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">{filteredProducts.slice(0, showAllProducts || searchQuery ? filteredProducts.length : 8).map((product) => (<ProductCard key={product.id} product={product} />))}</div>{!showAllProducts && !searchQuery && filteredProducts.length > 8 && (<div className="text-center mt-8"><button onClick={() => setShowAllProducts(true)} className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">View All {filteredProducts.length} Products →</button></div>)}{filteredProducts.length === 0 && !apiError && (<div className="text-center py-12"><p className="text-gray-500 dark:text-gray-400 text-lg">No products found</p><p className="text-gray-400 dark:text-gray-500 mt-2">Try adjusting your filters or search</p></div>)}</>)}</div>
+      <div className="max-w-6xl mx-auto py-8 px-4">{isLoading ? (<ProductSkeletonGrid count={8} />) : (<><div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">{filteredProducts.slice(0, showAllProducts ? filteredProducts.length : 8).map((product) => (<ProductCard key={product.id} product={product} />))}</div>{!showAllProducts && filteredProducts.length > 8 && (<div className="text-center mt-8"><button onClick={() => setShowAllProducts(true)} className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">View All {filteredProducts.length} Products →</button></div>)}{filteredProducts.length === 0 && !apiError && (<div className="text-center py-12"><p className="text-gray-500 dark:text-gray-400 text-lg">No products found</p><p className="text-gray-400 dark:text-gray-500 mt-2">Try adjusting your filters or search</p></div>)}</>)}</div>
 
-      <section className="bg-gray-100 dark:bg-gray-800 py-12 mt-12"><div className="max-w-4xl mx-auto px-4 text-center"><h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Can't Find What You're Looking For?</h2><p className="text-gray-600 dark:text-gray-300 mb-6">Browse millions of products on eBay with our affiliate links</p><a href={createSearchLink(searchQuery || '')} target="_blank" rel="noopener noreferrer" className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">Browse More on eBay</a></div></section>
+      <section className="bg-gray-100 dark:bg-gray-800 py-12 mt-12"><div className="max-w-4xl mx-auto px-4 text-center"><h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Can&apos;t Find What You&apos;re Looking For?</h2><p className="text-gray-600 dark:text-gray-300 mb-6">Browse millions of products on eBay with our affiliate links</p><a href={createSearchLink('trending deals')} target="_blank" rel="noopener noreferrer" className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">Browse More on eBay</a></div></section>
 
       <section className="bg-blue-600 text-white py-12 mt-12"><div className="max-w-6xl mx-auto px-4"><div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center"><div><p className="text-4xl font-bold">{catalog.length > 0 ? catalog.length : '20'}+</p><p className="text-blue-200">Products</p></div><div><p className="text-4xl font-bold">{categories.length - 1}</p><p className="text-blue-200">Categories</p></div><div><p className="text-4xl font-bold">$74B+</p><p className="text-blue-200">eBay Sales</p></div><div><p className="text-4xl font-bold">132M+</p><p className="text-blue-200">Active Buyers</p></div></div></div></section>
 

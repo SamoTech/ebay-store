@@ -25,7 +25,7 @@ describe('Structured Data', () => {
     it('should include WebSite schema', () => {
       const website = siteStructuredData['@graph'].find(
         (item: any) => item['@type'] === 'WebSite'
-      )
+      )!
       
       expect(website).toBeDefined()
       expect(website.name).toBe('DealsHub')
@@ -35,7 +35,7 @@ describe('Structured Data', () => {
     it('should include Organization schema', () => {
       const org = siteStructuredData['@graph'].find(
         (item: any) => item['@type'] === 'Organization'
-      )
+      )!
       
       expect(org).toBeDefined()
       expect(org.name).toBe('DealsHub')
@@ -45,17 +45,17 @@ describe('Structured Data', () => {
     it('should include SearchAction', () => {
       const website = siteStructuredData['@graph'].find(
         (item: any) => item['@type'] === 'WebSite'
-      )
+      )!
       
       expect(website.potentialAction).toBeDefined()
-      expect(website.potentialAction['@type']).toBe('SearchAction')
-      expect(website.potentialAction.target).toBeDefined()
+      expect(website!.potentialAction!['@type']).toBe('SearchAction')
+      expect(website!.potentialAction!.target).toBeDefined()
     })
 
     it('should include BreadcrumbList', () => {
       const breadcrumb = siteStructuredData['@graph'].find(
         (item: any) => item['@type'] === 'BreadcrumbList'
-      )
+      )!
       
       expect(breadcrumb).toBeDefined()
       expect(breadcrumb.itemListElement).toBeDefined()
@@ -65,18 +65,18 @@ describe('Structured Data', () => {
     it('should include ItemList for categories', () => {
       const itemList = siteStructuredData['@graph'].find(
         (item: any) => item['@type'] === 'ItemList'
-      )
+      )!
       
       expect(itemList).toBeDefined()
       expect(itemList.name).toBe('Product Categories')
-      expect(itemList.itemListElement).toBeDefined()
-      expect(itemList.itemListElement.length).toBeGreaterThan(0)
+      expect(itemList!.itemListElement).toBeDefined()
+      expect(itemList!.itemListElement!.length).toBeGreaterThan(0)
     })
 
     it('should include Blog schema', () => {
       const blog = siteStructuredData['@graph'].find(
         (item: any) => item['@type'] === 'Blog'
-      )
+      )!
       
       expect(blog).toBeDefined()
       expect(blog.name).toBe('DealsHub Blog')
@@ -85,12 +85,12 @@ describe('Structured Data', () => {
     it('should have social media links', () => {
       const org = siteStructuredData['@graph'].find(
         (item: any) => item['@type'] === 'Organization'
-      )
+      )!
       
       expect(org.sameAs).toBeDefined()
-      expect(Array.isArray(org.sameAs)).toBe(true)
-      expect(org.sameAs.length).toBeGreaterThan(0)
-      expect(org.sameAs.some((url: string) => url.includes('twitter'))).toBe(true)
+      expect(Array.isArray(org!.sameAs)).toBe(true)
+      expect(org!.sameAs!.length).toBeGreaterThan(0)
+      expect(org!.sameAs!.some((url: string) => url.includes('twitter'))).toBe(true)
     })
   })
 

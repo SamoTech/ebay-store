@@ -3,6 +3,7 @@ import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DealOfTheDay from '@/components/DealOfTheDay';
 import { FavoritesProvider } from '@/contexts/FavoritesContext';
+import { ToastProvider } from '@/contexts/ToastContext';
 
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
@@ -20,23 +21,14 @@ jest.mock('next/image', () => ({
   },
 }));
 
-const mockDeal = {
-  id: 'deal-123',
-  title: 'Gaming Laptop RTX 4060',
-  price: 899.99,
-  originalPrice: 1299.99,
-  discount: 31,
-  image: '/images/laptop.jpg',
-  endTime: new Date(Date.now() + 3600000).toISOString(), // 1 hour from now
-  rating: 4.5,
-  reviews: 328,
-};
 
 const renderWithProviders = (component: React.ReactElement) => {
   return render(
-    <FavoritesProvider>
-      {component}
-    </FavoritesProvider>
+    <ToastProvider>
+      <FavoritesProvider>
+        {component}
+      </FavoritesProvider>
+    </ToastProvider>
   );
 };
 
@@ -62,8 +54,8 @@ describe('DealOfTheDay Component', () => {
       renderWithProviders(<DealOfTheDay />);
       
       await waitFor(() => {
-        // Should eventually load deal data
-        expect(screen.queryByText(/loading/i) || screen.queryByRole('heading')).toBeInTheDocument();
+        // The section heading and/or the deal content should be visible.
+        expect(screen.getAllByRole('heading').length).toBeGreaterThan(0);
       });
     });
 
@@ -153,7 +145,6 @@ describe('DealOfTheDay Component', () => {
 
   describe('User Interactions', () => {
     it('should have buy now button', async () => {
-      const user = userEvent.setup({ delay: null });
       renderWithProviders(<DealOfTheDay />);
       
       await waitFor(() => {

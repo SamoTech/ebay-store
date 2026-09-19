@@ -5,33 +5,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-  category: string;
-  affiliateLink: string;
-  description: string;
-  featured?: boolean;
-}
-
-// Sample product rotation logic
-function rotateFeaturedProducts(allProducts: Product[]): Product[] {
-  const today = new Date();
-  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
-  
-  // Select 8 products based on day of year
-  const startIndex = dayOfYear % Math.max(1, allProducts.length - 8);
-  const selected = allProducts.slice(startIndex, startIndex + 8);
-  
-  return selected.map(p => ({ ...p, featured: true }));
-}
-
 export async function GET(request: NextRequest) {
   try {
     // Verify this is called by Vercel Cron (optional security check)
-    const authHeader = request.headers.get('authorization');
     const isVercelCron = request.headers.get('x-vercel-cron') === '1';
     
     // Also allow manual trigger with secret

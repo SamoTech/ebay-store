@@ -5,7 +5,8 @@
  * Metadata and structured data extracted to separate modules for maintainability.
  */
 
-import { Geist, Geist_Mono } from 'next/font/google'
+import { GeistSans } from 'geist/font/sans'
+import { GeistMono } from 'geist/font/mono'
 import Script from 'next/script'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/next'
@@ -23,19 +24,6 @@ import { ErrorBoundary } from '../components/ErrorBoundary'
 // SEO Configuration (imported from separate modules)
 import { siteMetadata, viewport } from '../lib/seo/metadata'
 import { siteStructuredData } from '../lib/seo/structured-data'
-
-// Font Configuration
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-  display: 'swap',
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-  display: 'swap',
-})
 
 // Export SEO configuration
 export { viewport }
@@ -79,7 +67,7 @@ export default function RootLayout({
         <meta name="x-pinterest" content="nopin" />
       </head>
       
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         {/* Google Analytics */}
         <GoogleAnalytics />
         

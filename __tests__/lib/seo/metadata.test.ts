@@ -31,7 +31,7 @@ describe('SEO Metadata', () => {
     it('should have keywords array', () => {
       expect(siteMetadata.keywords).toBeDefined()
       expect(Array.isArray(siteMetadata.keywords)).toBe(true)
-      expect(siteMetadata.keywords.length).toBeGreaterThan(0)
+      expect((siteMetadata.keywords ?? []).length).toBeGreaterThan(0)
     })
 
     it('should include essential keywords', () => {

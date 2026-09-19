@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Product } from '../lib/products';
+import { formatPrice } from '../lib/utils/price';
 
 interface PriceAlertFormProps {
   product: Product;
@@ -43,7 +44,7 @@ export default function PriceAlertForm({ product }: PriceAlertFormProps) {
       } else {
         setError('Failed to create price alert. Please try again.');
       }
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
@@ -55,7 +56,7 @@ export default function PriceAlertForm({ product }: PriceAlertFormProps) {
       <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-4 rounded-lg">
         <p className="text-green-800 dark:text-green-200 font-semibold">✓ Price Alert Set!</p>
         <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-          We'll email you when the price drops below ${targetPrice}
+          We&apos;ll email you when the price drops below ${targetPrice}
         </p>
       </div>
     );
@@ -98,7 +99,7 @@ export default function PriceAlertForm({ product }: PriceAlertFormProps) {
             className="w-full"
           />
           <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
-            <span>Save ${(product.price - targetPrice).toFixed(2)}</span>
+            <span>Save {formatPrice(product.price - targetPrice, product.currency)}</span>
             <span>{Math.round(((product.price - targetPrice) / product.price) * 100)}% off</span>
           </div>
         </div>

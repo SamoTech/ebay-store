@@ -1,17 +1,45 @@
-const CAMPID = '5338903178';
-const SITEID = '0';
-const MKRID = '711-53200-19255-0';
-const MKCID = '1';
+import {
+  createAffiliateUrl,
+  createSearchLink,
+  getCampaignId,
+  DEFAULT_CAMPAIGN_ID,
+  SITEID,
+  MKRID,
+  MKCID,
+} from './affiliate';
 
-export function createSearchLink(keyword: string, customId?: string): string {
-  const kw = encodeURIComponent(keyword);
-  let url = `https://www.ebay.com/sch/i.html?_nkw=${kw}&mkcid=${MKCID}&mkrid=${MKRID}&siteid=${SITEID}&campid=${CAMPID}`;
-  
-  if (customId) {
-    url += `&customid=${encodeURIComponent(customId)}`;
-  }
-  
-  return url;
+export {
+  createAffiliateUrl,
+  createSearchLink,
+  getCampaignId,
+  DEFAULT_CAMPAIGN_ID,
+  SITEID,
+  MKRID,
+  MKCID,
+};
+
+/** Kept for backwards compatibility — resolves at call time. */
+export const CAMPID = DEFAULT_CAMPAIGN_ID;
+
+/**
+ * Live eBay items are assigned IDs starting at this offset so they can never
+ * collide with the static catalog (`id < LIVE_PRODUCT_ID_OFFSET`).
+ */
+export const LIVE_PRODUCT_ID_OFFSET = 1000;
+
+/**
+ * Single source of truth for "is this item a live eBay listing?".
+ *
+ * Live items must link straight to eBay (affiliate URL); static catalog items
+ * link to the internal `/product/[id]` detail page.
+ */
+export function isLiveProduct(product: Pick<Product, 'id'>): boolean {
+  return product.id >= LIVE_PRODUCT_ID_OFFSET;
+}
+
+/** Assign a live-eBay product ID for the given result index. */
+export function liveProductId(index: number): number {
+  return LIVE_PRODUCT_ID_OFFSET + index;
 }
 
 export interface Product {
@@ -26,6 +54,12 @@ export interface Product {
   description: string;
   featured?: boolean;
   rating?: number;
+  /** True for items fetched live from the eBay API (see `isLiveProduct`). */
+  isLive?: boolean;
+  /** Listing condition reported by eBay (e.g. "New", "Pre-owned"). */
+  condition?: string;
+  /** Human-readable shipping summary (e.g. "Free shipping"). */
+  shipping?: string;
 }
 
 export interface Category {
@@ -120,4 +154,4 @@ export const categories: Category[] = [
   { id: 13, name: 'Office', icon: '💼', slug: 'office' }
 ];
 
-export { CAMPID, SITEID, MKRID, MKCID };
+// Affiliate constants are re-exported at the top of this file.

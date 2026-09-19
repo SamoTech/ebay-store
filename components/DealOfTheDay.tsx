@@ -3,10 +3,11 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { featuredProducts, Product } from '../lib/products';
+import { featuredProducts, isLiveProduct, Product } from '../lib/products';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { useToast } from '../contexts/ToastContext';
 import { trackEvent } from '../lib/analytics';
+import { formatPrice } from '../lib/utils/price';
 
 export default function DealOfTheDay() {
   const [deal, setDeal] = useState<Product | null>(null);
@@ -80,7 +81,8 @@ export default function DealOfTheDay() {
 
   if (isLoading || !deal) {
     return (
-      <section className="max-w-6xl mx-auto px-4 py-8">
+      <section className="max-w-6xl mx-auto px-4 py-8" aria-busy="true">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Deal of the Day</h2>
         <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl overflow-hidden shadow-xl animate-pulse">
           <div className="h-64 md:h-80 bg-orange-600/50"></div>
         </div>
@@ -112,6 +114,7 @@ export default function DealOfTheDay() {
 
   return (
     <section className="max-w-6xl mx-auto px-4 py-8">
+      <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Deal of the Day</h2>
       <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl overflow-hidden shadow-xl relative">
         {/* Live Deal Indicator */}
         {dataSource === 'ebay_live' && (
@@ -157,10 +160,10 @@ export default function DealOfTheDay() {
 
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-6">
-              <span className="text-4xl font-bold">${deal.price.toFixed(2)}</span>
+              <span className="text-4xl font-bold">{formatPrice(deal.price, deal.currency)}</span>
               {deal.originalPrice && (
                 <span className="text-xl text-white/60 line-through">
-                  ${deal.originalPrice.toFixed(2)}
+                  {formatPrice(deal.originalPrice, deal.currency)}
                 </span>
               )}
             </div>
@@ -213,7 +216,7 @@ export default function DealOfTheDay() {
                   <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                 </svg>
               </button>
-              {deal.id && (
+              {deal.id && !isLiveProduct(deal) && (
                 <Link
                   href={`/product/${deal.id}`}
                   className="p-3 bg-white/20 text-white rounded-xl hover:bg-white/30 transition-colors"

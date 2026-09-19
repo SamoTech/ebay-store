@@ -44,6 +44,6 @@ export async function POST(request: NextRequest) {
     existing.updatedAt = new Date().toISOString();
   }
 
-  await writeJsonFile('price-alerts.json', store);
-  return NextResponse.json({ ok: true });
+  const persisted = await writeJsonFile('price-alerts.json', store);
+  return NextResponse.json({ ok: true, persisted });
 }

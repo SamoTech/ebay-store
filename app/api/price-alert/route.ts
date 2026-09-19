@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { asValidationErrorResponse, validatePriceAlertBody } from '@/src/lib/validation';
+import { readJsonFile, writeJsonFile } from '../../../lib/server/jsonStore';
+
+export const dynamic = 'force-dynamic';
 
 interface StoredAlert {
   id: number;
@@ -10,7 +13,9 @@ interface StoredAlert {
   status: 'active';
 }
 
-const alerts: StoredAlert[] = [];
+interface AlertStore {
+  alerts: StoredAlert[];
+}
 
 export async function POST(request: Request) {
   try {
@@ -21,6 +26,8 @@ export async function POST(request: Request) {
       return NextResponse.json(asValidationErrorResponse(validation), { status: 400 });
     }
 
+    const store = await readJsonFile<AlertStore>('price-alerts.json', { alerts: [] });
+
     const alert: StoredAlert = {
       id: Date.now(),
       email: validation.data.email,
@@ -30,9 +37,19 @@ export async function POST(request: Request) {
       status: 'active',
     };
 
-    alerts.push(alert);
+    store.alerts.push(alert);
+    if (store.alerts.length > 5_000) {
+      store.alerts = store.alerts.slice(-5_000);
+    }
 
-    return NextResponse.json({ success: true, message: 'Price alert created successfully', alertId: alert.id });
+    const persisted = await writeJsonFile('price-alerts.json', store);
+
+    return NextResponse.json({
+      success: true,
+      message: 'Price alert created successfully',
+      alertId: alert.id,
+      persisted,
+    });
   } catch {
     return NextResponse.json({ success: false, error: 'Failed to create price alert' }, { status: 500 });
   }

@@ -31,12 +31,12 @@ export default function AboutPage() {
               We know how overwhelming it can be to find genuine deals among millions of products on eBay.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              That's why we created DealsHub - a curated platform that brings you the best deals across electronics, 
+              That&apos;s why we created DealsHub - a curated platform that brings you the best deals across electronics, 
               gaming, fashion, home goods, and more. We do the hard work of finding, verifying, and organizing the 
-              best offers so you don't have to.
+              best offers so you don&apos;t have to.
             </p>
             <p className="text-gray-700 dark:text-gray-300">
-              Since our launch, we've helped thousands of shoppers save money and discover amazing products they love.
+              Since our launch, we&apos;ve helped thousands of shoppers save money and discover amazing products they love.
             </p>
           </div>
         </section>
@@ -90,7 +90,7 @@ export default function AboutPage() {
                 You Save
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Browse our curated collection and shop with confidence knowing you're getting the best deals
+                Browse our curated collection and shop with confidence knowing you&apos;re getting the best deals
               </p>
             </div>
           </div>
@@ -170,7 +170,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Secure Shopping</h3>
-                <p className="text-gray-600 dark:text-gray-400">All purchases through eBay's secure platform</p>
+                <p className="text-gray-600 dark:text-gray-400">All purchases through eBay&apos;s secure platform</p>
               </div>
             </div>
           </div>

@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { generateArticleSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
@@ -81,14 +80,14 @@ export default function BestGamingLaptopsPage() {
           {/* Introduction */}
           <section className="prose prose-lg dark:prose-invert max-w-none mb-12">
             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-              Finding a <strong>gaming laptop under $1000</strong> in 2026 doesn't mean compromising on performance. 
-              With eBay's vast marketplace, you can score incredible deals on laptops featuring <strong>RTX 40-series graphics cards</strong>, 
+              Finding a <strong>gaming laptop under $1000</strong> in 2026 doesn&apos;t mean compromising on performance. 
+              With eBay&apos;s vast marketplace, you can score incredible deals on laptops featuring <strong>RTX 40-series graphics cards</strong>, 
               high refresh rate displays, and powerful processors—all within your budget.
             </p>
             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
               This comprehensive guide reviews the <strong>top 10 gaming laptops under $1000</strong> available on eBay right now, 
-              with honest pros/cons, benchmarks, and verified deals. Whether you're into competitive shooters, open-world RPGs, 
-              or AAA titles, we've got you covered.
+              with honest pros/cons, benchmarks, and verified deals. Whether you&apos;re into competitive shooters, open-world RPGs, 
+              or AAA titles, we&apos;ve got you covered.
             </p>
           </section>
 
@@ -122,7 +121,7 @@ export default function BestGamingLaptopsPage() {
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Display</p>
-                      <p className="font-semibold text-gray-900 dark:text-white">15.6" 144Hz IPS</p>
+                      <p className="font-semibold text-gray-900 dark:text-white">15.6&quot; 144Hz IPS</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">RAM</p>
@@ -156,7 +155,7 @@ export default function BestGamingLaptopsPage() {
               <p className="text-xl font-bold text-blue-600 mb-3">$999 on eBay</p>
               <p className="text-gray-700 dark:text-gray-300 mb-4">
                 Pushing the upper limit of our budget, the Legion 5 packs an <strong>RTX 4060 GPU</strong>—the most powerful 
-                card you'll find under $1000. Perfect for gamers who want max performance without breaking the bank.
+                card you&apos;ll find under $1000. Perfect for gamers who want max performance without breaking the bank.
               </p>
               <a 
                 href="https://www.ebay.com/sch/i.html?_nkw=Lenovo+Legion+5+RTX+4060&_sacat=0" 
@@ -220,7 +219,7 @@ export default function BestGamingLaptopsPage() {
               </details>
               <details className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
                 <summary className="font-semibold text-gray-900 dark:text-white cursor-pointer">Is buying used/refurbished on eBay safe?</summary>
-                <p className="mt-2 text-gray-700 dark:text-gray-300">Yes, eBay's Money Back Guarantee protects you. Buy from sellers with 98%+ positive feedback.</p>
+                <p className="mt-2 text-gray-700 dark:text-gray-300">Yes, eBay&apos;s Money Back Guarantee protects you. Buy from sellers with 98%+ positive feedback.</p>
               </details>
             </div>
           </section>

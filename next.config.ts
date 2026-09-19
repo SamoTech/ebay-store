@@ -20,10 +20,6 @@ const securityHeaders = [
     value: 'max-age=63072000; includeSubDomains; preload',
   },
   {
-    key: 'X-Frame-Options',
-    value: 'SAMEORIGIN',
-  },
-  {
     key: 'X-Content-Type-Options',
     value: 'nosniff',
   },
@@ -51,8 +47,15 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactStrictMode: true,
+
+  // Do not advertise the framework version.
+  poweredByHeader: false,
+
+  // Keep client bundles lean: only the icons that are imported ship.
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
 
   // Image optimization
   images: {
@@ -83,11 +86,19 @@ const nextConfig: NextConfig = {
 
   // Security headers
   async headers() {
+    // Clickjacking protection is disabled while developing so the app can be
+    // embedded in preview panes (and so local iframe testing works). Production
+    // keeps the strict DENY value.
+    const frameHeaders =
+      process.env.NODE_ENV === 'production'
+        ? [{ key: 'X-Frame-Options', value: 'DENY' }]
+        : []
+
     return [
       {
         // Apply security headers to all routes
         source: '/:path*',
-        headers: securityHeaders,
+        headers: [...securityHeaders, ...frameHeaders],
       },
     ]
   },

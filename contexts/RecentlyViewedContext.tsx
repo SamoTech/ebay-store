@@ -1,11 +1,13 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 
 interface ViewedItem {
   id: number;
   title: string;
   price: number;
+  /** ISO currency code of the listing (defaults to USD when omitted). */
+  currency?: string;
   image: string;
   category: string;
   affiliateLink: string;
@@ -72,7 +74,9 @@ export function RecentlyViewedProvider({ children }: { children: ReactNode }) {
     }
   }, [recentlyViewed, isLoaded]);
 
-  const addToRecentlyViewed = (item: Omit<ViewedItem, 'viewedAt'>) => {
+  // Stable identity: consumers call this from effects, so a new function on
+  // every render would re-run those effects on each render.
+  const addToRecentlyViewed = useCallback((item: Omit<ViewedItem, 'viewedAt'>) => {
     setRecentlyViewed((prev) => {
       // Remove duplicate if exists
       const filtered = prev.filter((p) => p.id !== item.id);
@@ -80,12 +84,12 @@ export function RecentlyViewedProvider({ children }: { children: ReactNode }) {
       // ✅ Limit to MAX_RECENT_ITEMS (20)
       return [newItem, ...filtered].slice(0, MAX_RECENT_ITEMS);
     });
-  };
+  }, []);
 
-  const clearRecentlyViewed = () => {
+  const clearRecentlyViewed = useCallback(() => {
     setRecentlyViewed([]);
     localStorage.removeItem(STORAGE_KEY);
-  };
+  }, []);
 
   return (
     <RecentlyViewedContext.Provider value={{ recentlyViewed, addToRecentlyViewed, clearRecentlyViewed }}>

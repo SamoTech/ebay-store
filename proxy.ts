@@ -1,9 +1,20 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+/**
+ * Edge proxy (the Next.js 16 replacement for `middleware.ts`).
+ *
+ * Responsibilities:
+ * - a coarse, per-instance rate limit for `/api/*` requests
+ * - security headers on every response
+ */
+
 const rateStore = new Map<string, number[]>();
 const RATE_WINDOW_MS = 60_000;
 const RATE_MAX = 60;
+const MAX_TRACKED_CLIENTS = 10_000;
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 function getClientIp(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for');
@@ -22,24 +33,60 @@ function isRateLimited(ip: string): { limited: boolean; remaining: number } {
 
   recent.push(now);
   rateStore.set(ip, recent);
+
+  // Bound the map so a burst of unique clients cannot grow memory forever.
+  if (rateStore.size > MAX_TRACKED_CLIENTS) {
+    for (const [key, timestamps] of rateStore) {
+      if (timestamps.every((ts) => now - ts >= RATE_WINDOW_MS)) {
+        rateStore.delete(key);
+      }
+      if (rateStore.size <= MAX_TRACKED_CLIENTS / 2) break;
+    }
+  }
+
   return { limited: false, remaining: RATE_MAX - recent.length };
 }
 
+function contentSecurityPolicy(): string {
+  const scriptSrc = isDevelopment
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com"
+    : "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com";
+
+  return [
+    "default-src 'self'",
+    "img-src 'self' https: data: blob:",
+    scriptSrc,
+    "style-src 'self' 'unsafe-inline'",
+    "font-src 'self' data:",
+    "connect-src 'self' https://api.ebay.com https://svcs.ebay.com https://vitals.vercel-insights.com https://www.google-analytics.com",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    // Framing is allowed in development so preview panes can embed the app.
+    isDevelopment ? "frame-ancestors 'self' https: http:" : "frame-ancestors 'none'",
+  ].join('; ');
+}
+
 function applySecurityHeaders(response: NextResponse): NextResponse {
-  response.headers.set('Content-Security-Policy', "default-src 'self'; img-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.ebay.com https://svcs.ebay.com;");
-  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('Content-Security-Policy', contentSecurityPolicy());
+  // Keep in sync with the X-Frame-Options value in next.config.ts: strict in
+  // production, omitted in development so previews can embed the app.
+  if (!isDevelopment) {
+    response.headers.set('X-Frame-Options', 'DENY');
+  }
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
   return response;
 }
 
-export function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith('/api')) {
     const ip = getClientIp(request);
     const result = isRateLimited(ip);
+
     if (result.limited) {
       const response = NextResponse.json({ error: 'Too many requests' }, { status: 429 });
       response.headers.set('X-RateLimit-Limit', RATE_MAX.toString());

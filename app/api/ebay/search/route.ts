@@ -1,66 +1,61 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { searchEbayFindingAPI, getTrendingProducts } from '@/lib/ebay-api';
+import { getTrendingProducts, searchEbayProducts } from '@/lib/ebay-api';
+import { withRateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
+const MAX_LIMIT = 50;
+
 /**
- * eBay Product Search API Endpoint
+ * GET /api/ebay/search — legacy product search endpoint.
+ *
+ * Kept for backwards compatibility with the `/api/ebay/*` surface; new code
+ * should use `/api/products/search` (validation + static fallback) instead.
+ *
+ * @example
  * GET /api/ebay/search?q=laptop
- * GET /api/ebay/search?trending=true
+ * GET /api/ebay/search?trending=true&limit=12
  */
-export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const query = searchParams.get('q');
-    const trending = searchParams.get('trending') === 'true';
-    const limit = parseInt(searchParams.get('limit') || '12');
+async function handler(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get('q')?.trim() ?? '';
+  const trending = searchParams.get('trending') === 'true';
+  const requestedLimit = Number.parseInt(searchParams.get('limit') ?? '12', 10);
+  const limit = Number.isFinite(requestedLimit)
+    ? Math.min(Math.max(requestedLimit, 1), MAX_LIMIT)
+    : 12;
 
-    let products;
-
-    if (trending) {
-      // Get today's trending products
-      products = await getTrendingProducts();
-    } else if (query) {
-      // Search by keyword
-      products = await searchEbayFindingAPI(query, limit);
-    } else {
-      return NextResponse.json(
-        { error: 'Please provide ?q=keyword or ?trending=true' },
-        { status: 400 }
-      );
-    }
-
-    // Transform eBay response to our format
-    const formattedProducts = products.map((item: any, index: number) => ({
-      id: 1000 + index, // High ID to distinguish from static products
-      title: item.title?.[0] || 'No title',
-      price: parseFloat(item.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || '0'),
-      currency: item.sellingStatus?.[0]?.currentPrice?.[0]?.['@currencyId'] || 'USD',
-      image: item.galleryURL?.[0] || item.pictureURLLarge?.[0] || '',
-      category: item.primaryCategory?.[0]?.categoryName?.[0] || 'General',
-      affiliateLink: item.viewItemURL?.[0] || '#',
-      description: item.subtitle?.[0] || item.title?.[0] || '',
-      condition: item.condition?.[0]?.conditionDisplayName?.[0] || 'Unknown',
-      itemId: item.itemId?.[0] || '',
-      shipping: item.shippingInfo?.[0]?.shippingServiceCost?.[0]?.__value__ || 'N/A'
-    }));
-
-    return NextResponse.json({
-      success: true,
-      count: formattedProducts.length,
-      query: query || 'trending',
-      products: formattedProducts
-    }, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200'
-      }
-    });
-
-  } catch (error) {
-    console.error('❌ eBay API error:', error);
+  if (!trending && !query) {
     return NextResponse.json(
-      { error: 'Failed to fetch from eBay', details: (error as Error).message },
-      { status: 500 }
+      { success: false, error: 'Please provide ?q=keyword or ?trending=true' },
+      { status: 400 },
+    );
+  }
+
+  try {
+    const products = trending
+      ? await getTrendingProducts()
+      : await searchEbayProducts(query, limit);
+
+    return NextResponse.json(
+      {
+        success: true,
+        count: products.length,
+        query: trending ? 'trending' : query,
+        products,
+      },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+        },
+      },
+    );
+  } catch {
+    return NextResponse.json(
+      { success: false, error: 'Failed to fetch from eBay' },
+      { status: 502 },
     );
   }
 }
+
+export const GET = withRateLimit(handler, { maxRequests: 30, windowMs: 60 * 1000 });

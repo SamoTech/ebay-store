@@ -1,4 +1,5 @@
-import { Product, createSearchLink } from './products';
+import { Product, createSearchLink, isLiveProduct, liveProductId } from './products';
+import { createAffiliateUrl, DEFAULT_CAMPAIGN_ID, getCampaignId } from './affiliate';
 import { TokenManager } from '@/src/lib/token-manager';
 import { logger } from '@/src/lib/logger';
 import { LruRequestCache } from '@/src/features/search/services/search-cache';
@@ -7,20 +8,40 @@ const EBAY_FINDING_API = 'https://svcs.ebay.com/services/search/FindingService/v
 const EBAY_BROWSE_API = 'https://api.ebay.com/buy/browse/v1';
 const EBAY_OAUTH_API = 'https://api.ebay.com/identity/v1/oauth2/token';
 
-const CAMPID = '5338903178';
-const SITEID = '0';
-const MKRID = '711-53200-19255-0';
-const MKCID = '1';
+export interface EbayConfig {
+  appId: string;
+  trackingId: string;
+  clientId?: string;
+  clientSecret?: string;
+  oauthToken?: string;
+  marketplaceId: string;
+  oauthScope: string;
+}
 
-export const EBAY_CONFIG = {
-  appId: process.env.NEXT_PUBLIC_EBAY_APP_ID || process.env.EBAY_APP_ID || '',
-  trackingId: process.env.NEXT_PUBLIC_EBAY_TRACKING_ID || CAMPID,
-  clientId: process.env.EBAY_CLIENT_ID,
-  clientSecret: process.env.EBAY_CLIENT_SECRET,
-  oauthToken: process.env.EBAY_OAUTH_TOKEN,
-  marketplaceId: process.env.EBAY_MARKETPLACE_ID || 'EBAY_US',
-  oauthScope: process.env.EBAY_OAUTH_SCOPE || 'https://api.ebay.com/oauth/api_scope',
-};
+/**
+ * Read eBay configuration from the environment.
+ *
+ * Called on demand (rather than once at module load) so tests, preview
+ * deploys, and long-lived processes always see the current environment.
+ */
+export function readEbayConfig(): EbayConfig {
+  return {
+    appId: process.env.NEXT_PUBLIC_EBAY_APP_ID || process.env.EBAY_APP_ID || '',
+    trackingId:
+      process.env.EBAY_CAMPAIGN_ID ||
+      process.env.NEXT_PUBLIC_EBAY_CAMPAIGN_ID ||
+      process.env.NEXT_PUBLIC_EBAY_TRACKING_ID ||
+      DEFAULT_CAMPAIGN_ID,
+    clientId: process.env.EBAY_CLIENT_ID,
+    clientSecret: process.env.EBAY_CLIENT_SECRET,
+    oauthToken: process.env.EBAY_OAUTH_TOKEN,
+    marketplaceId: process.env.EBAY_MARKETPLACE_ID || 'EBAY_US',
+    oauthScope: process.env.EBAY_OAUTH_SCOPE || 'https://api.ebay.com/oauth/api_scope',
+  };
+}
+
+/** Snapshot of the configuration at import time (server side). */
+export const EBAY_CONFIG = readEbayConfig();
 
 export interface EbayFindingItem {
   title: string;
@@ -29,6 +50,9 @@ export interface EbayFindingItem {
   itemId: string;
   viewItemURL?: string;
   condition?: string;
+  shippingInfo?: Array<{
+    shippingServiceCost?: Array<{ __value__?: string }>;
+  }>;
 }
 
 export interface EbayFindingApiResponse {
@@ -57,6 +81,11 @@ export interface EbayItemSummary {
   price?: { value?: string; currency?: string };
   itemWebUrl?: string;
   shortDescription?: string;
+  condition?: string;
+  shippingOptions?: Array<{
+    shippingCost?: { value?: string; currency?: string };
+    shippingType?: string;
+  }>;
 }
 
 export interface EbaySearchResponse {
@@ -64,34 +93,60 @@ export interface EbaySearchResponse {
   total?: number;
 }
 
-const tokenManager = new TokenManager({
-  clientId: EBAY_CONFIG.clientId,
-  clientSecret: EBAY_CONFIG.clientSecret,
-  scope: EBAY_CONFIG.oauthScope,
-  tokenUrl: EBAY_OAUTH_API,
-  manualToken: EBAY_CONFIG.oauthToken,
-});
+/**
+ * Token managers are cached per credential set so a token fetched once is
+ * reused until it expires, while changing env vars (tests, config updates)
+ * transparently produces a fresh manager.
+ */
+let tokenManager: TokenManager | null = null;
+let tokenManagerKey = '';
+
+function getTokenManager(): TokenManager {
+  const config = readEbayConfig();
+  const key = [
+    config.clientId ?? '',
+    config.clientSecret ?? '',
+    config.oauthScope,
+    config.oauthToken ?? '',
+  ].join('|');
+
+  if (!tokenManager || tokenManagerKey !== key) {
+    tokenManager = new TokenManager({
+      clientId: config.clientId,
+      clientSecret: config.clientSecret,
+      scope: config.oauthScope,
+      tokenUrl: EBAY_OAUTH_API,
+      manualToken: config.oauthToken,
+    });
+    tokenManagerKey = key;
+  }
+
+  return tokenManager;
+}
 
 const browseCache = new LruRequestCache<EbaySearchResponse>(200);
 
-export function createAffiliateUrl(ebayUrl: string, customId?: string): string {
-  try {
-    const url = new URL(ebayUrl);
-    url.searchParams.set('mkcid', MKCID);
-    url.searchParams.set('mkrid', MKRID);
-    url.searchParams.set('siteid', SITEID);
-    url.searchParams.set('campid', CAMPID);
-    if (customId) {
-      url.searchParams.set('customid', encodeURIComponent(customId));
-    }
-    return url.toString();
-  } catch {
-    return ebayUrl;
-  }
+/**
+ * Add affiliate tracking to an eBay URL.
+ *
+ * Delegates to the shared affiliate module so the campaign ID always comes
+ * from `NEXT_PUBLIC_EBAY_CAMPAIGN_ID` / `EBAY_CAMPAIGN_ID` (and never from a
+ * hard-coded constant).
+ */
+export function createAffiliateUrlForConfig(
+  ebayUrl: string,
+  customId?: string,
+): string {
+  return createAffiliateUrl(ebayUrl, customId);
+}
+
+/** Current campaign ID (exposed for diagnostics such as /api/health). */
+export function getActiveCampaignId(): string {
+  return getCampaignId();
 }
 
 export function getEbayIntegrationStatus(): EbayIntegrationStatus {
-  const { oauthToken, clientId, clientSecret, appId, marketplaceId } = EBAY_CONFIG;
+  const { oauthToken, clientId, clientSecret, appId, marketplaceId } = readEbayConfig();
 
   if (oauthToken) return { mode: 'manual_token', marketplaceId, missing: [], apiType: 'Browse' };
 
@@ -106,9 +161,11 @@ export function getEbayIntegrationStatus(): EbayIntegrationStatus {
 }
 
 export async function searchEbayBrowseAPI(keyword: string, limit = 20): Promise<EbaySearchResponse> {
-  const cacheKey = `browse:${keyword}:${limit}`;
+  const config = readEbayConfig();
+  const cacheKey = `browse:${config.marketplaceId}:${keyword}:${limit}`;
+
   return browseCache.getOrCompute(cacheKey, 600, async () => {
-    const token = await tokenManager.getToken();
+    const token = await getTokenManager().getToken();
     if (!token) return { itemSummaries: [], total: 0 };
 
     const response = await fetch(
@@ -116,7 +173,7 @@ export async function searchEbayBrowseAPI(keyword: string, limit = 20): Promise<
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          'X-EBAY-C-MARKETPLACE-ID': EBAY_CONFIG.marketplaceId,
+          'X-EBAY-C-MARKETPLACE-ID': config.marketplaceId,
         },
         next: { revalidate: 600 },
       },
@@ -132,7 +189,8 @@ export async function searchEbayBrowseAPI(keyword: string, limit = 20): Promise<
 }
 
 export async function searchEbayFindingAPI(keyword: string, maxResults = 12): Promise<EbayFindingItem[]> {
-  if (!EBAY_CONFIG.appId) {
+  const { appId } = readEbayConfig();
+  if (!appId) {
     return [];
   }
 
@@ -140,7 +198,7 @@ export async function searchEbayFindingAPI(keyword: string, maxResults = 12): Pr
     `${EBAY_FINDING_API}?` +
     `OPERATION-NAME=findItemsByKeywords` +
     `&SERVICE-VERSION=1.13.0` +
-    `&SECURITY-APPNAME=${EBAY_CONFIG.appId}` +
+    `&SECURITY-APPNAME=${appId}` +
     `&RESPONSE-DATA-FORMAT=JSON` +
     `&REST-PAYLOAD` +
     `&keywords=${encodeURIComponent(keyword)}` +
@@ -157,22 +215,25 @@ export async function searchEbayFindingAPI(keyword: string, maxResults = 12): Pr
 }
 
 export async function searchEbayProducts(keyword: string, maxResults = 12): Promise<Product[]> {
+  const config = readEbayConfig();
   const status = getEbayIntegrationStatus();
 
   if (status.apiType === 'Browse') {
     const browseResults = await searchEbayBrowseAPI(keyword, maxResults);
     if (browseResults.itemSummaries && browseResults.itemSummaries.length > 0) {
       return browseResults.itemSummaries
-        .map((item, index) => mapBrowseItemToProduct(item, index, 'Search'))
+        // Live items use IDs >= LIVE_PRODUCT_ID_OFFSET (1000) so they can never
+        // be mistaken for static catalog items by the UI.
+        .map((item, index) => mapBrowseItemToProduct(item, liveProductId(index), 'Search'))
         .filter((p): p is Product => p !== null);
     }
   }
 
-  if (status.apiType === 'Finding' || (status.apiType === 'Browse' && EBAY_CONFIG.appId)) {
+  if (status.apiType === 'Finding' || (status.apiType === 'Browse' && config.appId)) {
     const findingResults = await searchEbayFindingAPI(keyword, maxResults);
     if (findingResults.length > 0) {
       return findingResults
-        .map((item, index) => mapFindingItemToProduct(item, index, 'Search'))
+        .map((item, index) => mapFindingItemToProduct(item, liveProductId(index), 'Search'))
         .filter((p): p is Product => p !== null);
     }
   }
@@ -203,12 +264,23 @@ function resolveEbayImage(item: EbayItemSummary): string {
   return item.image?.imageUrl || item.thumbnailImages?.[0]?.imageUrl || item.additionalImages?.[0]?.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image';
 }
 
+/** Summarise eBay shipping options into a short label. */
+export function summarizeShipping(item: EbayItemSummary): string | undefined {
+  const option = item.shippingOptions?.[0];
+  if (!option) return undefined;
+
+  const cost = Number(option.shippingCost?.value ?? Number.NaN);
+  if (Number.isFinite(cost) && cost === 0) return 'Free shipping';
+  if (Number.isFinite(cost) && cost > 0) return `Shipping ${cost.toFixed(2)}`;
+  return option.shippingType;
+}
+
 export function mapBrowseItemToProduct(item: EbayItemSummary, id: number, category: string): Product | null {
   const priceValue = Number(item.price?.value || 0);
   if (!item.title || !priceValue || Number.isNaN(priceValue)) return null;
 
   const affiliateLink = item.itemWebUrl
-    ? createAffiliateUrl(item.itemWebUrl, `browse-${category.toLowerCase()}`)
+    ? createAffiliateUrlForConfig(item.itemWebUrl, `browse-${category.toLowerCase()}`)
     : createSearchLink(item.title, `fallback-${category.toLowerCase()}`);
 
   return {
@@ -220,6 +292,9 @@ export function mapBrowseItemToProduct(item: EbayItemSummary, id: number, catego
     category,
     affiliateLink,
     description: item.shortDescription || `Live product from eBay ${category} results.`,
+    isLive: isLiveProduct({ id }),
+    condition: item.condition,
+    shipping: summarizeShipping(item),
   };
 }
 
@@ -228,7 +303,7 @@ export function mapFindingItemToProduct(item: EbayFindingItem, id: number, categ
   if (!item.title || !priceValue || Number.isNaN(priceValue)) return null;
 
   const affiliateLink = item.viewItemURL
-    ? createAffiliateUrl(item.viewItemURL, `finding-${category.toLowerCase()}`)
+    ? createAffiliateUrlForConfig(item.viewItemURL, `finding-${category.toLowerCase()}`)
     : createSearchLink(item.title, `fallback-${category.toLowerCase()}`);
 
   return {
@@ -240,8 +315,19 @@ export function mapFindingItemToProduct(item: EbayFindingItem, id: number, categ
     category,
     affiliateLink,
     description: `${item.condition || 'New'} - Live product from eBay ${category} results.`,
+    isLive: isLiveProduct({ id }),
+    condition: item.condition,
+    shipping: resolveFindingShipping(item),
   };
 }
 
-export { CAMPID, SITEID, MKRID, MKCID };
+function resolveFindingShipping(item: EbayFindingItem): string | undefined {
+  const cost = Number.parseFloat(
+    item.shippingInfo?.[0]?.shippingServiceCost?.[0]?.__value__ ?? '',
+  );
+  if (!Number.isFinite(cost)) return undefined;
+  return cost === 0 ? 'Free shipping' : `Shipping ${cost.toFixed(2)}`;
+}
+
+export { DEFAULT_CAMPAIGN_ID, createAffiliateUrl };
 export const getEbayProducts = searchEbayFindingAPI;
