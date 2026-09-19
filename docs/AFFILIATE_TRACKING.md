@@ -2,6 +2,26 @@
 
 ## Campaign Configuration
 
+### Configuring your campaign id (recommended)
+
+The campaign id is read from environment variables, in this order of precedence:
+
+| Priority | Variable | Where it applies |
+|---|---|---|
+| 1 | `NEXT_PUBLIC_EBAY_CAMPAIGN_ID` | Browser + server (needed if you build links client-side) |
+| 2 | `EBAY_CAMPAIGN_ID` | Server only |
+| 3 | built-in default (`5338903178`) | Fallback shipped with the repo |
+
+Set at least one of them in `.env.local` (or in your Vercel project settings) and the whole app —
+product cards, search links, deal of the day, comparison pages — will use it. When none is set the
+app logs a warning at startup so it is obvious that commissions are going to the default campaign.
+
+The single source of truth is [`lib/affiliate.ts`](../lib/affiliate.ts):
+`getCampaignId()`, `createAffiliateUrl(url, customId)` and `createSearchLink(query)`.
+`lib/ebay-api.ts` and `lib/products.ts` re-export from it, so no other file should hard-code EPN
+parameters.
+
+
 Your eBay Partner Network affiliate tracking is configured with the following parameters:
 
 ### Primary Tracking Parameters
