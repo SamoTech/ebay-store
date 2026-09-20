@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 const schema = generateArticleSchema({
   title: 'iPhone 15 Pro vs Samsung Galaxy S24: Ultimate Comparison 2026',
   description: 'Expert comparison of flagship smartphones',
-  image: 'https://ebay-store.vercel.app/blog/phone-comparison.jpg',
+  image: 'https://www.saleh-store.com/blog/phone-comparison.jpg',
   publishedAt: '2026-02-16T00:00:00Z',
   author: 'DealsHub Editorial',
-  siteUrl: 'https://ebay-store.vercel.app'
+  siteUrl: 'https://www.saleh-store.com'
 });
 
 export default function PhoneComparisonPage() {
