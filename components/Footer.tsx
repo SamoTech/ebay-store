@@ -56,8 +56,10 @@ export default function Footer() {
           </p>
           <p className="mt-4 text-gray-500 text-sm text-center">
             © {new Date().getFullYear()} DealsHub. All rights reserved. | 
-            <Link href="/privacy" className="hover:text-white ml-2">Privacy Policy</Link> | 
-            <Link href="/terms" className="hover:text-white ml-2">Terms of Service</Link>
+            <Link href="/privacy" className="hover:text-white ml-2">Privacy Policy</Link> |
+            <Link href="/cookies" className="hover:text-white ml-2">Cookie Policy</Link> |
+            <Link href="/terms" className="hover:text-white ml-2">Terms of Use</Link> |
+            <Link href="/disclaimer" className="hover:text-white ml-2">Affiliate Disclosure</Link>
           </p>
         </div>
       </div>
