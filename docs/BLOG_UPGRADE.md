@@ -212,7 +212,7 @@ Engaging call-to-action to drive commerce:
 **Commit**: [02b8e1ae](https://github.com/SamoTech/ebay-store/commit/02b8e1aec9ab03fc5c9a85802e089d6ed4d9f949)  
 **Date**: February 15, 2026, 11:20 PM EET  
 **Status**: ✅ Deployed  
-**Preview**: https://ebay-store.vercel.app/blog
+**Preview**: https://www.saleh-store.com/blog
 
 ---
 
