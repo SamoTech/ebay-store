@@ -21,7 +21,7 @@ export const viewport: Viewport = {
  * Site metadata
  */
 export const siteMetadata: Metadata = {
-  metadataBase: new URL('https://ebay-store.vercel.app'),
+  metadataBase: new URL('https://www.saleh-store.com'),
   title: {
     default: 'DealsHub - Best Deals & Discounts on eBay | Affiliate Store 2026',
     template: '%s | DealsHub',
@@ -69,7 +69,7 @@ export const siteMetadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://ebay-store.vercel.app',
+    url: 'https://www.saleh-store.com',
     siteName: 'DealsHub',
     title: 'DealsHub - Best Deals & Discounts on eBay | 62+ Trending Products',
     description:
@@ -102,15 +102,15 @@ export const siteMetadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://ebay-store.vercel.app',
+    canonical: 'https://www.saleh-store.com',
     types: {
-      'application/rss+xml': 'https://ebay-store.vercel.app/rss.xml',
-      'application/atom+xml': 'https://ebay-store.vercel.app/rss.xml',
+      'application/rss+xml': 'https://www.saleh-store.com/rss.xml',
+      'application/atom+xml': 'https://www.saleh-store.com/rss.xml',
     },
     languages: {
-      'en-US': 'https://ebay-store.vercel.app',
-      'en-GB': 'https://ebay-store.vercel.app',
-      'en-CA': 'https://ebay-store.vercel.app',
+      'en-US': 'https://www.saleh-store.com',
+      'en-GB': 'https://www.saleh-store.com',
+      'en-CA': 'https://www.saleh-store.com',
     },
   },
   category: 'shopping',
