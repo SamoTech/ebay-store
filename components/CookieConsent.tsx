@@ -42,10 +42,17 @@ export default function CookieConsent() {
     } catch {
       // Consent remains session-only if storage is unavailable.
     }
+    const previous = consent;
     setConsent(next);
     setDraft(next);
     setOpen(false);
     window.dispatchEvent(new CustomEvent('saleh-cookie-consent', { detail: next }));
+
+    // Reload when withdrawing an already-granted category so third-party scripts
+    // are removed from the current document instead of merely being disabled.
+    if (previous && (previous.analytics !== next.analytics || previous.affiliate !== next.affiliate)) {
+      window.location.reload();
+    }
   }
 
   if (consent === null && !open) {
