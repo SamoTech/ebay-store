@@ -1,10 +1,14 @@
 import { Metadata } from 'next';
+import { absoluteUrl } from '../../lib/site';
 import Link from 'next/link';
 import Footer from '../../components/Footer';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | DealsHub',
   description: 'Learn how DealsHub collects, uses, and protects your personal information.',
+  alternates: {
+    canonical: absoluteUrl('/privacy'),
+  },
 };
 
 export default function PrivacyPage() {
