@@ -172,3 +172,6 @@ export default function FAQPage() {
     </div>
   );
 }
+  alternates: {
+    canonical: absoluteUrl('/faq'),
+  },
