@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import { allProducts, categories } from '../../lib/products';
 import { blogArticles } from '../../lib/blog-data';
+import { SITE_URL } from '../../lib/site';
 
 export const dynamic = 'force-static';
 export const revalidate = 3600; // Revalidate every hour
 
-const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.saleh-store.com').replace(/\/$/, '');
+const BASE_URL = SITE_URL;
 
 interface SitemapEntry {
   loc: string;
