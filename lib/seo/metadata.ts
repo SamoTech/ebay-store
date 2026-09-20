@@ -96,11 +96,6 @@ export const siteMetadata: Metadata = {
   },
   verification: {
     google: 'X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg',
-    yandex: 'your-yandex-verification-code',
-    other: {
-      'msvalidate.01': 'your-bing-verification-code',
-      'p:domain_verify': 'your-pinterest-code',
-    },
   },
   alternates: {
     canonical: SITE_URL,
