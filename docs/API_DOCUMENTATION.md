@@ -260,7 +260,7 @@ interface ErrorResponse {
 ```typescript
 // Allowed origins
 const allowedOrigins = [
-  'https://ebay-store.vercel.app',
+  'https://www.saleh-store.com',
   'http://localhost:3000' // Development only
 ]
 ```
