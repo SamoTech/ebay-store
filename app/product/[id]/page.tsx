@@ -65,7 +65,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     ? Math.round((1 - product.price / product.originalPrice) * 100) 
     : 0;
 
-  const productUrl = `https://ebay-store.vercel.app/product/${product.id}`;
+  const productUrl = `https://www.saleh-store.com/product/${product.id}`;
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
