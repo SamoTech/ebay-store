@@ -47,7 +47,7 @@ Complete search functionality with autocomplete dropdown and comprehensive resul
 
 **URL Format**:
 ```
-https://ebay-store.vercel.app/search?q=laptop
+https://www.saleh-store.com/search?q=laptop
 ```
 
 ---
@@ -312,7 +312,7 @@ GET /api/products/search?q={query}&limit={limit}&sort={sort}
 
 ### After Deployment (wait 2-3 minutes)
 
-1. **Visit homepage**: https://ebay-store.vercel.app
+1. **Visit homepage**: https://www.saleh-store.com
 2. **See search bar** below the navigation
 3. **Type "laptop"** in search box
 4. **See autocomplete** dropdown appear
