@@ -7,10 +7,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
-            <h2 className="text-xl font-bold mb-4">DealsHub</h2>
+            <h2 className="text-xl font-bold mb-4">Saleh Store</h2>
             <p className="text-gray-400 mb-4">
-              Your destination for the best deals on electronics, gaming, sneakers, and more. 
-              We partner with eBay to bring you verified sellers and buyer protection.
+              Your destination for discovering deals on electronics, gaming, sneakers, and more. We link you to eBay; purchases, seller relationships, shipping, returns, and buyer support are handled by eBay and the applicable seller.
             </p>
             <div className="flex gap-4">
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" title="X (Twitter)" className="text-gray-400 hover:text-white transition-colors">
@@ -51,13 +50,15 @@ export default function Footer() {
         {/* Bottom */}
         <div className="border-t border-gray-700 pt-8">
           <p className="text-gray-400 text-center">
-            DealsHub is a participant in the eBay Partner Network, an affiliate advertising program 
+            Saleh Store is a participant in the eBay Partner Network, an affiliate advertising program 
             designed to provide a means for sites to earn advertising fees by advertising and linking to eBay.
           </p>
           <p className="mt-4 text-gray-500 text-sm text-center">
-            © {new Date().getFullYear()} DealsHub. All rights reserved. | 
-            <Link href="/privacy" className="hover:text-white ml-2">Privacy Policy</Link> | 
-            <Link href="/terms" className="hover:text-white ml-2">Terms of Service</Link>
+            © {new Date().getFullYear()} Saleh Store. All rights reserved. | 
+            <Link href="/privacy" className="hover:text-white ml-2">Privacy Policy</Link> |
+            <Link href="/cookies" className="hover:text-white ml-2">Cookie Policy</Link> |
+            <Link href="/terms" className="hover:text-white ml-2">Terms of Use</Link> |
+            <Link href="/disclaimer" className="hover:text-white ml-2">Affiliate Disclosure</Link>
           </p>
         </div>
       </div>

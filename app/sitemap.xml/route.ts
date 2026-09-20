@@ -22,7 +22,9 @@ function buildEntries(): SitemapEntry[] {
     { loc: '/contact', changefreq: 'monthly', priority: '0.6' },
     { loc: '/faq', changefreq: 'monthly', priority: '0.6' },
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
+    { loc: '/cookies', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
+    { loc: '/disclaimer', changefreq: 'yearly', priority: '0.3' },
   ];
 
   // `all` maps to the homepage, which is already listed above.

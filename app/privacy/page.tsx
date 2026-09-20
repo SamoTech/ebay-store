@@ -1,151 +1,29 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { absoluteUrl } from '../../lib/site';
-import Link from 'next/link';
-import Footer from '../../components/Footer';
+import LegalPageShell from '../../components/LegalPageShell';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | DealsHub',
-  description: 'Learn how DealsHub collects, uses, and protects your personal information.',
-  alternates: {
-    canonical: absoluteUrl('/privacy'),
-  },
+  title: 'Privacy Policy | Saleh Store',
+  description: 'Privacy Policy for Saleh Store, an eBay affiliate deals hub.',
+  alternates: { canonical: absoluteUrl('/privacy') },
 };
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline mb-8"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Back to Home
-        </Link>
-
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Privacy Policy
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-8">
-          Last updated: February 16, 2026
-        </p>
-
-        <div className="space-y-8">
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              1. Information We Collect
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              DealsHub is an affiliate marketing website that helps users find deals on eBay. We collect minimal information:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
-              <li><strong>Email addresses:</strong> When you contact us through forms on the site</li>
-              <li><strong>Analytics data:</strong> We use cookies and analytics tools to understand how visitors use our site</li>
-              <li><strong>Preferences:</strong> We store your favorite products and recently viewed items in your browser local storage</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              2. How We Use Your Information
-            </h2>
-            <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Respond to your inquiries and support requests</li>
-              <li>Improve our website and user experience</li>
-              <li>Analyze site traffic and user behavior</li>
-              <li>Comply with legal obligations</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              3. Third-Party Services
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              We use the following third-party services:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
-              <li><strong>eBay Partner Network:</strong> We participate in the eBay Partner Network and earn commissions from qualifying purchases</li>
-              <li><strong>Vercel Analytics:</strong> For website performance monitoring</li>
-            </ul>
-            <p className="text-gray-700 dark:text-gray-300 mt-4">
-              When you click on affiliate links and purchase products on eBay, you are subject to eBay privacy policy.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              4. Cookies and Tracking
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              We use cookies and similar technologies to:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Remember your preferences (dark mode, currency, etc.)</li>
-              <li>Track affiliate link clicks for commission purposes</li>
-              <li>Analyze site performance and user behavior</li>
-            </ul>
-            <p className="text-gray-700 dark:text-gray-300 mt-4">
-              You can disable cookies in your browser settings, but this may affect site functionality.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              5. Data Storage and Security
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300">
-              We store your data securely and do not sell your personal information to third parties. Email addresses are only used to respond to requests you submit through our forms.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              6. Your Rights
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              You have the right to:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Request deletion of data you submitted via contact forms</li>
-              <li>Request deletion of your email address from our database</li>
-              <li>Clear your local storage data (favorites, recently viewed) by clearing your browser data</li>
-              <li>Opt out of analytics tracking using browser extensions or settings</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              7. Children Privacy
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300">
-              Our service is not directed to children under 13. We do not knowingly collect personal information from children under 13.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              8. Changes to This Policy
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300">
-              We may update this privacy policy from time to time. We will notify you of significant changes by posting a notice on our website.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              9. Contact Us
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300">
-              If you have questions about this privacy policy, please contact us through our website.
-            </p>
-          </section>
-        </div>
-      </div>
-
-      <Footer />
-    </main>
+    <LegalPageShell title="Privacy Policy" effectiveDate="September 20, 2026">
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">1. About This Policy</h2><p>Welcome to Saleh Store (saleh-store.com, “we,” “us,” or “our”). This Privacy Policy explains what information may be collected when you use our website, how it is used, and the choices available to you.</p></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">2. Information We Collect</h2><ul className="list-disc pl-6 space-y-2"><li><strong>Information you provide:</strong> If you contact us through our contact form, we may receive your name, email address, subject, and message.</li><li><strong>Usage and device information:</strong> Our analytics and infrastructure providers may process information such as pages viewed, browser/device information, approximate location derived from network information, and technical request data.</li><li><strong>Local preferences:</strong> Features such as favorites and recently viewed products may use browser local storage.</li><li><strong>Affiliate interactions:</strong> When you follow an eBay affiliate link, eBay and its affiliate systems may use tracking technologies to attribute qualifying activity to Saleh Store.</li></ul></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">3. How We Use Information</h2><ul className="list-disc pl-6 space-y-2"><li>Operate, secure, and maintain the website.</li><li>Understand site usage and improve performance and user experience.</li><li>Measure affiliate referrals and qualifying purchases.</li><li>Respond to messages submitted through our contact form.</li><li>Meet legal, security, and fraud-prevention obligations.</li></ul></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">4. Third-Party Services</h2><p>Saleh Store uses third-party infrastructure and analytics services, including Vercel Analytics/Speed Insights and Google Analytics. Outbound eBay links may involve the eBay Partner Network. Each provider may process information under its own privacy and cookie policies.</p><p className="mt-3">Once you leave Saleh Store for eBay, eBay controls the processing of information on its services. Review <a className="text-blue-600 dark:text-blue-400 hover:underline" href="https://www.ebay.com/help/policies/member-behaviour-policies/user-privacy-notice?id=4260" target="_blank" rel="noopener noreferrer">eBay’s User Privacy Notice</a>.</p></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">5. Affiliate Disclosure</h2><p>Saleh Store participates in the eBay Partner Network. If you click an affiliate link and complete a qualifying transaction, we may receive a commission from eBay. This does not add an affiliate fee to the price you pay.</p></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">6. Cookies and Similar Technologies</h2><p>We may use essential cookies and, where enabled, analytics or affiliate-related technologies. See our <a className="text-blue-600 dark:text-blue-400 hover:underline" href="/cookies">Cookie Policy</a> for more information.</p></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">7. Data Sharing</h2><p>We do not sell your personal information. Information may be processed by service providers that operate our hosting, analytics, forms, security, and affiliate infrastructure, where necessary to provide those services or comply with law.</p></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">8. Privacy Rights</h2><p>Depending on your location and applicable law, you may have rights to access, correct, delete, restrict, object to, or obtain a copy of certain personal information, and rights concerning consent or certain forms of sharing. Requests can be submitted through our <a className="text-blue-600 dark:text-blue-400 hover:underline" href="/contact">Contact Us</a> page. We may need to verify a request before acting on it.</p></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">9. Data Retention and Security</h2><p>We retain information only for as long as reasonably necessary for the purposes described in this policy, legal obligations, dispute resolution, and security. No internet transmission or storage system can be guaranteed to be completely secure.</p></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">10. International Visitors</h2><p>Our service may be accessed internationally. Third-party providers may process information in countries other than your own, subject to their applicable safeguards and policies.</p></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">11. Children</h2><p>Saleh Store is not directed to children under 13, and we do not knowingly request personal information from children under 13.</p></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">12. Changes</h2><p>We may update this Privacy Policy from time to time. The effective date at the top of this page indicates when the current version took effect.</p></section>
+      <section><h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">13. Privacy Contact</h2><p>For privacy requests or questions, please use the <a className="text-blue-600 dark:text-blue-400 hover:underline" href="/contact">Saleh Store contact form</a>. No unverified dedicated privacy email address is published here.</p></section>
+    </LegalPageShell>
   );
 }
