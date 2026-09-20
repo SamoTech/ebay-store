@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const STORAGE_KEY = 'saleh_cookie_consent_v1';
@@ -69,7 +70,7 @@ export default function CookieConsent() {
         <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
           We use cookies and similar technologies to improve your experience, analyze site traffic,
           and support affiliate attribution. Non-essential technologies are optional.
-          See our <a href="/cookies" className="text-blue-600 underline dark:text-blue-400">Cookie Policy</a>.
+          See our <Link href="/cookies" className="text-blue-600 underline dark:text-blue-400">Cookie Policy</Link>.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <button type="button" onClick={() => save({ analytics: true, affiliate: true })} className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
