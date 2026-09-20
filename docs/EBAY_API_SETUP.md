@@ -36,12 +36,12 @@ NEXT_PUBLIC_EBAY_TRACKING_ID=5338903178
 
 **Search by keyword:**
 ```bash
-GET https://ebay-store.vercel.app/api/ebay/search?q=laptop&limit=12
+GET https://www.saleh-store.com/api/ebay/search?q=laptop&limit=12
 ```
 
 **Get trending products:**
 ```bash
-GET https://ebay-store.vercel.app/api/ebay/search?trending=true
+GET https://www.saleh-store.com/api/ebay/search?trending=true
 ```
 
 **Response format:**
@@ -218,13 +218,13 @@ try {
 ## 📊 **Testing the API**
 
 ### **1. Test in Browser**
-Visit: https://ebay-store.vercel.app/api/ebay/search?q=laptop
+Visit: https://www.saleh-store.com/api/ebay/search?q=laptop
 
 You should see JSON response with products.
 
 ### **2. Test with cURL**
 ```bash
-curl "https://ebay-store.vercel.app/api/ebay/search?q=laptop&limit=5"
+curl "https://www.saleh-store.com/api/ebay/search?q=laptop&limit=5"
 ```
 
 ### **3. Check Logs**
@@ -294,7 +294,7 @@ Look for:
 - ✅ Typed with TypeScript
 - ✅ Ready for production!
 
-**Test it now:** https://ebay-store.vercel.app/api/ebay/search?trending=true
+**Test it now:** https://www.saleh-store.com/api/ebay/search?trending=true
 
 ---
 
