@@ -251,7 +251,7 @@ describe('Structured Data', () => {
       
       expect(ids.length).toBeGreaterThan(0)
       ids.forEach((id: string) => {
-        expect(id).toMatch(/^https:\/\/ebay-store\.vercel\.app/)
+        expect(id).toMatch(/^https:\/\/www\.saleh-store\.com/)
       })
     })
 
