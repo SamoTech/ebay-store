@@ -97,6 +97,27 @@ describe('/api/visits', () => {
     expect(response.headers.get('set-cookie')).toBeNull();
   });
 
+  it('rejects invalid content types and non-empty payloads', async () => {
+    const contentTypeResponse = await POST(
+      new NextRequest('http://localhost:3000/api/visits', {
+        method: 'POST',
+        headers: { 'content-type': 'text/plain' },
+        body: '{}',
+      }),
+    );
+    expect(contentTypeResponse.status).toBe(415);
+
+    const payloadResponse = await POST(
+      new NextRequest('http://localhost:3000/api/visits', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ unexpected: true }),
+      }),
+    );
+    expect(payloadResponse.status).toBe(400);
+    expect(recordSiteVisit).not.toHaveBeenCalled();
+  });
+
   it('fails closed when the counter backend is unavailable', async () => {
     recordSiteVisit.mockResolvedValueOnce(null);
 
