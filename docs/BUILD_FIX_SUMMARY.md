@@ -259,7 +259,7 @@ npm run dev
 ### **Production Verification**
 1. ✅ Check Vercel deployment dashboard
 2. ✅ Verify build logs (no errors)
-3. ✅ Visit live site: https://ebay-store.vercel.app
+3. ✅ Visit live site: https://www.saleh-store.com
 4. ✅ Test key features:
    - Homepage loads
    - Search works
