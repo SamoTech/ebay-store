@@ -1,16 +1,7 @@
 'use client';
 
-import type { Metadata } from 'next';
 import { useState } from 'react';
-import { absoluteUrl } from '../../lib/site';
 
-export const metadata: Metadata = {
-  title: 'Frequently Asked Questions',
-  description: 'Find answers to common questions about DealsHub.',
-  alternates: {
-    canonical: absoluteUrl('/faq'),
-  },
-};
 
 interface FAQItem {
   question: string;
