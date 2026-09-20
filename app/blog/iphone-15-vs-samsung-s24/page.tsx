@@ -1,11 +1,28 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { generateArticleSchema } from '@/lib/schema';
+import { absoluteUrl } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'iPhone 15 Pro vs Samsung Galaxy S24: Which to Buy in 2026?',
   description: 'Detailed comparison of iPhone 15 Pro vs Samsung Galaxy S24. Camera, performance, battery life, and best eBay deals. Expert verdict for 2026.',
   keywords: 'iphone 15 pro vs samsung s24, iphone vs samsung 2026, best smartphone 2026, iphone 15 pro review, samsung s24 review',
+  alternates: {
+    canonical: absoluteUrl('/blog/iphone-15-vs-samsung-s24'),
+  },
+  openGraph: {
+    type: 'article',
+    url: absoluteUrl('/blog/iphone-15-vs-samsung-s24'),
+    title: 'iPhone 15 Pro vs Samsung Galaxy S24: Which to Buy in 2026?',
+    description: 'Detailed comparison of iPhone 15 Pro vs Samsung Galaxy S24. Camera, performance, battery life, and best eBay deals.',
+    images: [absoluteUrl('/og-image.svg')],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'iPhone 15 Pro vs Samsung Galaxy S24: Which to Buy in 2026?',
+    description: 'Detailed comparison of iPhone 15 Pro vs Samsung Galaxy S24. Camera, performance, battery life, and best eBay deals.',
+    images: [absoluteUrl('/og-image.svg')],
+  },
 };
 
 const schema = generateArticleSchema({
