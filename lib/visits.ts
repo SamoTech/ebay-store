@@ -1,6 +1,4 @@
 import { createHmac, randomBytes } from 'node:crypto';
-import { formatVisitCount } from './visit-format';
-
 export { formatVisitCount } from './visit-format';
 
 export const VISIT_WINDOW_MS = 30 * 60 * 1000;
