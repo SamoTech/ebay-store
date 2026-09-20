@@ -10,7 +10,7 @@ describe('SEO Metadata', () => {
   describe('Site Metadata', () => {
     it('should have metadataBase URL', () => {
       expect(siteMetadata.metadataBase).toBeDefined()
-      expect(siteMetadata.metadataBase?.toString()).toContain('ebay-store.vercel.app')
+      expect(siteMetadata.metadataBase?.toString()).toContain('www.saleh-store.com')
     })
 
     it('should have title configuration', () => {
@@ -97,7 +97,7 @@ describe('SEO Metadata', () => {
       const og = siteMetadata.openGraph as any
       
       expect(og.siteName).toBe('DealsHub')
-      expect(og.url).toContain('ebay-store.vercel.app')
+      expect(og.url).toContain('www.saleh-store.com')
     })
   })
 
@@ -156,7 +156,7 @@ describe('SEO Metadata', () => {
       
       const alternates = siteMetadata.alternates as any
       expect(alternates.canonical).toBeDefined()
-      expect(alternates.canonical).toContain('ebay-store.vercel.app')
+      expect(alternates.canonical).toContain('www.saleh-store.com')
     })
 
     it('should have RSS feed', () => {
