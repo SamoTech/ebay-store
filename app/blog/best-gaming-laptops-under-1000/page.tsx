@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 const articleSchema = generateArticleSchema({
   title: 'Best Gaming Laptops Under $1000 on eBay (2026)',
   description: 'Comprehensive buyer\'s guide to the best budget gaming laptops under $1000 available on eBay in 2026',
-  image: 'https://ebay-store.vercel.app/blog/gaming-laptop-hero.jpg',
+  image: 'https://www.saleh-store.com/blog/gaming-laptop-hero.jpg',
   publishedAt: '2026-02-16T00:00:00Z',
   author: 'DealsHub Editorial Team',
-  siteUrl: 'https://ebay-store.vercel.app'
+  siteUrl: 'https://www.saleh-store.com'
 });
 
 export default function BestGamingLaptopsPage() {
