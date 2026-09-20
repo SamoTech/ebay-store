@@ -143,10 +143,11 @@ describe('SEO Metadata', () => {
       expect(typeof verification.google).toBe('string')
     })
 
-    it('should have other verification codes', () => {
+    it('should not require unconfigured verification codes', () => {
       const verification = siteMetadata.verification as any
       
-      expect(verification.other).toBeDefined()
+      expect(verification.google).toBeDefined()
+      expect(verification.other).toBeUndefined()
     })
   })
 
