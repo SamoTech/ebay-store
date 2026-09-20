@@ -52,7 +52,7 @@ jobs:
       
       - name: Test new credentials
         run: |
-          curl https://ebay-store.vercel.app/api/health/ebay-api
+          curl https://www.saleh-store.com/api/health/ebay-api
 ```
 
 ### Monitoring & Alerting
@@ -116,14 +116,14 @@ jobs:
     steps:
       - name: Check homepage
         run: |
-          response=$(curl -s -o /dev/null -w "%{http_code}" https://ebay-store.vercel.app)
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://www.saleh-store.com)
           if [ $response -ne 200 ]; then
             curl -X POST $SLACK_WEBHOOK -d '{"text":"Site down!"}'
           fi
       
       - name: Check eBay API integration
         run: |
-          response=$(curl -s https://ebay-store.vercel.app/api/health/ebay)
+          response=$(curl -s https://www.saleh-store.com/api/health/ebay)
           if echo $response | grep -q "error"; then
             curl -X POST $SLACK_WEBHOOK -d '{"text":"eBay API failing!"}'
           fi
@@ -195,7 +195,7 @@ vercel rollback
 vercel rollback <deployment-url>
 
 # Verify rollback success
-curl https://ebay-store.vercel.app/api/health
+curl https://www.saleh-store.com/api/health
 ```
 
 ### Performance Optimization
