@@ -5,6 +5,7 @@ import { blogArticles, BlogArticle } from '../../../lib/blog-data';
 import SocialShare from '../../../components/SocialShare';
 import Footer from '../../../components/Footer';
 import { absoluteUrl } from '../../../lib/site';
+import { generateArticleSchema, SchemaScript } from '../../../lib/schema';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -66,6 +67,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const postUrl = absoluteUrl(`/blog/${post.slug}`);
+  const articleSchema = generateArticleSchema({
+    title: post.title,
+    description: post.excerpt,
+    image: absoluteUrl('/og-image.svg'),
+    publishedAt: new Date(post.date).toISOString(),
+    author: post.author,
+    siteUrl: absoluteUrl(''),
+  });
   const relatedPosts = blogArticles
     .filter(p => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
@@ -87,7 +96,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }).join('');
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <>
+      <SchemaScript schema={articleSchema} />
+      <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
       <div className="relative py-16 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
         <div className="max-w-4xl mx-auto px-4">
@@ -234,6 +245,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       )}
 
       <Footer />
-    </main>
+      </main>
+    </>
   );
 }
