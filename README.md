@@ -15,7 +15,7 @@
 [![Coverage](https://img.shields.io/badge/coverage%20floor-25%25-yellow)](https://github.com/SamoTech/ebay-store)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-🔗 **Live Demo:** [https://ebay-store.vercel.app](https://ebay-store.vercel.app)
+🔗 **Live Demo:** [https://www.saleh-store.com](https://www.saleh-store.com)
 
 </div>
 
@@ -181,6 +181,6 @@ Deprecated paths (`/api/ebay-status`, `/api/ebay-test`, `/api/debug/ebay-status`
 
 **Made with ❤️ using Next.js 16, React 19, and AI** · [Ossama Hashim](https://github.com/SamoTech) · Cairo, Egypt
 
-[Live Demo](https://ebay-store.vercel.app) • [Documentation](docs/) • [GitHub](https://github.com/SamoTech/ebay-store)
+[Live Demo](https://www.saleh-store.com) • [Documentation](docs/) • [GitHub](https://github.com/SamoTech/ebay-store)
 
 </div>
