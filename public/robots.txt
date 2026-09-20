@@ -1,4 +1,4 @@
-# robots.txt for ebay-store.vercel.app
+# robots.txt for www.saleh-store.com
 
 User-agent: *
 Allow: /
@@ -16,4 +16,4 @@ Allow: /
 Disallow: /api/
 
 # Sitemaps
-Sitemap: https://ebay-store.vercel.app/sitemap.xml
+Sitemap: https://www.saleh-store.com/sitemap.xml
