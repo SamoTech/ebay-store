@@ -1,11 +1,15 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
+import { absoluteUrl } from '../../lib/site';
 import Footer from '../../components/Footer';
 import { blogArticles } from '../../lib/blog-data';
 
 export const metadata: Metadata = {
   title: 'Blog - Shopping Tips & Product Reviews',
   description: 'Expert shopping guides, honest product reviews, and money-saving strategies for finding the best deals on eBay. From electronics to sneakers, learn how to shop smarter.',
+  alternates: {
+    canonical: absoluteUrl('/blog'),
+  },
 };
 
 // Extended blog posts list for display
