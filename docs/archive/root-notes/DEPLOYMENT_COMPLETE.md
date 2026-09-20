@@ -26,7 +26,7 @@ Your changes are being deployed automatically. Here's what's happening:
 2. **Installing Dependencies**: npm packages
 3. **Building Application**: Next.js optimization
 4. **Deploying**: Rolling out to CDN
-5. **Live in ~2 minutes**: https://ebay-store.vercel.app
+5. **Live in ~2 minutes**: https://www.saleh-store.com
 
 ---
 
@@ -37,7 +37,7 @@ Your changes are being deployed automatically. Here's what's happening:
 **Where**: Bottom-right corner of ANY page
 
 **Test Steps**:
-1. Visit https://ebay-store.vercel.app
+1. Visit https://www.saleh-store.com
 2. Look for chat bubble (blue/white icon)
 3. Click it
 4. Type: "What are the best gaming laptops under $1000?"
@@ -52,7 +52,7 @@ Your changes are being deployed automatically. Here's what's happening:
 **Where**: Any product detail page
 
 **Test Steps**:
-1. Go to any product: https://ebay-store.vercel.app/product/1
+1. Go to any product: https://www.saleh-store.com/product/1
 2. Click "Share Deal" button
 3. **On Mobile**: Native share sheet appears
 4. **On Desktop**: "Link copied" toast notification
@@ -97,7 +97,7 @@ Your changes are being deployed automatically. Here's what's happening:
 **Where**: Homepage product grid
 
 **Test Steps**:
-1. Open https://ebay-store.vercel.app
+1. Open https://www.saleh-store.com
 2. Open DevTools → Network tab
 3. Scroll down slowly
 4. **Expected**: Images only load when visible
@@ -336,6 +336,6 @@ You've successfully deployed a **professional, AI-powered, feature-rich eBay aff
 
 **All implemented in under 2 hours, costing $0/month!**
 
-**Your site is LIVE now at:** https://ebay-store.vercel.app
+**Your site is LIVE now at:** https://www.saleh-store.com
 
 **Go test it!** 🚀
