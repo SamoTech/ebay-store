@@ -59,7 +59,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const postUrl = `https://ebay-store.vercel.app/blog/${post.slug}`;
+  const postUrl = `https://www.saleh-store.com/blog/${post.slug}`;
   const relatedPosts = blogArticles
     .filter(p => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
