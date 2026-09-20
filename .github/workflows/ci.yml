@@ -22,7 +22,17 @@ jobs:
         run: npm ci
 
       - name: Lint
-        run: npm run lint
+        run: |
+          npm run lint 2>&1 | tee lint.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Upload lint diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-diagnostics-${{ github.run_id }}
+          path: lint.log
+          if-no-files-found: error
 
       - name: Type check
         run: npm run typecheck
