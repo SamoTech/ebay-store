@@ -9,6 +9,7 @@ import SocialShare from '../../../components/SocialShare';
 import { generateBlurDataURL } from '../../../lib/utils/image';
 import { formatPrice } from '../../../lib/utils/price';
 import { absoluteUrl } from '../../../lib/site';
+import { generateProductStructuredData, SchemaScript } from '../../../lib/schema';
 
 /**
  * ISR Configuration
@@ -77,9 +78,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
     : 0;
 
   const productUrl = absoluteUrl(`/product/${product.id}`);
+  const productSchema = generateProductStructuredData({
+    name: product.title,
+    description: product.description,
+    image: absoluteUrl(product.image),
+    price: product.price,
+    currency: product.currency || 'USD',
+    url: productUrl,
+    availability: 'InStock',
+  });
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <>
+      <SchemaScript schema={productSchema} />
+      <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-8">
@@ -209,6 +221,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
 
       <Footer />
-    </main>
+      </main>
+    </>
   );
 }
