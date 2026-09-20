@@ -6,6 +6,7 @@
  */
 
 import { Metadata, Viewport } from 'next'
+import { SITE_URL, absoluteUrl } from '../site'
 
 /**
  * Viewport configuration
@@ -21,7 +22,7 @@ export const viewport: Viewport = {
  * Site metadata
  */
 export const siteMetadata: Metadata = {
-  metadataBase: new URL('https://www.saleh-store.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'DealsHub - Best Deals & Discounts on eBay | Affiliate Store 2026',
     template: '%s | DealsHub',
@@ -69,14 +70,14 @@ export const siteMetadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.saleh-store.com',
+    url: SITE_URL,
     siteName: 'DealsHub',
     title: 'DealsHub - Best Deals & Discounts on eBay | 62+ Trending Products',
     description:
       'Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay. 62+ trending products updated daily.',
     images: [
       {
-        url: '/og-image.svg',
+        url: absoluteUrl('/og-image.svg'),
         width: 1200,
         height: 630,
         alt: 'DealsHub - Best Deals on eBay Electronics, Gaming, Sneakers',
@@ -91,7 +92,7 @@ export const siteMetadata: Metadata = {
     title: 'DealsHub - Best Deals & Discounts on eBay | 62+ Products',
     description:
       'Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay.',
-    images: ['/og-image.svg'],
+    images: [absoluteUrl('/og-image.svg')],
   },
   verification: {
     google: 'X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg',
@@ -102,15 +103,15 @@ export const siteMetadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://www.saleh-store.com',
+    canonical: SITE_URL,
     types: {
-      'application/rss+xml': 'https://www.saleh-store.com/rss.xml',
-      'application/atom+xml': 'https://www.saleh-store.com/rss.xml',
+      'application/rss+xml': absoluteUrl('/rss.xml'),
+      'application/atom+xml': absoluteUrl('/rss.xml'),
     },
     languages: {
-      'en-US': 'https://www.saleh-store.com',
-      'en-GB': 'https://www.saleh-store.com',
-      'en-CA': 'https://www.saleh-store.com',
+      'en-US': SITE_URL,
+      'en-GB': SITE_URL,
+      'en-CA': SITE_URL,
     },
   },
   category: 'shopping',
