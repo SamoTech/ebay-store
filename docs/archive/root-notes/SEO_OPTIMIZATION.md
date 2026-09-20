@@ -3,7 +3,7 @@
 ## ✅ Implemented SEO Features
 
 ### 1. Sitemap (sitemap.xml)
-**URL:** https://ebay-store.vercel.app/sitemap.xml
+**URL:** https://www.saleh-store.com/sitemap.xml
 
 **What it includes:**
 - Homepage (priority: 1.0, hourly updates)
@@ -17,7 +17,7 @@
 ---
 
 ### 2. Robots.txt
-**URL:** https://ebay-store.vercel.app/robots.txt
+**URL:** https://www.saleh-store.com/robots.txt
 
 **Configuration:**
 ```
@@ -26,7 +26,7 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 
-Sitemap: https://ebay-store.vercel.app/sitemap.xml
+Sitemap: https://www.saleh-store.com/sitemap.xml
 ```
 
 **What it does:**
@@ -59,13 +59,13 @@ Sitemap: https://ebay-store.vercel.app/sitemap.xml
 ### Google Search Console
 
 1. **Sign up:** https://search.google.com/search-console
-2. **Add property:** ebay-store.vercel.app
+2. **Add property:** www.saleh-store.com
 3. **Verify ownership:**
    - Use DNS verification (recommended)
    - Or HTML file upload
 4. **Submit sitemap:**
    - Go to "Sitemaps" in left menu
-   - Add: `https://ebay-store.vercel.app/sitemap.xml`
+   - Add: `https://www.saleh-store.com/sitemap.xml`
    - Click "Submit"
 
 **Expected timeline:**
@@ -78,7 +78,7 @@ Sitemap: https://ebay-store.vercel.app/sitemap.xml
 ### Bing Webmaster Tools
 
 1. **Sign up:** https://www.bing.com/webmasters
-2. **Add site:** ebay-store.vercel.app
+2. **Add site:** www.saleh-store.com
 3. **Verify ownership**
 4. **Submit sitemap:** sitemap.xml
 
@@ -213,23 +213,23 @@ Monitor these weekly:
 ## ✅ Verification Steps
 
 1. **Check Sitemap:**
-   - Visit: https://ebay-store.vercel.app/sitemap.xml
+   - Visit: https://www.saleh-store.com/sitemap.xml
    - Should show XML list of URLs
    - All pages should be listed
 
 2. **Check Robots.txt:**
-   - Visit: https://ebay-store.vercel.app/robots.txt
+   - Visit: https://www.saleh-store.com/robots.txt
    - Should show crawl rules
    - Should point to sitemap
 
 3. **Test Mobile Friendliness:**
    - Use: https://search.google.com/test/mobile-friendly
-   - Enter: ebay-store.vercel.app
+   - Enter: www.saleh-store.com
    - Should pass all tests
 
 4. **Check Page Speed:**
    - Use: https://pagespeed.web.dev/
-   - Enter: ebay-store.vercel.app
+   - Enter: www.saleh-store.com
    - Should score 90+ on mobile
 
 ---
