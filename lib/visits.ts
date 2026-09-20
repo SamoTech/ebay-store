@@ -1,4 +1,7 @@
 import { createHmac, randomBytes } from 'node:crypto';
+import { formatVisitCount } from './visit-format';
+
+export { formatVisitCount } from './visit-format';
 
 export const VISIT_WINDOW_MS = 30 * 60 * 1000;
 const VISIT_COUNT_TIMEOUT_MS = 2500;
@@ -81,13 +84,6 @@ export function createVisitWindowKey(
 
 export function createAnonymousToken(): string {
   return randomBytes(24).toString('base64url');
-}
-
-export function formatVisitCount(count: number | string | null): string {
-  if (count === null) return '—';
-  const normalized = typeof count === 'number' ? count.toString() : count;
-  if (!/^\d+$/.test(normalized)) return '—';
-  return normalized.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 export async function recordSiteVisit(windowKey: string): Promise<number | null> {
