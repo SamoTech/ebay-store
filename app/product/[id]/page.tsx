@@ -8,6 +8,7 @@ import RelatedProducts from '../../../components/RelatedProducts';
 import SocialShare from '../../../components/SocialShare';
 import { generateBlurDataURL } from '../../../lib/utils/image';
 import { formatPrice } from '../../../lib/utils/price';
+import { absoluteUrl } from '../../../lib/site';
 
 /**
  * ISR Configuration
@@ -46,9 +47,19 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     openGraph: {
       title: product.title,
       description: product.description,
+      url: absoluteUrl(`/product/${product.id}`),
       images: [product.image],
       // Note: 'product' type not supported by Next.js OpenGraph
       // Using default 'website' type
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: product.title,
+      description: product.description,
+      images: [product.image],
+    },
+    alternates: {
+      canonical: absoluteUrl(`/product/${product.id}`),
     },
   };
 }
@@ -65,7 +76,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     ? Math.round((1 - product.price / product.originalPrice) * 100) 
     : 0;
 
-  const productUrl = `https://www.saleh-store.com/product/${product.id}`;
+  const productUrl = absoluteUrl(`/product/${product.id}`);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
