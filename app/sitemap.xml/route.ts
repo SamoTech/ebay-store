@@ -52,14 +52,12 @@ function buildEntries(): SitemapEntry[] {
 }
 
 export async function GET() {
-  const currentDate = new Date().toISOString();
   const entries = buildEntries();
 
   const body = entries
     .map(
       (entry) => `  <url>
     <loc>${BASE_URL}${entry.loc}</loc>
-    <lastmod>${currentDate}</lastmod>
     <changefreq>${entry.changefreq}</changefreq>
     <priority>${entry.priority}</priority>
   </url>`,
