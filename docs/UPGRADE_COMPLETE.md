@@ -230,18 +230,18 @@ components/
 
 **Sitemap**:
 ```bash
-curl https://ebay-store.vercel.app/sitemap.xml
+curl https://www.saleh-store.com/sitemap.xml
 ```
 Should return XML with all URLs
 
 **Robots.txt**:
 ```bash
-curl https://ebay-store.vercel.app/robots.txt
+curl https://www.saleh-store.com/robots.txt
 ```
 Should show crawl rules
 
 **Google Search Console**:
-1. Submit sitemap: `https://ebay-store.vercel.app/sitemap.xml`
+1. Submit sitemap: `https://www.saleh-store.com/sitemap.xml`
 2. Wait 24-48 hours for indexing
 3. Check coverage report
 
