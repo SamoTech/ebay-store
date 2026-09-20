@@ -1,10 +1,14 @@
 import { Metadata } from 'next';
+import { absoluteUrl } from '../../lib/site';
 import Link from 'next/link';
 import Footer from '../../components/Footer';
 
 export const metadata: Metadata = {
   title: 'Terms of Service | DealsHub',
   description: 'Terms and conditions for using DealsHub affiliate marketing website.',
+  alternates: {
+    canonical: absoluteUrl('/terms'),
+  },
 };
 
 export default function TermsPage() {
