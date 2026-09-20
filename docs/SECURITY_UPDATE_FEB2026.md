@@ -243,4 +243,4 @@ For security concerns, please:
 
 **Maintained By**: Ossama Hashim (@SamoTech)  
 **Contact**: samo.hossam@gmail.com  
-**Project**: [DealsHub - eBay Store](https://ebay-store.vercel.app)
+**Project**: [DealsHub - eBay Store](https://www.saleh-store.com)
