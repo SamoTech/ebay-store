@@ -2,7 +2,7 @@
 
 ## ✅ ALL SYSTEMS OPERATIONAL
 
-**Deployment**: https://ebay-store.vercel.app  
+**Deployment**: https://www.saleh-store.com  
 **Status**: ✅ Live and working  
 **Build**: Successful  
 **Last Updated**: 12:13 AM EET
@@ -127,12 +127,12 @@ if (isApiProduct) {
 ### Test Blog Articles
 
 1. **Blog Listing**
-   - Visit: https://ebay-store.vercel.app/blog
+   - Visit: https://www.saleh-store.com/blog
    - See 10 articles
    - Click "Read" on first 3 articles ✅
 
 2. **Full Article**
-   - Visit: https://ebay-store.vercel.app/blog/ultimate-guide-finding-hidden-gems-ebay
+   - Visit: https://www.saleh-store.com/blog/ultimate-guide-finding-hidden-gems-ebay
    - Should show full content (2,000+ words)
    - No 404 error ✅
 
@@ -288,7 +288,7 @@ if (isApiProduct) {
 
 ## ✅ Deployment Complete!
 
-**Site URL**: https://ebay-store.vercel.app  
+**Site URL**: https://www.saleh-store.com  
 **Status**: 🟢 All systems operational  
 **Last Build**: February 16, 2026, 12:13 AM EET  
 **Total Features**: 20+  
