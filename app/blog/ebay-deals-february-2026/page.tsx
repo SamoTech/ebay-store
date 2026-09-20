@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 const schema = generateArticleSchema({
   title: 'Top 15 eBay Deals This Week (February 2026)',
   description: 'Curated list of the best deals on eBay this week',
-  image: 'https://ebay-store.vercel.app/blog/deals-hero.jpg',
+  image: 'https://www.saleh-store.com/blog/deals-hero.jpg',
   publishedAt: '2026-02-16T00:00:00Z',
   author: 'DealsHub Deals Team',
-  siteUrl: 'https://ebay-store.vercel.app'
+  siteUrl: 'https://www.saleh-store.com'
 });
 
 const deals = [
