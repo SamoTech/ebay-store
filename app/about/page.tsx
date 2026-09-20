@@ -1,9 +1,13 @@
 import { Metadata } from 'next';
+import { absoluteUrl } from '../../lib/site';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'About Us - DealsHub',
   description: 'Learn about DealsHub, your trusted source for the best eBay deals. Discover our mission, how we work, and why thousands trust us for their online shopping needs.',
+  alternates: {
+    canonical: absoluteUrl('/about'),
+  },
 };
 
 export default function AboutPage() {
