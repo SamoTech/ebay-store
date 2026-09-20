@@ -13,40 +13,40 @@ export const siteStructuredData = {
   '@graph': [
     {
       '@type': 'WebSite',
-      '@id': 'https://ebay-store.vercel.app/#website',
-      url: 'https://ebay-store.vercel.app',
+      '@id': 'https://www.saleh-store.com/#website',
+      url: 'https://www.saleh-store.com',
       name: 'DealsHub',
       description:
         'Best deals and discounts on eBay products - 62+ trending products in electronics, gaming, sneakers, smart home, beauty, and collectibles',
       inLanguage: 'en-US',
       publisher: {
-        '@id': 'https://ebay-store.vercel.app/#organization',
+        '@id': 'https://www.saleh-store.com/#organization',
       },
       potentialAction: {
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
           urlTemplate:
-            'https://ebay-store.vercel.app/search?q={search_term_string}',
+            'https://www.saleh-store.com/search?q={search_term_string}',
         },
         'query-input': 'required name=search_term_string',
       },
     },
     {
       '@type': 'Organization',
-      '@id': 'https://ebay-store.vercel.app/#organization',
+      '@id': 'https://www.saleh-store.com/#organization',
       name: 'DealsHub',
-      url: 'https://ebay-store.vercel.app',
+      url: 'https://www.saleh-store.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://ebay-store.vercel.app/icon-512x512.png',
+        url: 'https://www.saleh-store.com/icon-512x512.png',
         width: 512,
         height: 512,
         caption: 'DealsHub Logo',
       },
       image: {
         '@type': 'ImageObject',
-        url: 'https://ebay-store.vercel.app/og-image.svg',
+        url: 'https://www.saleh-store.com/og-image.svg',
         width: 1200,
         height: 630,
       },
@@ -66,40 +66,40 @@ export const siteStructuredData = {
     },
     {
       '@type': 'WebPage',
-      '@id': 'https://ebay-store.vercel.app/#webpage',
-      url: 'https://ebay-store.vercel.app',
+      '@id': 'https://www.saleh-store.com/#webpage',
+      url: 'https://www.saleh-store.com',
       name: 'DealsHub - Best Deals & Discounts on eBay',
       isPartOf: {
-        '@id': 'https://ebay-store.vercel.app/#website',
+        '@id': 'https://www.saleh-store.com/#website',
       },
       about: {
-        '@id': 'https://ebay-store.vercel.app/#organization',
+        '@id': 'https://www.saleh-store.com/#organization',
       },
       primaryImageOfPage: {
         '@type': 'ImageObject',
-        url: 'https://ebay-store.vercel.app/og-image.svg',
+        url: 'https://www.saleh-store.com/og-image.svg',
         width: 1200,
         height: 630,
       },
       breadcrumb: {
-        '@id': 'https://ebay-store.vercel.app/#breadcrumb',
+        '@id': 'https://www.saleh-store.com/#breadcrumb',
       },
     },
     {
       '@type': 'BreadcrumbList',
-      '@id': 'https://ebay-store.vercel.app/#breadcrumb',
+      '@id': 'https://www.saleh-store.com/#breadcrumb',
       itemListElement: [
         {
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: 'https://ebay-store.vercel.app',
+          item: 'https://www.saleh-store.com',
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Products',
-          item: 'https://ebay-store.vercel.app/#products',
+          item: 'https://www.saleh-store.com/#products',
         },
       ],
     },
@@ -111,49 +111,49 @@ export const siteStructuredData = {
           '@type': 'ListItem',
           position: 1,
           name: 'Electronics',
-          item: 'https://ebay-store.vercel.app/category/electronics',
+          item: 'https://www.saleh-store.com/category/electronics',
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Gaming',
-          item: 'https://ebay-store.vercel.app/category/gaming',
+          item: 'https://www.saleh-store.com/category/gaming',
         },
         {
           '@type': 'ListItem',
           position: 3,
           name: 'Sneakers',
-          item: 'https://ebay-store.vercel.app/category/sneakers',
+          item: 'https://www.saleh-store.com/category/sneakers',
         },
         {
           '@type': 'ListItem',
           position: 4,
           name: 'Smart Home',
-          item: 'https://ebay-store.vercel.app/category/smart-home',
+          item: 'https://www.saleh-store.com/category/smart-home',
         },
         {
           '@type': 'ListItem',
           position: 5,
           name: 'Beauty',
-          item: 'https://ebay-store.vercel.app/category/beauty',
+          item: 'https://www.saleh-store.com/category/beauty',
         },
         {
           '@type': 'ListItem',
           position: 6,
           name: 'Collectibles',
-          item: 'https://ebay-store.vercel.app/category/collectibles',
+          item: 'https://www.saleh-store.com/category/collectibles',
         },
       ],
     },
     {
       '@type': 'Blog',
-      '@id': 'https://ebay-store.vercel.app/blog',
-      url: 'https://ebay-store.vercel.app/blog',
+      '@id': 'https://www.saleh-store.com/blog',
+      url: 'https://www.saleh-store.com/blog',
       name: 'DealsHub Blog',
       description:
         'Shopping guides, product reviews, and affiliate marketing tips',
       publisher: {
-        '@id': 'https://ebay-store.vercel.app/#organization',
+        '@id': 'https://www.saleh-store.com/#organization',
       },
     },
   ],
@@ -225,7 +225,7 @@ export function generateBlogPostStructuredData(post: {
       name: 'DealsHub',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://ebay-store.vercel.app/icon-512x512.png',
+        url: 'https://www.saleh-store.com/icon-512x512.png',
       },
     },
     mainEntityOfPage: {
