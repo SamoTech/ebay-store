@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { formatVisitCount } from '@/lib/visits';
+import { formatVisitCount } from '@/lib/visit-format';
 
 type VisitResponse = { ok?: boolean; count?: number | null };
 
