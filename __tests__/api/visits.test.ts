@@ -9,7 +9,7 @@ jest.mock('@/lib/visits', () => ({
 }));
 
 describe('/api/visits', () => {
-  let GET: (request?: NextRequest) => Promise<Response>;
+  let GET: () => Promise<Response>;
   let POST: (request: NextRequest) => Promise<Response>;
   let getSiteVisitCount: jest.Mock;
   let recordSiteVisit: jest.Mock;
@@ -31,7 +31,7 @@ describe('/api/visits', () => {
   });
 
   it('returns only the aggregate count from GET', async () => {
-    const response = await GET(new NextRequest('https://www.saleh-store.com/api/visits'));
+    const response = await GET();
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ ok: true, count: 42 });
     expect(getSiteVisitCount).toHaveBeenCalledTimes(1);
