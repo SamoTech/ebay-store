@@ -41,6 +41,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, error: 'Forbidden' }, { status: 403 });
   }
 
+  const contentType = request.headers.get('content-type') || '';
+  if (!contentType.toLowerCase().startsWith('application/json')) {
+    return NextResponse.json({ ok: false, error: 'Unsupported content type' }, { status: 415 });
+  }
+
+  try {
+    const payload = (await request.json()) as unknown;
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload) || Object.keys(payload).length > 0) {
+      return NextResponse.json({ ok: false, error: 'Invalid request body' }, { status: 400 });
+    }
+  } catch {
+    return NextResponse.json({ ok: false, error: 'Invalid JSON' }, { status: 400 });
+  }
+
   const secret = process.env.VISIT_HASH_SECRET;
   if (!secret || secret.length < 32) {
     return NextResponse.json({ ok: false, error: 'Visit counter is not configured' }, { status: 503 });
