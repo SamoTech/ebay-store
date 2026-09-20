@@ -47,7 +47,6 @@ async function callRpc(
       method: 'POST',
       headers: {
         apikey: config.secretKey,
-        Authorization: `Bearer ${config.secretKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
