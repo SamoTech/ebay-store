@@ -27,9 +27,9 @@
 1. Wait for Vercel auto-deployment (2-3 minutes from commit time)
 2. Clear browser cache completely
 3. Test URLs:
-   - https://ebay-store.vercel.app/blog/ultimate-guide-finding-hidden-gems-ebay
-   - https://ebay-store.vercel.app/blog/electronics-buying-guide-best-tech-deals
-   - https://ebay-store.vercel.app/blog/spot-counterfeit-products-security-checklist
+   - https://www.saleh-store.com/blog/ultimate-guide-finding-hidden-gems-ebay
+   - https://www.saleh-store.com/blog/electronics-buying-guide-best-tech-deals
+   - https://www.saleh-store.com/blog/spot-counterfeit-products-security-checklist
 
 ---
 
