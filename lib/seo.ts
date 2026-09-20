@@ -1,5 +1,7 @@
 // SEO utilities and metadata generators
 
+import { absoluteUrl } from './site';
+
 export interface SEOConfig {
   title: string;
   description: string;
@@ -28,19 +30,19 @@ export function generateMetaTags(config: SEOConfig) {
     description,
     keywords: keywords.join(', '),
     ...(noindex && { robots: 'noindex, nofollow' }),
-    ...(canonical && { canonical }),
+    ...(canonical && { canonical: absoluteUrl(canonical) }),
     openGraph: {
       title,
       description,
       type: ogType,
-      images: [{ url: ogImage }],
+      images: [{ url: absoluteUrl(ogImage) }],
       siteName: 'DealsHub'
     },
     twitter: {
       card: twitterCard,
       title,
       description,
-      images: [ogImage]
+      images: [absoluteUrl(ogImage)]
     }
   };
 }
