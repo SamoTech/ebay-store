@@ -8,7 +8,7 @@ Replace `your-site.vercel.app` with your actual Vercel deployment URL:
 
 ### 1. Check API Status
 ```
-https://ebay-store.vercel.app/api/ebay-status
+https://www.saleh-store.com/api/ebay-status
 ```
 
 **What it does:** Checks if environment variables are configured
@@ -37,7 +37,7 @@ https://ebay-store.vercel.app/api/ebay-status
 
 ### 2. Test Product Fetching
 ```
-https://ebay-store.vercel.app/api/ebay-test
+https://www.saleh-store.com/api/ebay-test
 ```
 
 **What it does:** Actually fetches products from eBay to verify credentials work
@@ -72,14 +72,14 @@ https://ebay-store.vercel.app/api/ebay-test
 
 ### Step 1: Verify Environment Variables
 
-1. Visit: `https://ebay-store.vercel.app/api/ebay-status`
+1. Visit: `https://www.saleh-store.com/api/ebay-status`
 2. Check the response:
    - ✅ `"mode": "client_credentials"` = Credentials are configured
    - ❌ `"mode": "disabled"` = Credentials missing (check `missing` array)
 
 ### Step 2: Test Product Fetching
 
-1. Visit: `https://ebay-store.vercel.app/api/ebay-test`
+1. Visit: `https://www.saleh-store.com/api/ebay-test`
 2. Look for:
    - ✅ `"success": true`
    - ✅ `"productsFound": 5` (or more)
@@ -191,19 +191,19 @@ npm run dev
 ### Using curl:
 ```bash
 # Check status
-curl https://ebay-store.vercel.app/api/ebay-status
+curl https://www.saleh-store.com/api/ebay-status
 
 # Test product fetching
-curl https://ebay-store.vercel.app/api/ebay-test
+curl https://www.saleh-store.com/api/ebay-test
 ```
 
 ### Using httpie:
 ```bash
 # Check status
-http https://ebay-store.vercel.app/api/ebay-status
+http https://www.saleh-store.com/api/ebay-status
 
 # Test product fetching
-http https://ebay-store.vercel.app/api/ebay-test
+http https://www.saleh-store.com/api/ebay-test
 ```
 
 ## Monitoring in Production
