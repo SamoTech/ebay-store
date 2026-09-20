@@ -1,3 +1,5 @@
+import { SITE_URL, absoluteUrl } from '../site'
+
 /**
  * Structured Data (JSON-LD) Configuration
  * 
@@ -13,40 +15,40 @@ export const siteStructuredData = {
   '@graph': [
     {
       '@type': 'WebSite',
-      '@id': 'https://www.saleh-store.com/#website',
-      url: 'https://www.saleh-store.com',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
       name: 'DealsHub',
       description:
         'Best deals and discounts on eBay products - 62+ trending products in electronics, gaming, sneakers, smart home, beauty, and collectibles',
       inLanguage: 'en-US',
       publisher: {
-        '@id': 'https://www.saleh-store.com/#organization',
+        '@id': `${SITE_URL}/#organization`,
       },
       potentialAction: {
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
           urlTemplate:
-            'https://www.saleh-store.com/search?q={search_term_string}',
+            `${SITE_URL}/search?q={search_term_string}`,
         },
         'query-input': 'required name=search_term_string',
       },
     },
     {
       '@type': 'Organization',
-      '@id': 'https://www.saleh-store.com/#organization',
+      '@id': `${SITE_URL}/#organization`,
       name: 'DealsHub',
-      url: 'https://www.saleh-store.com',
+      url: SITE_URL,
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.saleh-store.com/icon-512x512.png',
+        url: absoluteUrl('/icon-512x512.png'),
         width: 512,
         height: 512,
         caption: 'DealsHub Logo',
       },
       image: {
         '@type': 'ImageObject',
-        url: 'https://www.saleh-store.com/og-image.svg',
+        url: absoluteUrl('/og-image.svg'),
         width: 1200,
         height: 630,
       },
@@ -66,40 +68,40 @@ export const siteStructuredData = {
     },
     {
       '@type': 'WebPage',
-      '@id': 'https://www.saleh-store.com/#webpage',
-      url: 'https://www.saleh-store.com',
+      '@id': `${SITE_URL}/#webpage`,
+      url: SITE_URL,
       name: 'DealsHub - Best Deals & Discounts on eBay',
       isPartOf: {
-        '@id': 'https://www.saleh-store.com/#website',
+        '@id': `${SITE_URL}/#website`,
       },
       about: {
-        '@id': 'https://www.saleh-store.com/#organization',
+        '@id': `${SITE_URL}/#organization`,
       },
       primaryImageOfPage: {
         '@type': 'ImageObject',
-        url: 'https://www.saleh-store.com/og-image.svg',
+        url: absoluteUrl('/og-image.svg'),
         width: 1200,
         height: 630,
       },
       breadcrumb: {
-        '@id': 'https://www.saleh-store.com/#breadcrumb',
+        '@id': `${SITE_URL}/#breadcrumb`,
       },
     },
     {
       '@type': 'BreadcrumbList',
-      '@id': 'https://www.saleh-store.com/#breadcrumb',
+      '@id': `${SITE_URL}/#breadcrumb`,
       itemListElement: [
         {
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: 'https://www.saleh-store.com',
+          item: SITE_URL,
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Products',
-          item: 'https://www.saleh-store.com/#products',
+          item: `${SITE_URL}/#products`,
         },
       ],
     },
@@ -111,49 +113,49 @@ export const siteStructuredData = {
           '@type': 'ListItem',
           position: 1,
           name: 'Electronics',
-          item: 'https://www.saleh-store.com/category/electronics',
+          item: `${SITE_URL}/category/electronics',
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Gaming',
-          item: 'https://www.saleh-store.com/category/gaming',
+          item: `${SITE_URL}/category/gaming',
         },
         {
           '@type': 'ListItem',
           position: 3,
           name: 'Sneakers',
-          item: 'https://www.saleh-store.com/category/sneakers',
+          item: `${SITE_URL}/category/sneakers',
         },
         {
           '@type': 'ListItem',
           position: 4,
           name: 'Smart Home',
-          item: 'https://www.saleh-store.com/category/smart-home',
+          item: `${SITE_URL}/category/smart-home',
         },
         {
           '@type': 'ListItem',
           position: 5,
           name: 'Beauty',
-          item: 'https://www.saleh-store.com/category/beauty',
+          item: `${SITE_URL}/category/beauty',
         },
         {
           '@type': 'ListItem',
           position: 6,
           name: 'Collectibles',
-          item: 'https://www.saleh-store.com/category/collectibles',
+          item: `${SITE_URL}/category/collectibles',
         },
       ],
     },
     {
       '@type': 'Blog',
-      '@id': 'https://www.saleh-store.com/blog',
-      url: 'https://www.saleh-store.com/blog',
+      '@id': `${SITE_URL}/blog`,
+      url: `${SITE_URL}/blog`,
       name: 'DealsHub Blog',
       description:
         'Shopping guides, product reviews, and affiliate marketing tips',
       publisher: {
-        '@id': 'https://www.saleh-store.com/#organization',
+        '@id': `${SITE_URL}/#organization`,
       },
     },
   ],
@@ -225,7 +227,7 @@ export function generateBlogPostStructuredData(post: {
       name: 'DealsHub',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.saleh-store.com/icon-512x512.png',
+        url: absoluteUrl('/icon-512x512.png'),
       },
     },
     mainEntityOfPage: {
