@@ -1,55 +1,32 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-
-const STORAGE_KEY = 'saleh_cookie_consent_v1';
-
-type Consent = {
-  analytics: boolean;
-  affiliate: boolean;
-};
-
-const DEFAULT_CONSENT: Consent = { analytics: false, affiliate: false };
-
-function readConsent(): Consent | null {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as Partial<Consent>;
-    if (typeof parsed.analytics !== 'boolean' || typeof parsed.affiliate !== 'boolean') {
-      return null;
-    }
-    return { analytics: parsed.analytics, affiliate: parsed.affiliate };
-  } catch {
-    return null;
-  }
-}
+import { useState } from 'react';
+import {
+  DEFAULT_COOKIE_CONSENT,
+  type CookieConsent as CookieConsentValue,
+  COOKIE_CONSENT_STORAGE_KEY,
+  useCookieConsent,
+} from '@/lib/cookie-consent';
 
 export default function CookieConsent() {
-  const [consent, setConsent] = useState<Consent | null>(null);
+  const consent = useCookieConsent();
   const [open, setOpen] = useState(false);
-  const [draft, setDraft] = useState(DEFAULT_CONSENT);
+  const [draft, setDraft] = useState<CookieConsentValue>(DEFAULT_COOKIE_CONSENT);
 
-  useEffect(() => {
-    const stored = readConsent();
-    setConsent(stored);
-    setDraft(stored ?? DEFAULT_CONSENT);
-  }, []);
-
-  function save(next: Consent) {
+  function save(next: CookieConsentValue) {
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, JSON.stringify(next));
     } catch {
       // Consent remains session-only if storage is unavailable.
     }
+
     const previous = consent;
-    setConsent(next);
     setDraft(next);
     setOpen(false);
     window.dispatchEvent(new CustomEvent('saleh-cookie-consent', { detail: next }));
 
-    // Reload when withdrawing an already-granted category so third-party scripts
+    // Reload when changing an already-decided category so third-party scripts
     // are removed from the current document instead of merely being disabled.
     if (previous && (previous.analytics !== next.analytics || previous.affiliate !== next.affiliate)) {
       window.location.reload();
@@ -76,10 +53,10 @@ export default function CookieConsent() {
           <button type="button" onClick={() => save({ analytics: true, affiliate: true })} className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
             Accept All
           </button>
-          <button type="button" onClick={() => save(DEFAULT_CONSENT)} className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-100 dark:hover:bg-gray-700">
+          <button type="button" onClick={() => save(DEFAULT_COOKIE_CONSENT)} className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-100 dark:hover:bg-gray-700">
             Reject Non-Essential
           </button>
-          <button type="button" onClick={() => { setDraft(DEFAULT_CONSENT); setOpen(true); }} className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-100 dark:hover:bg-gray-700">
+          <button type="button" onClick={() => { setDraft(DEFAULT_COOKIE_CONSENT); setOpen(true); }} className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-100 dark:hover:bg-gray-700">
             Manage Preferences
           </button>
         </div>
