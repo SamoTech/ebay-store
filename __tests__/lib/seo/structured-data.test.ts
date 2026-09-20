@@ -29,7 +29,7 @@ describe('Structured Data', () => {
       
       expect(website).toBeDefined()
       expect(website.name).toBe('DealsHub')
-      expect(website.url).toContain('ebay-store.vercel.app')
+      expect(website.url).toContain('www.saleh-store.com')
     })
 
     it('should include Organization schema', () => {
@@ -256,7 +256,7 @@ describe('Structured Data', () => {
     })
 
     it('should have consistent base URL', () => {
-      const baseUrl = 'https://ebay-store.vercel.app'
+      const baseUrl = 'https://www.saleh-store.com'
       
       const urls = siteStructuredData['@graph']
         .filter((item: any) => item.url)
