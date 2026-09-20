@@ -9,7 +9,8 @@ import SocialShare from '../../../components/SocialShare';
 import { generateBlurDataURL } from '../../../lib/utils/image';
 import { formatPrice } from '../../../lib/utils/price';
 import { absoluteUrl } from '../../../lib/site';
-import { generateProductStructuredData, SchemaScript } from '../../../lib/schema';
+import { SchemaScript } from '../../../lib/schema';
+import { generateProductStructuredData } from '../../../lib/seo/structured-data';
 
 /**
  * ISR Configuration
