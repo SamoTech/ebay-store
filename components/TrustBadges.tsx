@@ -11,7 +11,7 @@ export default function TrustBadges() {
             <div className="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-full mb-2">
               <CheckCircle className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
-            <p className="font-semibold text-sm text-gray-800 dark:text-white">Verified eBay Partner</p>
+            <p className="font-semibold text-sm text-gray-800 dark:text-white">eBay Partner Network</p>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Official Partner Network</p>
           </div>
           <div className="flex flex-col items-center">
@@ -32,8 +32,8 @@ export default function TrustBadges() {
             <div className="bg-orange-100 dark:bg-orange-900/30 p-3 rounded-full mb-2">
               <TrendingUp className="w-6 h-6 text-orange-600 dark:text-orange-400" />
             </div>
-            <p className="font-semibold text-sm text-gray-800 dark:text-white">Daily Deals</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Updated every 24 hours</p>
+            <p className="font-semibold text-sm text-gray-800 dark:text-white">Deal Discovery</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Curated product offers</p>
           </div>
         </div>
         <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
