@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { blogArticles, BlogArticle } from '../../../lib/blog-data';
 import SocialShare from '../../../components/SocialShare';
 import Footer from '../../../components/Footer';
+import { absoluteUrl } from '../../../lib/site';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -42,11 +43,16 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       publishedTime: post.date,
       authors: [post.author],
       tags: [post.category],
+      url: absoluteUrl(`/blog/${post.slug}`),
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
+      images: [absoluteUrl('/og-image.svg')],
+    },
+    alternates: {
+      canonical: absoluteUrl(`/blog/${post.slug}`),
     },
   };
 }
@@ -59,7 +65,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const postUrl = `https://www.saleh-store.com/blog/${post.slug}`;
+  const postUrl = absoluteUrl(`/blog/${post.slug}`);
   const relatedPosts = blogArticles
     .filter(p => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
