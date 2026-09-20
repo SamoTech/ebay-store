@@ -160,16 +160,16 @@ https://www.ebay.com/itm/123456789
 ## 🔗 Quick Links
 
 ### Your Site
-- **Homepage:** https://ebay-store.vercel.app
-- **Status Check:** https://ebay-store.vercel.app/api/ebay-status
-- **Test Endpoint:** https://ebay-store.vercel.app/api/ebay-test
+- **Homepage:** https://www.saleh-store.com
+- **Status Check:** https://www.saleh-store.com/api/ebay-status
+- **Test Endpoint:** https://www.saleh-store.com/api/ebay-test
 
 ### Category Pages (Now Live with API)
-- Electronics: https://ebay-store.vercel.app/category/electronics
-- Gaming: https://ebay-store.vercel.app/category/gaming
-- Sneakers: https://ebay-store.vercel.app/category/sneakers
-- Smart Home: https://ebay-store.vercel.app/category/smart-home
-- Beauty: https://ebay-store.vercel.app/category/beauty
+- Electronics: https://www.saleh-store.com/category/electronics
+- Gaming: https://www.saleh-store.com/category/gaming
+- Sneakers: https://www.saleh-store.com/category/sneakers
+- Smart Home: https://www.saleh-store.com/category/smart-home
+- Beauty: https://www.saleh-store.com/category/beauty
 - (All 12 categories now fetch live products)
 
 ### Monitoring & Analytics
@@ -208,11 +208,11 @@ https://www.ebay.com/itm/123456789
 ### Daily Checks
 
 1. **Test Endpoint** (2 minutes)
-   - Visit: https://ebay-store.vercel.app/api/ebay-test
+   - Visit: https://www.saleh-store.com/api/ebay-test
    - Verify: `"success": true`
 
 2. **Homepage** (1 minute)
-   - Visit: https://ebay-store.vercel.app
+   - Visit: https://www.saleh-store.com
    - Look for: "Live eBay catalog active" badge
 
 3. **EPN Dashboard** (5 minutes)
