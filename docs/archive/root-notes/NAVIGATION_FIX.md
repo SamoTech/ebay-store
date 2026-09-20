@@ -104,9 +104,9 @@ Some ad blockers block eBay Partner Network scripts, which might affect the page
 If the issue persists, users can:
 1. **Right-click links** → "Open in new tab"
 2. **Use direct URLs**:
-   - https://ebay-store.vercel.app/blog
-   - https://ebay-store.vercel.app/favorites
-   - https://ebay-store.vercel.app/category/electronics
+   - https://www.saleh-store.com/blog
+   - https://www.saleh-store.com/favorites
+   - https://www.saleh-store.com/category/electronics
 
 ## Additional Fixes to Try
 
