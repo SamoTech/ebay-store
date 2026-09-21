@@ -1,11 +1,17 @@
+'use client';
+
 import Script from 'next/script';
+import { useCookieConsent } from '@/lib/cookie-consent';
+
+const GA_MEASUREMENT_ID = 'G-S5PC9TJ65Z';
 
 export default function GoogleAnalytics() {
-  const GA_MEASUREMENT_ID = 'G-S5PC9TJ65Z';
+  const consent = useCookieConsent();
+
+  if (consent?.analytics !== true) return null;
 
   return (
     <>
-      {/* Load analytics after the page is idle so it does not compete with critical rendering. */}
       <Script
         strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}

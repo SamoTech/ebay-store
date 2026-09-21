@@ -19,6 +19,8 @@ import { DarkModeProvider } from '../contexts/DarkModeContext'
 import { CurrencyProvider } from '../contexts/CurrencyContext'
 import Chatbot from '../components/Chatbot'
 import GoogleAnalytics from '../components/GoogleAnalytics'
+import AffiliateTracking from '../components/AffiliateTracking'
+import CookieConsent from '../components/CookieConsent'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 // SEO Configuration (imported from separate modules)
@@ -70,6 +72,7 @@ export default function RootLayout({
       <body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         {/* Google Analytics */}
         <GoogleAnalytics />
+        <AffiliateTracking />
         
         {/* Global Error Boundary */}
         <ErrorBoundary>
@@ -100,14 +103,8 @@ export default function RootLayout({
           </DarkModeProvider>
         </ErrorBoundary>
         
-        {/* eBay Partner Network Tracking Script */}
-        <Script id="epn-config" strategy="afterInteractive">
-          {`window._epn = {campaign: 5338903178};`}
-        </Script>
-        <Script 
-          src="https://epnt.ebay.com/static/epn-smart-tools.js" 
-          strategy="afterInteractive"
-        />
+        {/* Cookie preferences */}
+        <CookieConsent />
       </body>
     </html>
   )
