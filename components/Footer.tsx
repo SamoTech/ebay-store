@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import VisitCounter from './VisitCounter';
 
 export default function Footer() {
   return (
@@ -53,6 +54,7 @@ export default function Footer() {
             Saleh Store is a participant in the eBay Partner Network, an affiliate advertising program 
             designed to provide a means for sites to earn advertising fees by advertising and linking to eBay.
           </p>
+          <VisitCounter />
           <p className="mt-4 text-gray-500 text-sm text-center">
             © {new Date().getFullYear()} Saleh Store. All rights reserved. | 
             <Link href="/privacy" className="hover:text-white ml-2">Privacy Policy</Link> |

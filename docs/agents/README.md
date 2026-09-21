@@ -137,7 +137,7 @@ These agents execute approved plans with production-grade expertise:
 ## Project Context: DealsHub eBay Store
 
 **Repository**: [github.com/SamoTech/ebay-store](https://github.com/SamoTech/ebay-store)  
-**Live Site**: [ebay-store.vercel.app](https://www.saleh-store.com)  
+**Live Site**: [www.saleh-store.com](https://www.saleh-store.com)  
 **Tech Stack**: Next.js 16, React 19, TypeScript, Tailwind CSS 4
 
 ### Current Status
