@@ -17,7 +17,10 @@ describe('/api/visits', () => {
   beforeAll(async () => {
     process.env.VISIT_HASH_SECRET = 'a'.repeat(32);
     ({ GET, POST } = await import('@/app/api/visits/route'));
-    ({ getSiteVisitCount, recordSiteVisit } = await import('@/lib/visits'));
+
+    const visits = await import('@/lib/visits');
+    getSiteVisitCount = jest.mocked(visits.getSiteVisitCount);
+    recordSiteVisit = jest.mocked(visits.recordSiteVisit);
   });
 
   afterAll(() => {
