@@ -11,8 +11,8 @@ jest.mock('@/lib/visits', () => ({
 describe('/api/visits', () => {
   let GET: () => Promise<Response>;
   let POST: (request: NextRequest) => Promise<Response>;
-  let getSiteVisitCount: jest.Mock;
-  let recordSiteVisit: jest.Mock;
+  let getSiteVisitCount: jest.MockedFunction<() => Promise<number | null>>;
+  let recordSiteVisit: jest.MockedFunction<(windowKey: string) => Promise<number | null>>;
 
   beforeAll(async () => {
     process.env.VISIT_HASH_SECRET = 'a'.repeat(32);
@@ -30,6 +30,15 @@ describe('/api/visits', () => {
     recordSiteVisit.mockResolvedValue(43);
   });
 
+  const setNodeEnv = (value: string | undefined) => {
+    Object.defineProperty(process.env, 'NODE_ENV', {
+      value,
+      configurable: true,
+      enumerable: true,
+      writable: true,
+    });
+  };
+
   it('returns only the aggregate count from GET', async () => {
     const response = await GET();
     expect(response.status).toBe(200);
@@ -39,7 +48,7 @@ describe('/api/visits', () => {
 
   it('rejects cross-origin POST requests in production', async () => {
     const original = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'production';
+    setNodeEnv('production');
 
     const request = new NextRequest('https://www.saleh-store.com/api/visits', {
       method: 'POST',
@@ -54,12 +63,12 @@ describe('/api/visits', () => {
     expect(response.status).toBe(403);
     expect(recordSiteVisit).not.toHaveBeenCalled();
 
-    process.env.NODE_ENV = original;
+    setNodeEnv(original);
   });
 
   it('records a qualifying visit and sets a short-lived anonymous cookie', async () => {
     const original = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'production';
+    setNodeEnv('production');
 
     const request = new NextRequest('https://www.saleh-store.com/api/visits', {
       method: 'POST',
@@ -81,7 +90,7 @@ describe('/api/visits', () => {
     expect(response.headers.get('set-cookie')).toContain('HttpOnly');
     expect(response.headers.get('set-cookie')).toContain('Max-Age=1800');
 
-    process.env.NODE_ENV = original;
+    setNodeEnv(original);
   });
 
   it('does not overwrite an existing anonymous cookie', async () => {
