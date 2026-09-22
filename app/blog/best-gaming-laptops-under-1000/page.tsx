@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { generateArticleSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: 'Best Gaming Laptops Under $1000 on eBay (2026) - Saleh Store',
   description: 'Find the best gaming laptops under $1000 on eBay in 2026. Expert reviews, comparisons, and verified deals on budget gaming laptops with RTX graphics.',
   keywords: 'gaming laptops under 1000, budget gaming laptops, cheap gaming laptops ebay, rtx laptops under 1000, best affordable gaming laptops 2026',
