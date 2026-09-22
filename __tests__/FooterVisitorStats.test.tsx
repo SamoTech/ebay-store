@@ -2,13 +2,17 @@ import { render, screen, waitFor } from '@testing-library/react';
 import FooterVisitorStats from '../components/FooterVisitorStats';
 
 describe('FooterVisitorStats', () => {
-  afterEach(() => jest.restoreAllMocks());
+  afterEach(() => {
+    jest.restoreAllMocks();
+    delete (window as Window & { fetch?: typeof fetch }).fetch;
+  });
 
   it('shows GA4 visitor statistics when configured', async () => {
-    jest.spyOn(global, 'fetch').mockResolvedValue({
+    const fetchMock = jest.fn().mockResolvedValue({
       ok: true,
       json: async () => ({ configured: true, visitors: 1234, activeNow: 7 }),
-    } as Response);
+    });
+    Object.defineProperty(window, 'fetch', { value: fetchMock, configurable: true });
 
     render(<FooterVisitorStats />);
 
@@ -19,14 +23,12 @@ describe('FooterVisitorStats', () => {
   });
 
   it('stays hidden when analytics reporting is unavailable', async () => {
-    jest.spyOn(global, 'fetch').mockResolvedValue({
-      ok: false,
-      json: async () => ({ configured: false }),
-    } as Response);
+    const fetchMock = jest.fn().mockResolvedValue({ ok: false });
+    Object.defineProperty(window, 'fetch', { value: fetchMock, configurable: true });
 
     render(<FooterVisitorStats />);
 
-    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/analytics/visitors', { cache: 'no-store' }));
     expect(screen.queryByText(/Visitors \(30 days\)/)).not.toBeInTheDocument();
   });
 });
