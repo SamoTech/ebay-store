@@ -8,8 +8,6 @@
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import Script from 'next/script'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import Header from '../components/Header'
 import { ToastProvider } from '../contexts/ToastContext'
@@ -21,6 +19,7 @@ import Chatbot from '../components/Chatbot'
 import GoogleAnalytics from '../components/GoogleAnalytics'
 import AffiliateTracking from '../components/AffiliateTracking'
 import CookieConsent from '../components/CookieConsent'
+import VercelAnalytics from '../components/VercelAnalytics'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 // SEO Configuration (imported from separate modules)
@@ -94,8 +93,7 @@ export default function RootLayout({
                     <Chatbot />
                     
                     {/* Vercel Analytics */}
-                    <SpeedInsights />
-                    <Analytics />
+                    <VercelAnalytics />
                   </RecentlyViewedProvider>
                 </FavoritesProvider>
               </ToastProvider>
