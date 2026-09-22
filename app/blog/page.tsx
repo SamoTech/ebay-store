@@ -35,7 +35,7 @@ export default function BlogPage() {
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            DealsHub Blog
+            Saleh Store Blog
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-4">
             Expert shopping guides, honest reviews, and insider tips
