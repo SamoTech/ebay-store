@@ -67,6 +67,16 @@ export default function CookieConsent() {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (open || !restoreFocusRef.current) return;
+
+    const target = restoreFocusRef.current;
+    if (document.contains(target)) {
+      target.focus();
+      restoreFocusRef.current = null;
+    }
+  }, [open]);
+
   function save(next: CookieConsentValue) {
     try {
       window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, JSON.stringify(next));
