@@ -66,7 +66,7 @@ describe('CookieConsent', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
 
     expect(screen.queryByRole('dialog', { name: 'Cookie preferences' })).not.toBeInTheDocument();
-    expect(document.activeElement).toBe(settings);
+    expect(document.activeElement).toHaveAttribute('aria-label', 'Open cookie preferences');
   });
 
   it('keeps keyboard focus inside the preferences dialog', () => {
