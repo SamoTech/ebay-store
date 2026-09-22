@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { generateArticleSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'Top 15 eBay Deals This Week (February 2026) - DealsHub',
+  title: 'Top 15 eBay Deals This Week (February 2026) - Saleh Store',
   description: 'Hand-picked eBay deals for February 2026. Electronics, gaming, fashion, and more. Updated weekly with verified discounts up to 60% off.',
   keywords: 'ebay deals february 2026, best ebay deals, ebay discounts, cheap deals ebay, weekly ebay deals',
 };
@@ -13,7 +13,7 @@ const schema = generateArticleSchema({
   description: 'Curated list of the best deals on eBay this week',
   image: 'https://www.saleh-store.com/blog/deals-hero.jpg',
   publishedAt: '2026-02-16T00:00:00Z',
-  author: 'DealsHub Deals Team',
+  author: 'Saleh Store Deals Team',
   siteUrl: 'https://www.saleh-store.com'
 });
 
