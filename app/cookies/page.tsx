@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { absoluteUrl } from '../../lib/site';
+import LegalPageShell from '../../components/LegalPageShell';
 
 export const metadata: Metadata = {
   title: 'Cookie Policy | Saleh Store',
