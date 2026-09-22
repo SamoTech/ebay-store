@@ -17,7 +17,7 @@ export default function CookieConsent() {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<CookieConsentValue>(DEFAULT_COOKIE_CONSENT);
   const openerRef = useRef<HTMLButtonElement | null>(null);
-  const restoreFocusRef = useRef<HTMLElement | null>(null);
+  const restoreFocusRef = useRef(false);
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -62,7 +62,11 @@ export default function CookieConsent() {
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      const target = restoreFocusRef.current ?? previousActiveElement ?? opener;
+      if (restoreFocusRef.current) {
+        restoreFocusRef.current = false;
+        return;
+      }
+      const target = previousActiveElement ?? opener;
       if (target && document.contains(target)) target.focus();
     };
   }, [open]);
@@ -70,10 +74,10 @@ export default function CookieConsent() {
   useEffect(() => {
     if (open || !restoreFocusRef.current) return;
 
-    const target = restoreFocusRef.current;
-    if (document.contains(target)) {
+    const target = openerRef.current;
+    if (target && document.contains(target)) {
       target.focus();
-      restoreFocusRef.current = null;
+      restoreFocusRef.current = false;
     }
   }, [open]);
 
@@ -132,7 +136,7 @@ export default function CookieConsent() {
           ref={openerRef}
           type="button"
           onClick={() => {
-            restoreFocusRef.current = openerRef.current;
+            restoreFocusRef.current = true;
             setDraft(consent);
             setOpen(true);
           }}
