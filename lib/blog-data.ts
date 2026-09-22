@@ -25,11 +25,11 @@ export const blogArticles: BlogArticle[] = [
     date: 'February 16, 2026',
     category: 'Shopping Strategies',
     readTime: '18 min read',
-    author: 'Written from compiled personal experience',
-    authorBio: 'This guide represents years of direct observation, purchase tracking, and pattern recognition across thousands of eBay transactions. No fluff, no hacks — just documented process.',
+    author: 'Saleh Store Editorial Team',
+    authorBio: 'The Saleh Store editorial team documents practical marketplace research methods, price-comparison techniques, and buyer-safety checks for eBay shoppers.',
     gradient: 'from-blue-500 to-indigo-600',
     content: [
-      { type: 'paragraph', text: 'After years of buying, reselling, and closely observing how prices actually move on eBay, I noticed something that most buyers never question: the platform didn\'t become "expensive" — search behavior became lazy.' },
+      { type: 'paragraph', text: 'After reviewing marketplace listings and comparing how buyers search, one pattern is clear: visible search results do not represent every potentially useful listing, and default search habits can narrow the comparison too much.' },
       
       { type: 'paragraph', text: 'Let me start with a small but telling story.' },
       
@@ -350,7 +350,7 @@ export const blogArticles: BlogArticle[] = [
         'Full refund including return shipping',
         'Report seller to eBay - they take counterfeits seriously'
       ]},
-      { type: 'paragraph', text: 'Last month, I helped a student get a $300 refund for fake AirPods Pro. eBay refunded him fully AND let him keep the fakes (they cannot be resold). Always report fakes - you are protecting future buyers.' }
+      { type: 'paragraph', text: 'If you suspect a counterfeit item, document the listing, preserve your purchase records, and use the applicable eBay reporting and buyer-protection processes. Avoid reselling suspected counterfeit goods.' }
     ]
   },
 
