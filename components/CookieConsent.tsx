@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   DEFAULT_COOKIE_CONSENT,
   type CookieConsent as CookieConsentValue,
@@ -71,7 +71,7 @@ export default function CookieConsent() {
     };
   }, [open]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (open || !restoreFocusRef.current) return;
 
     const target = openerRef.current;
