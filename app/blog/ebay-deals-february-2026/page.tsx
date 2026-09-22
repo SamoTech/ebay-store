@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { generateArticleSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: 'Top 15 eBay Deals This Week (February 2026) - Saleh Store',
   description: 'Hand-picked eBay deals for February 2026. Electronics, gaming, fashion, and more. Updated weekly with verified discounts up to 60% off.',
   keywords: 'ebay deals february 2026, best ebay deals, ebay discounts, cheap deals ebay, weekly ebay deals',
