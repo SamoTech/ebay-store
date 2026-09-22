@@ -4,6 +4,7 @@ import { generateArticleSchema } from '@/lib/schema';
 import { absoluteUrl } from '@/lib/site';
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: 'iPhone 15 Pro vs Samsung Galaxy S24: Which to Buy in 2026?',
   description: 'Detailed comparison of iPhone 15 Pro vs Samsung Galaxy S24. Camera, performance, battery life, and best eBay deals. Expert verdict for 2026.',
   keywords: 'iphone 15 pro vs samsung s24, iphone vs samsung 2026, best smartphone 2026, iphone 15 pro review, samsung s24 review',
