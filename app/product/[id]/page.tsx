@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { allProducts } from '../../../lib/products';
+import { allProducts, categories } from '../../../lib/products';
 import Footer from '../../../components/Footer';
 import AffiliateLink from '../../../components/AffiliateLink';
 import RelatedProducts from '../../../components/RelatedProducts';
@@ -80,6 +80,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
     : 0;
 
   const productUrl = absoluteUrl(`/product/${product.id}`);
+  const categorySlug = categories.find((category) => category.name === product.category)?.slug
+    ?? product.category.toLowerCase().replace(/\s+/g, '-');
   const productSchema = generateProductStructuredData({
     name: product.title,
     description: product.description,
@@ -99,7 +101,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <nav className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-8">
           <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400">Home</Link>
           <span>/</span>
-          <Link href={`/category/${product.category.toLowerCase()}`} className="hover:text-blue-600 dark:hover:text-blue-400">
+          <Link href={`/category/${categorySlug}`} className="hover:text-blue-600 dark:hover:text-blue-400">
             {product.category}
           </Link>
           <span>/</span>
