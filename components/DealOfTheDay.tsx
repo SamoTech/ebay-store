@@ -170,7 +170,7 @@ export default function DealOfTheDay() {
 
             {/* Countdown */}
             <div className="mb-6">
-              <p className="text-sm text-white/80 mb-2">Offer ends in:</p>
+              <p className="text-sm text-white/80 mb-2">Deal refreshes in:</p>
               <div className="flex gap-3">
                 <div className="bg-white/20 rounded-lg px-4 py-2 text-center">
                   <span className="text-2xl font-bold">{String(timeLeft.hours).padStart(2, '0')}</span>
