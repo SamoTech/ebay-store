@@ -134,7 +134,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 url={productUrl}
                 title={`Check out this deal: ${product.title}`}
                 description={`${product.title} - Only $${product.price}`}
-                hashtags={['DealsHub', 'eBayDeals', product.category.replace(/\s+/g, '')]}
+                hashtags={['Saleh Store', 'eBayDeals', product.category.replace(/\s+/g, '')]}
               />
             </div>
           </div>
@@ -214,7 +214,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <div className="text-sm text-gray-700 dark:text-gray-300">
-                  <strong>Affiliate Disclosure:</strong> We earn a commission from eBay when you purchase through our links. This helps us keep DealsHub free and find you the best deals!
+                  <strong>Affiliate Disclosure:</strong> We earn a commission from eBay when you purchase through our links. This helps us keep Saleh Store free and find you the best deals!
                 </div>
               </div>
             </div>
