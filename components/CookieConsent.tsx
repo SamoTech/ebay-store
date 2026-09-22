@@ -17,6 +17,7 @@ export default function CookieConsent() {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<CookieConsentValue>(DEFAULT_COOKIE_CONSENT);
   const openerRef = useRef<HTMLButtonElement | null>(null);
+  const restoreFocusRef = useRef<HTMLElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -61,11 +62,8 @@ export default function CookieConsent() {
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      if (previousActiveElement && document.contains(previousActiveElement)) {
-        previousActiveElement.focus();
-      } else {
-        opener?.focus();
-      }
+      const target = restoreFocusRef.current ?? previousActiveElement ?? opener;
+      if (target && document.contains(target)) target.focus();
     };
   }, [open]);
 
@@ -123,7 +121,11 @@ export default function CookieConsent() {
         <button
           ref={openerRef}
           type="button"
-          onClick={() => { setDraft(consent); setOpen(true); }}
+          onClick={() => {
+            restoreFocusRef.current = openerRef.current;
+            setDraft(consent);
+            setOpen(true);
+          }}
           className="fixed bottom-4 left-4 z-[99] rounded-full border border-gray-300 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
           aria-label="Open cookie preferences"
         >
