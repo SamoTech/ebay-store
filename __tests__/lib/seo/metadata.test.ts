@@ -111,7 +111,6 @@ describe('SEO Metadata', () => {
       expect(twitter.card).toBe('summary_large_image')
     })
 
-)
 
     it('should have Twitter title and description', () => {
       const twitter = siteMetadata.twitter as any
@@ -161,7 +160,6 @@ describe('SEO Metadata', () => {
       expect(alternates.types['application/rss+xml']).toBeDefined()
     })
 
-)
   })
 
   describe('Icons', () => {
