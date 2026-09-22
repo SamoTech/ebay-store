@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { allProducts } from '../../../lib/products';
 import Footer from '../../../components/Footer';
+import AffiliateLink from '../../../components/AffiliateLink';
 import RelatedProducts from '../../../components/RelatedProducts';
 import SocialShare from '../../../components/SocialShare';
 import { generateBlurDataURL } from '../../../lib/utils/image';
@@ -194,14 +195,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
 
             <div className="flex gap-4">
-              <a
+              <AffiliateLink
                 href={product.affiliateLink}
-                target="_blank"
-                rel="noopener noreferrer"
+                productId={product.id}
+                category={product.category}
+                source="product_page"
                 className="flex-1 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white text-center py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg"
               >
                 Buy Now on eBay 🛒
-              </a>
+              </AffiliateLink>
             </div>
 
             <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
