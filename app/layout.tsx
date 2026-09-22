@@ -52,12 +52,11 @@ export default function RootLayout({
         <meta name="google-site-verification" content="X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg" />
         
         {/* Google AdSense site verification / publisher code */}
-        <Script
-          id="google-adsense"
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3703596518277340"
           crossOrigin="anonymous"
-        />
+        ></script>
         
         {/* Structured Data (JSON-LD) */}
         <Script
