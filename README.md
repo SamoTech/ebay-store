@@ -33,7 +33,7 @@
 | 🌿 **Repo Freshness** | `██████████` | ![100](https://img.shields.io/badge/100-brightgreen?style=flat-square) | 15% |
 | 📚 **Documentation** | `█████░░░░░` | ![48](https://img.shields.io/badge/48-yellow?style=flat-square) | 15% |
 | ⚙️ **CI/CD Setup** | `██████░░░░` | ![60](https://img.shields.io/badge/60-green?style=flat-square) | 15% |
-| 🎯 **Issue Response** | `██████████` | ![100](https://img.shields.io/badge/100-brightgreen?style=flat-square) | 10% |
+| 🎯 **Issue Response** | `██████████` | ![96](https://img.shields.io/badge/96-brightgreen?style=flat-square) | 10% |
 | ⭐ **Community Signal** | `██░░░░░░░░` | ![16](https://img.shields.io/badge/16-red?style=flat-square) | 5% |
 <!-- DEVLENS:END -->
 
