@@ -1,6 +1,6 @@
 /**
  * Root Layout
- * 
+ *
  * Provides global layout structure, SEO metadata, and context providers.
  * Metadata and structured data extracted to separate modules for maintainability.
  */
@@ -46,40 +46,40 @@ export default function RootLayout({
         <meta name="theme-color" content="#1e40af" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="DealsHub" />
-        
+        <meta name="apple-mobile-web-app-title" content="Saleh Store" />
+
         {/* Search Engine Verification */}
         <meta name="google-site-verification" content="X1nxK0xQYEDawvMKfYbIV2WzUE-1vajOWhLT_SnAtGg" />
-        
+
         {/* Google AdSense site verification / publisher code */}
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3703596518277340"
           crossOrigin="anonymous"
         ></script>
-        
+
         {/* Structured Data (JSON-LD) */}
         <Script
           id="structured-data"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteStructuredData) }}
         />
-        
+
         {/* RSS Feed */}
-        <link rel="alternate" type="application/rss+xml" title="DealsHub Blog RSS" href="/rss.xml" />
-        
+        <link rel="alternate" type="application/rss+xml" title="Saleh Store RSS" href="/rss.xml" />
+
         {/* Social Media Meta Tags */}
         <meta name="pinterest-rich-pin" content="true" />
         <meta name="reddit-og" content="true" />
         <meta name="ai-content" content="shopping deals affiliate products" />
         <meta name="x-pinterest" content="nopin" />
       </head>
-      
+
       <body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         {/* Google Analytics */}
         <GoogleAnalytics />
         <AffiliateTracking />
-        
+
         {/* Global Error Boundary */}
         <ErrorBoundary>
           {/* Context Providers */}
@@ -90,15 +90,15 @@ export default function RootLayout({
                   <RecentlyViewedProvider>
                     {/* Header Navigation */}
                     <Header />
-                    
-                    {/* Main Content */}
-                    <main>
+
+                    {/* Page Content: individual routes own their semantic <main> landmark */}
+                    <div>
                       {children}
-                    </main>
-                    
+                    </div>
+
                     {/* AI Chatbot - Available on all pages */}
                     <Chatbot />
-                    
+
                     {/* Vercel Analytics */}
                     <VercelAnalytics />
                   </RecentlyViewedProvider>
@@ -107,7 +107,7 @@ export default function RootLayout({
             </CurrencyProvider>
           </DarkModeProvider>
         </ErrorBoundary>
-        
+
         {/* Cookie preferences */}
         <CookieConsent />
       </body>
