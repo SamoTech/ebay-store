@@ -31,13 +31,7 @@ export const blogArticles: BlogArticle[] = [
     content: [
       { type: 'paragraph', text: 'After reviewing marketplace listings and comparing how buyers search, one pattern is clear: visible search results do not represent every potentially useful listing, and default search habits can narrow the comparison too much.' },
       
-      { type: 'paragraph', text: 'Let me start with a small but telling story.' },
-      
-      { type: 'paragraph', text: 'In 2024, I bought a laptop listed as a "Macbok Pro."' },
-      
-      { type: 'paragraph', text: 'Not a MacBook Pro — a Macbok Pro. The seller misspelled the title. There were no competing bids. The price settled far below market value.' },
-      
-      { type: 'paragraph', text: 'That purchase didn\'t rely on luck. It relied on visibility — or rather, the lack of it.' },
+      { type: 'paragraph', text: 'Small listing errors can materially affect visibility. A misspelled model name, incomplete description, or unusual wording can make a listing harder to find, which is one reason buyers should test several search variations rather than relying on a single query.' },
       
       { type: 'paragraph', text: 'Over time, patterns like this kept repeating. Listings that were poorly titled, oddly timed, or slightly inconvenient consistently sold below fair market value. Meanwhile, well-optimized listings attracted crowds and premium pricing.' },
       
