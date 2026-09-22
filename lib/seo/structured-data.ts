@@ -1,15 +1,9 @@
 import { SITE_URL, absoluteUrl } from '../site'
 
 /**
- * Structured Data (JSON-LD) Configuration
- * 
- * Schema.org markup for enhanced search engine understanding.
- * Extracted from layout.tsx for better maintainability.
+ * Schema.org Structured Data (JSON-LD) Configuration.
  */
 
-/**
- * Site-wide structured data
- */
 export const siteStructuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -17,9 +11,9 @@ export const siteStructuredData = {
       '@type': 'WebSite',
       '@id': `${SITE_URL}/#website`,
       url: SITE_URL,
-      name: 'DealsHub',
+      name: 'Saleh Store',
       description:
-        'Best deals and discounts on eBay products - 62+ trending products in electronics, gaming, sneakers, smart home, beauty, and collectibles',
+        'Product discovery and eBay deal guides across electronics, gaming, sneakers, smart home, beauty, collectibles, home, fitness, auto, and more.',
       inLanguage: 'en-US',
       publisher: {
         '@id': `${SITE_URL}/#organization`,
@@ -28,8 +22,7 @@ export const siteStructuredData = {
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
-          urlTemplate:
-            `${SITE_URL}/search?q={search_term_string}`,
+          urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
         },
         'query-input': 'required name=search_term_string',
       },
@@ -37,14 +30,14 @@ export const siteStructuredData = {
     {
       '@type': 'Organization',
       '@id': `${SITE_URL}/#organization`,
-      name: 'DealsHub',
+      name: 'Saleh Store',
       url: SITE_URL,
       logo: {
         '@type': 'ImageObject',
         url: absoluteUrl('/icon-512x512.png'),
         width: 512,
         height: 512,
-        caption: 'DealsHub Logo',
+        caption: 'Saleh Store logo',
       },
       image: {
         '@type': 'ImageObject',
@@ -52,14 +45,6 @@ export const siteStructuredData = {
         width: 1200,
         height: 630,
       },
-      sameAs: [
-        'https://twitter.com/dealshub',
-        'https://www.facebook.com/dealshub',
-        'https://www.instagram.com/dealshub',
-        'https://www.pinterest.com/dealshub',
-        'https://www.reddit.com/r/dealshub',
-        'https://www.linkedin.com/company/dealshub',
-      ],
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'customer support',
@@ -70,7 +55,7 @@ export const siteStructuredData = {
       '@type': 'WebPage',
       '@id': `${SITE_URL}/#webpage`,
       url: SITE_URL,
-      name: 'DealsHub - Best Deals & Discounts on eBay',
+      name: 'Saleh Store - eBay Deals & Product Discovery',
       isPartOf: {
         '@id': `${SITE_URL}/#website`,
       },
@@ -151,9 +136,8 @@ export const siteStructuredData = {
       '@type': 'Blog',
       '@id': `${SITE_URL}/blog`,
       url: `${SITE_URL}/blog`,
-      name: 'DealsHub Blog',
-      description:
-        'Shopping guides, product reviews, and affiliate marketing tips',
+      name: 'Saleh Store Blog',
+      description: 'Shopping guides, product reviews, and deal education.',
       publisher: {
         '@id': `${SITE_URL}/#organization`,
       },
@@ -162,7 +146,7 @@ export const siteStructuredData = {
 }
 
 /**
- * Generate product structured data
+ * Generate product structured data.
  */
 export function generateProductStructuredData(product: {
   name: string
@@ -199,7 +183,7 @@ export function generateProductStructuredData(product: {
 }
 
 /**
- * Generate blog post structured data
+ * Generate blog post structured data.
  */
 export function generateBlogPostStructuredData(post: {
   title: string
@@ -224,7 +208,7 @@ export function generateBlogPostStructuredData(post: {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'DealsHub',
+      name: 'Saleh Store',
       logo: {
         '@type': 'ImageObject',
         url: absoluteUrl('/icon-512x512.png'),

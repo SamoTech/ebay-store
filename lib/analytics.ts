@@ -24,8 +24,19 @@ export interface AnalyticsEventPayload {
   metadata?: Record<string, string | number | boolean | null | undefined>;
 }
 
+function hasAnalyticsConsent(): boolean {
+  try {
+    const raw = window.localStorage.getItem('saleh_cookie_consent_v1');
+    if (!raw) return false;
+    const parsed = JSON.parse(raw) as { analytics?: unknown };
+    return parsed.analytics === true;
+  } catch {
+    return false;
+  }
+}
+
 export async function trackEvent(payload: AnalyticsEventPayload): Promise<void> {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || !hasAnalyticsConsent()) return;
 
   const body = JSON.stringify({
     ...payload,

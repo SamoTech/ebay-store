@@ -1,16 +1,12 @@
 /**
  * Site Metadata Configuration
- * 
+ *
  * Centralized SEO metadata for the entire application.
- * Extracted from layout.tsx for better maintainability.
  */
 
 import { Metadata, Viewport } from 'next'
 import { SITE_URL, absoluteUrl } from '../site'
 
-/**
- * Viewport configuration
- */
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -18,42 +14,28 @@ export const viewport: Viewport = {
   themeColor: '#1e40af',
 }
 
-/**
- * Site metadata
- */
 export const siteMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'DealsHub - Best Deals & Discounts on eBay | Affiliate Store 2026',
-    template: '%s | DealsHub',
+    default: 'Saleh Store - eBay Deals & Product Discovery',
+    template: '%s | Saleh Store',
   },
   description:
-    'Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay. Find trending products at discounted prices with our affiliate store. Updated daily with 62+ products.',
+    'Discover products and deals from eBay across electronics, gaming, sneakers, smart home, beauty, collectibles, home, fitness, auto, and more.',
   keywords: [
     'eBay deals',
-    'best prices 2026',
-    'electronics deals',
-    'gaming consoles',
-    'sneakers investment',
-    'smart home devices',
-    'beauty products deals',
-    'collectibles investment',
     'online shopping deals',
-    'affiliate marketing',
-    'discount codes',
-    'trending products 2026',
-    'MacBook deals',
-    'iPhone deals',
-    'PlayStation 5 deals',
-    'Nintendo Switch deals',
-    'Air Jordan sneakers',
-    'Dyson products deals',
-    'eBay shopping guide',
-    'best affiliate store',
+    'electronics deals',
+    'gaming deals',
+    'sneaker deals',
+    'smart home deals',
+    'shopping guides',
+    'eBay shopping',
+    'affiliate store',
   ],
-  authors: [{ name: 'DealsHub Team' }],
-  creator: 'DealsHub',
-  publisher: 'DealsHub',
+  authors: [{ name: 'Saleh Store' }],
+  creator: 'Saleh Store',
+  publisher: 'Saleh Store',
   robots: {
     index: true,
     follow: true,
@@ -71,27 +53,25 @@ export const siteMetadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: SITE_URL,
-    siteName: 'DealsHub',
-    title: 'DealsHub - Best Deals & Discounts on eBay | 62+ Trending Products',
+    siteName: 'Saleh Store',
+    title: 'Saleh Store - eBay Deals & Product Discovery',
     description:
-      'Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay. 62+ trending products updated daily.',
+      'Discover products and deals from eBay across electronics, gaming, sneakers, smart home, beauty, collectibles, home, fitness, auto, and more.',
     images: [
       {
         url: absoluteUrl('/og-image.svg'),
         width: 1200,
         height: 630,
-        alt: 'DealsHub - Best Deals on eBay Electronics, Gaming, Sneakers',
+        alt: 'Saleh Store - eBay deals and product discovery',
         type: 'image/svg+xml',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@dealshub',
-    creator: '@dealshub',
-    title: 'DealsHub - Best Deals & Discounts on eBay | 62+ Products',
+    title: 'Saleh Store - eBay Deals & Product Discovery',
     description:
-      'Discover the best deals on electronics, gaming, sneakers, smart home, beauty, and collectibles from eBay.',
+      'Discover products and deals from eBay across electronics, gaming, sneakers, smart home, beauty, collectibles, home, fitness, auto, and more.',
     images: [absoluteUrl('/og-image.svg')],
   },
   verification: {
@@ -101,17 +81,11 @@ export const siteMetadata: Metadata = {
     canonical: SITE_URL,
     types: {
       'application/rss+xml': absoluteUrl('/rss.xml'),
-      'application/atom+xml': absoluteUrl('/rss.xml'),
-    },
-    languages: {
-      'en-US': SITE_URL,
-      'en-GB': SITE_URL,
-      'en-CA': SITE_URL,
     },
   },
   category: 'shopping',
   classification: 'e-commerce, affiliate marketing, deals, online shopping',
-  referrer: 'origin-when-cross-origin',
+  referrer: 'strict-origin-when-cross-origin',
   other: {
     'pinterest-rich-pin': 'true',
     'reddit-og': 'true',
@@ -119,7 +93,7 @@ export const siteMetadata: Metadata = {
   },
   appleWebApp: {
     capable: true,
-    title: 'DealsHub',
+    title: 'Saleh Store',
     statusBarStyle: 'black-translucent',
   },
   formatDetection: {

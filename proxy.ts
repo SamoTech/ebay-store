@@ -34,7 +34,6 @@ function isRateLimited(ip: string): { limited: boolean; remaining: number } {
   recent.push(now);
   rateStore.set(ip, recent);
 
-  // Bound the map so a burst of unique clients cannot grow memory forever.
   if (rateStore.size > MAX_TRACKED_CLIENTS) {
     for (const [key, timestamps] of rateStore) {
       if (timestamps.every((ts) => now - ts >= RATE_WINDOW_MS)) {
@@ -49,8 +48,8 @@ function isRateLimited(ip: string): { limited: boolean; remaining: number } {
 
 function contentSecurityPolicy(): string {
   const scriptSrc = isDevelopment
-    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com"
-    : "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com";
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://epnt.ebay.com"
+    : "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://epnt.ebay.com";
 
   return [
     "default-src 'self'",
@@ -58,19 +57,17 @@ function contentSecurityPolicy(): string {
     scriptSrc,
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self' data:",
-    "connect-src 'self' https://api.ebay.com https://svcs.ebay.com https://vitals.vercel-insights.com https://www.google-analytics.com",
+    "connect-src 'self' https://api.ebay.com https://svcs.ebay.com https://epnt.ebay.com https://vitals.vercel-insights.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com",
+    "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
-    // Framing is allowed in development so preview panes can embed the app.
     isDevelopment ? "frame-ancestors 'self' https: http:" : "frame-ancestors 'none'",
   ].join('; ');
 }
 
 function applySecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set('Content-Security-Policy', contentSecurityPolicy());
-  // Keep in sync with the X-Frame-Options value in next.config.ts: strict in
-  // production, omitted in development so previews can embed the app.
   if (!isDevelopment) {
     response.headers.set('X-Frame-Options', 'DENY');
   }

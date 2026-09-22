@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import DealOfTheDay from '@/components/DealOfTheDay';
 import TrustBadges from '@/components/TrustBadges';
 import { useToast } from '@/contexts/ToastContext';
-import { categories, createSearchLink, Product } from '@/lib/products';
+import { allProducts, categories, createSearchLink, Product } from '@/lib/products';
 import { formatPrice } from '@/lib/utils/price';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import Link from 'next/link';
@@ -59,26 +59,18 @@ export default function Home() {
 
         // Handle API errors
         if (!response.ok || data.error) {
-          const errorMsg = data.error || 'Failed to load products';
-          const errorDetails = data.details ? JSON.stringify(data.details, null, 2) : '';
-          
-          console.error('❌ API Error:', errorMsg);
-          console.error('🔍 Details:', errorDetails);
-          
-          setApiError(`${errorMsg}${errorDetails ? '\n' + errorDetails : ''}`);
-          setCatalogSource('error');
+          setCatalog(allProducts);
+          setCatalogSource('static');
+          setApiError(null);
           setIsLoading(false);
-          
-          addToast(`❌ ${errorMsg}. Check console for details.`, 'error');
           return;
         }
 
         if (!data.products?.length) {
-          console.warn('⚠️ API returned 0 products');
-          setApiError('API returned no products. Check Vercel Function Logs.');
-          setCatalogSource('error');
+          setCatalog(allProducts);
+          setCatalogSource('static');
+          setApiError(null);
           setIsLoading(false);
-          addToast('⚠️ No products returned from eBay', 'info');
           return;
         }
 
@@ -100,16 +92,14 @@ export default function Home() {
         
         if (error instanceof Error) {
           if (error.name === 'AbortError') {
-            console.error('❌ Fetch aborted (timeout)');
-            setApiError('Request timeout after 20 seconds');
-            addToast('⏱️ Request timeout. Check your connection.', 'error');
+            setCatalog(allProducts);
+            setApiError(null);
           } else {
-            console.error('❌ Fetch error:', error.message);
-            setApiError(error.message);
-            addToast(`❌ Error: ${error.message}`, 'error');
+            setCatalog(allProducts);
+            setApiError(null);
           }
         }
-        setCatalogSource('error');
+        setCatalogSource('static');
       } finally {
         if (isMounted) {
           setIsLoading(false);
