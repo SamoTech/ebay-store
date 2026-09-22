@@ -15,10 +15,7 @@ interface ProductCardProps {
   isComparing?: boolean;
 }
 
-// ✅ Tiny blur placeholder - 1px transparent PNG (loads instantly)
 const blurDataURL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==';
-
-// Used when a listing has no usable image (e.g. eBay items without a gallery URL).
 const FALLBACK_IMAGE = 'https://via.placeholder.com/400x300?text=No+Image';
 
 export default function ProductCard({ product, showCompare, onCompare, isComparing }: ProductCardProps) {
@@ -29,17 +26,16 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : 0;
 
-  // Live eBay listings (id >= 1000) link straight to eBay; static catalog
-  // items link to the internal product detail page.
   const isApiProduct = product.isLive ?? isLiveProduct(product);
   const favorite = typeof product.id === 'number' && isFavorite(product.id);
 
   const handleClick = () => {
-    trackEvent({ 
-      event: 'product_card_click', 
-      productId: product.id, 
-      source: isApiProduct ? 'api_product_card' : 'static_product_card', 
-      category: product.category 
+    trackEvent({
+      event: isApiProduct ? 'affiliate_outbound_click' : 'product_card_click',
+      productId: product.id,
+      source: isApiProduct ? 'api_product_card' : 'static_product_card',
+      category: product.category,
+      url: product.affiliateLink,
     });
   };
 
@@ -66,8 +62,8 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
   };
 
   const productLink = isApiProduct ? product.affiliateLink : `/product/${product.id}`;
-  const linkTarget = isApiProduct ? "_blank" : undefined;
-  const linkRel = isApiProduct ? "noopener noreferrer" : undefined;
+  const linkTarget = isApiProduct ? '_blank' : undefined;
+  const linkRel = isApiProduct ? 'noopener noreferrer' : undefined;
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
@@ -78,9 +74,9 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
               src={product.image?.trim() ? product.image : FALLBACK_IMAGE}
               alt={product.title}
               fill
-              loading="lazy"  // ✅ Lazy load - images only load when scrolled into view
-              placeholder="blur"  // ✅ Show blur effect while loading
-              blurDataURL={blurDataURL}  // ✅ Tiny 1px placeholder (instant load)
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL={blurDataURL}
               className="object-cover group-hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             />
@@ -113,7 +109,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
           </svg>
         </button>
       </div>
-      
+
       <div className="p-4 flex flex-col flex-1">
         <Link href={productLink} target={linkTarget} rel={linkRel} onClick={handleClick}>
           <span className="text-xs text-blue-600 dark:text-blue-400 font-semibold">
@@ -138,7 +134,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
             )}
           </div>
         )}
-        
+
         <div className="flex items-baseline gap-2 mb-3 mt-auto">
           <span className="text-xl font-bold text-green-600 dark:text-green-400">
             {formatPrice(product.price, product.currency)}
@@ -149,7 +145,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
             </span>
           )}
         </div>
-        
+
         <div className="flex gap-2">
           {!isApiProduct && (
             <Link
@@ -163,7 +159,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
             href={product.affiliateLink}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'product_card', category: product.category })}
+            onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'product_card', category: product.category, url: product.affiliateLink })}
             className="flex-1 bg-green-600 text-white text-center py-2 rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
           >
             {isApiProduct ? 'View on eBay' : 'Buy Now'}
@@ -172,6 +168,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
 
         {showCompare && onCompare && (
           <button
+            type="button"
             onClick={() => onCompare(product)}
             className={`w-full mt-2 py-2 rounded-lg text-sm font-medium transition-colors ${
               isComparing
