@@ -86,6 +86,8 @@ describe('CookieConsent', () => {
     save.focus();
     fireEvent.keyDown(document, { key: 'Tab' });
 
-    expect(document.activeElement).toBe(dialog.querySelector('button'));
+    expect(document.activeElement).toBe(
+      dialog.querySelector('input[type="checkbox"]:not([disabled])'),
+    );
   });
 });
