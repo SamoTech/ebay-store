@@ -73,8 +73,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     image: absoluteUrl('/og-image.svg'),
     publishedAt: new Date(post.date).toISOString(),
     author: post.author,
-    section: post.category,
-    url: postUrl,
     siteUrl: absoluteUrl(''),
   });
   const relatedPosts = blogArticles
