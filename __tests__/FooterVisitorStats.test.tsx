@@ -4,7 +4,7 @@ import FooterVisitorStats from '../components/FooterVisitorStats';
 describe('FooterVisitorStats', () => {
   afterEach(() => {
     jest.restoreAllMocks();
-    delete (window as Window & { fetch?: typeof fetch }).fetch;
+    Object.defineProperty(window, 'fetch', { value: undefined, configurable: true });
   });
 
   it('shows GA4 visitor statistics when configured', async () => {
