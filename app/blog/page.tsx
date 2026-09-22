@@ -25,51 +25,7 @@ const displayPosts = [
     author: article.author,
     gradient: article.gradient
   })),
-  // Placeholder posts (coming soon)
-  {
-    id: 4,
-    slug: 'gaming-console-deals-comparison',
-    title: 'Gaming Console Deals: PS5, Xbox Series X, and Nintendo Switch Compared',
-    excerpt: 'Which console offers the best value in 2026? We analyze game libraries, exclusive titles, performance specs, and total cost of ownership.',
-    date: 'February 10, 2026',
-    category: 'Gaming Reviews',
-    readTime: '18 min read',
-    author: 'Emily Watson',
-    gradient: 'from-green-500 to-teal-600'
-  },
-  {
-    id: 5,
-    slug: 'sneaker-investment-guide',
-    title: 'Sneaker Investment Guide: Which Air Jordans Actually Appreciate in Value?',
-    excerpt: 'Data-driven analysis of sneaker resale markets. Historical price trends, authentication tips, and storage best practices.',
-    date: 'February 8, 2026',
-    category: 'Investment Guide',
-    readTime: '14 min read',
-    author: 'Marcus Johnson',
-    gradient: 'from-yellow-500 to-red-600'
-  },
-  {
-    id: 6,
-    slug: 'smart-home-budget-devices',
-    title: 'Smart Home on a Budget: Best Affordable Devices That Actually Work',
-    excerpt: 'Tested reviews of budget smart plugs, lights, cameras, and voice assistants. Complete setup guides and compatibility charts included.',
-    date: 'February 6, 2026',
-    category: 'Smart Home',
-    readTime: '11 min read',
-    author: 'Lisa Thompson',
-    gradient: 'from-cyan-500 to-blue-600'
-  },
-  {
-    id: 7,
-    slug: 'negotiation-tactics-ebay',
-    title: 'Negotiation Tactics: How to Get Sellers to Accept Lower Offers',
-    excerpt: 'Psychology-based negotiation strategies that work on eBay. Real examples with 60%+ success rates.',
-    date: 'February 4, 2026',
-    category: 'Shopping Tips',
-    readTime: '9 min read',
-    author: 'David Kim',
-    gradient: 'from-indigo-500 to-purple-600'
-  }
+  // Only published articles are listed; unpublished drafts stay out of the index.
 ];
 
 export default function BlogPage() {
@@ -79,7 +35,7 @@ export default function BlogPage() {
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            DealsHub Blog
+            Saleh Store Blog
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-4">
             Expert shopping guides, honest reviews, and insider tips
