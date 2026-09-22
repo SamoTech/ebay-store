@@ -155,6 +155,7 @@ export default function BlogPage() {
       </section>
 
       <Footer />
-    </main>
+      </main>
+    </>
   );
 }
