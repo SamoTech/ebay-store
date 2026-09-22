@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { generateArticleSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'Best Gaming Laptops Under $1000 on eBay (2026) - DealsHub',
+  title: 'Best Gaming Laptops Under $1000 on eBay (2026) - Saleh Store',
   description: 'Find the best gaming laptops under $1000 on eBay in 2026. Expert reviews, comparisons, and verified deals on budget gaming laptops with RTX graphics.',
   keywords: 'gaming laptops under 1000, budget gaming laptops, cheap gaming laptops ebay, rtx laptops under 1000, best affordable gaming laptops 2026',
   openGraph: {
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: 'Expert-reviewed gaming laptops under $1000. RTX graphics, high refresh rates, and verified eBay deals.',
     type: 'article',
     publishedTime: '2026-02-16T00:00:00Z',
-    authors: ['DealsHub Editorial Team']
+    authors: ['Saleh Store Editorial Team']
   }
 };
 
@@ -20,7 +20,7 @@ const articleSchema = generateArticleSchema({
   description: 'Comprehensive buyer\'s guide to the best budget gaming laptops under $1000 available on eBay in 2026',
   image: 'https://www.saleh-store.com/blog/gaming-laptop-hero.jpg',
   publishedAt: '2026-02-16T00:00:00Z',
-  author: 'DealsHub Editorial Team',
+  author: 'Saleh Store Editorial Team',
   siteUrl: 'https://www.saleh-store.com'
 });
 
@@ -53,7 +53,7 @@ export default function BestGamingLaptopsPage() {
               <span>•</span>
               <span>10 min read</span>
               <span>•</span>
-              <span>by DealsHub Team</span>
+              <span>by Saleh Store Team</span>
             </div>
           </header>
 
