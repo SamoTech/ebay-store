@@ -12,6 +12,8 @@ export default function FooterVisitorStats() {
   const [stats, setStats] = useState<VisitorStats | null>(null);
 
   useEffect(() => {
+    if (typeof window.fetch !== 'function') return;
+
     let cancelled = false;
 
     fetch('/api/analytics/visitors', { cache: 'no-store' })
