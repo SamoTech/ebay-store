@@ -12,13 +12,13 @@ interface FAQItem {
 const faqData: FAQItem[] = [
   {
     category: 'General',
-    question: 'What is DealsHub?',
-    answer: 'DealsHub is a curated platform that helps you discover the best deals on eBay. We handpick trending products across electronics, gaming, fashion, home goods, and more, making it easy to find great value without endless searching.'
+    question: 'What is Saleh Store?',
+    answer: 'Saleh Store is a curated platform that helps you discover the best deals on eBay. We handpick trending products across electronics, gaming, fashion, home goods, and more, making it easy to find great value without endless searching.'
   },
   {
     category: 'General',
-    question: 'Is DealsHub free to use?',
-    answer: 'Yes! DealsHub is 100% free. We never charge fees or require subscriptions. We earn a small commission when you make a purchase through our affiliate links, but this never affects your price.'
+    question: 'Is Saleh Store free to use?',
+    answer: 'Yes! Saleh Store is 100% free. We never charge fees or require subscriptions. We earn a small commission when you make a purchase through our affiliate links, but this never affects your price.'
   },
   {
     category: 'Shopping',
@@ -27,7 +27,7 @@ const faqData: FAQItem[] = [
   },
   {
     category: 'Shopping',
-    question: 'Are the prices on DealsHub accurate?',
+    question: 'Are the prices on Saleh Store accurate?',
     answer: 'We update prices regularly, but since they come from eBay, they can change quickly. Always verify the final price on eBay before purchasing. The price on eBay is the actual price you\'ll pay.'
   },
   {
@@ -53,7 +53,7 @@ const faqData: FAQItem[] = [
   {
     category: 'Account',
     question: 'Do I need to create an account?',
-    answer: 'No account is needed to browse deals on DealsHub. However, you\'ll need an eBay account to make purchases when you click through to eBay.'
+    answer: 'No account is needed to browse deals on Saleh Store. However, you\'ll need an eBay account to make purchases when you click through to eBay.'
   },
   {
     category: 'Account',
@@ -67,7 +67,7 @@ const faqData: FAQItem[] = [
   },
   {
     category: 'Support',
-    question: 'How can I contact DealsHub?',
+    question: 'How can I contact Saleh Store?',
     answer: 'You can reach us through our Contact page. We typically respond within 24 hours during business days. For urgent eBay order issues, please contact eBay directly.'
   },
   {
@@ -96,7 +96,7 @@ export default function FAQPage() {
             Frequently Asked Questions
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Find answers to common questions about DealsHub
+            Find answers to common questions about Saleh Store
           </p>
         </div>
 
