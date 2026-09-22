@@ -3,12 +3,12 @@
 import Script from 'next/script';
 import { useCookieConsent } from '@/lib/cookie-consent';
 
-const GA_MEASUREMENT_ID = 'G-S5PC9TJ65Z';
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function GoogleAnalytics() {
   const consent = useCookieConsent();
 
-  if (consent?.analytics !== true) return null;
+  if (consent?.analytics !== true || !GA_MEASUREMENT_ID) return null;
 
   return (
     <>
