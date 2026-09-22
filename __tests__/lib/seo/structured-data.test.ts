@@ -82,7 +82,6 @@ describe('Structured Data', () => {
       expect(blog.name).toBe('Saleh Store Blog')
     })
 
-)
   })
 
   describe('generateProductStructuredData', () => {
