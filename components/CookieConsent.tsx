@@ -31,6 +31,9 @@ export default function CookieConsent() {
     focusable?.focus();
 
     function handleKeyDown(event: KeyboardEvent) {
+      const dialogElement = dialogRef.current;
+      if (!dialogElement) return;
+
       if (event.key === 'Escape') {
         event.preventDefault();
         setOpen(false);
@@ -39,7 +42,7 @@ export default function CookieConsent() {
 
       if (event.key !== 'Tab') return;
 
-      const elements = Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+      const elements = Array.from(dialogElement.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
       if (elements.length === 0) return;
 
       const first = elements[0];
