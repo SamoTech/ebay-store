@@ -86,26 +86,18 @@ export default function BlogPage() {
             Browse by Category
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <button className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
-              <div className="text-2xl mb-2">🛍️</div>
-              <div className="font-semibold text-gray-900 dark:text-white text-sm">Shopping Tips</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">3 articles</div>
-            </button>
-            <button className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors">
-              <div className="text-2xl mb-2">⭐</div>
-              <div className="font-semibold text-gray-900 dark:text-white text-sm">Product Reviews</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">2 articles</div>
-            </button>
-            <button className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors">
-              <div className="text-2xl mb-2">🛡️</div>
-              <div className="font-semibold text-gray-900 dark:text-white text-sm">Buyer Protection</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">1 article</div>
-            </button>
-            <button className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-xl hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors">
-              <div className="text-2xl mb-2">📊</div>
-              <div className="font-semibold text-gray-900 dark:text-white text-sm">Coming Soon</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">More categories</div>
-            </button>
+            {Array.from(new Set(blogArticles.map(article => article.category))).map((category) => {
+              const count = blogArticles.filter(article => article.category === category).length;
+              return (
+                <div key={category} className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                  <div className="text-2xl mb-2">📝</div>
+                  <div className="font-semibold text-gray-900 dark:text-white text-sm">{category}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {count} {count === 1 ? 'article' : 'articles'}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -115,7 +107,7 @@ export default function BlogPage() {
             🎯 Ready to Start Shopping?
           </h3>
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            Browse 70+ curated products across 12 categories. All verified sellers. Best prices guaranteed.
+            Browse curated products across 12 categories and compare current eBay listings, seller details, and purchase terms.
           </p>
           <Link 
             href="/"
