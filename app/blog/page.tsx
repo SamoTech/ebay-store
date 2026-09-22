@@ -3,10 +3,18 @@ import { Metadata } from 'next';
 import { absoluteUrl } from '../../lib/site';
 import Footer from '../../components/Footer';
 import { blogArticles } from '../../lib/blog-data';
+import { SchemaScript } from '../../lib/schema';
 
 export const metadata: Metadata = {
   title: 'Blog - Shopping Tips & Product Reviews',
   description: 'Expert shopping guides, honest product reviews, and money-saving strategies for finding the best deals on eBay. From electronics to sneakers, learn how to shop smarter.',
+  keywords: ['eBay shopping guides', 'eBay buying tips', 'eBay deals', 'product buying guides', 'buyer protection'],
+  openGraph: {
+    title: 'Saleh Store Blog - eBay Shopping Guides & Buying Tips',
+    description: 'Practical eBay shopping guides covering price comparison, electronics, gaming, buyer protection, and safer marketplace purchases.',
+    type: 'website',
+    url: absoluteUrl('/blog'),
+  },
   alternates: {
     canonical: absoluteUrl('/blog'),
   },
@@ -15,7 +23,35 @@ export const metadata: Metadata = {
 const displayPosts = blogArticles;
 
 export default function BlogPage() {
+  const blogSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Blog',
+        '@id': absoluteUrl('/blog#blog'),
+        url: absoluteUrl('/blog'),
+        name: 'Saleh Store Blog',
+        description: 'Practical eBay shopping guides covering price comparison, electronics, gaming, buyer protection, and safer marketplace purchases.',
+        publisher: { '@id': absoluteUrl('/#organization') },
+      },
+      {
+        '@type': 'ItemList',
+        '@id': absoluteUrl('/blog#articles'),
+        name: 'Saleh Store shopping guides',
+        numberOfItems: blogArticles.length,
+        itemListElement: blogArticles.map((article, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          url: absoluteUrl(`/blog/${article.slug}`),
+          name: article.title,
+        })),
+      },
+    ],
+  };
+
   return (
+    <>
+      <SchemaScript schema={blogSchema} />
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
