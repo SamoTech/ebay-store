@@ -153,7 +153,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             url={postUrl}
             title={post.title}
             description={post.excerpt}
-            hashtags={['DealsHub', 'eBayShopping', post.category.replace(/\s+/g, '')]}
+            hashtags={['Saleh Store', 'eBayShopping', post.category.replace(/\s+/g, '')]}
           />
         </div>
 
@@ -189,7 +189,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             url={postUrl}
             title={post.title}
             description={post.excerpt}
-            hashtags={['DealsHub', 'eBayShopping', post.category.replace(/\s+/g, '')]}
+            hashtags={['Saleh Store', 'eBayShopping', post.category.replace(/\s+/g, '')]}
           />
         </div>
 
