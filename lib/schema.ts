@@ -109,7 +109,6 @@ export interface ArticleSchema {
   image: string;
   datePublished: string;
   dateModified: string;
-  articleSection?: string;
   author: {
     '@type': string;
     name: string;
@@ -117,15 +116,10 @@ export interface ArticleSchema {
   publisher: {
     '@type': string;
     name: string;
-    url?: string;
     logo: {
       '@type': string;
       url: string;
     };
-  };
-  mainEntityOfPage?: {
-    '@type': string;
-    '@id': string;
   };
 }
 
@@ -136,8 +130,6 @@ export function generateArticleSchema(article: {
   publishedAt: string;
   modifiedAt?: string;
   author: string;
-  section?: string;
-  url?: string;
   siteUrl: string;
 }): ArticleSchema {
   return {
@@ -148,7 +140,6 @@ export function generateArticleSchema(article: {
     image: article.image,
     datePublished: article.publishedAt,
     dateModified: article.modifiedAt || article.publishedAt,
-    ...(article.section ? { articleSection: article.section } : {}),
     author: {
       '@type': 'Person',
       name: article.author
@@ -156,18 +147,11 @@ export function generateArticleSchema(article: {
     publisher: {
       '@type': 'Organization',
       name: 'Saleh Store',
-      url: article.siteUrl,
       logo: {
         '@type': 'ImageObject',
         url: `${article.siteUrl}/icon-512x512.png`
       }
-    },
-    ...(article.url ? {
-      mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': article.url
-      }
-    } : {})
+    }
   };
 }
 
