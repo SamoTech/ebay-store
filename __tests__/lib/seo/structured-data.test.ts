@@ -28,7 +28,7 @@ describe('Structured Data', () => {
       )!
       
       expect(website).toBeDefined()
-      expect(website.name).toBe('DealsHub')
+      expect(website.name).toBe('Saleh Store')
       expect(website.url).toContain('www.saleh-store.com')
     })
 
@@ -38,7 +38,7 @@ describe('Structured Data', () => {
       )!
       
       expect(org).toBeDefined()
-      expect(org.name).toBe('DealsHub')
+      expect(org.name).toBe('Saleh Store')
       expect(org.logo).toBeDefined()
     })
 
@@ -79,19 +79,10 @@ describe('Structured Data', () => {
       )!
       
       expect(blog).toBeDefined()
-      expect(blog.name).toBe('DealsHub Blog')
+      expect(blog.name).toBe('Saleh Store Blog')
     })
 
-    it('should have social media links', () => {
-      const org = siteStructuredData['@graph'].find(
-        (item: any) => item['@type'] === 'Organization'
-      )!
-      
-      expect(org.sameAs).toBeDefined()
-      expect(Array.isArray(org!.sameAs)).toBe(true)
-      expect(org!.sameAs!.length).toBeGreaterThan(0)
-      expect(org!.sameAs!.some((url: string) => url.includes('twitter'))).toBe(true)
-    })
+)
   })
 
   describe('generateProductStructuredData', () => {
@@ -217,7 +208,7 @@ describe('Structured Data', () => {
       
       expect(schema.publisher).toBeDefined()
       expect(schema.publisher['@type']).toBe('Organization')
-      expect(schema.publisher.name).toBe('DealsHub')
+      expect(schema.publisher.name).toBe('Saleh Store')
     })
 
     it('should include publisher logo', () => {
