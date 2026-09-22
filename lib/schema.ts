@@ -67,15 +67,11 @@ export function generateOrganizationSchema(siteUrl: string): OrganizationSchema 
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'DealsHub',
+    name: 'Saleh Store',
     url: siteUrl,
-    logo: `${siteUrl}/logo.png`,
-    description: 'Your trusted source for the best deals from eBay. Find electronics, gaming, sneakers, smart home devices, and more at unbeatable prices.',
-    sameAs: [
-      'https://twitter.com/dealshub',
-      'https://facebook.com/dealshub',
-      'https://instagram.com/dealshub'
-    ]
+    logo: `${siteUrl}/icon-512x512.png`,
+    description: 'Product discovery and practical shopping guides focused on eBay listings, price comparison, and buyer research.',
+    sameAs: []
   };
 }
 
@@ -113,6 +109,7 @@ export interface ArticleSchema {
   image: string;
   datePublished: string;
   dateModified: string;
+  articleSection: string;
   author: {
     '@type': string;
     name: string;
@@ -120,10 +117,15 @@ export interface ArticleSchema {
   publisher: {
     '@type': string;
     name: string;
+    url: string;
     logo: {
       '@type': string;
       url: string;
     };
+  };
+  mainEntityOfPage: {
+    '@type': string;
+    '@id': string;
   };
 }
 
@@ -134,27 +136,35 @@ export function generateArticleSchema(article: {
   publishedAt: string;
   modifiedAt?: string;
   author: string;
+  section: string;
+  url: string;
   siteUrl: string;
 }): ArticleSchema {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     headline: article.title,
     description: article.description,
     image: article.image,
     datePublished: article.publishedAt,
     dateModified: article.modifiedAt || article.publishedAt,
+    articleSection: article.section,
     author: {
       '@type': 'Person',
       name: article.author
     },
     publisher: {
       '@type': 'Organization',
-      name: 'DealsHub',
+      name: 'Saleh Store',
+      url: article.siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${article.siteUrl}/logo.png`
+        url: `${article.siteUrl}/icon-512x512.png`
       }
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': article.url
     }
   };
 }
