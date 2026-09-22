@@ -12,21 +12,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Extended blog posts list for display
-const displayPosts = [
-  ...blogArticles.map(article => ({
-    id: article.id,
-    slug: article.slug,
-    title: article.title,
-    excerpt: article.excerpt,
-    date: article.date,
-    category: article.category,
-    readTime: article.readTime,
-    author: article.author,
-    gradient: article.gradient
-  })),
-  // Only published articles are listed; unpublished drafts stay out of the index.
-];
+const displayPosts = blogArticles;
 
 export default function BlogPage() {
   return (
@@ -50,8 +36,6 @@ export default function BlogPage() {
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayPosts.map(post => {
-            const hasContent = post.id <= 3; // Only first 3 have full content
-            
             return (
               <article 
                 key={post.id}
@@ -59,11 +43,7 @@ export default function BlogPage() {
               >
                 <div className={`h-56 bg-gradient-to-br ${post.gradient} relative`}>
                   <div className="absolute inset-0 bg-black/10"></div>
-                  {!hasContent && (
-                    <div className="absolute top-4 right-4 bg-yellow-500 text-white text-xs px-3 py-1 rounded-full font-bold">
-                      Coming Soon
-                    </div>
-                  )}
+
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-3">
@@ -84,8 +64,7 @@ export default function BlogPage() {
                       <p className="text-gray-900 dark:text-white font-medium">{post.author}</p>
                       <p className="text-gray-500 dark:text-gray-400 text-xs">{post.date}</p>
                     </div>
-                    {hasContent ? (
-                      <Link
+                    <Link
                         href={`/blog/${post.slug}`}
                         className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold text-sm flex items-center gap-1 group"
                       >
@@ -94,11 +73,6 @@ export default function BlogPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
                       </Link>
-                    ) : (
-                      <span className="text-gray-400 dark:text-gray-600 text-sm font-medium">
-                        Coming Soon
-                      </span>
-                    )}
                   </div>
                 </div>
               </article>
