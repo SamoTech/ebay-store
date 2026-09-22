@@ -9,6 +9,23 @@ type ServiceAccount = {
   token_uri?: string;
 };
 
+type GoogleApiError = {
+  error?: {
+    status?: string;
+    message?: string;
+  };
+};
+
+class GoogleRequestError extends Error {
+  constructor(
+    message: string,
+    readonly statusCode: number,
+    readonly reason?: string,
+  ) {
+    super(message);
+  }
+}
+
 function base64Url(value: string) {
   return Buffer.from(value).toString('base64url');
 }
@@ -39,7 +56,15 @@ async function getAccessToken(account: ServiceAccount) {
     cache: 'no-store',
   });
 
-  if (!response.ok) throw new Error('Google OAuth token request failed');
+  if (!response.ok) {
+    const data = (await response.json().catch(() => ({}))) as GoogleApiError;
+    throw new GoogleRequestError(
+      'Google OAuth token request failed',
+      response.status,
+      data.error?.status,
+    );
+  }
+
   const data = (await response.json()) as { access_token?: string };
   if (!data.access_token) throw new Error('Google OAuth response did not include an access token');
   return data.access_token;
@@ -67,7 +92,14 @@ async function runReport(accessToken: string, propertyId: string, realtime = fal
     cache: 'no-store',
   });
 
-  if (!response.ok) throw new Error(`Google Analytics Data API failed: ${response.status}`);
+  if (!response.ok) {
+    const data = (await response.json().catch(() => ({}))) as GoogleApiError;
+    throw new GoogleRequestError(
+      'Google Analytics Data API request failed',
+      response.status,
+      data.error?.status,
+    );
+  }
 
   const data = (await response.json()) as {
     rows?: Array<{ metricValues?: Array<{ value?: string }> }>;
@@ -90,7 +122,12 @@ export async function GET() {
 
   if (!/^\d+$/.test(propertyId!)) {
     return NextResponse.json(
-      { configured: false, propertyIdPresent: true, serviceAccountPresent: true, error: 'Invalid GA4 property ID' },
+      {
+        configured: false,
+        propertyIdPresent: true,
+        serviceAccountPresent: true,
+        error: 'Invalid GA4 property ID',
+      },
       { status: 500 },
     );
   }
@@ -109,9 +146,29 @@ export async function GET() {
       { configured: true, visitors, activeNow },
       { headers: { 'cache-control': 'public, s-maxage=300, stale-while-revalidate=600' } },
     );
-  } catch {
+  } catch (error) {
+    if (error instanceof GoogleRequestError) {
+      return NextResponse.json(
+        {
+          configured: false,
+          propertyIdPresent: true,
+          serviceAccountPresent: true,
+          googleStatus: error.statusCode,
+          googleReason: error.reason || 'UNKNOWN',
+        },
+        { status: 502 },
+      );
+    }
+
     return NextResponse.json(
-      { configured: false, propertyIdPresent: true, serviceAccountPresent: true },
+      {
+        configured: false,
+        propertyIdPresent: true,
+        serviceAccountPresent: true,
+        error: error instanceof Error && error.message === 'Invalid service account'
+          ? 'Invalid service account'
+          : 'Google analytics request failed',
+      },
       { status: 502 },
     );
   }
