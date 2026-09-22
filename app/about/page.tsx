@@ -3,8 +3,8 @@ import { absoluteUrl } from '../../lib/site';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About Us - DealsHub',
-  description: 'Learn about DealsHub, your trusted source for the best eBay deals. Discover our mission, how we work, and why thousands trust us for their online shopping needs.',
+  title: 'About Us - Saleh Store',
+  description: 'Learn about Saleh Store, your trusted source for the best eBay deals. Discover our mission, how we work, and why thousands trust us for their online shopping needs.',
   alternates: {
     canonical: absoluteUrl('/about'),
   },
@@ -17,7 +17,7 @@ export default function AboutPage() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            About DealsHub
+            About Saleh Store
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Your trusted partner in finding the best deals on eBay
@@ -31,11 +31,11 @@ export default function AboutPage() {
           </h2>
           <div className="prose prose-lg dark:prose-invert max-w-none">
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              DealsHub was born from a simple idea: make online shopping smarter, easier, and more rewarding. 
+              Saleh Store was born from a simple idea: make online shopping smarter, easier, and more rewarding. 
               We know how overwhelming it can be to find genuine deals among millions of products on eBay.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              That&apos;s why we created DealsHub - a curated platform that brings you the best deals across electronics, 
+              That&apos;s why we created Saleh Store - a curated platform that brings you the best deals across electronics, 
               gaming, fashion, home goods, and more. We do the hard work of finding, verifying, and organizing the 
               best offers so you don&apos;t have to.
             </p>
@@ -103,7 +103,7 @@ export default function AboutPage() {
         {/* Why Choose Us */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-            Why Choose DealsHub?
+            Why Choose Saleh Store?
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="flex gap-4">
@@ -206,7 +206,7 @@ export default function AboutPage() {
         <section className="text-center bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-12 text-white">
           <h2 className="text-3xl font-bold mb-4">Ready to Start Saving?</h2>
           <p className="text-lg mb-8 opacity-90">
-            Join thousands of smart shoppers who trust DealsHub for the best eBay deals
+            Join thousands of smart shoppers who trust Saleh Store for the best eBay deals
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
