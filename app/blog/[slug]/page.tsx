@@ -5,7 +5,7 @@ import { blogArticles, BlogArticle } from '../../../lib/blog-data';
 import SocialShare from '../../../components/SocialShare';
 import Footer from '../../../components/Footer';
 import { absoluteUrl } from '../../../lib/site';
-import { generateArticleSchema, SchemaScript } from '../../../lib/schema';
+import { generateArticleSchema, generateBreadcrumbSchema, SchemaScript } from '../../../lib/schema';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -78,6 +78,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const relatedPosts = blogArticles
     .filter(p => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
+  const fallbackRelatedPosts = blogArticles
+    .filter(p => p.slug !== post.slug && !relatedPosts.some(r => r.slug === p.slug))
+    .slice(0, Math.max(0, 3 - relatedPosts.length));
+  const allRelatedPosts = [...relatedPosts, ...fallbackRelatedPosts].slice(0, 3);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: 'Blog', url: absoluteUrl('/blog') },
+    { name: post.title, url: postUrl },
+  ]);
 
   // Convert content array to HTML string
   const contentHtml = post.content.map((block) => {
@@ -98,7 +107,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <>
       <SchemaScript schema={articleSchema} />
+      <SchemaScript schema={breadcrumbSchema} />
       <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Breadcrumb Navigation */}
+      <nav aria-label="Breadcrumb" className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="max-w-4xl mx-auto px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
+          <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400">Home</Link>
+          <span className="mx-2">/</span>
+          <Link href="/blog" className="hover:text-blue-600 dark:hover:text-blue-400">Blog</Link>
+          <span className="mx-2">/</span>
+          <span className="text-gray-900 dark:text-gray-200" aria-current="page">{post.title}</span>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <div className="relative py-16 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
         <div className="max-w-4xl mx-auto px-4">
@@ -180,6 +201,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 
+        {/* Internal Linking */}
+        <section className="mt-12 p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700" aria-labelledby="continue-reading">
+          <h2 id="continue-reading" className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Continue Your Research</h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-5">Keep researching before you buy. These related Saleh Store guides cover the same topic or adjacent buying decisions.</p>
+          <ul className="space-y-3">
+            {allRelatedPosts.map((relatedPost) => (
+              <li key={relatedPost.slug}>
+                <Link href={`/blog/${relatedPost.slug}`} className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+                  {relatedPost.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-5 pt-5 border-t border-gray-200 dark:border-gray-700">
+            <Link href="/blog" className="font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400">
+              Browse all Saleh Store shopping guides →
+            </Link>
+          </div>
+        </section>
+
         {/* Social Share - Bottom */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
           <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
@@ -214,13 +255,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </article>
 
       {/* Related Posts */}
-      {relatedPosts.length > 0 && (
+      {allRelatedPosts.length > 0 && (
         <section className="max-w-4xl mx-auto px-4 py-12">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
             Related Articles
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
-            {relatedPosts.map((relatedPost) => (
+            {allRelatedPosts.map((relatedPost) => (
               <Link
                 key={relatedPost.slug}
                 href={`/blog/${relatedPost.slug}`}

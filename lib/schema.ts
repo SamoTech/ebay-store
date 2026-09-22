@@ -67,15 +67,11 @@ export function generateOrganizationSchema(siteUrl: string): OrganizationSchema 
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'DealsHub',
+    name: 'Saleh Store',
     url: siteUrl,
-    logo: `${siteUrl}/logo.png`,
-    description: 'Your trusted source for the best deals from eBay. Find electronics, gaming, sneakers, smart home devices, and more at unbeatable prices.',
-    sameAs: [
-      'https://twitter.com/dealshub',
-      'https://facebook.com/dealshub',
-      'https://instagram.com/dealshub'
-    ]
+    logo: `${siteUrl}/icon-512x512.png`,
+    description: 'Product discovery and practical shopping guides focused on eBay listings, price comparison, and buyer research.',
+    sameAs: []
   };
 }
 
@@ -138,7 +134,7 @@ export function generateArticleSchema(article: {
 }): ArticleSchema {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     headline: article.title,
     description: article.description,
     image: article.image,
@@ -150,10 +146,10 @@ export function generateArticleSchema(article: {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'DealsHub',
+      name: 'Saleh Store',
       logo: {
         '@type': 'ImageObject',
-        url: `${article.siteUrl}/logo.png`
+        url: `${article.siteUrl}/icon-512x512.png`
       }
     }
   };
