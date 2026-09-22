@@ -25,6 +25,7 @@ export default function CookieConsent() {
     const previousActiveElement = document.activeElement as HTMLElement | null;
     const dialog = dialogRef.current;
     if (!dialog) return;
+    const opener = openerRef.current;
 
     const focusable = dialog.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
     focusable?.focus();
@@ -57,8 +58,8 @@ export default function CookieConsent() {
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      if (openerRef.current) {
-        openerRef.current.focus();
+      if (opener) {
+        opener.focus();
       } else {
         previousActiveElement?.focus();
       }
