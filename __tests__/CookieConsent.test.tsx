@@ -49,4 +49,45 @@ describe('CookieConsent', () => {
 
     expect(affiliate).not.toBeChecked();
   });
+
+  it('closes preferences with Escape and restores focus to the settings button', () => {
+    window.localStorage.setItem(
+      'saleh_cookie_consent_v1',
+      JSON.stringify({ analytics: true, affiliate: false }),
+    );
+
+    render(<CookieConsent />);
+
+    const settings = screen.getByRole('button', { name: 'Open cookie preferences' });
+    fireEvent.click(settings);
+
+    expect(screen.getByRole('dialog', { name: 'Cookie preferences' })).toBeInTheDocument();
+
+    fireEvent.keyDown(document, { key: 'Escape' });
+
+    expect(screen.queryByRole('dialog', { name: 'Cookie preferences' })).not.toBeInTheDocument();
+    expect(document.activeElement).toHaveAttribute('aria-label', 'Open cookie preferences');
+  });
+
+  it('keeps keyboard focus inside the preferences dialog', () => {
+    window.localStorage.setItem(
+      'saleh_cookie_consent_v1',
+      JSON.stringify({ analytics: true, affiliate: false }),
+    );
+
+    render(<CookieConsent />);
+
+    const settings = screen.getByRole('button', { name: 'Open cookie preferences' });
+    fireEvent.click(settings);
+
+    const dialog = screen.getByRole('dialog', { name: 'Cookie preferences' });
+    const save = screen.getByRole('button', { name: 'Save Preferences' });
+
+    save.focus();
+    fireEvent.keyDown(document, { key: 'Tab' });
+
+    expect(document.activeElement).toBe(
+      dialog.querySelector('input[type="checkbox"]:not([disabled])'),
+    );
+  });
 });
