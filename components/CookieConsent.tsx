@@ -61,10 +61,10 @@ export default function CookieConsent() {
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      if (opener) {
-        opener.focus();
+      if (previousActiveElement && document.contains(previousActiveElement)) {
+        previousActiveElement.focus();
       } else {
-        previousActiveElement?.focus();
+        opener?.focus();
       }
     };
   }, [open]);
