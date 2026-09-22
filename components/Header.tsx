@@ -18,7 +18,7 @@ export default function Header() {
         {/* Top Row: Logo + Navigation + Icons */}
         <div className="flex justify-between items-center py-4">
           <Link href="/" className="text-xl font-bold text-blue-600 dark:text-blue-400 whitespace-nowrap">
-            🛍️ DealsHub
+            🛍️ Saleh Store
           </Link>
           
           {/* Desktop Navigation */}
