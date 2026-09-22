@@ -78,23 +78,31 @@ async function runReport(accessToken: string, propertyId: string, realtime = fal
 export async function GET() {
   const propertyId = process.env.GA4_PROPERTY_ID;
   const credentials = process.env.GA4_SERVICE_ACCOUNT_JSON;
+  const propertyIdPresent = Boolean(propertyId);
+  const serviceAccountPresent = Boolean(credentials);
 
-  if (!propertyId || !credentials) {
-    return NextResponse.json({ configured: false }, { status: 503 });
+  if (!propertyIdPresent || !serviceAccountPresent) {
+    return NextResponse.json(
+      { configured: false, propertyIdPresent, serviceAccountPresent },
+      { status: 503 },
+    );
   }
 
-  if (!/^\d+$/.test(propertyId)) {
-    return NextResponse.json({ configured: false, error: 'Invalid GA4 property ID' }, { status: 500 });
+  if (!/^\d+$/.test(propertyId!)) {
+    return NextResponse.json(
+      { configured: false, propertyIdPresent: true, serviceAccountPresent: true, error: 'Invalid GA4 property ID' },
+      { status: 500 },
+    );
   }
 
   try {
-    const account = JSON.parse(credentials) as ServiceAccount;
+    const account = JSON.parse(credentials!) as ServiceAccount;
     if (!account.client_email || !account.private_key) throw new Error('Invalid service account');
 
     const accessToken = await getAccessToken(account);
     const [visitors, activeNow] = await Promise.all([
-      runReport(accessToken, propertyId),
-      runReport(accessToken, propertyId, true),
+      runReport(accessToken, propertyId!),
+      runReport(accessToken, propertyId!, true),
     ]);
 
     return NextResponse.json(
@@ -102,6 +110,9 @@ export async function GET() {
       { headers: { 'cache-control': 'public, s-maxage=300, stale-while-revalidate=600' } },
     );
   } catch {
-    return NextResponse.json({ configured: false }, { status: 502 });
+    return NextResponse.json(
+      { configured: false, propertyIdPresent: true, serviceAccountPresent: true },
+      { status: 502 },
+    );
   }
 }
