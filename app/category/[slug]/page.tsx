@@ -7,7 +7,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const categoryName = slug.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
   return {
     title: `${categoryName} Deals`,
-    description: `Browse the best ${categoryName.toLowerCase()} deals and products on DealsHub.`,
+    description: `Browse the best ${categoryName.toLowerCase()} deals and products on Saleh Store.`,
     alternates: { canonical: absoluteUrl(`/category/${slug}`) },
   };
 }

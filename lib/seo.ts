@@ -36,7 +36,7 @@ export function generateMetaTags(config: SEOConfig) {
       description,
       type: ogType,
       images: [{ url: absoluteUrl(ogImage) }],
-      siteName: 'DealsHub'
+      siteName: 'Saleh Store'
     },
     twitter: {
       card: twitterCard,
@@ -50,32 +50,32 @@ export function generateMetaTags(config: SEOConfig) {
 // Category-specific SEO
 export const categorySEO: Record<string, SEOConfig> = {
   electronics: {
-    title: 'Best Electronics Deals on eBay 2026 | DealsHub',
+    title: 'Best Electronics Deals on eBay 2026 | Saleh Store',
     description: 'Find the best deals on laptops, smartphones, tablets, and electronics on eBay. Curated selection from top-rated sellers with buyer protection.',
     keywords: ['electronics deals', 'eBay electronics', 'cheap laptops', 'smartphone deals', 'tech deals 2026']
   },
   gaming: {
-    title: 'Gaming Deals: Consoles, Games & Accessories | DealsHub',
+    title: 'Gaming Deals: Consoles, Games & Accessories | Saleh Store',
     description: 'Shop the latest gaming consoles, video games, and accessories on eBay. PS5, Xbox Series X, Nintendo Switch deals updated daily.',
     keywords: ['gaming deals', 'PS5 deals', 'Xbox deals', 'Nintendo Switch', 'cheap video games']
   },
   sneakers: {
-    title: 'Authentic Sneaker Deals | Nike, Jordan, Adidas | DealsHub',
+    title: 'Authentic Sneaker Deals | Nike, Jordan, Adidas | Saleh Store',
     description: 'Find authentic Nike, Air Jordan, and Adidas sneakers on eBay. Verified sellers, competitive prices, and buyer protection guaranteed.',
     keywords: ['sneaker deals', 'Nike sneakers', 'Air Jordan', 'Adidas', 'authentic sneakers']
   },
   'smart-home': {
-    title: 'Smart Home Devices & Deals | Alexa, Google Home | DealsHub',
+    title: 'Smart Home Devices & Deals | Alexa, Google Home | Saleh Store',
     description: 'Transform your home with smart devices from eBay. Amazon Alexa, Google Home, smart lights, thermostats, and security systems.',
     keywords: ['smart home deals', 'Alexa deals', 'Google Home', 'smart lights', 'home automation']
   },
   fashion: {
-    title: 'Fashion Deals: Clothing, Accessories & More | DealsHub',
+    title: 'Fashion Deals: Clothing, Accessories & More | Saleh Store',
     description: 'Discover fashion deals on eBay. Designer clothes, handbags, watches, and accessories from top brands at discounted prices.',
     keywords: ['fashion deals', 'designer clothes', 'handbags', 'watches', 'accessories deals']
   },
   collectibles: {
-    title: 'Collectibles & Memorabilia Deals | DealsHub',
+    title: 'Collectibles & Memorabilia Deals | Saleh Store',
     description: 'Find rare collectibles, trading cards, coins, and memorabilia on eBay. Authenticated items from trusted sellers.',
     keywords: ['collectibles', 'trading cards', 'rare coins', 'memorabilia', 'vintage items']
   }
@@ -89,7 +89,7 @@ export function generateBlogSEO(post: {
   slug: string;
 }) {
   return generateMetaTags({
-    title: `${post.title} | DealsHub Blog`,
+    title: `${post.title} | Saleh Store Blog`,
     description: post.excerpt,
     keywords: post.keywords,
     ogType: 'article',

@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import { absoluteUrl } from '../../lib/site';
 
 export const metadata: Metadata = {
-  title: 'Contact Us - DealsHub',
-  description: 'Get in touch with DealsHub. We\'re here to help with any questions about deals, products, or our service.',
+  title: 'Contact Us - Saleh Store',
+  description: 'Get in touch with Saleh Store. We\'re here to help with any questions about deals, products, or our service.',
   alternates: {
     canonical: absoluteUrl('/contact'),
   },
