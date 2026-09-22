@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { allProducts, createSearchLink } from '../lib/products';
+import { allProducts, categories, createSearchLink } from '../lib/products';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { useRecentlyViewed } from '../contexts/RecentlyViewedContext';
 import { useToast } from '../contexts/ToastContext';
@@ -65,6 +65,11 @@ export default function ProductPageClient({ productId }: { productId: number }) 
     ? Math.round((1 - product.price / product.originalPrice) * 100) 
     : 0;
 
+  const categorySlug = product
+    ? categories.find((category) => category.name === product.category)?.slug
+      ?? product.category.toLowerCase().replace(/\s+/g, '-')
+    : '';
+
   const relatedProducts = allProducts
     .filter(p => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
@@ -99,7 +104,7 @@ export default function ProductPageClient({ productId }: { productId: number }) 
         <ol className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
           <li><Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400">Home</Link></li>
           <li>/</li>
-          <li><Link href={`/category/${product.category.toLowerCase().replace(' ', '-')}`} className="hover:text-blue-600 dark:hover:text-blue-400">{product.category}</Link></li>
+          <li><Link href={`/category/${categorySlug}`} className="hover:text-blue-600 dark:hover:text-blue-400">{product.category}</Link></li>
           <li>/</li>
           <li className="text-gray-800 dark:text-white truncate max-w-[200px]">{product.title}</li>
         </ol>
