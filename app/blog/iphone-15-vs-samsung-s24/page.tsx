@@ -30,7 +30,7 @@ const schema = generateArticleSchema({
   description: 'Expert comparison of flagship smartphones',
   image: 'https://www.saleh-store.com/blog/phone-comparison.jpg',
   publishedAt: '2026-02-16T00:00:00Z',
-  author: 'DealsHub Editorial',
+  author: 'Saleh Store Editorial',
   siteUrl: 'https://www.saleh-store.com'
 });
 
