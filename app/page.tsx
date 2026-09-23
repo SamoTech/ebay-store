@@ -14,6 +14,18 @@ import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+function getBlackFridayCountdown() {
+  const now = new Date();
+  const blackFriday = new Date(2026, 10, 27, 0, 0, 0);
+  const totalSeconds = Math.max(0, Math.floor((blackFriday.getTime() - now.getTime()) / 1000));
+  return {
+    days: Math.floor(totalSeconds / 86400),
+    hours: Math.floor((totalSeconds % 86400) / 3600),
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60,
+  };
+}
+
 export default function Home() {
   const [showAllProducts, setShowAllProducts] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +36,13 @@ export default function Home() {
   const [catalogSource, setCatalogSource] = useState<'static' | 'ebay_live' | 'error'>('static');
   const [mostWanted, setMostWanted] = useState<Product[]>(featuredProducts.slice(0, 8));
   const [mostWantedSource, setMostWantedSource] = useState<'static' | 'ebay_live'>('static');
+  const [blackFridayTime, setBlackFridayTime] = useState(() => getBlackFridayCountdown());
   const { addToast } = useToast();
+
+  useEffect(() => {
+    const timer = setInterval(() => setBlackFridayTime(getBlackFridayCountdown()), 1000);
+    return () => clearInterval(timer);
+  }, []);
   const { recentlyViewed } = useRecentlyViewed();
   const pathname = usePathname();
 
@@ -174,6 +192,31 @@ export default function Home() {
       </section>
 
       <TrustBadges />
+\n      <section className="max-w-6xl mx-auto px-4 py-6" aria-labelledby="black-friday-heading">
+        <div className="rounded-3xl bg-black text-white px-5 py-6 md:px-8 md:py-7 shadow-xl border border-gray-800">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-gray-200">Black Friday 2026</span>
+              <h2 id="black-friday-heading" className="mt-2 text-2xl md:text-3xl font-black">The countdown is on</h2>
+              <p className="mt-1 text-sm text-gray-400">Black Friday is November 27, 2026. Discover products worth watching before the sale rush.</p>
+            </div>
+            <div className="grid grid-cols-4 gap-2 md:gap-3" aria-live="polite" aria-label="Black Friday countdown">
+              {[
+                ['Days', blackFridayTime.days],
+                ['Hours', blackFridayTime.hours],
+                ['Minutes', blackFridayTime.minutes],
+                ['Seconds', blackFridayTime.seconds],
+              ].map(([label, value]) => (
+                <div key={label} className="min-w-[64px] rounded-xl bg-white/10 px-3 py-3 text-center">
+                  <div className="text-xl md:text-2xl font-black tabular-nums">{String(value).padStart(2, '0')}</div>
+                  <div className="mt-1 text-[10px] uppercase tracking-wide text-gray-400">{label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
 
 
       {catalogSource === 'ebay_live' && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="inline-flex items-center gap-2 rounded-full bg-green-100 text-green-700 px-4 py-1 text-sm font-medium dark:bg-green-900/30 dark:text-green-300">● Live eBay catalog active</div></section>)}
