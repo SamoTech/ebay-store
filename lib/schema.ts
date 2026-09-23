@@ -1,17 +1,17 @@
 /**
  * Schema.org Structured Data for SEO
- * 
- * Provides JSON-LD schema markup for:
- * - Products (rich snippets)
- * - Organization (brand identity)
- * - Breadcrumbs (navigation)
- * - Articles (blog posts)
+ *
+ * Provides JSON-LD schema markup for products, organization,
+ * breadcrumbs, and blog posts.
  */
 
 import React from 'react';
 import { Product } from './products';
+import {
+  generateBlogPostStructuredData,
+  generateProductStructuredData,
+} from './seo/structured-data';
 
-// Product Schema for rich snippets in Google Search
 export interface ProductSchema {
   '@context': string;
   '@type': string;
@@ -32,27 +32,33 @@ export interface ProductSchema {
 }
 
 export function generateProductSchema(product: Product): ProductSchema {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
+  const schema = generateProductStructuredData({
     name: product.title,
-    image: product.image,
     description: product.description,
+    image: product.image,
+    price: product.price,
+    currency: product.currency || 'USD',
+    url: product.affiliateLink,
+    availability: 'InStock',
+  });
+
+  return {
+    '@context': schema['@context'],
+    '@type': schema['@type'],
+    name: schema.name,
+    image: schema.image,
+    description: schema.description,
     offers: {
-      '@type': 'Offer',
-      price: product.price.toString(),
-      priceCurrency: 'USD',
-      availability: 'https://schema.org/InStock',
-      url: product.affiliateLink,
-      seller: {
-        '@type': 'Organization',
-        name: 'eBay'
-      }
-    }
+      '@type': schema.offers['@type'],
+      price: String(schema.offers.price),
+      priceCurrency: schema.offers.priceCurrency,
+      availability: schema.offers.availability,
+      url: schema.offers.url,
+      seller: schema.offers.seller,
+    },
   };
 }
 
-// Organization Schema for brand identity
 export interface OrganizationSchema {
   '@context': string;
   '@type': string;
@@ -60,7 +66,6 @@ export interface OrganizationSchema {
   url: string;
   logo: string;
   description: string;
-  sameAs: string[];
 }
 
 export function generateOrganizationSchema(siteUrl: string): OrganizationSchema {
@@ -70,12 +75,11 @@ export function generateOrganizationSchema(siteUrl: string): OrganizationSchema 
     name: 'Saleh Store',
     url: siteUrl,
     logo: `${siteUrl}/icon-512x512.png`,
-    description: 'Product discovery and practical shopping guides focused on eBay listings, price comparison, and buyer research.',
-    sameAs: []
+    description:
+      'Product discovery and practical shopping guides focused on eBay listings, price comparison, and buyer research.',
   };
 }
 
-// Breadcrumb Schema for navigation
 export interface BreadcrumbSchema {
   '@context': string;
   '@type': string;
@@ -87,7 +91,9 @@ export interface BreadcrumbSchema {
   }>;
 }
 
-export function generateBreadcrumbSchema(items: Array<{ name: string; url?: string }>): BreadcrumbSchema {
+export function generateBreadcrumbSchema(
+  items: Array<{ name: string; url?: string }>
+): BreadcrumbSchema {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -95,34 +101,16 @@ export function generateBreadcrumbSchema(items: Array<{ name: string; url?: stri
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      ...(item.url && { item: item.url })
-    }))
+      ...(item.url && { item: item.url }),
+    })),
   };
 }
 
-// Article Schema for blog posts
-export interface ArticleSchema {
-  '@context': string;
-  '@type': string;
-  headline: string;
-  description: string;
-  image: string;
-  datePublished: string;
-  dateModified: string;
-  author: {
-    '@type': string;
-    name: string;
-  };
-  publisher: {
-    '@type': string;
-    name: string;
-    logo: {
-      '@type': string;
-      url: string;
-    };
-  };
-}
-
+/**
+ * Backward-compatible article schema wrapper.
+ * New blog pages should provide their canonical URL to the centralized
+ * generator directly through the optional url property.
+ */
 export function generateArticleSchema(article: {
   title: string;
   description: string;
@@ -131,37 +119,25 @@ export function generateArticleSchema(article: {
   modifiedAt?: string;
   author: string;
   siteUrl: string;
-}): ArticleSchema {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: article.title,
+  url?: string;
+}) {
+  return generateBlogPostStructuredData({
+    title: article.title,
     description: article.description,
-    image: article.image,
+    author: article.author,
     datePublished: article.publishedAt,
-    dateModified: article.modifiedAt || article.publishedAt,
-    author: {
-      '@type': 'Person',
-      name: article.author
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Saleh Store',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${article.siteUrl}/icon-512x512.png`
-      }
-    }
-  };
+    dateModified: article.modifiedAt,
+    image: article.image,
+    url: article.url,
+  });
 }
 
 /**
- * Helper to inject schema into page
- * Uses React.createElement to avoid JSX parsing issues with Turbopack
+ * Helper to inject schema into page.
  */
 export function SchemaScript({ schema }: { schema: object }) {
   return React.createElement('script', {
     type: 'application/ld+json',
-    dangerouslySetInnerHTML: { __html: JSON.stringify(schema) }
+    dangerouslySetInnerHTML: { __html: JSON.stringify(schema) },
   });
 }

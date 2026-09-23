@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'About Us - Saleh Store',
-  description: 'Learn about Saleh Store, your trusted source for the best eBay deals. Discover our mission, how we work, and why thousands trust us for their online shopping needs.',
+  description: 'Learn about Saleh Store, a product-discovery site focused on eBay listings, shopping research, and practical buying guides.',
   alternates: {
     canonical: absoluteUrl('/about'),
   },
@@ -20,7 +20,7 @@ export default function AboutPage() {
             About Saleh Store
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Your trusted partner in finding the best deals on eBay
+            A product-discovery site for researching eBay listings
           </p>
         </div>
 
@@ -35,12 +35,11 @@ export default function AboutPage() {
               We know how overwhelming it can be to find genuine deals among millions of products on eBay.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              That&apos;s why we created Saleh Store - a curated platform that brings you the best deals across electronics, 
-              gaming, fashion, home goods, and more. We do the hard work of finding, verifying, and organizing the 
-              best offers so you don&apos;t have to.
+              That&apos;s why we created Saleh Store - a curated platform that organizes product listings and practical buying information across electronics, 
+              gaming, fashion, home goods, and more. We focus on making comparison and research easier.
             </p>
             <p className="text-gray-700 dark:text-gray-300">
-              Since our launch, we&apos;ve helped thousands of shoppers save money and discover amazing products they love.
+              We aim to help shoppers compare products, prices, seller information, and purchase terms before they buy.
             </p>
           </div>
         </section>
@@ -70,7 +69,7 @@ export default function AboutPage() {
                 We Search
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Our team scours eBay daily to find the hottest deals and trending products
+                We monitor product listings and shopping topics to identify useful items and buying guides
               </p>
             </div>
 
@@ -82,7 +81,7 @@ export default function AboutPage() {
                 We Verify
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Every deal is checked for authenticity, seller reputation, and real value
+                Listings are presented with available product and seller information; buyers should verify current details on eBay
               </p>
             </div>
 
@@ -94,7 +93,7 @@ export default function AboutPage() {
                 You Save
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Browse our curated collection and shop with confidence knowing you&apos;re getting the best deals
+                Browse the collection and review the listing details before purchasing
               </p>
             </div>
           </div>
@@ -125,8 +124,8 @@ export default function AboutPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Updated Daily</h3>
-                <p className="text-gray-600 dark:text-gray-400">Fresh deals added every single day</p>
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Regular Updates</h3>
+                <p className="text-gray-600 dark:text-gray-400">Product listings and guides are updated as the site changes</p>
               </div>
             </div>
 
@@ -138,7 +137,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Trusted Sellers</h3>
-                <p className="text-gray-600 dark:text-gray-400">We only feature reputable eBay sellers</p>
+                <p className="text-gray-600 dark:text-gray-400">Seller information is available so buyers can review the listing before purchase</p>
               </div>
             </div>
 
@@ -162,7 +161,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Easy to Use</h3>
-                <p className="text-gray-600 dark:text-gray-400">Simple interface, powerful search, fast checkout</p>
+                <p className="text-gray-600 dark:text-gray-400">Simple interface, product search, and direct eBay checkout</p>
               </div>
             </div>
 
@@ -184,8 +183,8 @@ export default function AboutPage() {
         <section className="mb-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">62+</div>
-              <div className="text-gray-600 dark:text-gray-400">Active Deals</div>
+              <div className="text-4xl font-bold text-blue-600 mb-2">Product listings</div>
+              <div className="text-gray-600 dark:text-gray-400">Catalog</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-blue-600 mb-2">6</div>
@@ -193,7 +192,7 @@ export default function AboutPage() {
             </div>
             <div>
               <div className="text-4xl font-bold text-blue-600 mb-2">Daily</div>
-              <div className="text-gray-600 dark:text-gray-400">Updates</div>
+              <div className="text-gray-600 dark:text-gray-400">Content updates</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-blue-600 mb-2">100%</div>
@@ -206,7 +205,7 @@ export default function AboutPage() {
         <section className="text-center bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-12 text-white">
           <h2 className="text-3xl font-bold mb-4">Ready to Start Saving?</h2>
           <p className="text-lg mb-8 opacity-90">
-            Join thousands of smart shoppers who trust Saleh Store for the best eBay deals
+            Compare current listings and read our buying guides before you purchase
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

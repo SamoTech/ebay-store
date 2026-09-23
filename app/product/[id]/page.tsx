@@ -88,7 +88,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     image: absoluteUrl(product.image),
     price: product.price,
     currency: product.currency || 'USD',
-    url: productUrl,
+    url: product.affiliateLink,
     availability: 'InStock',
   });
 
