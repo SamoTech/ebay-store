@@ -17,7 +17,6 @@ export default function FooterVisitorStats() {
     if (typeof window.fetch !== 'function') return;
 
     let cancelled = false;
-    let intervalId: ReturnType<typeof setInterval> | undefined;
 
     const loadStats = async () => {
       try {
@@ -42,13 +41,13 @@ export default function FooterVisitorStats() {
     };
 
     void loadStats();
-    intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {
       void loadStats();
     }, REFRESH_INTERVAL_MS);
 
     return () => {
       cancelled = true;
-      if (intervalId) clearInterval(intervalId);
+      clearInterval(intervalId);
     };
   }, []);
 
