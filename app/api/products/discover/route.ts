@@ -34,10 +34,23 @@ export async function GET(request: NextRequest) {
   const status = getEbayIntegrationStatus();
   if (status.mode !== 'disabled') {
     const keyword = DAILY_KEYWORDS[new Date().getDay()];
-    const products = await searchEbayProducts(keyword, 20);
-    if (products.length > 0) {
-      productCache = { products, expiresAt: now + 10 * 60 * 1000 };
-      return NextResponse.json({ products, source: 'ebay_live', total: products.length, keyword });
+
+    try {
+      const products = await searchEbayProducts(keyword, 20);
+
+      if (products.length > 0) {
+        productCache = { products, expiresAt: now + 10 * 60 * 1000 };
+        return NextResponse.json({ products, source: 'ebay_live', total: products.length, keyword });
+      }
+
+      console.warn('[products/discover] eBay returned no products; serving static fallback', {
+        keyword,
+      });
+    } catch (error) {
+      console.error('[products/discover] eBay request failed; serving static fallback', {
+        keyword,
+        error: error instanceof Error ? error.message : String(error),
+      });
     }
   }
 
