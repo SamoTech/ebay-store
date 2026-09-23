@@ -33,23 +33,30 @@ export interface ProductSchema {
 }
 
 export function generateProductSchema(product: Product): ProductSchema {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
+  const schema = generateProductStructuredData({
     name: product.title,
-    image: product.image,
     description: product.description,
+    image: product.image,
+    price: product.price,
+    currency: product.currency || 'USD',
+    url: product.affiliateLink,
+    availability: 'InStock',
+  });
+
+  return {
+    '@context': schema['@context'],
+    '@type': schema['@type'],
+    name: schema.name,
+    image: schema.image,
+    description: schema.description,
     offers: {
-      '@type': 'Offer',
-      price: product.price.toString(),
-      priceCurrency: product.currency || 'USD',
-      availability: 'https://schema.org/InStock',
-      url: product.affiliateLink,
-      seller: {
-        '@type': 'Organization',
-        name: 'eBay'
-      }
-    }
+      '@type': schema.offers['@type'],
+      price: String(schema.offers.price),
+      priceCurrency: schema.offers.priceCurrency,
+      availability: schema.offers.availability,
+      url: schema.offers.url,
+      seller: schema.offers.seller,
+    },
   };
 }
 
