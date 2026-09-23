@@ -2,8 +2,6 @@
  * @jest-environment node
  */
 
-import { NextRequest } from 'next/server';
-
 jest.mock('node:crypto', () => ({
   createSign: () => ({
     update: jest.fn(),
