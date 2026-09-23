@@ -74,6 +74,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     publishedAt: new Date(post.date).toISOString(),
     author: post.author,
     siteUrl: absoluteUrl(''),
+    url: postUrl,
   });
   const relatedPosts = blogArticles
     .filter(p => p.category === post.category && p.slug !== post.slug)
