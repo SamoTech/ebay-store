@@ -10,6 +10,7 @@
 
 import React from 'react';
 import { Product } from './products';
+import { generateProductStructuredData } from './seo/structured-data';
 
 // Product Schema for rich snippets in Google Search
 export interface ProductSchema {
@@ -41,7 +42,7 @@ export function generateProductSchema(product: Product): ProductSchema {
     offers: {
       '@type': 'Offer',
       price: product.price.toString(),
-      priceCurrency: 'USD',
+      priceCurrency: product.currency || 'USD',
       availability: 'https://schema.org/InStock',
       url: product.affiliateLink,
       seller: {
@@ -71,7 +72,7 @@ export function generateOrganizationSchema(siteUrl: string): OrganizationSchema 
     url: siteUrl,
     logo: `${siteUrl}/icon-512x512.png`,
     description: 'Product discovery and practical shopping guides focused on eBay listings, price comparison, and buyer research.',
-    sameAs: []
+    
   };
 }
 
