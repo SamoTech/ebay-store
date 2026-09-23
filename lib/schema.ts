@@ -10,7 +10,10 @@
 
 import React from 'react';
 import { Product } from './products';
-import { generateProductStructuredData } from './seo/structured-data';
+import {
+  generateBlogPostStructuredData,
+  generateProductStructuredData,
+} from './seo/structured-data';
 
 // Product Schema for rich snippets in Google Search
 export interface ProductSchema {
@@ -139,28 +142,16 @@ export function generateArticleSchema(article: {
   modifiedAt?: string;
   author: string;
   siteUrl: string;
-}): ArticleSchema {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: article.title,
+}) {
+  return generateBlogPostStructuredData({
+    title: article.title,
     description: article.description,
-    image: article.image,
+    author: article.author,
     datePublished: article.publishedAt,
-    dateModified: article.modifiedAt || article.publishedAt,
-    author: {
-      '@type': 'Person',
-      name: article.author
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Saleh Store',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${article.siteUrl}/icon-512x512.png`
-      }
-    }
-  };
+    dateModified: article.modifiedAt,
+    image: article.image,
+    url: `${article.siteUrl}/blog`,
+  });
 }
 
 /**
