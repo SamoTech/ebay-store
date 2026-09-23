@@ -179,13 +179,20 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 px-4">
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#0064d2] via-[#0054ad] to-[#003f7f] text-white py-14 md:py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">🛍️ Saleh Store - eBay Deals & Product Discovery</h1>
-          <p className="text-xl text-blue-100 mb-6">Discover amazing deals on electronics, gaming, sneakers and more from eBay</p>
+          <div className="mb-5 flex justify-center" aria-hidden="true">
+            <div className="flex items-center gap-1 rounded-full bg-white/10 px-4 py-2 text-sm font-bold backdrop-blur-sm">
+              <span className="text-[#e53238]">e</span><span className="text-white">Bay</span>
+              <span className="mx-1 text-white/50">×</span>
+              <span className="text-white">Saleh Store</span>
+            </div>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4">Find products worth buying.</h1>
+          <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto mb-7">Discover popular products, compare prices, and jump directly to eBay listings across electronics, gaming, sneakers and more.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link href="#products" className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg">Browse Products</Link>
-            <Link href="/blog" className="bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-400 transition-colors">Shopping Guides</Link>
+            <Link href="#products" className="bg-white text-[#0064d2] px-8 py-3.5 rounded-xl font-bold hover:bg-gray-50 transition-colors shadow-lg">Browse Products</Link>
+            <Link href="/blog" className="bg-[#f5af02] text-gray-950 px-8 py-3.5 rounded-xl font-bold hover:bg-[#ffc52f] transition-colors shadow-lg">Shopping Guides</Link>
           </div>
           <p className="text-sm text-blue-200 mt-4">🔍 Use <Link href="/search" className="underline hover:text-white">advanced search</Link> to filter by price, condition and category</p>
         </div>
