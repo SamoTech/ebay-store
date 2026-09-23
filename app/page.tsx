@@ -8,11 +8,23 @@ import Footer from '@/components/Footer';
 import DealOfTheDay from '@/components/DealOfTheDay';
 import TrustBadges from '@/components/TrustBadges';
 import { useToast } from '@/contexts/ToastContext';
-import { allProducts, categories, createSearchLink, Product } from '@/lib/products';
+import { allProducts, categories, createSearchLink, featuredProducts, Product } from '@/lib/products';
 import { formatPrice } from '@/lib/utils/price';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+function getBlackFridayCountdown() {
+  const now = new Date();
+  const blackFriday = new Date(2026, 10, 27, 0, 0, 0);
+  const totalSeconds = Math.max(0, Math.floor((blackFriday.getTime() - now.getTime()) / 1000));
+  return {
+    days: Math.floor(totalSeconds / 86400),
+    hours: Math.floor((totalSeconds % 86400) / 3600),
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60,
+  };
+}
 
 export default function Home() {
   const [showAllProducts, setShowAllProducts] = useState(true);
@@ -22,7 +34,15 @@ export default function Home() {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
   const [catalog, setCatalog] = useState<Product[]>([]);
   const [catalogSource, setCatalogSource] = useState<'static' | 'ebay_live' | 'error'>('static');
+  const [mostWanted, setMostWanted] = useState<Product[]>(featuredProducts.slice(0, 8));
+  const [mostWantedSource, setMostWantedSource] = useState<'static' | 'ebay_live'>('static');
+  const [blackFridayTime, setBlackFridayTime] = useState(() => getBlackFridayCountdown());
   const { addToast } = useToast();
+
+  useEffect(() => {
+    const timer = setInterval(() => setBlackFridayTime(getBlackFridayCountdown()), 1000);
+    return () => clearInterval(timer);
+  }, []);
   const { recentlyViewed } = useRecentlyViewed();
   const pathname = usePathname();
 
@@ -111,6 +131,38 @@ export default function Home() {
     return () => { isMounted = false; };
   }, [addToast]);
 
+  // Load the dedicated eBay trending feed for the homepage spotlight.
+  // It has a static fallback so the homepage remains useful if eBay is unavailable.
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadMostWanted(): Promise<void> {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        const response = await fetch('/api/ebay/search?trending=true&limit=8', {
+          signal: controller.signal,
+          cache: 'no-store',
+        });
+        clearTimeout(timeoutId);
+
+        const data = await response.json() as { products?: Product[] };
+        if (!isMounted) return;
+
+        if (response.ok && data.products?.length) {
+          setMostWanted(data.products.slice(0, 8));
+          setMostWantedSource('ebay_live');
+          return;
+        }
+      } catch {
+        // Keep the curated static fallback; the main catalog is independent.
+      }
+    }
+
+    void loadMostWanted();
+    return () => { isMounted = false; };
+  }, []);
+
   // Filter and sort products
   let filteredProducts = catalog.filter(p => 
     p.price >= priceRange[0] && p.price <= priceRange[1]
@@ -140,11 +192,67 @@ export default function Home() {
       </section>
 
       <TrustBadges />
+\n      <section className="max-w-6xl mx-auto px-4 py-6" aria-labelledby="black-friday-heading">
+        <div className="rounded-3xl bg-black text-white px-5 py-6 md:px-8 md:py-7 shadow-xl border border-gray-800">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-gray-200">Black Friday 2026</span>
+              <h2 id="black-friday-heading" className="mt-2 text-2xl md:text-3xl font-black">The countdown is on</h2>
+              <p className="mt-1 text-sm text-gray-400">Black Friday is November 27, 2026. Discover products worth watching before the sale rush.</p>
+            </div>
+            <div className="grid grid-cols-4 gap-2 md:gap-3" aria-live="polite" aria-label="Black Friday countdown">
+              {[
+                ['Days', blackFridayTime.days],
+                ['Hours', blackFridayTime.hours],
+                ['Minutes', blackFridayTime.minutes],
+                ['Seconds', blackFridayTime.seconds],
+              ].map(([label, value]) => (
+                <div key={label} className="min-w-[64px] rounded-xl bg-white/10 px-3 py-3 text-center">
+                  <div className="text-xl md:text-2xl font-black tabular-nums">{String(value).padStart(2, '0')}</div>
+                  <div className="mt-1 text-[10px] uppercase tracking-wide text-gray-400">{label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
 
 
       {catalogSource === 'ebay_live' && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="inline-flex items-center gap-2 rounded-full bg-green-100 text-green-700 px-4 py-1 text-sm font-medium dark:bg-green-900/30 dark:text-green-300">● Live eBay catalog active</div></section>)}
 
       {apiError && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4"><div className="flex items-start gap-3"><div className="text-2xl">❌</div><div className="flex-1"><p className="font-bold text-red-800 dark:text-red-200 mb-2">Failed to Load Live Products</p><p className="text-sm text-red-700 dark:text-red-300 mb-3 whitespace-pre-wrap">{apiError}</p><div className="flex flex-col sm:flex-row gap-2"><a href="/api/health" target="_blank" className="text-sm bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors inline-block text-center">Check API Health</a><a href="https://github.com/SamoTech/ebay-store/issues/16" target="_blank" rel="noopener noreferrer" className="text-sm bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors inline-block text-center">View Troubleshooting Guide</a></div></div></div></div></section>)}
+
+      {/* Homepage merchandising spotlight: live eBay trending picks with a safe static fallback. */}
+      <section className="max-w-6xl mx-auto px-4 py-10" aria-labelledby="most-wanted-heading">
+        <div className="rounded-3xl bg-gradient-to-br from-slate-950 via-blue-950 to-blue-900 p-5 md:p-8 shadow-2xl overflow-hidden">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-100">
+                  {mostWantedSource === 'ebay_live' ? 'Live eBay picks' : 'Curated picks'}
+                </span>
+                <span className="text-lg" aria-hidden="true">🔥</span>
+              </div>
+              <h2 id="most-wanted-heading" className="text-3xl md:text-4xl font-black text-white">
+                Most Wanted
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm md:text-base text-blue-100/80">
+                High-interest products selected from eBay&apos;s trending feed, with a curated fallback when live data is unavailable.
+              </p>
+            </div>
+            <Link href="#products" className="shrink-0 inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-bold text-blue-900 hover:bg-blue-50 transition-colors">
+              Explore the full catalog →
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {mostWanted.slice(0, 8).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Category Navigation - Now with Links */}
       <section id="products" className="max-w-6xl mx-auto px-4 py-8">
