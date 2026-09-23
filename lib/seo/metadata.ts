@@ -101,6 +101,7 @@ export const siteMetadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml', sizes: 'any' },
       { url: '/favicon.ico', sizes: 'any' },
       { url: '/icon-192x192.png', type: 'image/png', sizes: '192x192' },
       { url: '/icon-512x512.png', type: 'image/png', sizes: '512x512' },
@@ -109,7 +110,7 @@ export const siteMetadata: Metadata = {
       { url: '/apple-icon.png', sizes: '180x180' },
       { url: '/icon-192x192.png', sizes: '192x192' },
     ],
-    shortcut: '/favicon.ico',
+    shortcut: '/favicon.svg',
   },
   manifest: '/manifest.json',
 }
