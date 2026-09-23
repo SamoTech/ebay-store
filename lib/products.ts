@@ -157,7 +157,7 @@ export const categories: Category[] = [
 
   // eBay's current broad marketplace taxonomy, kept as searchable landing pages.
   { id: 20, name: 'eBay Motors', icon: '🚘', slug: 'ebay-motors' },
-  { id: 21, name: 'Electronics', icon: '📱', slug: 'consumer-electronics' },
+  { id: 21, name: 'Consumer Electronics', icon: '📱', slug: 'consumer-electronics' },
   { id: 22, name: 'Collectibles & Art', icon: '🖼️', slug: 'collectibles-art' },
   { id: 23, name: 'Home & Garden', icon: '🏡', slug: 'home-garden' },
   { id: 24, name: 'Clothing, Shoes & Accessories', icon: '👗', slug: 'clothing-shoes-accessories' },
@@ -168,12 +168,10 @@ export const categories: Category[] = [
   { id: 29, name: 'Business & Industrial', icon: '🏭', slug: 'business-industrial' },
   { id: 30, name: 'Jewelry & Watches', icon: '💎', slug: 'jewelry-watches' },
   { id: 31, name: 'Baby Essentials', icon: '🍼', slug: 'baby-essentials' },
-  { id: 32, name: 'Pet Supplies', icon: '🐾', slug: 'pet-supplies-ebay' },
+  { id: 32, name: 'Pet Supplies & Accessories', icon: '🐾', slug: 'pet-supplies-ebay' },
   { id: 33, name: 'Tickets & Travel', icon: '✈️', slug: 'tickets-travel' },
   { id: 34, name: 'Everything Else', icon: '🧩', slug: 'everything-else' },
-  { id: 35, name: 'Real Estate', icon: '🏠', slug: 'real-estate' },
   { id: 36, name: 'Gift Cards & Coupons', icon: '🎁', slug: 'gift-cards-coupons' },
-  { id: 37, name: 'Specialty Services', icon: '🛠️', slug: 'specialty-services' },
 
   // High-volume searchable category hubs from eBay's marketplace taxonomy.
   { id: 40, name: 'Computers, Tablets & Networking', icon: '🖥️', slug: 'computers-tablets-networking' },
@@ -198,7 +196,7 @@ export const categories: Category[] = [
   { id: 59, name: 'Sports Mem, Cards & Fan Shop', icon: '🏆', slug: 'sports-mem-cards-fan-shop' },
   { id: 60, name: 'Books & Magazines', icon: '📖', slug: 'books-magazines' },
   { id: 61, name: 'Travel', icon: '🧳', slug: 'travel' },
-  { id: 62, name: 'Video Games', icon: '🕹️', slug: 'video-games' },
+  { id: 62, name: 'Video Game Accessories', icon: '🕹️', slug: 'video-game-accessories' },
 ];
 
 // Affiliate constants are re-exported at the top of this file.
