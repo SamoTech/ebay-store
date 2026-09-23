@@ -66,10 +66,10 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
   const linkRel = isApiProduct ? 'noopener noreferrer' : undefined;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
+    <article className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 overflow-hidden group flex flex-col">
       <div className="relative">
         <Link href={productLink} target={linkTarget} rel={linkRel} onClick={handleClick}>
-          <div className="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-700">
+          <div className="relative h-52 overflow-hidden bg-gray-50 dark:bg-gray-700">
             <Image
               src={product.image?.trim() ? product.image : FALLBACK_IMAGE}
               alt={product.title}
@@ -81,12 +81,12 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             />
             {discount > 0 && (
-              <span className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+              <span className="absolute top-2 right-2 bg-[#e53238] text-white text-xs px-2.5 py-1 rounded-full font-bold shadow-sm">
                 -{discount}%
               </span>
             )}
             {isApiProduct && (
-              <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+              <span className="absolute top-2 left-2 bg-[#86b817] text-white text-xs px-2.5 py-1 rounded-full font-bold shadow-sm">
                 LIVE
               </span>
             )}
@@ -110,7 +110,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
         </button>
       </div>
 
-      <div className="p-4 flex flex-col flex-1">
+      <div className="p-4 md:p-5 flex flex-col flex-1">
         <Link href={productLink} target={linkTarget} rel={linkRel} onClick={handleClick}>
           <span className="text-xs text-blue-600 dark:text-blue-400 font-semibold">
             {product.category}
@@ -136,7 +136,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
         )}
 
         <div className="flex items-baseline gap-2 mb-3 mt-auto">
-          <span className="text-xl font-bold text-green-600 dark:text-green-400">
+          <span className="text-xl font-extrabold text-[#0064d2] dark:text-blue-400">
             {formatPrice(product.price, product.currency)}
           </span>
           {product.originalPrice && (
@@ -150,7 +150,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
           {!isApiProduct && (
             <Link
               href={`/product/${product.id}`}
-              className="flex-1 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              className="flex-1 bg-[#0064d2] text-white text-center py-2.5 rounded-lg hover:bg-[#0054ad] transition-colors text-sm font-semibold"
             >
               View Details
             </Link>
@@ -160,7 +160,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'product_card', category: product.category, url: product.affiliateLink })}
-            className="flex-1 bg-green-600 text-white text-center py-2 rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+            className="flex-1 bg-[#86b817] text-white text-center py-2.5 rounded-lg hover:bg-[#719f12] transition-colors text-sm font-semibold"
           >
             {isApiProduct ? 'View on eBay' : 'Buy Now'}
           </a>
@@ -180,6 +180,6 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
           </button>
         )}
       </div>
-    </div>
+    </article>
   );
 }
