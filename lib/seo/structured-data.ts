@@ -192,7 +192,7 @@ export function generateBlogPostStructuredData(post: {
   datePublished: string
   dateModified?: string
   image: string
-  url: string
+  url?: string
 }) {
   return {
     '@context': 'https://schema.org',
@@ -214,9 +214,13 @@ export function generateBlogPostStructuredData(post: {
         url: absoluteUrl('/icon-512x512.png'),
       },
     },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': post.url,
-    },
+    ...(post.url
+      ? {
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': post.url,
+          },
+        }
+      : {}),
   }
 }
