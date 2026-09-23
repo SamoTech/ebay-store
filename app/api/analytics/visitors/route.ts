@@ -12,7 +12,6 @@ type ServiceAccount = {
 type GoogleApiError = {
   error?: {
     status?: string;
-    message?: string;
   };
 };
 
@@ -40,11 +39,11 @@ async function getAccessToken(account: ServiceAccount) {
     iat: now,
     exp: now + 3600,
   }));
-  const unsigned = `${header}.${payload}`;
+  const unsigned = header + '.' + payload;
   const signer = createSign('RSA-SHA256');
   signer.update(unsigned);
   signer.end();
-  const assertion = `${unsigned}.${signer.sign(account.private_key, 'base64url')}`;
+  const assertion = unsigned + '.' + signer.sign(account.private_key, 'base64url');
 
   const response = await fetch(account.token_uri || 'https://oauth2.googleapis.com/token', {
     method: 'POST',
@@ -72,8 +71,8 @@ async function getAccessToken(account: ServiceAccount) {
 
 async function runReport(accessToken: string, propertyId: string, realtime = false) {
   const endpoint = realtime
-    ? `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runRealtimeReport`
-    : `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`;
+    ? 'https://analyticsdata.googleapis.com/v1beta/properties/' + propertyId + ':runRealtimeReport'
+    : 'https://analyticsdata.googleapis.com/v1beta/properties/' + propertyId + ':runReport';
 
   const body = realtime
     ? { metrics: [{ name: 'activeUsers' }] }
@@ -85,7 +84,7 @@ async function runReport(accessToken: string, propertyId: string, realtime = fal
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: {
-      authorization: `Bearer ${accessToken}`,
+      authorization: 'Bearer ' + accessToken,
       'content-type': 'application/json',
     },
     body: JSON.stringify(body),
@@ -110,66 +109,53 @@ async function runReport(accessToken: string, propertyId: string, realtime = fal
 export async function GET() {
   const propertyId = process.env.GA4_PROPERTY_ID;
   const credentials = process.env.GA4_SERVICE_ACCOUNT_JSON;
-  const propertyIdPresent = Boolean(propertyId);
-  const serviceAccountPresent = Boolean(credentials);
 
-  if (!propertyIdPresent || !serviceAccountPresent) {
-    return NextResponse.json(
-      { configured: false, propertyIdPresent, serviceAccountPresent },
-      { status: 503 },
-    );
+  if (!propertyId || !credentials) {
+    return NextResponse.json({ configured: false }, { status: 503 });
   }
 
-  if (!/^\d+$/.test(propertyId!)) {
+  if (!/^\d+$/.test(propertyId)) {
     return NextResponse.json(
-      {
-        configured: false,
-        propertyIdPresent: true,
-        serviceAccountPresent: true,
-        error: 'Invalid GA4 property ID',
-      },
+      { configured: false, error: 'Invalid GA4 property ID' },
       { status: 500 },
     );
   }
 
   try {
-    const account = JSON.parse(credentials!) as ServiceAccount;
-    if (!account.client_email || !account.private_key) throw new Error('Invalid service account');
+    const account = JSON.parse(credentials) as ServiceAccount;
+    if (!account.client_email || !account.private_key) {
+      throw new Error('Invalid service account');
+    }
 
     const accessToken = await getAccessToken(account);
-    const [visitors, activeNow] = await Promise.all([
-      runReport(accessToken, propertyId!),
-      runReport(accessToken, propertyId!, true),
+
+    const [visitorsResult, activeNowResult] = await Promise.allSettled([
+      runReport(accessToken, propertyId),
+      runReport(accessToken, propertyId, true),
     ]);
 
-    return NextResponse.json(
-      { configured: true, visitors, activeNow },
-      { headers: { 'cache-control': 'public, s-maxage=300, stale-while-revalidate=600' } },
-    );
-  } catch (error) {
-    if (error instanceof GoogleRequestError) {
-      return NextResponse.json(
-        {
-          configured: false,
-          propertyIdPresent: true,
-          serviceAccountPresent: true,
-          googleStatus: error.statusCode,
-          googleReason: error.reason || 'UNKNOWN',
-        },
-        { status: 502 },
-      );
+    if (visitorsResult.status === 'rejected' && activeNowResult.status === 'rejected') {
+      throw visitorsResult.reason;
     }
+
+    const visitors =
+      visitorsResult.status === 'fulfilled' ? visitorsResult.value : undefined;
+    const activeNow =
+      activeNowResult.status === 'fulfilled' ? activeNowResult.value : undefined;
 
     return NextResponse.json(
       {
-        configured: false,
-        propertyIdPresent: true,
-        serviceAccountPresent: true,
-        error: error instanceof Error && error.message === 'Invalid service account'
-          ? 'Invalid service account'
-          : 'Google analytics request failed',
+        configured: true,
+        ...(visitors !== undefined ? { visitors } : {}),
+        ...(activeNow !== undefined ? { activeNow } : {}),
       },
-      { status: 502 },
+      {
+        headers: {
+          'cache-control': 'public, s-maxage=300, stale-while-revalidate=600',
+        },
+      },
     );
+  } catch {
+    return NextResponse.json({ configured: false }, { status: 502 });
   }
 }
