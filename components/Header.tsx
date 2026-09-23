@@ -17,13 +17,20 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4">
         {/* Top Row: Logo + Navigation + Icons */}
         <div className="flex justify-between items-center py-4">
-          <Link href="/" className="text-xl font-bold text-blue-600 dark:text-blue-400 whitespace-nowrap">
-            🛍️ Saleh Store
+          <Link href="/" aria-label="Saleh Store home" className="flex items-center gap-1.5 shrink-0">
+            <span className="text-xl font-black tracking-tight">
+              <span className="text-[#e53238]">S</span>
+              <span className="text-[#0064d2]">a</span>
+              <span className="text-[#f5af02]">l</span>
+              <span className="text-[#86b817]">e</span>
+              <span className="text-[#e53238]">h</span>
+            </span>
+            <span className="hidden sm:inline text-sm font-semibold text-gray-500 dark:text-gray-400">Store</span>
           </Link>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+          <div className="hidden md:flex items-center gap-5">
+            <Link href="/" className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[#0064d2] dark:hover:text-blue-400 transition-colors">
               Home
             </Link>
             <Link href="/blog" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
@@ -44,7 +51,7 @@ export default function Header() {
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleDarkMode}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 hover:text-[#0064d2] dark:hover:bg-gray-700 transition-colors"
               aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {isDarkMode ? (
@@ -77,7 +84,9 @@ export default function Header() {
 
         {/* Search Bar Row - Desktop */}
         <div className="hidden md:block pb-4">
-          <SearchBar />
+          <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/80 p-1 shadow-sm">
+            <SearchBar />
+          </div>
         </div>
 
         {/* Mobile Menu */}
