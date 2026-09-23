@@ -228,8 +228,8 @@ describe('Structured Data', () => {
       const schema = generateBlogPostStructuredData(mockPost)
       
       expect(schema.mainEntityOfPage).toBeDefined()
-      expect(schema.mainEntityOfPage['@type']).toBe('WebPage')
-      expect(schema.mainEntityOfPage['@id']).toBe(mockPost.url)
+      expect(schema.mainEntityOfPage!['@type']).toBe('WebPage')
+      expect(schema.mainEntityOfPage!['@id']).toBe(mockPost.url)
     })
   })
 
