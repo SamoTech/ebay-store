@@ -261,21 +261,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Category Navigation - Now with Links */}
-      <section id="products" className="max-w-6xl mx-auto px-4 py-8">
+      {/* Featured category navigation. The full marketplace taxonomy lives on /categories. */}
+      <section id="products" className="max-w-6xl mx-auto px-4 py-8" aria-labelledby="category-heading">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
+          <div>
+            <h2 id="category-heading" className="text-2xl font-black text-gray-900 dark:text-white">Shop by category</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Browse popular departments or explore the full eBay marketplace taxonomy.</p>
+          </div>
+          <Link href="/categories" className="inline-flex items-center justify-center rounded-xl bg-[#0064d2] px-4 py-2.5 text-sm font-bold text-white hover:bg-[#0054ad] transition-colors">
+            Explore all categories →
+          </Link>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
-          {categories.map((cat) => {
+          {categories.slice(0, 13).map((cat) => {
             const href = cat.slug === 'all' ? '/' : `/category/${cat.slug}`;
             const isActive = (cat.slug === 'all' && isHomepage) || pathname === href;
-            
             return (
-              <Link 
-                key={cat.id} 
-                href={href}
-                className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 text-center hover:shadow-xl transition-all block ${
-                  isActive ? 'ring-2 ring-blue-600 bg-blue-50 dark:bg-blue-900/30' : ''
-                }`}
-              >
+              <Link key={cat.id} href={href} className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 text-center hover:shadow-xl transition-all block ${isActive ? 'ring-2 ring-blue-600 bg-blue-50 dark:bg-blue-900/30' : ''}`}>
                 <span className="text-2xl">{cat.icon}</span>
                 <p className="font-bold mt-1 text-gray-700 dark:text-gray-200 text-sm">{cat.name}</p>
               </Link>

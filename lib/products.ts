@@ -140,6 +140,8 @@ export const allProducts: Product[] = [
 
 export const categories: Category[] = [
   { id: 1, name: 'All Products', icon: '🛍️', slug: 'all' },
+
+  // Existing Saleh Store merchandising categories.
   { id: 2, name: 'Electronics', icon: '💻', slug: 'electronics' },
   { id: 3, name: 'Gaming', icon: '🎮', slug: 'gaming' },
   { id: 4, name: 'Sneakers', icon: '👟', slug: 'sneakers' },
@@ -151,7 +153,50 @@ export const categories: Category[] = [
   { id: 10, name: 'Pet Supplies', icon: '🐕', slug: 'pet-supplies' },
   { id: 11, name: 'Baby', icon: '👶', slug: 'baby' },
   { id: 12, name: 'Auto', icon: '🚗', slug: 'auto' },
-  { id: 13, name: 'Office', icon: '💼', slug: 'office' }
+  { id: 13, name: 'Office', icon: '💼', slug: 'office' },
+
+  // eBay's current broad marketplace taxonomy, kept as searchable landing pages.
+  { id: 20, name: 'eBay Motors', icon: '🚘', slug: 'ebay-motors' },
+  { id: 21, name: 'Consumer Electronics', icon: '📱', slug: 'consumer-electronics' },
+  { id: 22, name: 'Collectibles & Art', icon: '🖼️', slug: 'collectibles-art' },
+  { id: 23, name: 'Home & Garden', icon: '🏡', slug: 'home-garden' },
+  { id: 24, name: 'Clothing, Shoes & Accessories', icon: '👗', slug: 'clothing-shoes-accessories' },
+  { id: 25, name: 'Toys & Hobbies', icon: '🧸', slug: 'toys-hobbies' },
+  { id: 26, name: 'Sporting Goods', icon: '🏀', slug: 'sporting-goods' },
+  { id: 27, name: 'Books, Movies & Music', icon: '📚', slug: 'books-movies-music' },
+  { id: 28, name: 'Health & Beauty', icon: '🧴', slug: 'health-beauty' },
+  { id: 29, name: 'Business & Industrial', icon: '🏭', slug: 'business-industrial' },
+  { id: 30, name: 'Jewelry & Watches', icon: '💎', slug: 'jewelry-watches' },
+  { id: 31, name: 'Baby Essentials', icon: '🍼', slug: 'baby-essentials' },
+  { id: 32, name: 'Pet Supplies & Accessories', icon: '🐾', slug: 'pet-supplies-ebay' },
+  { id: 33, name: 'Tickets & Travel', icon: '✈️', slug: 'tickets-travel' },
+  { id: 34, name: 'Everything Else', icon: '🧩', slug: 'everything-else' },
+  { id: 36, name: 'Gift Cards & Coupons', icon: '🎁', slug: 'gift-cards-coupons' },
+
+  // High-volume searchable category hubs from eBay's marketplace taxonomy.
+  { id: 40, name: 'Computers, Tablets & Networking', icon: '🖥️', slug: 'computers-tablets-networking' },
+  { id: 41, name: 'Cell Phones & Accessories', icon: '📲', slug: 'cell-phones-accessories' },
+  { id: 42, name: 'Video Games & Consoles', icon: '🎮', slug: 'video-games-consoles' },
+  { id: 43, name: 'Cameras & Photo', icon: '📷', slug: 'cameras-photo' },
+  { id: 44, name: 'TV, Video & Home Audio', icon: '📺', slug: 'tv-video-home-audio' },
+  { id: 45, name: 'Portable Audio & Headphones', icon: '🎧', slug: 'portable-audio-headphones' },
+  { id: 46, name: 'Vehicle Parts & Accessories', icon: '🔧', slug: 'vehicle-parts-accessories' },
+  { id: 47, name: 'Vehicle Electronics & GPS', icon: '🛰️', slug: 'vehicle-electronics-gps' },
+  { id: 48, name: 'Surveillance & Smart Home Electronics', icon: '🔐', slug: 'surveillance-smart-home-electronics' },
+  { id: 49, name: 'Virtual Reality', icon: '🥽', slug: 'virtual-reality' },
+  { id: 50, name: 'Coins & Paper Money', icon: '🪙', slug: 'coins-paper-money' },
+  { id: 51, name: 'Antiques', icon: '🏺', slug: 'antiques' },
+  { id: 52, name: 'Art', icon: '🎨', slug: 'art' },
+  { id: 53, name: 'Crafts', icon: '🧵', slug: 'crafts' },
+  { id: 54, name: 'Pottery & Glass', icon: '🏺', slug: 'pottery-glass' },
+  { id: 55, name: 'Stamps', icon: '📮', slug: 'stamps' },
+  { id: 56, name: 'Entertainment Memorabilia', icon: '🎬', slug: 'entertainment-memorabilia' },
+  { id: 57, name: 'Dolls & Bears', icon: '🧸', slug: 'dolls-bears' },
+  { id: 58, name: 'Musical Instruments & Gear', icon: '🎸', slug: 'musical-instruments-gear' },
+  { id: 59, name: 'Sports Mem, Cards & Fan Shop', icon: '🏆', slug: 'sports-mem-cards-fan-shop' },
+  { id: 60, name: 'Books & Magazines', icon: '📖', slug: 'books-magazines' },
+  { id: 61, name: 'Travel', icon: '🧳', slug: 'travel' },
+  { id: 62, name: 'Video Game Accessories', icon: '🕹️', slug: 'video-game-accessories' },
 ];
 
 // Affiliate constants are re-exported at the top of this file.
