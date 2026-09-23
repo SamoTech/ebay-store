@@ -66,7 +66,7 @@ const EBAY_CATEGORY_SEARCH_TERMS: Record<string, string> = {
   'sports-mem-cards-fan-shop': 'sports memorabilia cards fan shop',
   'books-magazines': 'books magazines',
   travel: 'travel accessories luggage',
-  'video-games': 'video games',
+  'video-game-accessories': 'video game accessories',
 };
 
 export async function GET(
