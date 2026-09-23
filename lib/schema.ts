@@ -71,7 +71,6 @@ export interface OrganizationSchema {
   url: string;
   logo: string;
   description: string;
-  sameAs: string[];
 }
 
 export function generateOrganizationSchema(siteUrl: string): OrganizationSchema {
