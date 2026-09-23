@@ -124,7 +124,7 @@ export default function AboutPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Updated Regular</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Regular Updates</h3>
                 <p className="text-gray-600 dark:text-gray-400">Product listings and guides are updated as the site changes</p>
               </div>
             </div>
@@ -137,7 +137,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Trusted Sellers</h3>
-                <p className="text-gray-600 dark:text-gray-400">We only feature reputable eBay sellers</p>
+                <p className="text-gray-600 dark:text-gray-400">Seller information is available so buyers can review the listing before purchase</p>
               </div>
             </div>
 
@@ -161,7 +161,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Easy to Use</h3>
-                <p className="text-gray-600 dark:text-gray-400">Simple interface, powerful search, fast checkout</p>
+                <p className="text-gray-600 dark:text-gray-400">Simple interface, product search, and direct eBay checkout</p>
               </div>
             </div>
 
