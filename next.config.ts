@@ -68,7 +68,23 @@ const nextConfig: NextConfig = {
   },
 
   async redirects() {
-    return []
+    return [
+      {
+        source: '/blog/best-gaming-laptops-under-1000',
+        destination: '/blog/how-to-buy-gaming-products-on-ebay',
+        permanent: true,
+      },
+      {
+        source: '/blog/ebay-deals-february-2026',
+        destination: '/blog/how-to-compare-ebay-prices-before-buying',
+        permanent: true,
+      },
+      {
+        source: '/blog/iphone-15-vs-samsung-s24',
+        destination: '/blog/smartphone-buying-checklist-ebay',
+        permanent: true,
+      },
+    ]
   },
 
   async rewrites() {
