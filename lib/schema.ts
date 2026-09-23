@@ -150,7 +150,7 @@ export function generateArticleSchema(article: {
     datePublished: article.publishedAt,
     dateModified: article.modifiedAt,
     image: article.image,
-    url: `${article.siteUrl}/blog`,
+    url: undefined,
   });
 }
 
