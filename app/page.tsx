@@ -6,7 +6,6 @@ import ProductCard from '@/components/ProductCard';
 import { ProductSkeletonGrid } from '@/components/ProductSkeleton';
 import Footer from '@/components/Footer';
 import DealOfTheDay from '@/components/DealOfTheDay';
-import TrustBadges from '@/components/TrustBadges';
 import { useToast } from '@/contexts/ToastContext';
 import { allProducts, categories, createSearchLink, featuredProducts, Product } from '@/lib/products';
 import { formatPrice } from '@/lib/utils/price';
@@ -198,7 +197,6 @@ export default function Home() {
         </div>
       </section>
 
-      <TrustBadges />
 \n      <section className="max-w-6xl mx-auto px-4 py-6" aria-labelledby="black-friday-heading">
         <div className="rounded-3xl bg-black text-white px-5 py-6 md:px-8 md:py-7 shadow-xl border border-gray-800">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
