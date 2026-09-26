@@ -35,6 +35,32 @@ function sortProductsForIntent(products: Product[], message: string): Product[] 
   return [...products].sort((a, b) => a.price - b.price);
 }
 
+function extractModelGeneration(query: string): string | null {
+  const match = query.match(/\biphone\s+(\d{1,2})\b/i);
+  return match?.[1] ?? null;
+}
+
+function filterCompetingModelResults(products: Product[], query: string): Product[] {
+  const generation = extractModelGeneration(query);
+  if (!generation) return products;
+
+  return products.filter((product) => {
+    const title = product.title;
+    const competingModel = title.match(/\biphone\s+(\d{1,2})\b/i)?.[1];
+    return !competingModel || competingModel === generation || title.toLowerCase().includes(`iphone ${generation}`);
+  });
+}
+
+function hasExactModelResult(products: Product[], query: string): boolean {
+  const generation = extractModelGeneration(query);
+  if (!generation) return products.length > 0;
+  return products.some((product) => {
+    const title = product.title.toLowerCase();
+    return new RegExp(`\\biphone\\s+${generation}\\b`, 'i').test(title) &&
+      !/case|cover|screen protector|tempered glass|glass|lens protector|charger|cable|holder|stand|skin|film|protector|accessory/i.test(title);
+  });
+}
+
 function productContext(products: Product[]): string {
   return products.map((product, index) => {
     const details = [
@@ -53,9 +79,10 @@ async function generateReply(
   groqApiKey: string,
   userMessage: string,
   products: Product[],
+  exactModelMatch: boolean,
 ): Promise<string> {
   const context = products.length
-    ? `LIVE EBAY RESULTS FROM SALEH STORE:\n${productContext(products)}`
+    ? `LIVE EBAY RESULTS FROM SALEH STORE:\nExact requested model listing found: ${exactModelMatch ? 'yes' : 'no'}\n${productContext(products)}`
     : 'No live eBay products were found for this request.';
 
   const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -79,6 +106,8 @@ Use the supplied live eBay results when they exist.
 - Never repeat individual product names, prices, conditions, or shipping in your response.
 - Never use bullets or a product list in the response.
 - If the results were sorted by price, say that they are shown from lowest price first.
+- If an exact requested model listing was not found but related listings exist, say so clearly and describe them as related listings or accessories.
+- Do not recommend a different product/model unless the user explicitly asks for alternatives.
 - If no products were found, give useful general shopping guidance without inventing listings.
 - Do not output URLs; the UI adds the tracked affiliate links.`,
         },
@@ -149,11 +178,14 @@ export async function POST(request: Request) {
     const userMessage = message.trim();
     let products: Product[] = [];
     let sortedByPrice = false;
+    let exactModelMatch = false;
 
     if (looksLikeProductSearch(userMessage)) {
       const query = extractSearchQuery(userMessage);
       if (query.length >= 2) {
         products = await searchEbayProducts(query, 6);
+        products = filterCompetingModelResults(products, query);
+        exactModelMatch = hasExactModelResult(products, query);
         if (hasPriceIntent(userMessage)) {
           products = sortProductsForIntent(products, userMessage);
           sortedByPrice = products.length > 1;
@@ -161,7 +193,7 @@ export async function POST(request: Request) {
       }
     }
 
-    const reply = await generateReply(groqApiKey, userMessage, products);
+    const reply = await generateReply(groqApiKey, userMessage, products, exactModelMatch);
 
     return NextResponse.json({
       reply,
