@@ -21,6 +21,8 @@ function buildEntries(): SitemapEntry[] {
     { loc: '/categories', changefreq: 'weekly', priority: '0.8' },
     { loc: '/about', changefreq: 'monthly', priority: '0.6' },
     { loc: '/about/editorial-team', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/tools/deal-comparison', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/research/ebay-deal-comparison-methodology', changefreq: 'monthly', priority: '0.7' },
     { loc: '/contact', changefreq: 'monthly', priority: '0.6' },
     { loc: '/faq', changefreq: 'monthly', priority: '0.6' },
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
