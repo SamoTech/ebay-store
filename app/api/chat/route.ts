@@ -27,15 +27,6 @@ function looksLikeProductSearch(message: string): boolean {
 }
 
 function hasPriceIntent(message: string): boolean {
-  return /\\b(good price|best price|cheap|cheapest|lowest price|low price|budget|affordable|deal|deals)\\b/i.test(message);
-}
-
-function sortProductsForIntent(products: Product[], message: string): Product[] {
-  if (!hasPriceIntent(message)) return products;
-  return [...products].sort((a, b) => a.price - b.price);
-}
-
-function hasPriceIntent(message: string): boolean {
   return /\b(good price|best price|cheap|cheapest|lowest price|low price|budget|affordable|deal|deals)\b/i.test(message);
 }
 
