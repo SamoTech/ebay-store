@@ -52,7 +52,7 @@ function DealFields({
         ))}
       </div>
       <p className="mt-5 text-2xl font-black text-[#0064d2]">
-        Total: {total(deal).toFixed(2){'}'}
+        Total: ${total(deal).toFixed(2)}
       </p>
     </fieldset>
   );
