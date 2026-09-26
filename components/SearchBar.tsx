@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Product } from '../lib/products';
 import { formatPrice } from '../lib/utils/price';
+import { trackEvent } from '../lib/analytics';
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
@@ -184,6 +185,14 @@ export default function SearchBar() {
                   rel="noopener noreferrer"
                   onMouseEnter={() => setActiveIndex(index)}
                   onClick={() => {
+                    trackEvent({
+                      event: 'affiliate_outbound_click',
+                      productId: result.id,
+                      source: 'search_autocomplete',
+                      category: result.category,
+                      placement: 'autocomplete_result',
+                      url: result.affiliateLink,
+                    });
                     setIsOpen(false);
                     setQuery('');
                   }}
