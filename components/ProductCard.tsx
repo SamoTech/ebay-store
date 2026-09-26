@@ -35,6 +35,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
       productId: product.id,
       source: isApiProduct ? 'api_product_card' : 'static_product_card',
       category: product.category,
+      placement: 'product_card_link',
       url: product.affiliateLink,
     });
   };
@@ -159,7 +160,7 @@ export default function ProductCard({ product, showCompare, onCompare, isCompari
             href={product.affiliateLink}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'product_card', category: product.category, url: product.affiliateLink })}
+            onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'product_card', category: product.category, placement: 'product_card_cta', url: product.affiliateLink })}
             className="flex-1 bg-[#86b817] text-white text-center py-2.5 rounded-lg hover:bg-[#719f12] transition-colors text-sm font-semibold"
           >
             {isApiProduct ? 'View on eBay' : 'Buy Now'}

@@ -58,8 +58,16 @@ describe('/api/track', () => {
     expect(response.status).toBe(400);
   });
 
-  it('aggregates stored events on GET', async () => {
-    await POST(post({ event: 'affiliate_click', productId: 2 }));
+  it('aggregates stored affiliate events with attribution fields', async () => {
+    await POST(
+      post({
+        event: 'affiliate_outbound_click',
+        productId: 2,
+        source: 'product_card',
+        pageType: 'category',
+        placement: 'product_card_cta',
+      }),
+    );
 
     const response = await GET(new NextRequest('http://localhost:3000/api/track'));
     const body = await response.json();
@@ -67,7 +75,10 @@ describe('/api/track', () => {
     expect(response.status).toBe(200);
     expect(body.totalEvents).toBeGreaterThanOrEqual(2);
     expect(body.totals.product_view).toBeGreaterThanOrEqual(1);
+    expect(body.totals.affiliate_outbound_click).toBeGreaterThanOrEqual(1);
     expect(Array.isArray(body.latest)).toBe(true);
+    expect(body.latest[0].pageType).toBe('category');
+    expect(body.latest[0].placement).toBe('product_card_cta');
   });
 
   it('rejects GET without the token when ANALYTICS_READ_TOKEN is set', async () => {

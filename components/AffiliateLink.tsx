@@ -31,6 +31,7 @@ export default function AffiliateLink({
           productId,
           source,
           category,
+          placement: source,
           url: href,
         })
       }

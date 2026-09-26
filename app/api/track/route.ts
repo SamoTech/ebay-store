@@ -8,6 +8,8 @@ interface StoredEvent {
   productId?: number;
   source?: string;
   category?: string;
+  pageType?: string;
+  placement?: string;
   pathname?: string;
   timestamp: string;
 }

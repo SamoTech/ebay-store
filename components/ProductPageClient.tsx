@@ -225,7 +225,7 @@ export default function ProductPageClient({ productId }: { productId: number }) 
                   href={product.affiliateLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'product_page', category: product.category })}
+                  onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'product_page', category: product.category, placement: 'primary_cta', url: product.affiliateLink })}
                   className="block w-full bg-blue-600 text-white text-center py-4 rounded-xl hover:bg-blue-700 transition-colors font-bold text-lg"
                 >
                   Shop Now on eBay
@@ -234,6 +234,7 @@ export default function ProductPageClient({ productId }: { productId: number }) 
                   href={createSearchLink(product.title)}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'product_page', category: product.category, placement: 'secondary_search_cta', url: createSearchLink(product.title) })}
                   className="block w-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white text-center py-3 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Compare Prices on eBay
