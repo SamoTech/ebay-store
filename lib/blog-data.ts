@@ -2227,7 +2227,7 @@ export const blogArticles: BlogArticle[] = [
         "text": "Saleh Store participates in the eBay Partner Network. Some outbound links may earn a commission at no additional cost to the buyer."
       }
     ]
-  }
+  },
 
   ...expandedBlogArticles
 ];
