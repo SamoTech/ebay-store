@@ -57,7 +57,7 @@ function contentSecurityPolicy(): string {
     scriptSrc,
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self' data:",
-    "connect-src 'self' https://api.ebay.com https://svcs.ebay.com https://epnt.ebay.com https://vitals.vercel-insights.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com",
+    "connect-src 'self' https://api.ebay.com https://svcs.ebay.com https://epnt.ebay.com https://vitals.vercel-insights.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://ep1.adtrafficquality.google",
     "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
     "object-src 'none'",
     "base-uri 'self'",
