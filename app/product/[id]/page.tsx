@@ -10,7 +10,7 @@ import SocialShare from '../../../components/SocialShare';
 import { generateBlurDataURL } from '../../../lib/utils/image';
 import { formatPrice } from '../../../lib/utils/price';
 import { absoluteUrl } from '../../../lib/site';
-import { SchemaScript } from '../../../lib/schema';
+import { generateBreadcrumbSchema, SchemaScript } from '../../../lib/schema';
 import { generateProductStructuredData } from '../../../lib/seo/structured-data';
 
 /**
@@ -89,12 +89,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
     price: product.price,
     currency: product.currency || 'USD',
     url: product.affiliateLink,
+    pageUrl: productUrl,
     availability: 'InStock',
   });
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: absoluteUrl('/') },
+    { name: product.category, url: absoluteUrl(`/category/${categorySlug}`) },
+    { name: product.title, url: productUrl },
+  ]);
 
   return (
     <>
       <SchemaScript schema={productSchema} />
+      <SchemaScript schema={breadcrumbSchema} />
       <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Breadcrumb */}

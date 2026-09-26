@@ -1,4 +1,5 @@
 import { SITE_URL, absoluteUrl } from '../site'
+import { categories } from '../products'
 
 /**
  * Schema.org Structured Data (JSON-LD) Configuration.
@@ -93,44 +94,14 @@ export const siteStructuredData = {
     {
       '@type': 'ItemList',
       name: 'Product Categories',
-      itemListElement: [
-        {
+      itemListElement: categories
+        .filter((category) => category.slug !== 'all')
+        .map((category, index) => ({
           '@type': 'ListItem',
-          position: 1,
-          name: 'Electronics',
-          item: `${SITE_URL}/category/electronics`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Gaming',
-          item: `${SITE_URL}/category/gaming`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: 'Sneakers',
-          item: `${SITE_URL}/category/sneakers`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 4,
-          name: 'Smart Home',
-          item: `${SITE_URL}/category/smart-home`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 5,
-          name: 'Beauty',
-          item: `${SITE_URL}/category/beauty`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 6,
-          name: 'Collectibles',
-          item: `${SITE_URL}/category/collectibles`,
-        },
-      ],
+          position: index + 1,
+          name: category.name,
+          item: absoluteUrl(`/category/${category.slug}`),
+        })),
     },
     {
       '@type': 'Blog',
@@ -155,6 +126,7 @@ export function generateProductStructuredData(product: {
   price: number
   currency: string
   url: string
+  pageUrl?: string
   brand?: string
   availability?: 'InStock' | 'OutOfStock' | 'PreOrder'
 }) {
@@ -164,6 +136,7 @@ export function generateProductStructuredData(product: {
     name: product.name,
     description: product.description,
     image: product.image,
+    url: product.pageUrl || product.url,
     brand: {
       '@type': 'Brand',
       name: product.brand || 'Various',
