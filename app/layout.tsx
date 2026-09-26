@@ -15,7 +15,7 @@ import { FavoritesProvider } from '../contexts/FavoritesContext'
 import { RecentlyViewedProvider } from '../contexts/RecentlyViewedContext'
 import { DarkModeProvider } from '../contexts/DarkModeContext'
 import { CurrencyProvider } from '../contexts/CurrencyContext'
-import Chatbot from '../components/Chatbot'
+import DeferredChatbot from '../components/DeferredChatbot'
 import GoogleAnalytics from '../components/GoogleAnalytics'
 import AffiliateTracking from '../components/AffiliateTracking'
 import CookieConsent from '../components/CookieConsent'
@@ -97,7 +97,7 @@ export default function RootLayout({
                     </div>
 
                     {/* AI Chatbot - Available on all pages */}
-                    <Chatbot />
+                    <DeferredChatbot />
 
                     {/* Vercel Analytics */}
                     <VercelAnalytics />

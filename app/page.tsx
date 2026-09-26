@@ -199,7 +199,9 @@ export default function Home() {
         </div>
       </section>
 
-\n      <section className="max-w-6xl mx-auto px-4 py-6" aria-labelledby="black-friday-heading">
+\n      {recentlyViewed.length > 0 && !isLoading && (<section className="max-w-6xl mx-auto px-4 py-8"><h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Recently Viewed</h2><div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">{recentlyViewed.slice(0, 5).map((product) => (<div key={product.id} className="flex-shrink-0 w-40"><a href={product.affiliateLink} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'homepage', category: product.category, placement: 'recently_viewed', url: product.affiliateLink })}><div className="relative w-full h-32 rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden"><Image src={product.image} alt={product.title} fill className="object-cover" sizes="160px" /></div><p className="text-sm font-medium mt-2 line-clamp-1 text-gray-700 dark:text-gray-300">{product.title}</p><p className="text-green-600 font-bold text-sm">{formatPrice(product.price, product.currency)}</p></a></div>))}</div></section>)}
+
+      <section className="max-w-6xl mx-auto px-4 py-6" aria-labelledby="black-friday-heading">
         <div className="rounded-3xl bg-black text-white px-5 py-6 md:px-8 md:py-7 shadow-xl border border-gray-800">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div>
@@ -288,9 +290,9 @@ export default function Home() {
         </div>
       </section>
 
-      {!isLoading && !apiError && (<DealOfTheDay />)}
+      <DealOfTheDay />
 
-      {recentlyViewed.length > 0 && !isLoading && (<section className="max-w-6xl mx-auto px-4 py-8"><h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Recently Viewed</h2><div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">{recentlyViewed.slice(0, 5).map((product) => (<div key={product.id} className="flex-shrink-0 w-40"><a href={product.affiliateLink} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'homepage', category: product.category, placement: 'recently_viewed', url: product.affiliateLink })}><div className="relative w-full h-32 rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden"><Image src={product.image} alt={product.title} fill className="object-cover" sizes="160px" /></div><p className="text-sm font-medium mt-2 line-clamp-1 text-gray-700 dark:text-gray-300">{product.title}</p><p className="text-green-600 font-bold text-sm">{formatPrice(product.price, product.currency)}</p></a></div>))}</div></section>)}
+      
 
       <section className="max-w-6xl mx-auto px-4 py-6"><div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"><h2 className="text-2xl font-bold text-gray-800 dark:text-white">{showAllProducts ? 'All Products' : 'Featured Products'}<span className="text-gray-500 dark:text-gray-400 text-base font-normal ml-3">({filteredProducts.length} products)</span></h2><div className="flex flex-wrap gap-3"><label htmlFor="product-sort" className="sr-only">Sort products</label><select id="product-sort" aria-label="Sort products" value={sortBy} onChange={(e) => setSortBy(e.target.value as 'price-low' | 'price-high' | 'name')} className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"><option value="name">Sort by Name</option><option value="price-low">Price: Low to High</option><option value="price-high">Price: High to Low</option></select><div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"><span className="text-sm text-gray-600 dark:text-gray-400">$</span><input type="number" value={priceRange[0]} onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])} className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none" placeholder="Min" /><span className="text-gray-400">-</span><input type="number" value={priceRange[1]} onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])} className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none" placeholder="Max" /></div></div></div></section>
       
