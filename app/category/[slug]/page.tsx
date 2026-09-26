@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import CategoryPageClient from '../../../components/CategoryPageClient';
+import { categories } from '../../../lib/products';
 import { absoluteUrl } from '../../../lib/site';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
