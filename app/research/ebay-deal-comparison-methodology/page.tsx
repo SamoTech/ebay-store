@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { absoluteUrl } from '../../../lib/site';
 import { SchemaScript } from '../../../lib/schema';
+import AdSenseBlock from '../../../components/AdSenseBlock';
 
 export const metadata: Metadata = {
   title: 'eBay Deal Comparison Methodology | Saleh Store',
@@ -37,6 +38,8 @@ export default function MethodologyPage() {
           <p className="mt-5 text-lg leading-8 text-gray-700 dark:text-gray-300">
             Saleh Store compares marketplace listings by normalizing the variables that can materially change the real cost or usefulness of a purchase.
           </p>
+
+          <AdSenseBlock placement="research-before-methodology" className="px-0 py-4" />
 
           <div className="mt-10 space-y-10">
             <section>

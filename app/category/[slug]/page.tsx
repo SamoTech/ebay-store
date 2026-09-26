@@ -4,6 +4,7 @@ import CategoryPageClient from '../../../components/CategoryPageClient';
 import { allProducts, categories } from '../../../lib/products';
 import { absoluteUrl } from '../../../lib/site';
 import { generateBreadcrumbSchema, SchemaScript } from '../../../lib/schema';
+import AdSenseBlock from '../../../components/AdSenseBlock';
 
 const categoryFocus: Record<string, string> = {
   electronics: 'Compare consumer electronics, devices, accessories, and related eBay listings with clear product details and current marketplace links.',
@@ -112,6 +113,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         </div>
       </section>
 
+      <AdSenseBlock placement="category-after-intro" />
       <CategoryPageClient slug={slug} />
     </>
   );
