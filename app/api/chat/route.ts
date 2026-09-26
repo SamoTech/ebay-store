@@ -11,6 +11,7 @@ function extractSearchQuery(message: string): string {
     .replace(/^\s*(a|an|the)\s+(good|great|best|cheap|cheapest|budget|deal|deals?)\s+(deal|deals?)?\s*/i, '')
     .replace(/^\s*(good|great|best|cheap|cheapest|budget)\s+deals?\s+(for|on)\s+/i, '')
     .replace(/^\s*(deal|deals?)\s+(for|on)\s+/i, '')
+    .replace(/\b(good price|best price|lowest price|low price|cheap|cheapest|budget|affordable)\b/gi, '')
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -27,6 +28,15 @@ function looksLikeProductSearch(message: string): boolean {
 
 function hasPriceIntent(message: string): boolean {
   return /\\b(good price|best price|cheap|cheapest|lowest price|low price|budget|affordable|deal|deals)\\b/i.test(message);
+}
+
+function sortProductsForIntent(products: Product[], message: string): Product[] {
+  if (!hasPriceIntent(message)) return products;
+  return [...products].sort((a, b) => a.price - b.price);
+}
+
+function hasPriceIntent(message: string): boolean {
+  return /\b(good price|best price|cheap|cheapest|lowest price|low price|budget|affordable|deal|deals)\b/i.test(message);
 }
 
 function sortProductsForIntent(products: Product[], message: string): Product[] {
