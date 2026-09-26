@@ -25,6 +25,15 @@ function looksLikeProductSearch(message: string): boolean {
   return /\b(find|search|show|looking for|look for|buy|want|need|recommend|deal|deals|price|cheap|cheapest|best|product|products|phone|phones|laptop|laptops|tablet|tablets|headphones|earbuds|watch|watches|console|gaming|sneakers|camera|cameras|tv|television|monitor|keyboard|mouse)\b/i.test(value);
 }
 
+function hasPriceIntent(message: string): boolean {
+  return /\\b(good price|best price|cheap|cheapest|lowest price|low price|budget|affordable|deal|deals)\\b/i.test(message);
+}
+
+function sortProductsForIntent(products: Product[], message: string): Product[] {
+  if (!hasPriceIntent(message)) return products;
+  return [...products].sort((a, b) => a.price - b.price);
+}
+
 function productContext(products: Product[]): string {
   return products.map((product, index) => {
     const details = [
@@ -65,7 +74,10 @@ Use the supplied live eBay results when they exist.
 - Never invent products, prices, availability, discounts, conditions, or shipping.
 - Do not claim a product is the cheapest or best unless the supplied results support that comparison.
 - Keep the answer concise, normally under 70 words.
-- Tell the user that matching live listings are shown below when products are supplied.
+- When live products are supplied, give only a short introduction; the UI renders the individual product cards.
+- Never repeat individual product names, prices, conditions, or shipping in your response.
+- Never use bullets or a product list in the response.
+- If the results were sorted by price, say that they are shown from lowest price first.
 - If no products were found, give useful general shopping guidance without inventing listings.
 - Do not output URLs; the UI adds the tracked affiliate links.`,
         },
@@ -135,11 +147,16 @@ export async function POST(request: Request) {
 
     const userMessage = message.trim();
     let products: Product[] = [];
+    let sortedByPrice = false;
 
     if (looksLikeProductSearch(userMessage)) {
       const query = extractSearchQuery(userMessage);
       if (query.length >= 2) {
         products = await searchEbayProducts(query, 6);
+        if (hasPriceIntent(userMessage)) {
+          products = sortProductsForIntent(products, userMessage);
+          sortedByPrice = products.length > 1;
+        }
       }
     }
 
