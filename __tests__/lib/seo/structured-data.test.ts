@@ -198,7 +198,7 @@ describe('Structured Data', () => {
       const schema = generateBlogPostStructuredData(mockPost)
       
       expect(schema.author).toBeDefined()
-      expect(schema.author['@type']).toBe('Person')
+      expect(schema.author['@type']).toBe('Organization')
       expect(schema.author.name).toBe('John Doe')
     })
 
