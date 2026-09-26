@@ -7,6 +7,7 @@ import SocialShare from '../../../components/SocialShare';
 import Footer from '../../../components/Footer';
 import { absoluteUrl } from '../../../lib/site';
 import { generateArticleSchema, generateBreadcrumbSchema, SchemaScript } from '../../../lib/schema';
+import AdSenseBlock from '../../../components/AdSenseBlock';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -206,6 +207,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {post.excerpt}
           </p>
         </div>
+
+        <AdSenseBlock placement="article-before-main-content" className="px-0 py-4" />
 
         {/* Main Content */}
         <div 
