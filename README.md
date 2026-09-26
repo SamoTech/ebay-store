@@ -1,10 +1,10 @@
-# 🛙️ DealsHub - Your Ultimate eBay Deals Finder
+# Saleh Store — eBay Product Discovery & Shopping Research
 
 <div align="center">
 
-![DealsHub Banner](docs/assets/banner.svg)
+![Saleh Store Banner](docs/assets/banner.svg)
 
-> Find the best deals on eBay with AI-powered search, real-time price tracking, and intelligent recommendations.
+> Saleh Store is an eBay product discovery platform with shopping guides, marketplace comparison tools, and direct eBay affiliate links.
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.3-blue?logo=react)](https://reactjs.org/)
@@ -15,7 +15,7 @@
 [![Coverage](https://img.shields.io/badge/coverage%20floor-25%25-yellow)](https://github.com/SamoTech/ebay-store)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-🔗 **Live Demo:** [https://www.saleh-store.com](https://www.saleh-store.com)
+🔗 **Production:** [https://www.saleh-store.com](https://www.saleh-store.com)
 
 </div>
 
@@ -40,6 +40,11 @@
 ---
 
 ## ✨ Features
+
+### Public Research Assets
+- [Deal Comparison Calculator](https://www.saleh-store.com/tools/deal-comparison) — normalize marketplace costs before comparing listings
+- [eBay Deal Comparison Methodology](https://www.saleh-store.com/research/ebay-deal-comparison-methodology) — documented comparison framework
+- [Shopping Guides](https://www.saleh-store.com/blog) — practical product and marketplace research
 
 ### Core Features
 - 🔍 **Smart Search** - AI-powered product search across eBay with autocomplete
@@ -179,7 +184,7 @@ Deprecated paths (`/api/ebay-status`, `/api/ebay-test`, `/api/debug/ebay-status`
 
 <div align="center">
 
-**Made with ❤️ using Next.js 16, React 19, and AI** · [Ossama Hashim](https://github.com/SamoTech) · Cairo, Egypt
+**Built with Next.js 16, React 19, TypeScript, and Vercel** · [Ossama Hashim](https://github.com/SamoTech) · Cairo, Egypt
 
 [Live Demo](https://www.saleh-store.com) • [Documentation](docs/) • [GitHub](https://github.com/SamoTech/ebay-store)
 
