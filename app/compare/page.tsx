@@ -158,7 +158,7 @@ function CompareContent() {
                         href={product.affiliateLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'compare_page', category: product.category })}
+                        onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'compare_page', category: product.category, placement: 'compare_cta', url: product.affiliateLink })}
                         className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
                       >
                         Shop on eBay
