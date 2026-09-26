@@ -112,6 +112,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         </div>
       </section>
 
+      <AdSenseBlock placement="category-after-intro" />
       <CategoryPageClient slug={slug} />
     </>
   );
