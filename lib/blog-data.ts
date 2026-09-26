@@ -1,3 +1,4 @@
+import { expandedBlogArticles } from './expanded-blog-data';
 export interface BlogArticle {
   id: number;
   slug: string;
@@ -2228,4 +2229,5 @@ export const blogArticles: BlogArticle[] = [
     ]
   }
 
+  ...expandedBlogArticles
 ];
