@@ -200,6 +200,7 @@ describe('Structured Data', () => {
       expect(schema.author).toBeDefined()
       expect(schema.author['@type']).toBe('Organization')
       expect(schema.author.name).toBe('John Doe')
+      expect(schema.author.url).toContain('/about/editorial-team')
     })
 
     it('should include publisher information', () => {
