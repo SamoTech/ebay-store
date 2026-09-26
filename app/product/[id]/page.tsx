@@ -12,6 +12,7 @@ import { formatPrice } from '../../../lib/utils/price';
 import { absoluteUrl } from '../../../lib/site';
 import { generateBreadcrumbSchema, SchemaScript } from '../../../lib/schema';
 import { generateProductStructuredData } from '../../../lib/seo/structured-data';
+import AdSenseBlock from '../../../components/AdSenseBlock';
 
 /**
  * ISR Configuration
@@ -203,6 +204,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {product.description}
               </p>
             </div>
+
+            <AdSenseBlock placement="product-before-primary-cta" className="px-0 py-4" />
 
             <div className="flex gap-4">
               <AffiliateLink
