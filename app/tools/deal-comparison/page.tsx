@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import AdSenseBlock from '../../../components/AdSenseBlock';
 
 type Deal = {
   price: number;
@@ -79,6 +80,8 @@ export default function DealComparisonPage() {
         <p className="text-gray-700 dark:text-gray-300 leading-8">
           Enter the same cost categories for both listings. Use zero when a cost does not apply. The calculator is deliberately simple: it makes hidden cost differences visible without claiming that price alone determines which listing is appropriate.
         </p>
+
+        <AdSenseBlock placement="deal-comparison-before-calculator" className="px-0 py-4" />
 
         <div className="grid lg:grid-cols-2 gap-6">
           <DealFields label="Listing A" deal={dealA} onChange={setDealA} />
