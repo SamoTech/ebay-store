@@ -186,7 +186,7 @@ describe('SEO Metadata', () => {
       const icons = siteMetadata.icons as any
       
       expect(icons.shortcut).toBeDefined()
-      expect(icons.shortcut).toContain('favicon.ico')
+      expect(icons.shortcut).toBe('/icon.png')
     })
   })
 
