@@ -3,6 +3,12 @@
  */
 import { trackEvent } from '@/lib/analytics';
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 describe('trackEvent', () => {
   beforeEach(() => {
     window.localStorage.clear();
