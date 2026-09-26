@@ -9,6 +9,7 @@ import DealOfTheDay from '@/components/DealOfTheDay';
 import { useToast } from '@/contexts/ToastContext';
 import { allProducts, categories, createSearchLink, featuredProducts, Product } from '@/lib/products';
 import { formatPrice } from '@/lib/utils/price';
+import { trackEvent } from '@/lib/analytics';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
