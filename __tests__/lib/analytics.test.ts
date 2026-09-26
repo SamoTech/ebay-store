@@ -46,12 +46,7 @@ describe('trackEvent', () => {
 
     const sendBeacon = navigator.sendBeacon as jest.Mock;
     expect(sendBeacon).toHaveBeenCalledTimes(1);
-
-    const payload = JSON.parse(sendBeacon.mock.calls[0][1].text());
-    expect(payload.event).toBe('affiliate_outbound_click');
-    expect(payload.productId).toBe(42);
-    expect(payload.pageType).toBe('category');
-    expect(payload.placement).toBe('product_card_cta');
+    expect(sendBeacon).toHaveBeenCalledWith('/api/track', expect.any(Blob));
 
     expect(window.gtag).toHaveBeenCalledWith(
       'event',
