@@ -95,7 +95,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     Collectibles: 'collectibles',
     'Cameras & Photo': 'cameras-photo',
     Computers: 'computers-tablets-networking',
-    'Shopping Strategies': 'electronics',
   };
   const categorySlug = blogCategoryMap[post.category];
   const linkedCategory = categorySlug
