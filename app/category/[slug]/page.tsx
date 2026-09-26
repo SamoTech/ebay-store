@@ -96,10 +96,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             Saleh Store category
           </p>
           <h1 className="mt-2 text-3xl md:text-4xl font-black text-gray-900 dark:text-white">
-            ${category.name} Deals
+            {category.name} Deals
           </h1>
           <p className="mt-3 max-w-4xl text-base md:text-lg leading-7 text-gray-600 dark:text-gray-300">
-            ${description}
+            {description}
           </p>
           <div className="mt-4 flex flex-wrap gap-3 text-sm">
             <a href={categoryUrl} className="font-semibold text-[#0064d2] dark:text-blue-400">
