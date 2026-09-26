@@ -10,6 +10,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { allProducts, categories, createSearchLink, featuredProducts, Product } from '@/lib/products';
 import { formatPrice } from '@/lib/utils/price';
 import { trackEvent } from '@/lib/analytics';
+import AdSenseBlock from '@/components/AdSenseBlock';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -224,6 +225,8 @@ export default function Home() {
       </section>
 
 
+
+      <AdSenseBlock placement="homepage-after-featured-content" />
 
       {catalogSource === 'ebay_live' && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="inline-flex items-center gap-2 rounded-full bg-green-100 text-green-700 px-4 py-1 text-sm font-medium dark:bg-green-900/30 dark:text-green-300">● Live eBay catalog active</div></section>)}
 
