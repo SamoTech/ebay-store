@@ -56,7 +56,7 @@ function hasExactModelResult(products: Product[], query: string): boolean {
   if (!generation) return products.length > 0;
   return products.some((product) => {
     const title = product.title.toLowerCase();
-    return new RegExp(`\\\\biphone\\\\s+${generation}\\\\b`, 'i').test(title) &&
+    return new RegExp(`\\biphone\\s+${generation}\\b`, 'i').test(title) &&
       !/case|cover|screen protector|tempered glass|glass|lens protector|charger|cable|holder|stand|skin|film|protector|accessory/i.test(title);
   });
 }
@@ -82,7 +82,7 @@ async function generateReply(
   exactModelMatch: boolean,
 ): Promise<string> {
   const context = products.length
-    ? `LIVE EBAY RESULTS FROM SALEH STORE:\n${productContext(products)}`
+    ? `LIVE EBAY RESULTS FROM SALEH STORE:\nExact requested model listing found: ${exactModelMatch ? 'yes' : 'no'}\n${productContext(products)}`
     : 'No live eBay products were found for this request.';
 
   const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
