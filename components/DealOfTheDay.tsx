@@ -197,7 +197,9 @@ export default function DealOfTheDay() {
                   event: 'affiliate_outbound_click', 
                   productId: deal.id, 
                   source: dataSource === 'ebay_live' ? 'deal_of_the_day_live' : 'deal_of_the_day_static', 
-                  category: deal.category 
+                  category: deal.category,
+                  placement: 'deal_of_the_day_cta',
+                  url: deal.affiliateLink
                 })}
                 className="flex-1 bg-white text-orange-600 text-center py-3 rounded-xl font-bold hover:bg-orange-50 transition-colors"
               >
