@@ -20,6 +20,7 @@ function buildEntries(): SitemapEntry[] {
     { loc: '/blog', changefreq: 'weekly', priority: '0.8' },
     { loc: '/categories', changefreq: 'weekly', priority: '0.8' },
     { loc: '/about', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/about/editorial-team', changefreq: 'monthly', priority: '0.6' },
     { loc: '/contact', changefreq: 'monthly', priority: '0.6' },
     { loc: '/faq', changefreq: 'monthly', priority: '0.6' },
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
