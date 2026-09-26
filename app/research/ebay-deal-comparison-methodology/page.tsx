@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { absoluteUrl } from '../../../../lib/site';
-import { SchemaScript } from '../../../../lib/schema';
+import { absoluteUrl } from '../../../lib/site';
+import { SchemaScript } from '../../../lib/schema';
 
 export const metadata: Metadata = {
   title: 'eBay Deal Comparison Methodology | Saleh Store',
