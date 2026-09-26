@@ -1,4 +1,10 @@
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Search | Saleh Store',
+  robots: { index: false, follow: true },
+};
 import SearchPageContent from './SearchPageContent';
 
 export default function SearchPage() {
