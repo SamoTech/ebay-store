@@ -250,6 +250,13 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
             href={createSearchLink(categoryName)}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent({
+              event: 'affiliate_outbound_click',
+              source: 'category_page',
+              category: categoryName,
+              placement: 'category_browse_cta',
+              url: createSearchLink(categoryName),
+            })}
             className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
           >
             Browse {categoryName} on eBay →
