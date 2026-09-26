@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { categories } from '../../lib/products';
 import { absoluteUrl } from '../../lib/site';
+import AdSenseBlock from '../../components/AdSenseBlock';
 
 export const metadata: Metadata = {
   title: 'All Categories | Saleh Store',
@@ -27,6 +28,8 @@ export default function CategoriesPage() {
           </p>
         </div>
       </section>
+
+      <AdSenseBlock placement="categories-before-directory" />
 
       <section className="max-w-6xl mx-auto px-4 py-10" aria-labelledby="category-directory-heading">
         <div className="flex items-end justify-between gap-4 mb-6">
