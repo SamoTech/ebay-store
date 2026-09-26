@@ -81,7 +81,7 @@ export default function DealOfTheDay() {
 
   if (isLoading || !deal) {
     return (
-      <section className="max-w-6xl mx-auto px-4 py-8" aria-busy="true">
+      <section className="max-w-6xl mx-auto px-4 py-8 min-h-[700px] md:min-h-[420px]" aria-busy="true">
         <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Deal of the Day</h2>
         <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl overflow-hidden shadow-xl animate-pulse">
           <div className="h-64 md:h-80 bg-orange-600/50"></div>
@@ -113,7 +113,7 @@ export default function DealOfTheDay() {
   };
 
   return (
-    <section className="max-w-6xl mx-auto px-4 py-8">
+    <section className="max-w-6xl mx-auto px-4 py-8 min-h-[700px] md:min-h-[420px]">
       <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Deal of the Day</h2>
       <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl overflow-hidden shadow-xl relative">
         {/* Live Deal Indicator */}
@@ -126,12 +126,14 @@ export default function DealOfTheDay() {
         <div className="md:flex">
           {/* Image */}
           <div className="md:w-1/2 relative">
-            <div className="relative h-64 md:h-full min-h-[300px]">
+            <div className="relative h-[300px] md:h-full min-h-[300px]">
               <Image
                 src={deal.image}
                 alt={deal.title}
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
               />
               <div className="absolute top-4 left-4 bg-yellow-400 text-black px-4 py-2 rounded-full font-bold text-lg animate-pulse">
                 🔥 -{discount}% OFF
