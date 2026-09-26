@@ -176,8 +176,9 @@ export function generateBlogPostStructuredData(post: {
     datePublished: post.datePublished,
     dateModified: post.dateModified || post.datePublished,
     author: {
-      '@type': 'Person',
+      '@type': 'Organization',
       name: post.author,
+      url: absoluteUrl('/about/editorial-team'),
     },
     publisher: {
       '@type': 'Organization',
