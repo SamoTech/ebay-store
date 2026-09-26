@@ -155,6 +155,7 @@ export function generateProductStructuredData(product: {
   price: number
   currency: string
   url: string
+  pageUrl?: string
   brand?: string
   availability?: 'InStock' | 'OutOfStock' | 'PreOrder'
 }) {
@@ -164,6 +165,7 @@ export function generateProductStructuredData(product: {
     name: product.name,
     description: product.description,
     image: product.image,
+    url: product.pageUrl || product.url,
     brand: {
       '@type': 'Brand',
       name: product.brand || 'Various',
