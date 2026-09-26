@@ -37,10 +37,16 @@ export default function Home() {
   const [catalogSource, setCatalogSource] = useState<'static' | 'ebay_live' | 'error'>('static');
   const [mostWanted, setMostWanted] = useState<Product[]>(featuredProducts.slice(0, 8));
   const [mostWantedSource, setMostWantedSource] = useState<'static' | 'ebay_live'>('static');
-  const [blackFridayTime, setBlackFridayTime] = useState(() => getBlackFridayCountdown());
+  const [blackFridayTime, setBlackFridayTime] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
   const { addToast } = useToast();
 
   useEffect(() => {
+    setBlackFridayTime(getBlackFridayCountdown());
     const timer = setInterval(() => setBlackFridayTime(getBlackFridayCountdown()), 1000);
     return () => clearInterval(timer);
   }, []);
