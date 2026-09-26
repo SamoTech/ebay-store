@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import CategoryPageClient from '../../../components/CategoryPageClient';
 import { allProducts, categories } from '../../../lib/products';
 import { absoluteUrl } from '../../../lib/site';
@@ -112,6 +113,31 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           </div>
         </div>
       </section>
+
+      {staticProducts.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 pt-6" aria-labelledby="category-product-links">
+          <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
+            <h2 id="category-product-links" className="text-lg font-bold text-gray-900 dark:text-white">
+              Featured {category.name} products
+            </h2>
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+              Explore product details before visiting the corresponding eBay listing.
+            </p>
+            <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
+              {staticProducts.slice(0, 12).map((product) => (
+                <li key={product.id}>
+                  <Link
+                    href={`/product/${product.id}`}
+                    className="text-sm font-medium text-[#0064d2] hover:underline dark:text-blue-400"
+                  >
+                    {product.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       <AdSenseBlock placement="category-after-intro" />
       <CategoryPageClient slug={slug} />
