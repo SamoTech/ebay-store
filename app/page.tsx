@@ -181,7 +181,7 @@ export default function Home() {
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000);
-        const response = await fetch('/api/ebay/search?highValueTrending=true&limit=8', {
+        const response = await fetch('/api/ebay/high-value-trending?limit=8', {
           signal: controller.signal,
           cache: 'no-store',
         });
