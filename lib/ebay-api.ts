@@ -160,16 +160,29 @@ export function getEbayIntegrationStatus(): EbayIntegrationStatus {
   return { mode: 'disabled', marketplaceId, missing: [...missingOAuth, 'EBAY_APP_ID'], apiType: 'None' };
 }
 
-export async function searchEbayBrowseAPI(keyword: string, limit = 20): Promise<EbaySearchResponse> {
+export async function searchEbayBrowseAPI(
+  keyword: string,
+  limit = 20,
+  filters: string[] = [],
+): Promise<EbaySearchResponse> {
   const config = readEbayConfig();
-  const cacheKey = `browse:${config.marketplaceId}:${keyword}:${limit}`;
+  const filterSignature = filters.join('|');
+  const cacheKey = `browse:${config.marketplaceId}:${keyword}:${limit}:${filterSignature}`;
 
   return browseCache.getOrCompute(cacheKey, 600, async () => {
     const token = await getTokenManager().getToken();
     if (!token) return { itemSummaries: [], total: 0 };
 
+    const searchParams = new URLSearchParams({
+      q: keyword,
+      limit: String(limit),
+    });
+    if (filters.length > 0) {
+      searchParams.set('filter', filters.join(','));
+    }
+
     const response = await fetch(
-      `${EBAY_BROWSE_API}/item_summary/search?q=${encodeURIComponent(keyword)}&limit=${limit}`,
+      `${EBAY_BROWSE_API}/item_summary/search?${searchParams.toString()}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -258,6 +271,77 @@ export async function getTrendingProducts(): Promise<Product[]> {
     'Apple Watch Series 9',
   ];
   return searchEbayProducts(categoryKeywords[dayOfWeek], 8);
+}
+
+/**
+ * High-value discovery themes chosen around active eBay deal/search categories.
+ * Best Match is eBay's relevance signal; this feed does not claim to represent
+ * the marketplace's top sellers or sales volume.
+ */
+export const HIGH_VALUE_TRENDING_MIN_PRICE = 500;
+export const HIGH_VALUE_TRENDING_QUERIES = [
+  'gaming laptop',
+  'flagship smartphone',
+  'RTX graphics card',
+  '4K OLED TV',
+  'mirrorless camera',
+  'DJI drone',
+  'robot vacuum',
+  'portable power station',
+] as const;
+
+export async function getHighValueTrendingProducts(limit = 8): Promise<Product[]> {
+  const status = getEbayIntegrationStatus();
+  if (status.apiType !== 'Browse' || limit < 1) return [];
+
+  const queryLimit = Math.min(6, Math.max(2, Math.ceil(limit / 2)));
+  const filters = [
+    `price:[${HIGH_VALUE_TRENDING_MIN_PRICE}]`,
+    'priceCurrency:USD',
+    'buyingOptions:{FIXED_PRICE}',
+  ];
+
+  const resultSets = await Promise.all(
+    HIGH_VALUE_TRENDING_QUERIES.map(async (query, queryIndex) => {
+      const response = await searchEbayBrowseAPI(query, queryLimit, filters);
+      const products = (response.itemSummaries ?? [])
+        .filter((item) => {
+          const price = Number(item.price?.value ?? Number.NaN);
+          return Number.isFinite(price) &&
+            price >= HIGH_VALUE_TRENDING_MIN_PRICE &&
+            item.price?.currency === 'USD';
+        })
+        .map((item, itemIndex) =>
+          mapBrowseItemToProduct(
+            item,
+            liveProductId(queryIndex * 100 + itemIndex),
+            'High-Value Trending',
+          ),
+        )
+        .filter((product): product is Product => product !== null);
+      return products;
+    }),
+  );
+
+  // Diversify by query while preserving eBay's Best Match order inside each query.
+  const selected: Product[] = [];
+  const seen = new Set<string>();
+  let position = 0;
+
+  while (selected.length < limit && resultSets.some((results) => results[position])) {
+    for (const results of resultSets) {
+      const product = results[position];
+      if (!product) continue;
+      const key = product.affiliateLink || product.title;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      selected.push(product);
+      if (selected.length >= limit) break;
+    }
+    position += 1;
+  }
+
+  return selected;
 }
 
 function resolveEbayImage(item: EbayItemSummary): string {
