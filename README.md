@@ -74,7 +74,7 @@
 - 🧪 **Comprehensive Testing** - Jest 29 + React Testing Library (20 suites, 268 tests, CI-enforced coverage floor)
 - 📄 **Self-hosted Fonts** - `geist` npm package
 - 🔄 **Cached eBay Calls** - LRU caches for OAuth tokens and Browse responses
-- ✅ **GitHub Actions CI** - `npm ci` → lint → typecheck → test → build
+- ✅ **GitHub Actions CI** - `npm ci` → merge-conflict check → lint → typecheck → test → build
 - 📅 **Daily Rotating Keywords** - Fresh product variety every day
 
 ---

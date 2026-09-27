@@ -25,7 +25,7 @@ Current documented product state:
 | Analytics | First-party + GA4 affiliate funnel | `docs/ANALYTICS_CONVERSION_FUNNEL.md` |
 | AdSense | Global publisher + optional manual blocks | `docs/ADSENSE_PLACEMENT.md` |
 | Content | 61 published guides | README / editorial status |
-| CI | lint → typecheck → tests → build | GitHub Actions / README |
+| CI | merge-conflict check → lint → typecheck → tests → build | GitHub Actions / README |
 | Deployment | Vercel | GitHub/Vercel integration |
 
 ## Known completed work
@@ -61,6 +61,12 @@ Performance work is not considered finished merely because these code changes sh
 ### Chatbot relevance
 
 The chatbot evolved from a Groq-only text assistant into a live eBay product assistant. The current implementation uses Groq as the inference provider with the `openai/gpt-oss-20b` model. Product intent, price sorting, duplicate-list suppression, and competing iPhone-generation filtering were subsequently added.
+
+## CI hardening — 2026-09-27
+
+The main CI workflow now runs the existing `npm run verify:conflicts` check immediately after dependency installation, before lint/typecheck/tests/build.
+
+This gate is intentionally narrow: it detects unresolved merge-conflict markers without changing application runtime behavior.
 
 ## Known limitations
 
