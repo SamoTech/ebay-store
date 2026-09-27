@@ -101,9 +101,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const linkedCategory = categorySlug
     ? categories.find((category) => category.slug === categorySlug)
     : undefined;
-  const linkedProducts = linkedCategory
-    ? allProducts.filter((product) => product.category.toLowerCase() === linkedCategory.name.toLowerCase()).slice(0, 4)
-    : [];
+  const resourceCategories = (post.relatedCategorySlugs ?? (categorySlug ? [categorySlug] : []))
+    .map((slug) => categories.find((category) => category.slug === slug))
+    .filter((category): category is (typeof categories)[number] => Boolean(category));
+  const linkedProducts = resourceCategories.length > 0
+    ? allProducts
+        .filter((product) => resourceCategories.some((category) => product.category.toLowerCase() === category.name.toLowerCase()))
+        .slice(0, 6)
+    : linkedCategory
+      ? allProducts.filter((product) => product.category.toLowerCase() === linkedCategory.name.toLowerCase()).slice(0, 4)
+      : [];
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: absoluteUrl('/') },
@@ -289,14 +296,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <p className="mt-2 text-gray-600 dark:text-gray-400">
               Continue researching the category and compare related products before buying.
             </p>
-            {linkedCategory && (
+            {resourceCategories.length > 0 ? (
+              <div className="mt-5 flex flex-wrap gap-3">
+                {resourceCategories.map((category) => (
+                  <Link
+                    key={category.slug}
+                    href={`/category/${category.slug}`}
+                    className="inline-flex font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    Browse {category.name} →
+                  </Link>
+                ))}
+              </div>
+            ) : linkedCategory ? (
               <Link
                 href={`/category/${linkedCategory.slug}`}
                 className="mt-5 inline-flex font-semibold text-blue-600 dark:text-blue-400 hover:underline"
               >
                 Browse {linkedCategory.name} →
               </Link>
-            )}
+            ) : null}
             {linkedProducts.length > 0 && (
               <ul className="mt-5 grid sm:grid-cols-2 gap-3">
                 {linkedProducts.map((product) => (
