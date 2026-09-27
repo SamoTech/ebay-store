@@ -8,6 +8,7 @@ import Footer from '../../../components/Footer';
 import { absoluteUrl } from '../../../lib/site';
 import { generateArticleSchema, generateBreadcrumbSchema, SchemaScript } from '../../../lib/schema';
 import AdSenseBlock from '../../../components/AdSenseBlock';
+import { getRelatedBlogPosts } from '../../../lib/related-blog-posts';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -78,13 +79,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     siteUrl: absoluteUrl(''),
     url: postUrl,
   });
-  const relatedPosts = blogArticles
-    .filter(p => p.category === post.category && p.slug !== post.slug)
-    .slice(0, 3);
-  const fallbackRelatedPosts = blogArticles
-    .filter(p => p.slug !== post.slug && !relatedPosts.some(r => r.slug === p.slug))
-    .slice(0, Math.max(0, 3 - relatedPosts.length));
-  const allRelatedPosts = [...relatedPosts, ...fallbackRelatedPosts].slice(0, 3);
+  const allRelatedPosts = getRelatedBlogPosts(post, blogArticles, 3);
 
   const blogCategoryMap: Record<string, string> = {
     Electronics: 'electronics',
