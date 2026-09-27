@@ -214,6 +214,9 @@ export default function Home() {
               <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-gray-200">Black Friday 2026</span>
               <h2 id="black-friday-heading" className="mt-2 text-2xl md:text-3xl font-black">The countdown is on</h2>
               <p className="mt-1 text-sm text-gray-400">Black Friday is November 27, 2026. Discover products worth watching before the sale rush.</p>
+              <Link href="/blog/modern-anatomy-of-black-friday-how-deals-actually-work" className="mt-3 inline-flex text-sm font-semibold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white">
+                Read the Black Friday 2026 eBay deals guide →
+              </Link>
             </div>
             <div className="grid grid-cols-4 gap-2 md:gap-3" aria-live="polite" aria-label="Black Friday countdown">
               {[
