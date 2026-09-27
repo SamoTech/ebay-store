@@ -69,6 +69,10 @@ The main CI workflow now runs the existing `npm run verify:conflicts` check imme
 
 This gate is intentionally narrow: it detects unresolved merge-conflict markers without changing application runtime behavior.
 
+### Internal linking — 2026-09-27
+
+The blog article page now ranks its three related articles using a deterministic contextual score based on category alignment and shared title/excerpt terms, with original content order as the final tie-breaker. Article URLs and the existing related-article UI are unchanged.
+
 ## Known limitations
 
 - Search-engine indexing and AI citation are external outcomes and cannot be guaranteed by code changes.

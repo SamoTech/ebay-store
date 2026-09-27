@@ -1,3 +1,21 @@
+## 2026-09-27 — Improve contextual related article selection
+
+Agent: ChatGPT / assigned engineering agent
+
+Objective: strengthen internal topic-cluster linking without changing article content, canonical URLs, or business behavior.
+
+Changed:
+- Added `lib/related-blog-posts.ts` with deterministic related-article scoring.
+- Updated `app/blog/[slug]/page.tsx` to use the scorer for the existing three related-article links.
+- Added `__tests__/lib/related-blog-posts.test.ts` covering contextual ranking, deterministic ties, current-article exclusion, and result limits.
+
+Verification:
+- PR #82 CI run #610: merge-conflict check PASS; lint PASS; typecheck PASS; tests PASS; build PASS.
+- Vercel preview deployment for commit `85542fd824a6c27ea8c378e3a0233a4e389e5941`: READY.
+- PR #82 merged to `main` as `eb2f88ca44bd6de4430a4d9a199e7afd45c74721`.
+- Production runtime HTTP verification was not performed.
+- No SEO/affiliate/chatbot/analytics routing changes beyond related-article selection.
+
 ## 2026-09-27 — Defer below-the-fold Deal of the Day image
 
 Agent: ChatGPT / assigned engineering agent
