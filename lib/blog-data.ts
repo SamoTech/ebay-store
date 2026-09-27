@@ -278,7 +278,9 @@ export const blogArticles: BlogArticle[] = [
         'Extended warranties - statistical money losers'
       ]},
       { type: 'heading', text: 'Where to Buy' },
-      { type: 'paragraph', text: 'eBay refurbished > Amazon Renewed > manufacturer refurbished > retail. Always check seller ratings (98%+ only) and return policies (30 days minimum).' }
+      { type: 'paragraph', text: 'Compare refurbishment standards, seller information, warranty coverage, return terms, condition, and total cost across marketplace and manufacturer options. There is no universal seller-rating threshold that guarantees a good purchase.' },
+      { type: 'heading', text: 'Disclosure' },
+      { type: 'paragraph', text: 'Saleh Store participates in the eBay Partner Network. Some outbound links may earn a commission at no additional cost to the buyer.' }
     ]
   },
   {
