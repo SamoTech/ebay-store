@@ -24,7 +24,7 @@
 ## 🏥 Repo Health
 
 <!-- DEVLENS:START -->
-![DevLens Health](https://img.shields.io/badge/DevLens%20Health-78%2F100-green?style=flat&logo=vercel) **Overall health: 78/100** — *Last updated: 2026-09-26*
+![DevLens Health](https://img.shields.io/badge/DevLens%20Health-78%2F100-green?style=flat&logo=github) **Overall health: 78/100** — *Last updated: 2026-09-26*
 
 | Dimension | Progress | Score | Weight |
 |---|---|---|---|
@@ -77,6 +77,8 @@
 - ✅ **GitHub Actions CI** - `npm ci` → merge-conflict check → lint → typecheck → test → build
 - 📅 **Daily Rotating Keywords** - Fresh product variety every day
 
+---
+
 ## 🤖 AI Agent Development Source
 
 This repository is designed to be recoverable by AI agents without access to previous chat sessions.
@@ -105,10 +107,12 @@ Open [http://localhost:3000](http://localhost:3000).
 
 See [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for environment configuration.
 
+---
+
 ## 🧰 Scripts
 
 | Command | What it does |
-|:---------|:-------------|
+|:--------|:-------------|
 | `npm run dev` | Start the Turbopack dev server on port 3000 |
 | `npm run build` | Production build |
 | `npm run start` | Serve the production build |
@@ -120,6 +124,8 @@ See [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for environment configuration.
 | `npm run verify:apis` | API smoke tests |
 | `npm run verify:conflicts` | Detect duplicate/conflicting route + config definitions |
 | `npm run analyze` | Bundle analysis |
+
+---
 
 ## 🔑 Environment Variables
 
@@ -136,6 +142,8 @@ See [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for environment configuration.
 | `NEXT_PUBLIC_GA_ID` | optional | Google Analytics |
 
 Copy `.env.example` and fill in only the variables required for your environment.
+
+---
 
 ## 🔌 API Endpoints
 
@@ -155,6 +163,8 @@ Copy `.env.example` and fill in only the variables required for your environment
 
 Deprecated eBay/debug paths intentionally redirect to consolidated endpoints.
 
+---
+
 ## 🔧 Tech Stack
 
 | Layer | Technology |
@@ -163,6 +173,8 @@ Deprecated eBay/debug paths intentionally redirect to consolidated endpoints.
 | **APIs** | eBay Browse API, eBay Partner Network, Groq-hosted `openai/gpt-oss-20b` AI |
 | **Testing** | Jest 29 + React Testing Library |
 | **DevOps** | Vercel, GitHub Actions |
+
+---
 
 ## 📚 Documentation
 
@@ -178,6 +190,8 @@ Deprecated eBay/debug paths intentionally redirect to consolidated endpoints.
 - [Analytics Conversion Funnel](docs/ANALYTICS_CONVERSION_FUNNEL.md)
 - [AdSense Placement](docs/ADSENSE_PLACEMENT.md)
 
+---
+
 ## 🛡️ Security
 
 - No exposed secrets
@@ -185,6 +199,8 @@ Deprecated eBay/debug paths intentionally redirect to consolidated endpoints.
 - Input sanitization and validation
 - OAuth 2.0 for eBay API access
 - CSP / HSTS / clickjacking protection via `proxy.ts`
+
+---
 
 ## 📄 License
 
