@@ -1,3 +1,33 @@
+## 2026-09-27 — Defer below-the-fold Deal of the Day image
+
+Agent: ChatGPT / assigned engineering agent
+
+Objective: Apply the smallest repository-evidenced homepage performance optimization without changing core business behavior.
+
+Investigation:
+- Inspected `app/page.tsx` and `components/DealOfTheDay.tsx`.
+- The Deal of the Day section appears below the homepage hero, merchandising spotlight, category navigation, and before the main product catalog.
+- Its Next Image instance explicitly used `priority`, which requests eager/high-priority image loading for a non-LCP section.
+
+Changed:
+- Replaced `priority` with explicit `loading="lazy"` in `components/DealOfTheDay.tsx`.
+- Added a regression assertion in `__tests__/components/DealOfTheDay.test.tsx`.
+
+Validation:
+- PR #80 CI: merge-conflict check PASS; lint PASS; typecheck PASS; tests PASS; build PASS.
+- Vercel preview deployment for commit `b5e688d7374f71bdfc1aa474233cf07ebe2ddddb`: READY.
+- PR #80 merged to `main` as `5e72f134f1a6adaef748e945fdceda8046e1304a`.
+- Production Vercel deployment for `5e72f134f1a6adaef748e945fdceda8046e1304a`: READY; aliases include `www.saleh-store.com`, `saleh-store.com`, and `ebay-store.vercel.app`.
+- Vercel runtime errors for the project in the selected 1-hour verification window: none.
+- Direct HTTP verification of `www.saleh-store.com`: not performed by instruction.
+
+Quantitative performance limitation:
+- No new PageSpeed/Lighthouse production measurement was performed, so no LCP/CLS/INP/TBT improvement is claimed.
+- Issue #79 remains open for a permitted fresh baseline and follow-up measurement.
+
+Commit/PR:
+- PR #80, `perf: defer below-fold deal image`, merged.
+
 ## 2026-09-27 — Synchronize chatbot model documentation
 
 Agent: ChatGPT / GitHub connector
