@@ -22,7 +22,7 @@ export const blogArticles: BlogArticle[] = [
     id: 1,
     slug: 'ultimate-guide-finding-hidden-gems-ebay',
     title: 'The Complete Professional Guide to Finding Overlooked Deals on eBay (2026)',
-    excerpt: 'After years of buying, reselling, and closely observing how prices actually move on eBay, this guide documents repeatable strategies built from compiled personal experience.',
+    excerpt: 'A practical research method for finding overlooked eBay listings by comparing search variations, listing conditions, timing, seller terms, and completed-sale evidence.',
     date: 'February 16, 2026',
     category: 'Shopping Strategies',
     readTime: '18 min read',
@@ -30,13 +30,13 @@ export const blogArticles: BlogArticle[] = [
     authorBio: 'The Saleh Store editorial team documents practical marketplace research methods, price-comparison techniques, and buyer-safety checks for eBay shoppers.',
     gradient: 'from-blue-500 to-indigo-600',
     content: [
-      { type: 'paragraph', text: 'After reviewing marketplace listings and comparing how buyers search, one pattern is clear: visible search results do not represent every potentially useful listing, and default search habits can narrow the comparison too much.' },
+      { type: 'paragraph', text: 'A useful eBay search starts with the recognition that visible results do not represent every potentially relevant listing. Search wording, filters, condition, seller location, and other listing details can materially change what a buyer sees.' },
       
       { type: 'paragraph', text: 'Small listing errors can materially affect visibility. A misspelled model name, incomplete description, or unusual wording can make a listing harder to find, which is one reason buyers should test several search variations rather than relying on a single query.' },
       
-      { type: 'paragraph', text: 'Over time, patterns like this kept repeating. Listings that were poorly titled, oddly timed, or slightly inconvenient consistently sold below fair market value. Meanwhile, well-optimized listings attracted crowds and premium pricing.' },
+      { type: 'paragraph', text: 'These factors can influence competition and price, but none guarantees a bargain. Buyers should treat unusual titles, timing, condition, and listing friction as signals to investigate rather than evidence that an item is underpriced.' },
       
-      { type: 'paragraph', text: 'This guide is not about hacks or shortcuts. It\'s a documented process built from repetition, observation, and restraint. Some of the strategies below are simple. Some require patience. All of them are repeatable.' },
+      { type: 'paragraph', text: 'This guide focuses on repeatable research steps rather than shortcuts. Some are simple search techniques; others require comparing several listings and checking completed-sale evidence before deciding whether a price is reasonable.' },
       
       { type: 'heading', text: 'Why Many Buyers Never See Real Deals' },
       
@@ -230,17 +230,17 @@ export const blogArticles: BlogArticle[] = [
     id: 2,
     slug: 'electronics-buying-guide-best-tech-deals',
     title: 'Electronics Buying Guide: Best Tech Deals Worth Your Money',
-    excerpt: 'In-depth reviews of laptops, tablets, smartphones, and accessories. Real performance tests and price comparisons included.',
+    excerpt: 'A practical comparison of laptops, tablets, smartphones, and accessories, with emphasis on specifications, condition, compatibility, and total cost.',
     date: 'February 14, 2026',
     category: 'Product Reviews',
     readTime: '15 min read',
-    author: 'Michael Rodriguez',
-    authorBio: 'Michael is a tech reviewer and former Best Buy employee who tests hundreds of electronics annually. His honest reviews have helped over 50,000 people avoid expensive mistakes.',
+    author: 'Saleh Store Editorial Team',
+    authorBio: 'The Saleh Store editorial team publishes practical product research and marketplace buying guides based on specifications, price comparison, compatibility, condition, and purchase terms.',
     gradient: 'from-purple-500 to-pink-600',
     content: [
-      { type: 'paragraph', text: 'I have tested over 200 electronics this year. Most are not worth your money. But these picks offer exceptional value for different budgets and needs.' },
+      { type: 'paragraph', text: 'The useful way to compare electronics is to look beyond the headline discount. Exact configuration, condition, compatibility, included accessories, current price, shipping, and return terms can change the value of a listing substantially.' },
       { type: 'heading', text: 'Best Budget Laptop: Refurbished Lenovo ThinkPad' },
-      { type: 'paragraph', text: 'New laptops under $500 are garbage. But refurbished business laptops are incredible values:' },
+      { type: 'paragraph', text: 'Refurbished business laptops can be useful alternatives at lower prices, but the exact model, age, condition, battery, and upgrade options should be checked before buying:' },
       { type: 'list', items: [
         'Lenovo ThinkPad T480: $250-350 on eBay, originally $1,200+',
         'Intel i5-8250U processor - handles multitasking perfectly',
@@ -258,9 +258,9 @@ export const blogArticles: BlogArticle[] = [
         'Compact size fits in pockets - no awkward phone bulge',
         '5G capable - future-proof for years'
       ]},
-      { type: 'paragraph', text: 'Real-world test: Loaded 50 Chrome tabs, streamed 4K YouTube, played Genshin Impact maxed out. Zero lag. This phone costs less than dinner for two but performs like an $800 flagship.' },
+      { type: 'paragraph', text: 'For a used phone, evaluate the exact model, storage, battery condition, network compatibility, screen and camera condition, included accessories, and return terms before comparing its price with newer alternatives.' },
       { type: 'heading', text: 'Best Tablet: iPad 9th Gen (Refurbished)' },
-      { type: 'paragraph', text: 'Android tablets are terrible. iPad is the only option worth considering:' },
+      { type: 'paragraph', text: 'Tablet value depends on software support, performance, display, accessories, and intended use. Compare the exact configuration rather than assuming one platform is universally better:' },
       { type: 'list', items: [
         'Refurbished iPad 9th Gen: $200-250 vs $329 new',
         'A13 Bionic chip - faster than most laptops',
@@ -287,17 +287,17 @@ export const blogArticles: BlogArticle[] = [
     id: 3,
     slug: 'spot-counterfeit-products-security-checklist',
     title: 'How to Spot Counterfeit Products: A Security Expert\'s Checklist',
-    excerpt: 'Protect yourself from fakes with professional authentication techniques. Red flags that sellers hope you will miss.',
+    excerpt: 'A practical counterfeit-awareness checklist covering pricing, seller information, listing photos, product identifiers, and what to do when authenticity is uncertain.',
     date: 'February 12, 2026',
     category: 'Buyer Protection',
     readTime: '10 min read',
-    author: 'James Park',
-    authorBio: 'James spent 6 years authenticating luxury goods for customs enforcement. He now helps online shoppers avoid the $500 billion counterfeit market.',
+    author: 'Saleh Store Editorial Team',
+    authorBio: 'The Saleh Store editorial team publishes practical buyer-protection guides focused on authenticity checks, listing evidence, seller information, and purchase terms.',
     gradient: 'from-red-500 to-orange-600',
     content: [
-      { type: 'paragraph', text: 'Counterfeits are not just illegal - they are dangerous. I have seen fake chargers catch fire, counterfeit cosmetics cause chemical burns, and fake supplements land people in hospitals. Here is how to protect yourself.' },
+      { type: 'paragraph', text: 'Counterfeit products can create financial, safety, and warranty risks. Buyers can reduce uncertainty by checking the listing evidence, seller information, product identifiers, packaging, and applicable platform protections before purchasing.' },
       { type: 'heading', text: 'Red Flag #1: Price Too Good to Be True' },
-      { type: 'paragraph', text: 'If Nike Air Jordans retail for $200 and someone offers them for $60 brand new, they are fake. Period.' },
+      { type: 'paragraph', text: 'A price far below comparable authentic listings is a reason to investigate further, but price alone does not establish that a product is counterfeit. Compare multiple current and completed listings and examine the seller and item evidence.' },
       { type: 'list', items: [
         'Research market value - check 10+ sold listings',
         'Fakes typically priced 50-70% below authentic',
@@ -343,11 +343,13 @@ export const blogArticles: BlogArticle[] = [
       { type: 'list', items: [
         'Open eBay case within 30 days - select Item not as described',
         'Upload photos showing it is counterfeit',
-        'eBay sides with buyers 95% of the time on fakes',
+        'Do not rely on a fixed success percentage; use the applicable eBay buyer-protection and counterfeit-reporting process',
         'Full refund including return shipping',
         'Report seller to eBay - they take counterfeits seriously'
       ]},
       { type: 'paragraph', text: 'If you suspect a counterfeit item, document the listing, preserve your purchase records, and use the applicable eBay reporting and buyer-protection processes. Avoid reselling suspected counterfeit goods.' }
+      { type: 'heading', text: 'Disclosure' },
+      { type: 'paragraph', text: 'Saleh Store participates in the eBay Partner Network. Some outbound links may earn a commission at no additional cost to the buyer.' }
     ]
   },
 
