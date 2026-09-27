@@ -343,7 +343,7 @@ export default function Home() {
         </section>
       ) : null}
 
-      {/* Featured category navigation. The full marketplace taxonomy lives on /categories. */
+      {/* Featured category navigation. The full marketplace taxonomy lives on /categories. */}
       <section id="products" className="max-w-6xl mx-auto px-4 py-8" aria-labelledby="category-heading">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
           <div>
