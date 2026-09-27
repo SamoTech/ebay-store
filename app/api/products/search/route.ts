@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getEbayIntegrationStatus, searchEbayProducts } from '../../../../lib/ebay-api';
+import { getEbayIntegrationStatus, getHighValueTrendingProducts, searchEbayProducts } from '../../../../lib/ebay-api';
 import { allProducts } from '../../../../lib/products';
 import { withRateLimit } from '../../../../lib/rate-limit';
 import { asValidationErrorResponse, validateSearchQuery } from '@/src/lib/validation';
@@ -7,6 +7,11 @@ import { logger } from '@/src/lib/logger';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
+
+function isHighValueDiscoveryQuery(query: string): boolean {
+  const normalized = query.toLowerCase().trim().replace(/[\s_]+/g, '-').replace(/-+/g, '-');
+  return normalized === 'high-value-deals' || normalized === 'high-value-trending';
+}
 
 async function searchProducts(request: Request) {
   const validation = validateSearchQuery(new URL(request.url).searchParams);
@@ -18,12 +23,21 @@ async function searchProducts(request: Request) {
 
   try {
     const status = getEbayIntegrationStatus();
-    logger.info('Search request', { query, mode: status.mode });
+    const useHighValueDiscovery = isHighValueDiscoveryQuery(query);
+    logger.info('Search request', { query, mode: status.mode, intent: useHighValueDiscovery ? 'high-value-discovery' : 'keyword' });
 
     if (status.mode !== 'disabled') {
-      const products = await searchEbayProducts(query, limit);
+      const products = useHighValueDiscovery
+        ? await getHighValueTrendingProducts(limit)
+        : await searchEbayProducts(query, limit);
+
       if (products.length > 0) {
-        return NextResponse.json({ products, query, source: 'ebay-api', total: products.length });
+        return NextResponse.json({
+          products,
+          query,
+          source: useHighValueDiscovery ? 'ebay-high-value-trending' : 'ebay-api',
+          total: products.length,
+        });
       }
     }
 
