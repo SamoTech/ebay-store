@@ -1,7 +1,22 @@
 # Changelog
 
-All notable changes to DealsHub are documented here.
+All notable changes to Saleh Store are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [SemVer](https://semver.org/).
+
+## [Unreleased] — 2026-09-27
+
+### Added
+
+- **Black Friday field guide** — published shopping-guide article #61 with practical coverage of price history, dynamic pricing, promotional SKUs, timing, returns, price matching, and retailer urgency tactics.
+- **Article-specific category resources** — shopping guides can declare multiple related eBay categories so relevant category context and live product resources can be surfaced per article.
+- **Expanded editorial library** — the September 2026 content batch added 20 humanized buyer-focused guides, bringing the unified blog library to 61 published articles.
+- **AI visibility measurement coverage** — the test set now includes queries for the newer electronics, storage, networking, automotive, camera, and marketplace-research guides.
+
+### Documentation
+
+- Updated the README to reflect the current 268-test verification baseline and 61 published shopping guides.
+- Added a current editorial-library status record dated 2026-09-27.
+- Kept dated SEO baselines and historical archive documents unchanged so they remain reproducible snapshots.
 
 ## [2.0.0] — 2026-09-19
 
@@ -57,8 +72,8 @@ affiliate configuration, and hardening the API surface.
   `/api/debug/ebay-status`, `/api/test/ebay-finding`) now issue host-relative `308` redirects to
   the consolidated `/api/ebay/status` and `/api/health` routes instead of exposing credential
   prefixes, and `lib/env.ts` (which threw on import) was deleted.
-- **Sitemap/robots no longer disagree** — robots lists a single, real sitemap; the placeholder
-  XML files were removed.
+- **Sitemap/robots no longer disagree** — robots lists a single, real sitemap; the placeholder XML files
+  were removed.
 - **Duplicate security headers resolved** — `X-Frame-Options` is defined once per environment.
 
 ### Changed

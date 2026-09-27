@@ -49,6 +49,34 @@ Run the same queries periodically in Google Search, Google AI features where ava
 29. eBay total cost comparison
 30. what to check before buying on eBay
 
+## New September 2026 coverage
+
+The editorial library expanded after the original 30-query suite. Add these queries to the recurring measurement set:
+
+31. how to compare eBay laptop configurations
+32. 1080p vs 1440p vs 4K gaming monitor
+33. how to check a used iPhone before buying
+34. iPhone 128GB vs 256GB vs 512GB
+35. USB-C charger buying guide
+36. power bank capacity and output guide
+37. mechanical keyboard switches buying guide
+38. SSD SATA vs NVMe buying guide
+39. external SSD vs HDD comparison
+40. Wi-Fi router buying guide
+41. smart doorbell buying guide
+42. dash cam memory card compatibility
+43. car phone mount buying guide
+44. OBD2 scanner buying guide
+45. how to tell whether an eBay deal is actually good
+
+For the Black Friday guide specifically, also test:
+
+46. how Black Friday deals actually work
+47. Black Friday price history and dynamic pricing
+48. how to compare Black Friday eBay deals
+
+Keep the same recording fields and methodology below. These additions expand the suite; they do not replace the original 30 queries.
+
 ## Record for each query
 
 - Date checked
