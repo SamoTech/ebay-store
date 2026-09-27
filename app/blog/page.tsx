@@ -7,7 +7,7 @@ import { SchemaScript } from '../../lib/schema';
 
 export const metadata: Metadata = {
   title: 'Blog - Shopping Tips & Product Reviews',
-  description: 'Expert shopping guides, honest product reviews, and money-saving strategies for finding the best deals on eBay. From electronics to sneakers, learn how to shop smarter.',
+  description: 'Practical shopping guides, product research, and buyer-protection advice for researching eBay listings, prices, condition, compatibility, and purchase terms.',
   keywords: ['eBay shopping guides', 'eBay buying tips', 'eBay deals', 'product buying guides', 'buyer protection'],
   openGraph: {
     title: 'Saleh Store Blog - eBay Shopping Guides & Buying Tips',
@@ -60,10 +60,10 @@ export default function BlogPage() {
             Saleh Store Blog
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-4">
-            Expert shopping guides, honest reviews, and insider tips
+            Practical shopping guides, product research, and buyer-protection advice
           </p>
           <p className="text-blue-200">
-            Written by real shoppers, resellers, and product experts
+            Written by the Saleh Store Editorial Team
           </p>
         </div>
       </section>
