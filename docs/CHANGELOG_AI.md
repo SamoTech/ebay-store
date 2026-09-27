@@ -1,3 +1,11 @@
+## 2026-09-27 — High-Value Trending discovery
+
+- Added a dedicated eBay Browse discovery path for high-value products across gaming laptops, flagship smartphones, graphics cards, TVs, cameras, drones, robot vacuums, and portable power stations.
+- The feed enforces a $500 USD minimum and fixed-price listings, uses eBay Best Match as the relevance signal, and diversifies across query themes without claiming marketplace sales rank.
+- Added a homepage merchandising section with a live-only feed and safe loading/empty fallback; the existing catalog and Most Wanted flow remain independent.
+- Added regression coverage for the new discovery behavior.
+- Tracked under GitHub Issue #87.
+
 ## 2026-09-27 — Improve contextual related article selection
 
 Agent: ChatGPT / assigned engineering agent

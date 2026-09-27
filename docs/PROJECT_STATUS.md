@@ -28,6 +28,10 @@ Current documented product state:
 | CI | merge-conflict check → lint → typecheck → tests → build | GitHub Actions / README |
 | Deployment | Vercel | GitHub/Vercel integration |
 
+## Merchandising discovery — 2026-09-27
+
+Added a separate High-Value Trending homepage feed using eBay Browse API Best Match across multiple high-intent shopping themes. The feed requires a minimum USD price of $500 and fixed-price listings, preserves eBay ordering within each query, and fails closed without Browse API access. It is independent from the primary catalog and Most Wanted feed.
+
 ## Known completed work
 
 ### SEO / discoverability
