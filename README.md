@@ -8,7 +8,7 @@
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.3-blue?logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwind-css)](https://tailwindcss.com/)
 [![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://vercel.com/)
 [![Tests](https://img.shields.io/badge/tests-268%20passing-brightgreen)](https://github.com/SamoTech/ebay-store)
@@ -65,17 +65,31 @@
 
 ### Technical Features
 - ⚡ **ISR (Incremental Static Regeneration)** - Lightning-fast page loads with fresh content
-- 🖼️ **Image Optimization** - AVIF/WebP with blur placeholders (zero layout shift)
-- 🌙 **Dark Mode** - Beautiful UI with seamless light/dark theme switching
-- 🎨 **Responsive Design** - Perfect on mobile, tablet, and desktop
+- 🖼️ **Image Optimization** - AVIF/WebP with blur placeholders
+- 🌙 **Dark Mode** - Light/dark theme switching
+- 🎨 **Responsive Design** - Mobile, tablet, and desktop
 - ♿ **Accessibility** - Semantic landmarks, keyboard navigation, ARIA labelling
 - 📊 **Analytics** - Vercel Analytics & Speed Insights integrated
 - 🔒 **Security Proxy** - `proxy.ts` adds CSP, HSTS, clickjacking protection and 60 req/min/IP rate limiting
 - 🧪 **Comprehensive Testing** - Jest 29 + React Testing Library (20 suites, 268 tests, CI-enforced coverage floor)
-- 📄 **Self-hosted Fonts** - `geist` npm package, no build-time Google Fonts request
-- 🔄 **Cached eBay Calls** - In-memory LRU caches for OAuth tokens (600 s) and Browse responses
-- ✅ **GitHub Actions CI** - `npm ci` → lint → typecheck → test (coverage) → build on every push/PR
+- 📄 **Self-hosted Fonts** - `geist` npm package
+- 🔄 **Cached eBay Calls** - LRU caches for OAuth tokens and Browse responses
+- ✅ **GitHub Actions CI** - `npm ci` → lint → typecheck → test → build
 - 📅 **Daily Rotating Keywords** - Fresh product variety every day
+
+---
+
+## 🤖 AI Agent Development Source
+
+This repository is designed to be recoverable by AI agents without access to previous chat sessions.
+
+- **[AGENTS.md](AGENTS.md)** — mandatory operating rules and development gates for AI agents.
+- **[AI Agent Source of Truth](docs/AI_AGENT_SOURCE_OF_TRUTH.md)** — architecture, boundaries, current facts, and non-negotiable rules.
+- **[Project Status](docs/PROJECT_STATUS.md)** — current operational state, known limitations, and safe next areas.
+- **[Development History](docs/DEVELOPMENT_HISTORY.md)** — durable milestone history with PR/commit references.
+- **[Changelog](CHANGELOG.md)** — versioned project changes and dated records.
+
+**Rule:** Git history and current code are authoritative. Documentation preserves context; dated baselines must not be rewritten to look current.
 
 ---
 
@@ -89,9 +103,9 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-See [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for full environment variable setup.
+See [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for environment configuration.
 
 ---
 
@@ -102,12 +116,12 @@ See [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for full environment variable setup.
 | `npm run dev` | Start the Turbopack dev server on port 3000 |
 | `npm run build` | Production build |
 | `npm run start` | Serve the production build |
-| `npm run lint` | ESLint (flat config in `eslint.config.mjs`) |
-| `npm run typecheck` | `tsc --noEmit` |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript checking |
 | `npm test` | Jest |
-| `npm run test:coverage` | Jest with coverage report (enforces the CI floor) |
-| `npm run verify` | typecheck + lint + tests — run this before pushing |
-| `npm run verify:apis` | Smoke-test the running app's API routes (`API_BASE_URL` to override) |
+| `npm run test:coverage` | Jest with coverage |
+| `npm run verify` | typecheck + lint + tests |
+| `npm run verify:apis` | API smoke tests |
 | `npm run verify:conflicts` | Detect duplicate/conflicting route + config definitions |
 | `npm run analyze` | Bundle analysis |
 
@@ -117,17 +131,17 @@ See [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for full environment variable setup.
 
 | Variable | Required | Purpose |
 |:---------|:---------|:--------|
-| `EBAY_CLIENT_ID` / `EBAY_CLIENT_SECRET` | ✅ | eBay Browse API OAuth (client_credentials). Without them the app runs on the static catalog |
-| `EBAY_CAMPAIGN_ID` | recommended | eBay Partner Network campaign id used for tracking links |
-| `NEXT_PUBLIC_EBAY_CAMPAIGN_ID` | optional | Browser-side override; takes precedence over `EBAY_CAMPAIGN_ID` |
-| `EBAY_MARKETPLACE_ID` | optional | Marketplace (default `EBAY_US`) |
-| `GROQ_API_KEY` | optional | Enables the AI chatbot (falls back to static replies) |
-| `WEB3FORMS_ACCESS_KEY` | optional | Emails new subscribers collected by `/api/subscribe` |
-| `ANALYTICS_READ_TOKEN` | optional | Required for `GET /api/track` in production |
-| `DEALSHUB_DATA_DIR` | optional | Where runtime JSON (events, subscribers, alerts) is written; defaults to `./data` with an OS temp-dir fallback |
+| `EBAY_CLIENT_ID` / `EBAY_CLIENT_SECRET` | ✅ | eBay Browse API OAuth |
+| `EBAY_CAMPAIGN_ID` | recommended | eBay Partner Network campaign id |
+| `NEXT_PUBLIC_EBAY_CAMPAIGN_ID` | optional | Browser-side campaign override |
+| `EBAY_MARKETPLACE_ID` | optional | Marketplace, default `EBAY_US` |
+| `GROQ_API_KEY` | optional | Enables the AI chatbot |
+| `WEB3FORMS_ACCESS_KEY` | optional | Subscriber forwarding |
+| `ANALYTICS_READ_TOKEN` | optional | Token for production analytics read |
+| `DEALSHUB_DATA_DIR` | optional | Runtime JSON storage location |
 | `NEXT_PUBLIC_GA_ID` | optional | Google Analytics |
 
-Copy `.env.example` and fill in what you need — everything except the eBay credentials is optional.
+Copy `.env.example` and fill in only the variables required for your environment.
 
 ---
 
@@ -135,19 +149,19 @@ Copy `.env.example` and fill in what you need — everything except the eBay cre
 
 | Endpoint | Description |
 |:---------|:------------|
-| `GET /api/products/discover` | Home-page product feed (live eBay, static fallback) |
-| `GET /api/products/search?q=&limit=` | Validated product search (60 req/min per IP) |
+| `GET /api/products/discover` | Home product feed |
+| `GET /api/products/search?q=&limit=` | Validated product search |
 | `GET /api/products/category/[slug]` | Category feed |
 | `GET /api/products/daily-deal` | Deal of the Day |
-| `GET /api/ebay/search?q=` \| `?trending=true` | Raw Browse API search proxy (30 req/min per IP, cached 1 h) |
-| `GET /api/ebay/status` | eBay integration status (never exposes credentials) |
-| `GET /api/health` | Health/readiness — 503 while eBay credentials are missing |
-| `POST /api/subscribe` | Subscriber signup (validated, deduplicated, 5 req/min per IP) |
-| `POST /api/price-alert` · `GET /api/alerts` | Create/list price alerts |
-| `POST /api/track` · `GET /api/track` | First-party analytics events + aggregated read (token-gated in production) |
+| `GET /api/ebay/search?q=` | eBay Browse API search proxy |
+| `GET /api/ebay/status` | eBay integration status |
+| `GET /api/health` | Health/readiness |
+| `POST /api/subscribe` | Subscriber signup |
+| `POST /api/price-alert` · `GET /api/alerts` | Price alerts |
+| `POST /api/track` · `GET /api/track` | First-party analytics |
 | `POST /api/chat` | Groq-backed shopping assistant |
 
-Deprecated paths (`/api/ebay-status`, `/api/ebay-test`, `/api/debug/ebay-status`, `/api/test/ebay-finding`) return `308` redirects to the consolidated endpoints.
+Deprecated eBay/debug paths intentionally redirect to consolidated endpoints.
 
 ---
 
@@ -155,41 +169,46 @@ Deprecated paths (`/api/ebay-status`, `/api/ebay-test`, `/api/debug/ebay-status`
 
 | Layer | Technology |
 |:------|:-----------|
-| 🎨 **Frontend** | Next.js 16 (App Router, Turbopack), React 19, TypeScript 5, Tailwind CSS 3.4 |
-| 🔒 **APIs** | eBay Browse API (OAuth 2.0), eBay Partner Network, Groq AI |
-| 🧪 **Testing** | Jest 29 + React Testing Library (20 suites / 268 tests) |
-| ☁️ **DevOps** | Vercel, GitHub Actions |
+| **Frontend** | Next.js 16 App Router, React 19, TypeScript 5, Tailwind CSS 3.4 |
+| **APIs** | eBay Browse API, eBay Partner Network, Groq AI |
+| **Testing** | Jest 29 + React Testing Library |
+| **DevOps** | Vercel, GitHub Actions |
 
 ---
 
 ## 📚 Documentation
 
-- **[Setup Guide](docs/SETUP_GUIDE.md)** - Detailed installation instructions
-- **[API Documentation](docs/API_DOCUMENTATION.md)** - All API endpoints
-- **[Component Library](docs/COMPONENTS.md)** - Component props & usage
-- **[Testing Guide](docs/TESTING_GUIDE.md)** - How to write & run tests
+- [AI Agent Source of Truth](docs/AI_AGENT_SOURCE_OF_TRUTH.md)
+- [Project Status](docs/PROJECT_STATUS.md)
+- [Development History](docs/DEVELOPMENT_HISTORY.md)
+- [Setup Guide](docs/SETUP_GUIDE.md)
+- [API Documentation](docs/API_DOCUMENTATION.md)
+- [Component Library](docs/COMPONENTS.md)
+- [Testing Guide](docs/TESTING_GUIDE.md)
+- [SEO / AI Visibility Baseline](docs/SEO_AI_VISIBILITY_BASELINE_2026-09-26.md)
+- [AI Visibility Tests](docs/AI_VISIBILITY_TESTS.md)
+- [Analytics Conversion Funnel](docs/ANALYTICS_CONVERSION_FUNNEL.md)
+- [AdSense Placement](docs/ADSENSE_PLACEMENT.md)
 
 ---
 
 ## 🛡️ Security
 
-- ✅ No exposed secrets — all API keys server-side only
-- ✅ Rate limiting on product, search, subscribe and analytics APIs
-- ✅ Input sanitization & validation
-- ✅ OAuth 2.0 for eBay API access
-- ✅ CSP / HSTS / clickjacking headers via `proxy.ts` (strict in production, preview-friendly in development)
+- No exposed secrets
+- Rate limiting on sensitive APIs
+- Input sanitization and validation
+- OAuth 2.0 for eBay API access
+- CSP / HSTS / clickjacking protection via `proxy.ts`
 
 ---
 
 ## 📄 License
 
-**MIT License** — see [LICENSE](LICENSE) file for details.
-
----
+MIT License — see [LICENSE](LICENSE).
 
 <div align="center">
 
-**Built with Next.js 16, React 19, TypeScript, and Vercel** · [Ossama Hashim](https://github.com/SamoTech) · Cairo, Egypt
+**Built with Next.js 16, React 19, TypeScript, and Vercel** · [Ossama Hashim](https://github.com/SamoTech)
 
 [Live Demo](https://www.saleh-store.com) • [Documentation](docs/) • [GitHub](https://github.com/SamoTech/ebay-store)
 
