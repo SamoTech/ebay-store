@@ -1,3 +1,41 @@
+## 2026-09-27 — Synchronize chatbot model documentation
+
+Agent: ChatGPT / GitHub connector
+
+Objective: Correct documentation drift discovered during the AI-agent operating-system audit without changing runtime behavior.
+
+Investigation:
+- Current implementation in `app/api/chat/route.ts` was inspected.
+- The chatbot uses Groq as the inference provider with model `openai/gpt-oss-20b`.
+- Existing source-of-truth, project-status, and README text still described the assistant generically as Groq-backed without identifying the current model.
+- No application, affiliate, SEO, analytics, or deployment configuration changes were required.
+
+Changed:
+- Updated `docs/AI_AGENT_SOURCE_OF_TRUTH.md` to identify the current chatbot provider/model.
+- Updated `docs/PROJECT_STATUS.md` to match the implementation.
+- Updated `README.md` API and stack descriptions.
+- No runtime code changed.
+
+Validation:
+- Repository branch: `docs/sync-ai-model-state`
+- Targeted documentation consistency checks: PASS
+- CI, lint, typecheck, tests, build: pending branch CI
+- Production deployment: NOT VERIFIED for this change
+- Production runtime: NOT VERIFIED for this change
+
+Commit/PR:
+- Documentation changes committed on the feature branch; PR/merge pending.
+
+Known limitations:
+- Direct Vercel deployment inspection is currently unavailable through the connected Vercel authorization.
+- GitHub can report Vercel deployment status, but that does not replace direct production runtime verification.
+
+Next agent:
+- Verify branch CI.
+- Review the final diff.
+- Merge only if CI remains green.
+- Verify the resulting Vercel deployment and production runtime when access permits.
+
 # AI Development Changelog
 
 This file is the durable chronological trace for AI-agent work. It records verified repository changes and verification limits. It is not a replacement for `CHANGELOG.md` and does not rewrite historical baselines.
