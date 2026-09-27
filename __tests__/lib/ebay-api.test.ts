@@ -14,6 +14,7 @@ const CREDENTIAL_KEYS = [
   'EBAY_APP_ID',
   'EBAY_CAMPAIGN_ID',
   'NEXT_PUBLIC_EBAY_CAMPAIGN_ID',
+  'EBAY_OAUTH_TOKEN',
 ];
 
 describe('ebay-api', () => {
