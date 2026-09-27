@@ -8,8 +8,9 @@ The repository is on the `main` line with the September 2026 documentation/conte
 
 Current documented product state:
 
-- 61 published shopping guides
+- 62 published shopping guides
 - Black Friday field guide is article #61
+- Local AI agents + eBay architecture guide is article #62
 - article-specific multi-category resources are supported
 - 268 tests are the documented verification baseline
 - production target: https://www.saleh-store.com
@@ -27,6 +28,10 @@ Current documented product state:
 | Content | 61 published guides | README / editorial status |
 | CI | merge-conflict check → lint → typecheck → tests → build | GitHub Actions / README |
 | Deployment | Vercel | GitHub/Vercel integration |
+
+## Content — 2026-09-27
+
+Added Article #62, `how-ebay-helps-build-local-ai-agents-environment`, explaining how eBay can serve as an external commerce data layer for local AI agents, with boundaries around API access, deterministic filters, caching, policy controls, and affiliate workflows.
 
 ## Merchandising discovery — 2026-09-27
 
