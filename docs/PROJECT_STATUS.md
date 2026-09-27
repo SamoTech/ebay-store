@@ -55,6 +55,7 @@ See `docs/ADSENSE_PLACEMENT.md`.
 ### Performance
 
 Homepage CLS/runtime work included deferring the chatbot, stabilizing Deal of the Day layout, moving Recently Viewed lower in the page, and fixing production hydration/icon/image/CSP issues.
+On 2026-09-27, the Deal of the Day image was changed from Next Image `priority` to explicit `loading="lazy"` because the section is below the homepage hero and catalog/category content. This is a targeted resource-loading optimization; its quantitative impact is not claimed until a fresh PageSpeed measurement is available.
 
 Performance work is not considered finished merely because these code changes shipped. New PageSpeed measurements are required to quantify the remaining LCP/CLS/JS issues.
 
