@@ -454,7 +454,7 @@ export const expandedBlogArticles: BlogArticle[] = [
       "electronics",
       "computers-tablets-networking",
       "gaming",
-      "shopping-strategies"
+      "consumer-electronics"
     ],
     content: [
       {
