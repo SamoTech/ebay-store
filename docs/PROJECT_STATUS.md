@@ -20,7 +20,7 @@ Current documented product state:
 |---|---|---|
 | eBay discovery | Live Browse API with fallback catalog | `lib/ebay-api.ts`, API routes |
 | Affiliate links | Centralized EPN builder | `lib/affiliate.ts` |
-| AI chatbot | Groq + live eBay results | `app/api/chat/route.ts`, `components/Chatbot.tsx` |
+| AI chatbot | Groq-hosted `openai/gpt-oss-20b` + live eBay results | `app/api/chat/route.ts`, `components/Chatbot.tsx` |
 | SEO | Sitemap, robots, canonicals, structured data | `app/robots.ts`, sitemap route, SEO helpers |
 | Analytics | First-party + GA4 affiliate funnel | `docs/ANALYTICS_CONVERSION_FUNNEL.md` |
 | AdSense | Global publisher + optional manual blocks | `docs/ADSENSE_PLACEMENT.md` |
@@ -60,7 +60,7 @@ Performance work is not considered finished merely because these code changes sh
 
 ### Chatbot relevance
 
-The chatbot evolved from a Groq-only text assistant into a live eBay product assistant. Product intent, price sorting, duplicate-list suppression, and competing iPhone-generation filtering were subsequently added.
+The chatbot evolved from a Groq-only text assistant into a live eBay product assistant. The current implementation uses Groq as the inference provider with the `openai/gpt-oss-20b` model. Product intent, price sorting, duplicate-list suppression, and competing iPhone-generation filtering were subsequently added.
 
 ## Known limitations
 
