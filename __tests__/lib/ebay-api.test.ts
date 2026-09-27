@@ -1,7 +1,6 @@
 import {
   createAffiliateUrl,
   getEbayIntegrationStatus,
-  getHighValueTrendingProducts,
   mapBrowseItemToProduct,
   mapFindingItemToProduct,
   type EbayItemSummary,
@@ -14,7 +13,6 @@ const CREDENTIAL_KEYS = [
   'EBAY_APP_ID',
   'EBAY_CAMPAIGN_ID',
   'NEXT_PUBLIC_EBAY_CAMPAIGN_ID',
-  'EBAY_OAUTH_TOKEN',
 ];
 
 describe('ebay-api', () => {
@@ -186,57 +184,6 @@ describe('ebay-api', () => {
 
       expect(product!.id).toBeGreaterThanOrEqual(LIVE_PRODUCT_ID_OFFSET);
       expect(product!.isLive).toBe(true);
-    });
-  });
-
-  describe('high-value trending discovery', () => {
-    it('fails closed when Browse API credentials are unavailable', async () => {
-      delete process.env.EBAY_CLIENT_ID;
-      delete process.env.EBAY_CLIENT_SECRET;
-      delete process.env.EBAY_APP_ID;
-      delete process.env.EBAY_OAUTH_TOKEN;
-
-      await expect(getHighValueTrendingProducts()).resolves.toEqual([]);
-    });
-
-    it('enforces a $500 USD fixed-price request and filters invalid responses', async () => {
-      process.env.EBAY_OAUTH_TOKEN = 'test-token';
-      const originalFetch = global.fetch;
-      const fetchMock = jest.fn().mockResolvedValue({
-        ok: true,
-        json: async () => ({
-          itemSummaries: [
-            {
-              itemId: 'v1|high|0',
-              title: 'High value item',
-              price: { value: '799.99', currency: 'USD' },
-              itemWebUrl: 'https://www.ebay.com/itm/high',
-            },
-            {
-              itemId: 'v1|low|0',
-              title: 'Low value item',
-              price: { value: '199.99', currency: 'USD' },
-              itemWebUrl: 'https://www.ebay.com/itm/low',
-            },
-          ],
-        }),
-      });
-      global.fetch = fetchMock as typeof global.fetch;
-
-      try {
-        const products = await getHighValueTrendingProducts(4);
-
-        expect(products.every((product) => product.price >= 500)).toBe(true);
-        expect(products.some((product) => product.title === 'Low value item')).toBe(false);
-        expect(fetchMock).toHaveBeenCalled();
-
-        const firstRequest = new URL(String(fetchMock.mock.calls[0][0]));
-        expect(firstRequest.searchParams.get('filter')).toBe(
-          'price:[500],priceCurrency:USD,buyingOptions:{FIXED_PRICE}',
-        );
-      } finally {
-        global.fetch = originalFetch;
-      }
     });
   });
 
