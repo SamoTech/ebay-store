@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getTrendingProducts, searchEbayProducts } from '@/lib/ebay-api';
+import { getHighValueTrendingProducts, getTrendingProducts, searchEbayProducts } from '@/lib/ebay-api';
 import { withRateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
@@ -15,17 +15,19 @@ const MAX_LIMIT = 50;
  * @example
  * GET /api/ebay/search?q=laptop
  * GET /api/ebay/search?trending=true&limit=12
+ * GET /api/ebay/search?highValueTrending=true&limit=8
  */
 async function handler(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q')?.trim() ?? '';
   const trending = searchParams.get('trending') === 'true';
+  const highValueTrending = searchParams.get('highValueTrending') === 'true';
   const requestedLimit = Number.parseInt(searchParams.get('limit') ?? '12', 10);
   const limit = Number.isFinite(requestedLimit)
     ? Math.min(Math.max(requestedLimit, 1), MAX_LIMIT)
     : 12;
 
-  if (!trending && !query) {
+  if (!trending && !highValueTrending && !query) {
     return NextResponse.json(
       { success: false, error: 'Please provide ?q=keyword or ?trending=true' },
       { status: 400 },
@@ -33,15 +35,17 @@ async function handler(request: NextRequest) {
   }
 
   try {
-    const products = trending
-      ? await getTrendingProducts()
-      : await searchEbayProducts(query, limit);
+    const products = highValueTrending
+      ? await getHighValueTrendingProducts(limit)
+      : trending
+        ? await getTrendingProducts()
+        : await searchEbayProducts(query, limit);
 
     return NextResponse.json(
       {
         success: true,
         count: products.length,
-        query: trending ? 'trending' : query,
+        query: highValueTrending ? 'high-value-trending' : trending ? 'trending' : query,
         products,
       },
       {
