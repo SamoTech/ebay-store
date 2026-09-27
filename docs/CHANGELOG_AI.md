@@ -1,3 +1,10 @@
+## 2026-09-27 — Local AI agents + eBay guide
+
+- Added Article #62: `How eBay Can Help You Build a Local AI Agents Environment`.
+- The guide treats eBay as an external commerce data layer while local models, orchestration, caching, policy enforcement, and evaluation remain under the application operator's control.
+- Covered Browse API search, filters, item-detail retrieval, Best Match handling, local caching, tool contracts, specialized agents, and affiliate workflows.
+- Included official eBay Developer references and explicit limitations around API release stages.
+
 ## 2026-09-27 — High-Value Trending discovery
 
 - Added a dedicated eBay Browse discovery path for high-value products across gaming laptops, flagship smartphones, graphics cards, TVs, cameras, drones, robot vacuums, and portable power stations.
