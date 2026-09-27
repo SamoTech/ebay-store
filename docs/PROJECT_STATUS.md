@@ -32,6 +32,10 @@ Current documented product state:
 
 Added a separate High-Value Trending homepage feed using eBay Browse API Best Match across multiple high-intent shopping themes. The feed requires a minimum USD price of $500 and fixed-price listings, preserves eBay ordering within each query, and fails closed without Browse API access. It is independent from the primary catalog and Most Wanted feed.
 
+## Search intent guard — 2026-09-27
+
+A targeted search-routing fix is prepared on `fix/high-value-search-intent`: `high-value-deals` / `high-value-trending` intents now use the existing high-value discovery feed instead of literal eBay keyword search. Generic search behavior remains unchanged. Regression coverage is included. The change is tracked under Issue #90 and is not a production claim until merged and deployment-verified.
+
 ## Known completed work
 
 ### SEO / discoverability
