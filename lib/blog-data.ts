@@ -10,6 +10,7 @@ export interface BlogArticle {
   author: string;
   authorBio: string;
   gradient: string;
+  relatedCategorySlugs?: string[];
   content: Array<{
     type: 'heading' | 'paragraph' | 'list' | 'quote';
     text?: string;
