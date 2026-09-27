@@ -133,7 +133,7 @@ export default function DealOfTheDay() {
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
-                priority
+                loading="lazy"
               />
               <div className="absolute top-4 left-4 bg-yellow-400 text-black px-4 py-2 rounded-full font-bold text-lg animate-pulse">
                 🔥 -{discount}% OFF
