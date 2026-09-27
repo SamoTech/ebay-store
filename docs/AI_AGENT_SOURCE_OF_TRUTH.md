@@ -22,7 +22,7 @@ For agent behavior and change gates, see root `AGENTS.md`.
 - Stack: Next.js 16.1.6, React 19.2.3, TypeScript, Tailwind CSS
 - Marketplace: eBay
 - Affiliate network: eBay Partner Network
-- AI assistant: Groq-backed shopping assistant
+- AI assistant: Groq-hosted `openai/gpt-oss-20b` shopping assistant
 - Testing: Jest + React Testing Library
 - CI: GitHub Actions
 
@@ -92,11 +92,11 @@ Never invent an ad-slot ID.
 
 ### Chatbot
 
-The chatbot uses Groq and live eBay product search.
+The chatbot uses Groq as the inference provider with the `openai/gpt-oss-20b` model and live eBay product search.
 
 The current product-search flow:
 
-`user query → intent detection → eBay search → relevance/price filtering → live product context → Groq response → affiliate product cards`
+`user query → intent detection → eBay search → relevance/price filtering → live product context → Groq-hosted openai/gpt-oss-20b response → affiliate product cards`
 
 Important behavior already implemented:
 
@@ -144,7 +144,7 @@ Legacy files are retained intentionally. Do not remove them as cleanup.
 
 Never commit secrets.
 
-Known environment concerns include eBay API credentials, eBay campaign configuration, Groq API key, optional Web3Forms, analytics read token, and optional GA/AdSense configuration.
+Known environment concerns include eBay API credentials, eBay campaign configuration, Groq API key, optional Web3Forms, analytics read token, and optional GA/AdSense configuration. The Groq key is used for the chatbot inference provider; the model is configured separately in application code.
 
 Use `.env.example` and existing setup documentation as the contract. Never paste secret values into documentation, issues, commits, or agent output.
 

@@ -159,7 +159,7 @@ Copy `.env.example` and fill in only the variables required for your environment
 | `POST /api/subscribe` | Subscriber signup |
 | `POST /api/price-alert` · `GET /api/alerts` | Price alerts |
 | `POST /api/track` · `GET /api/track` | First-party analytics |
-| `POST /api/chat` | Groq-backed shopping assistant |
+| `POST /api/chat` | Groq-hosted `openai/gpt-oss-20b` shopping assistant |
 
 Deprecated eBay/debug paths intentionally redirect to consolidated endpoints.
 
@@ -170,7 +170,7 @@ Deprecated eBay/debug paths intentionally redirect to consolidated endpoints.
 | Layer | Technology |
 |:------|:-----------|
 | **Frontend** | Next.js 16 App Router, React 19, TypeScript 5, Tailwind CSS 3.4 |
-| **APIs** | eBay Browse API, eBay Partner Network, Groq AI |
+| **APIs** | eBay Browse API, eBay Partner Network, Groq-hosted `openai/gpt-oss-20b` AI |
 | **Testing** | Jest 29 + React Testing Library |
 | **DevOps** | Vercel, GitHub Actions |
 
