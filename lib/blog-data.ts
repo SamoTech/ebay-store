@@ -347,7 +347,7 @@ export const blogArticles: BlogArticle[] = [
         'Full refund including return shipping',
         'Report seller to eBay - they take counterfeits seriously'
       ]},
-      { type: 'paragraph', text: 'If you suspect a counterfeit item, document the listing, preserve your purchase records, and use the applicable eBay reporting and buyer-protection processes. Avoid reselling suspected counterfeit goods.' }
+      { type: 'paragraph', text: 'If you suspect a counterfeit item, document the listing, preserve your purchase records, and use the applicable eBay reporting and buyer-protection processes. Avoid reselling suspected counterfeit goods.' },
       { type: 'heading', text: 'Disclosure' },
       { type: 'paragraph', text: 'Saleh Store participates in the eBay Partner Network. Some outbound links may earn a commission at no additional cost to the buyer.' }
     ]
