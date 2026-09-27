@@ -11,7 +11,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwind-css)](https://tailwindcss.com/)
 [![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://vercel.com/)
-[![Tests](https://img.shields.io/badge/tests-251%20passing-brightgreen)](https://github.com/SamoTech/ebay-store)
+[![Tests](https://img.shields.io/badge/tests-268%20passing-brightgreen)](https://github.com/SamoTech/ebay-store)
 [![Coverage](https://img.shields.io/badge/coverage%20floor-25%25-yellow)](https://github.com/SamoTech/ebay-store)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
@@ -41,10 +41,15 @@
 
 ## ✨ Features
 
+### Current Content State
+- **61 published shopping guides** — articles #1–#61 are served through the unified blog data and sitemap.
+- **Black Friday field guide** — article #61 adds article-specific related categories and live product resources.
+- **Humanized editorial library** — the September 2026 expansion added 20 practical buyer-focused guides across electronics, gaming, phones, networking, smart home, auto, cameras, and shopping strategy.
+
 ### Public Research Assets
 - [Deal Comparison Calculator](https://www.saleh-store.com/tools/deal-comparison) — normalize marketplace costs before comparing listings
 - [eBay Deal Comparison Methodology](https://www.saleh-store.com/research/ebay-deal-comparison-methodology) — documented comparison framework
-- [Shopping Guides](https://www.saleh-store.com/blog) — practical product and marketplace research
+- [Shopping Guides](https://www.saleh-store.com/blog) — 61 practical product and marketplace research articles, including the Black Friday field guide
 
 ### Core Features
 - 🔍 **Smart Search** - AI-powered product search across eBay with autocomplete
@@ -66,7 +71,7 @@
 - ♿ **Accessibility** - Semantic landmarks, keyboard navigation, ARIA labelling
 - 📊 **Analytics** - Vercel Analytics & Speed Insights integrated
 - 🔒 **Security Proxy** - `proxy.ts` adds CSP, HSTS, clickjacking protection and 60 req/min/IP rate limiting
-- 🧪 **Comprehensive Testing** - Jest 29 + React Testing Library (20 suites, 251 tests, CI-enforced coverage floor)
+- 🧪 **Comprehensive Testing** - Jest 29 + React Testing Library (20 suites, 268 tests, CI-enforced coverage floor)
 - 📄 **Self-hosted Fonts** - `geist` npm package, no build-time Google Fonts request
 - 🔄 **Cached eBay Calls** - In-memory LRU caches for OAuth tokens (600 s) and Browse responses
 - ✅ **GitHub Actions CI** - `npm ci` → lint → typecheck → test (coverage) → build on every push/PR
@@ -152,7 +157,7 @@ Deprecated paths (`/api/ebay-status`, `/api/ebay-test`, `/api/debug/ebay-status`
 |:------|:-----------|
 | 🎨 **Frontend** | Next.js 16 (App Router, Turbopack), React 19, TypeScript 5, Tailwind CSS 3.4 |
 | 🔒 **APIs** | eBay Browse API (OAuth 2.0), eBay Partner Network, Groq AI |
-| 🧪 **Testing** | Jest 29 + React Testing Library (20 suites / 251 tests) |
+| 🧪 **Testing** | Jest 29 + React Testing Library (20 suites / 268 tests) |
 | ☁️ **DevOps** | Vercel, GitHub Actions |
 
 ---
