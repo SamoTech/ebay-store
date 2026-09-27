@@ -69,6 +69,18 @@ describe('DealOfTheDay Component', () => {
         }
       });
     });
+
+    it('should defer the below-the-fold deal image', async () => {
+      renderWithProviders(<DealOfTheDay />);
+
+      await waitFor(() => {
+        const images = screen.queryAllByRole('img');
+        if (images.length > 0) {
+          expect(images[0]).toHaveAttribute('loading', 'lazy');
+        }
+      });
+    });
+
   });
 
   describe('Price Display', () => {
