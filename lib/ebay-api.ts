@@ -303,23 +303,30 @@ export async function getHighValueTrendingProducts(limit = 8): Promise<Product[]
 
   const resultSets = await Promise.all(
     HIGH_VALUE_TRENDING_QUERIES.map(async (query, queryIndex) => {
-      const response = await searchEbayBrowseAPI(query, queryLimit, filters);
-      const products = (response.itemSummaries ?? [])
-        .filter((item) => {
-          const price = Number(item.price?.value ?? Number.NaN);
-          return Number.isFinite(price) &&
-            price >= HIGH_VALUE_TRENDING_MIN_PRICE &&
-            item.price?.currency === 'USD';
-        })
-        .map((item, itemIndex) =>
-          mapBrowseItemToProduct(
-            item,
-            liveProductId(queryIndex * 100 + itemIndex),
-            'High-Value Trending',
-          ),
-        )
-        .filter((product): product is Product => product !== null);
-      return products;
+      try {
+        const response = await searchEbayBrowseAPI(query, queryLimit, filters);
+        return (response.itemSummaries ?? [])
+          .filter((item) => {
+            const price = Number(item.price?.value ?? Number.NaN);
+            return Number.isFinite(price) &&
+              price >= HIGH_VALUE_TRENDING_MIN_PRICE &&
+              item.price?.currency === 'USD';
+          })
+          .map((item, itemIndex) =>
+            mapBrowseItemToProduct(
+              item,
+              liveProductId(queryIndex * 100 + itemIndex),
+              'High-Value Trending',
+            ),
+          )
+          .filter((product): product is Product => product !== null);
+      } catch (error) {
+        logger.warn('High-value trending query failed', {
+          query,
+          error: error instanceof Error ? error.message : String(error),
+        });
+        return [];
+      }
     }),
   );
 
