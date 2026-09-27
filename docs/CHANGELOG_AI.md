@@ -1,3 +1,12 @@
+## 2026-09-27 — Fix high-value search intent routing
+
+- Observed that homepage `/search?q=high-value-deals` was being treated as a literal eBay keyword, producing semantically matching non-shopping results such as books about closing high-value deals.
+- Updated `app/api/products/search/route.ts` so `high-value-deals` and `high-value-trending` (including space/underscore variants) route to the existing `getHighValueTrendingProducts()` discovery path.
+- Ordinary keyword search remains unchanged.
+- Added `__tests__/api/products-search.test.ts` covering high-value routing, intent normalization, and ordinary keyword routing.
+- Tracked under GitHub Issue #90.
+- Deployment verification remains pending until the pull request passes the repository/Vercel deployment gate.
+
 ## 2026-09-27 — High-Value Trending discovery
 
 - Added a dedicated eBay Browse discovery path for high-value products across gaming laptops, flagship smartphones, graphics cards, TVs, cameras, drones, robot vacuums, and portable power stations.
