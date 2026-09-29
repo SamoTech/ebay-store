@@ -93,6 +93,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
     url: product.affiliateLink,
     pageUrl: productUrl,
     availability: 'InStock',
+    sku: product.id.toString(),
+    category: product.category,
+    ...(product.condition
+      ? {
+          itemCondition:
+            product.condition.toLowerCase().includes('refurb')
+              ? 'RefurbishedCondition'
+              : product.condition.toLowerCase().includes('used') || product.condition.toLowerCase().includes('pre-owned')
+                ? 'UsedCondition'
+                : 'NewCondition',
+        }
+      : {}),
   });
 
   const breadcrumbSchema = generateBreadcrumbSchema([
