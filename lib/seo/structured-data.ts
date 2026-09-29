@@ -129,6 +129,9 @@ export function generateProductStructuredData(product: {
   pageUrl?: string
   brand?: string
   availability?: 'InStock' | 'OutOfStock' | 'PreOrder'
+  sku?: string
+  category?: string
+  itemCondition?: 'NewCondition' | 'UsedCondition' | 'RefurbishedCondition' | 'DamagedCondition'
 }) {
   return {
     '@context': 'https://schema.org',
@@ -137,6 +140,8 @@ export function generateProductStructuredData(product: {
     description: product.description,
     image: product.image,
     url: product.pageUrl || product.url,
+    ...(product.sku ? { sku: product.sku } : {}),
+    ...(product.category ? { category: product.category } : {}),
     brand: {
       '@type': 'Brand',
       name: product.brand || 'Various',
@@ -147,6 +152,9 @@ export function generateProductStructuredData(product: {
       priceCurrency: product.currency,
       price: product.price,
       availability: `https://schema.org/${product.availability || 'InStock'}`,
+      ...(product.itemCondition
+        ? { itemCondition: `https://schema.org/${product.itemCondition}` }
+        : {}),
       seller: {
         '@type': 'Organization',
         name: 'eBay',
