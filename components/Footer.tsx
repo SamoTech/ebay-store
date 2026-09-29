@@ -31,6 +31,7 @@ export default function Footer() {
             <ul className="space-y-2 text-gray-400">
               <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
               <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
+              <li><Link href="/advertise" className="hover:text-white transition-colors">Advertise</Link></li>
               <li><Link href="/favorites" className="hover:text-white transition-colors">Favorites</Link></li>
               <li><a href="https://www.ebay.com/sch/i.html?_nkw=deals" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">eBay Deals</a></li>
             </ul>
