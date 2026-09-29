@@ -25,6 +25,7 @@ function buildEntries(): SitemapEntry[] {
     { loc: '/research/ebay-deal-comparison-methodology', changefreq: 'monthly', priority: '0.7' },
     { loc: '/contact', changefreq: 'monthly', priority: '0.6' },
     { loc: '/faq', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/advertise', changefreq: 'monthly', priority: '0.6' },
   ];
 
   // `all` maps to the homepage, which is already listed above.
