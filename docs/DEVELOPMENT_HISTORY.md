@@ -233,3 +233,19 @@ A later documentation synchronization commit recorded the current state and expa
 - A production deployment must be verified separately from a Git merge.
 - Search visibility, AI citation, AdSense account settings, and EPN revenue are external states and cannot be inferred from source code alone.
 - When uncertain, inspect the current implementation and the latest relevant commit before changing anything.
+
+## Direct sponsorship foundation — 2026-09-29
+
+Added an isolated direct-sponsorship foundation:
+
+- config/sponsorship.ts — campaign lifecycle and advertiser contact configuration
+- config/sponsor-packages.ts — sponsorship inventory
+- components/SponsorSlot.tsx — direct sponsor renderer
+- app/advertise/page.tsx — public sales page
+- docs/SPONSORSHIP.md — operational documentation
+- homepage top and bottom sponsor slots
+- footer and sitemap links to /advertise
+
+The implementation deliberately does not connect sponsorships to AdSense, Supabase, a database, authentication, or payments. Sponsor links use rel="sponsored noopener noreferrer".
+
+Validation and production deployment verification remain pending for this change.
