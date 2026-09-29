@@ -188,3 +188,7 @@ The next agent should be able to answer three questions immediately:
 1. What is true now?
 2. Why is it true?
 3. What is the safest next change?
+
+## Direct sponsorship
+
+As of 2026-09-29, Saleh Store has a separate direct-sponsorship foundation at /advertise. Sponsor campaigns are static configuration rendered by SponsorSlot; AdSense remains a separate system and must not be used as a sponsor fallback. Advertiser contact is Telegram @OssamaHashim or ossama.hashim.m@gmail.com.
