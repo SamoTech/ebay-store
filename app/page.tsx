@@ -11,6 +11,7 @@ import { allProducts, categories, createSearchLink, featuredProducts, Product } 
 import { formatPrice } from '@/lib/utils/price';
 import { trackEvent } from '@/lib/analytics';
 import AdSenseBlock from '@/components/AdSenseBlock';
+import SponsorSlot from '@/components/SponsorSlot';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -241,7 +242,7 @@ export default function Home() {
         </div>
       </section>
 
-\n      
+      <SponsorSlot slot="homepage-top" />
 
       <section className="max-w-6xl mx-auto px-4 py-6" aria-labelledby="black-friday-heading">
         <div className="rounded-3xl bg-black text-white px-5 py-6 md:px-8 md:py-7 shadow-xl border border-gray-800">
@@ -383,6 +384,8 @@ export default function Home() {
       <section className="bg-gray-100 dark:bg-gray-800 py-12 mt-12"><div className="max-w-4xl mx-auto px-4 text-center"><h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Can&apos;t Find What You&apos;re Looking For?</h2><p className="text-gray-600 dark:text-gray-300 mb-6">Browse millions of products on eBay through our affiliate links</p><a href={createSearchLink('trending deals')} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent({ event: 'affiliate_outbound_click', source: 'homepage', placement: 'browse_more_cta', url: createSearchLink('trending deals') })} className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">Browse More on eBay</a></div></section>
 
       <section className="bg-blue-600 text-white py-12 mt-12"><div className="max-w-6xl mx-auto px-4"><div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-center items-center"><div><p className="text-4xl font-bold">{catalog.length}</p><p className="text-blue-200">Products loaded</p></div><div><p className="text-4xl font-bold">{categories.length - 1}</p><p className="text-blue-200">Categories</p></div><div><Link href="#products" className="inline-block bg-white text-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">Browse Deals</Link><p className="text-blue-200 text-sm mt-2">Current catalog</p></div></div></div></section>
+
+      <SponsorSlot slot="homepage-bottom" />
 
       <Footer />
     </main>
