@@ -13,6 +13,7 @@ import { absoluteUrl } from '../../../lib/site';
 import { generateBreadcrumbSchema, SchemaScript } from '../../../lib/schema';
 import { generateProductStructuredData } from '../../../lib/seo/structured-data';
 import AdSenseBlock from '../../../components/AdSenseBlock';
+import SponsorSlot from '../../../components/SponsorSlot';
 
 /**
  * ISR Configuration
@@ -218,6 +219,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 Buy Now on eBay 🛒
               </AffiliateLink>
             </div>
+
+            <SponsorSlot slot="product-sidebar" className="px-0 py-4" />
 
             <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
               <div className="flex items-start gap-3">
