@@ -106,3 +106,11 @@ When a future agent completes one of these areas, update this document and the d
 - PR/commit
 - deployment verification
 - remaining limitation
+
+## Direct sponsorship foundation — 2026-09-29
+
+A direct sponsorship system was added independently of AdSense. The public sales page is /advertise, sponsor campaigns are static configuration entries, and the initial homepage has top and bottom sponsor slots. No database, Supabase dependency, advertiser dashboard, authentication flow, or payment integration was added.
+
+Advertiser contact channels are Telegram @OssamaHashim and ossama.hashim.m@gmail.com. Package pricing is intentionally Custom quote rather than an unverified market-rate claim.
+
+AdSense remains implemented through AdSenseBlock and is not used as a sponsor fallback.
