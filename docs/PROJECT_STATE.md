@@ -3,6 +3,14 @@
 Last verified: 2026-09-27
 Verification scope: repository state, current branch/HEAD, current documentation, CI configuration, recent Git history, and GitHub commit status.
 
+## Governance state
+
+- Governance model: `AI_CONSTITUTION.md`
+- Strategic decision register: `DECISIONS.md`
+- COO operational record: `docs/COO_OPERATING_RECORD.md`
+- Governance rollout branch: `governance/ceo-coo-operating-model`
+- Governance rollout status: IN PROGRESS until CI validation and target-branch synchronization are complete.
+
 ## Repository identity
 
 - Repository: `SamoTech/ebay-store`
