@@ -24,17 +24,19 @@
 ## 🏥 Repo Health
 
 <!-- DEVLENS:START -->
-![DevLens Health](https://img.shields.io/badge/DevLens%20Health-78%2F100-green?style=flat&logo=github) **Overall health: 78/100** — *Last updated: 2026-09-26*
+![DevLens Health](https://img.shields.io/badge/DevLens%20Health-75%2F100-green?style=flat&logo=github) **Overall health: 75/100** — *Last updated: 2026-09-30*
 
 | Dimension | Progress | Score | Weight |
 |---|---|---|---|
-| 📝 **README Quality** | `████████░░` | ![82](https://img.shields.io/badge/82-brightgreen?style=flat-square) | 20% |
+| 📝 **README Quality** | `████████░░` | ![76](https://img.shields.io/badge/76-green?style=flat-square) | 20% |
 | 🔥 **Commit Activity** | `██████████` | ![100](https://img.shields.io/badge/100-brightgreen?style=flat-square) | 20% |
-| 🌿 **Repo Freshness** | `██████████` | ![100](https://img.shields.io/badge/100-brightgreen?style=flat-square) | 15% |
-| 📚 **Documentation** | `█████░░░░░` | ![48](https://img.shields.io/badge/48-yellow?style=flat-square) | 15% |
-| ⚙️ **CI/CD Setup** | `██████░░░░` | ![60](https://img.shields.io/badge/60-green?style=flat-square) | 15% |
-| 🎯 **Issue Response** | `██████████` | ![100](https://img.shields.io/badge/100-brightgreen?style=flat-square) | 10% |
+| 🌿 **Repo Freshness** | `██████████` | ![100](https://img.shields.io/badge/100-brightgreen?style=flat-square) | 10% |
+| 📚 **Documentation** | `█████░░░░░` | ![51](https://img.shields.io/badge/51-yellow?style=flat-square) | 10% |
+| ⚙️ **CI/CD Setup** | `██████░░░░` | ![60](https://img.shields.io/badge/60-green?style=flat-square) | 10% |
+| 🎯 **Issue Response** | `█████████░` | ![86](https://img.shields.io/badge/86-brightgreen?style=flat-square) | 10% |
 | ⭐ **Community Signal** | `██░░░░░░░░` | ![16](https://img.shields.io/badge/16-red?style=flat-square) | 5% |
+| 🔀 **PR Velocity** | `██████████` | ![100](https://img.shields.io/badge/100-brightgreen?style=flat-square) | 10% |
+| 🔐 **Security** | `░░░░░░░░░░` | ![0](https://img.shields.io/badge/0-red?style=flat-square) | 5% |
 <!-- DEVLENS:END -->
 
 ---
