@@ -1,5 +1,12 @@
 # AI Agent Operating Guide
 
+## Governance authority
+
+This repository follows `AI_CONSTITUTION.md`: Human Owner → AI CEO/CIO → AI COO → Specialized Agents. The CEO/CIO is the final AI strategic authority. The COO owns execution, verification, repository health, and documentation synchronization. Strategic decisions and high-impact changes must be escalated rather than silently overridden.
+
+Before substantial work, agents must read `AI_CONSTITUTION.md` in addition to the existing source-of-truth documents. No significant decision, change, or verified state may remain undocumented.
+
+
 This repository is an active production project. Any AI agent working on it MUST treat the repository itself as the source of truth and preserve the project's existing development history.
 
 ## Source-of-truth order
@@ -96,6 +103,9 @@ Current performance work is evidence-driven. Do not optimize based on guesses.
 The known baseline identified high CLS and mobile LCP concerns. If continuing performance work, measure first and inspect the actual PageSpeed/layout-shift evidence before changing architecture.
 
 ## Documentation rule
+
+The documentation gate is mandatory: implementation, tests, verification, security review, status synchronization, applicable roadmap/decision updates, known risks, and next action must be addressed before a meaningful task can be reported COMPLETE. See `AI_CONSTITUTION.md` and `docs/COO_OPERATING_RECORD.md`.
+
 
 Every meaningful architectural, SEO, analytics, performance, content, or production change should leave a durable record in the repository.
 
