@@ -1,3 +1,29 @@
+# AI Development Changelog
+
+This file is the durable chronological trace for AI-agent work. It records verified repository changes and verification limits. It is not a replacement for `CHANGELOG.md` and does not rewrite historical baselines.
+
+## 2026-09-30 — Adopt explicit CEO/CIO → COO repository governance
+
+Agent: ChatGPT / AI COO
+
+Objective: Integrate the repository governance model defining strategic authority, COO execution responsibility, mandatory documentation synchronization, decision recording, and agent handoff requirements.
+
+Changed:
+- Added `AI_CONSTITUTION.md` as the repository governance authority.
+- Added `DECISIONS.md` as the significant CEO/CIO decision register.
+- Added `docs/COO_OPERATING_RECORD.md` as the execution/handoff record.
+- Updated `AGENTS.md` to make the governance hierarchy and documentation gate explicit.
+- Updated `docs/PROJECT_STATE.md` to expose the governance state to future agents.
+
+Validation:
+- Existing repository operating documents inspected: PASS.
+- Governance model reconciled with existing source-of-truth hierarchy: PASS.
+- Runtime code changed: NO.
+- Automated CI for this branch: PENDING.
+- Production deployment verification: NOT APPLICABLE until merge; no production code changed.
+
+Status: IN PROGRESS — branch validation and merge remain pending.
+
 ## 2026-09-27 — High-Value Trending discovery
 
 - Added a dedicated eBay Browse discovery path for high-value products across gaming laptops, flagship smartphones, graphics cards, TVs, cameras, drones, robot vacuums, and portable power stations.
