@@ -201,4 +201,4 @@ Verification basis:
 - PR #95 Vercel preview: READY.
 - Current production Vercel deployment for `54b363f757c2068cd791e435c683364ef5f0e8f7`: READY.
 
-Status: DOCUMENTATION RECONCILIATION IN REVIEW until this branch passes its own CI and is merged.
+Status: COMPLETE — PR #96 merged to `main`; CI run #739 passed and the resulting production Vercel deployment is READY.
