@@ -8,7 +8,7 @@ Verification scope: repository state, current branch/HEAD, current documentation
 - Governance model: `AI_CONSTITUTION.md`
 - Strategic decision register: `DECISIONS.md`
 - COO operational record: `docs/COO_OPERATING_RECORD.md`
-- Governance rollout branch: `docs/reconcile-governance-state` (documentation reconciliation branch; merge pending for this change).
+- Governance reconciliation branch: `docs/reconcile-governance-state`, merged as PR #96 (`92d920c6ebe5d527d46fe00e2edd268748d55469`).
 - Governance rollout status: IMPLEMENTED AND VERIFIED; PR #93 merged into `main`.
 - PR #91 high-value search intent routing: MERGED into `main` on 2026-09-30 after CI and Vercel verification.
 - PR #93 CEO/CIO → COO governance: MERGED into `main` on 2026-09-30 after CI and Vercel verification.
