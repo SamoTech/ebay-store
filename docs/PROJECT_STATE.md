@@ -1,6 +1,6 @@
 # Saleh Store — Current Project State
 
-Last verified: 2026-09-27
+Last verified: 2026-09-30
 Verification scope: repository state, current branch/HEAD, current documentation, CI configuration, recent Git history, and GitHub commit status.
 
 ## Governance state
@@ -10,6 +10,7 @@ Verification scope: repository state, current branch/HEAD, current documentation
 - COO operational record: `docs/COO_OPERATING_RECORD.md`
 - Governance rollout branch: `governance/ceo-coo-operating-model`
 - Governance rollout status: IN PROGRESS until CI validation and target-branch synchronization are complete.
+- PR #91 high-value search intent routing: MERGED into `main` on 2026-09-30 after CI and Vercel verification.
 
 ## Repository identity
 
@@ -102,7 +103,7 @@ The workflow is authoritative for the commands CI intends to execute. A separate
 
 ## Recent audited history
 
-Recent repository work includes chatbot model recovery/live-product integration, chatbot relevance refinements, SEO/indexability work, conversion instrumentation, AdSense foundation, homepage CLS/runtime work, and the September 2026 editorial expansion. Exact behavior must be verified against current code and relevant commits rather than commit titles alone.
+Recent repository work includes the merged high-value search intent routing fix (PR #91), chatbot model recovery/live-product integration, chatbot relevance refinements, SEO/indexability work, conversion instrumentation, AdSense foundation, homepage CLS/runtime work, and the September 2026 editorial expansion. Exact behavior must be verified against current code and relevant commits rather than commit titles alone.
 
 ## Next-agent handoff
 
