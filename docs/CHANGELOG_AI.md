@@ -1,11 +1,9 @@
-## 2026-09-27 — Fix high-value search intent routing
+## 2026-09-27 — Local AI agents + eBay guide
 
-- Observed that homepage `/search?q=high-value-deals` was being treated as a literal eBay keyword, producing semantically matching non-shopping results such as books about closing high-value deals.
-- Updated `app/api/products/search/route.ts` so `high-value-deals` and `high-value-trending` (including space/underscore variants) route to the existing `getHighValueTrendingProducts()` discovery path.
-- Ordinary keyword search remains unchanged.
-- Added `__tests__/api/products-search.test.ts` covering high-value routing, intent normalization, and ordinary keyword routing.
-- Tracked under GitHub Issue #90.
-- Deployment verification remains pending until the pull request passes the repository/Vercel deployment gate.
+- Added Article #62: `How eBay Can Help You Build a Local AI Agents Environment`.
+- The guide treats eBay as an external commerce data layer while local models, orchestration, caching, policy enforcement, and evaluation remain under the application operator's control.
+- Covered Browse API search, filters, item-detail retrieval, Best Match handling, local caching, tool contracts, specialized agents, and affiliate workflows.
+- Included official eBay Developer references and explicit limitations around API release stages.
 
 ## 2026-09-27 — High-Value Trending discovery
 
