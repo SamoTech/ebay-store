@@ -179,3 +179,26 @@ Known limitations:
 
 Follow-up:
 - For the next code task, use the gated workflow in `AGENTS.md` and update `docs/PROJECT_STATE.md` plus this changelog after the work.
+
+## 2026-09-30 — Reconcile governance and current project state
+
+Agent: ChatGPT / AI COO
+
+Objective: Reconcile current-state documentation with verified repository history after the governance and content changes were merged.
+
+Changed:
+- Preserved DEC-2026-09-30-001 as historical record and added DEC-2026-09-30-002 to close the governance rollout.
+- Updated `docs/COO_OPERATING_RECORD.md` from pending to implemented/verified.
+- Updated `docs/PROJECT_STATE.md` to current `main` HEAD `54b363f757c2068cd791e435c683364ef5f0e8f7`.
+- Recorded PR #93 governance merge and PR #95 content merge.
+- Synchronized content state to Article #62.
+- Reconciled legacy specialist-role wording in `docs/agents/ORGANIZATION.md` so it does not create an authority chain parallel to CEO/CIO → COO.
+- Runtime code: NO CHANGE.
+
+Verification basis:
+- PR #93 CI run #704: PASS.
+- PR #95 CI run #729: PASS across conflict check, lint, typecheck, tests, and build.
+- PR #95 Vercel preview: READY.
+- Current production Vercel deployment for `54b363f757c2068cd791e435c683364ef5f0e8f7`: READY.
+
+Status: DOCUMENTATION RECONCILIATION IN REVIEW until this branch passes its own CI and is merged.
