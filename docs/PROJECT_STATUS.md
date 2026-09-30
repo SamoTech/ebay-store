@@ -8,8 +8,9 @@ The repository is on the `main` line with the September 2026 documentation/conte
 
 Current documented product state:
 
-- 61 published shopping guides
+- 62 published shopping guides
 - Black Friday field guide is article #61
+- Local AI agents + eBay architecture guide is article #62
 - article-specific multi-category resources are supported
 - 268 tests are the documented verification baseline
 - production target: https://www.saleh-store.com
@@ -28,13 +29,13 @@ Current documented product state:
 | CI | merge-conflict check → lint → typecheck → tests → build | GitHub Actions / README |
 | Deployment | Vercel | GitHub/Vercel integration |
 
+## Content — 2026-09-27
+
+Added Article #62, `how-ebay-helps-build-local-ai-agents-environment`, explaining how eBay can serve as an external commerce data layer for local AI agents, with boundaries around API access, deterministic filters, caching, policy controls, and affiliate workflows.
+
 ## Merchandising discovery — 2026-09-27
 
 Added a separate High-Value Trending homepage feed using eBay Browse API Best Match across multiple high-intent shopping themes. The feed requires a minimum USD price of $500 and fixed-price listings, preserves eBay ordering within each query, and fails closed without Browse API access. It is independent from the primary catalog and Most Wanted feed.
-
-## Search intent guard — 2026-09-27
-
-A targeted search-routing fix is prepared on `fix/high-value-search-intent`: `high-value-deals` / `high-value-trending` intents now use the existing high-value discovery feed instead of literal eBay keyword search. Generic search behavior remains unchanged. Regression coverage is included. The change is tracked under Issue #90 and is not a production claim until merged and deployment-verified.
 
 ## Known completed work
 
@@ -110,11 +111,3 @@ When a future agent completes one of these areas, update this document and the d
 - PR/commit
 - deployment verification
 - remaining limitation
-
-## Direct sponsorship foundation — 2026-09-29
-
-A direct sponsorship system was added independently of AdSense. The public sales page is /advertise, sponsor campaigns are static configuration entries, and the initial homepage has top and bottom sponsor slots. No database, Supabase dependency, advertiser dashboard, authentication flow, or payment integration was added.
-
-Advertiser contact channels are Telegram @OssamaHashim and ossama.hashim.m@gmail.com. Package pricing is intentionally Custom quote rather than an unverified market-rate claim.
-
-AdSense remains implemented through AdSenseBlock and is not used as a sponsor fallback.
