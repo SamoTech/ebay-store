@@ -1,18 +1,27 @@
 # Saleh Store — Current Project State
 
-Last verified: 2026-09-27
+Last verified: 2026-09-30
 Verification scope: repository state, current branch/HEAD, current documentation, CI configuration, recent Git history, and GitHub commit status.
+
+## Governance state
+
+- Governance model: `AI_CONSTITUTION.md`
+- Strategic decision register: `DECISIONS.md`
+- COO operational record: `docs/COO_OPERATING_RECORD.md`
+- Governance rollout branch: `governance/ceo-coo-operating-model`
+- Governance rollout status: IN PROGRESS until CI validation and merge into `main` are complete.
+- PR #91 high-value search intent routing: MERGED into `main` on 2026-09-30 after CI and Vercel verification.
 
 ## Repository identity
 
 - Repository: `SamoTech/ebay-store`
 - Default branch: `main`
-- Current HEAD: `04c0b5daa817b8c21ba2f83a1e360eea264c2bf1`
+- Current HEAD: `0a32d719468490eaca21def2f07fa0ead89b84e2`
 - HEAD message: `docs: establish AI agent source of truth and project history`
 - Production target: https://www.saleh-store.com
 - Deployment platform: Vercel
 - Vercel status for current HEAD: PASS (GitHub commit status context: `Vercel`)
-- GitHub Actions status for current HEAD: NOT VERIFIED through the available commit-status response
+- GitHub Actions status for current HEAD: PENDING until the governance PR is validated
 
 ## Current application baseline
 
@@ -94,7 +103,7 @@ The workflow is authoritative for the commands CI intends to execute. A separate
 
 ## Recent audited history
 
-Recent repository work includes chatbot model recovery/live-product integration, chatbot relevance refinements, SEO/indexability work, conversion instrumentation, AdSense foundation, homepage CLS/runtime work, and the September 2026 editorial expansion. Exact behavior must be verified against current code and relevant commits rather than commit titles alone.
+Recent repository work includes the merged high-value search intent routing fix (PR #91), chatbot model recovery/live-product integration, chatbot relevance refinements, SEO/indexability work, conversion instrumentation, AdSense foundation, homepage CLS/runtime work, and the September 2026 editorial expansion. Exact behavior must be verified against current code and relevant commits rather than commit titles alone.
 
 ## Next-agent handoff
 
