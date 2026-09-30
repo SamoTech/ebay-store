@@ -1,3 +1,4 @@
+/** @jest-environment node */
 import { NextRequest } from 'next/server';
 import { GET } from '@/app/api/products/search/route';
 import { getEbayIntegrationStatus, getHighValueTrendingProducts, searchEbayProducts } from '@/lib/ebay-api';
