@@ -122,8 +122,8 @@ export default function BlogPage() {
             Browse by Category
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {Array.from(new Set(blogArticles.map(article => article.category))).map((category) => {
-              const count = blogArticles.filter(article => article.category === category).length;
+            {Array.from(new Set(displayPosts.map(article => article.category))).map((category) => {
+              const count = displayPosts.filter(article => article.category === category).length;
               return (
                 <div key={category} className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
                   <div className="text-2xl mb-2">📝</div>
