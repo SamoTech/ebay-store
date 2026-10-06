@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'All Categories | Saleh Store',
   description: 'Explore Saleh Store categories covering electronics, motors, fashion, home, collectibles, sports, business, travel and more across eBay.',
   alternates: { canonical: absoluteUrl('/categories') },
+  robots: { index: false, follow: true },
 };
 
 export default function CategoriesPage() {
