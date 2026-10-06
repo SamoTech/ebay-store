@@ -3,7 +3,7 @@ import { absoluteUrl } from '../../lib/site';
 import LegalPageShell from '../../components/LegalPageShell';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Saleh Store',
+  title: 'Privacy Policy',
   description: 'Privacy Policy for Saleh Store, an eBay affiliate deals hub.',
   alternates: { canonical: absoluteUrl('/privacy') },
 };
