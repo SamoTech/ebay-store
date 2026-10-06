@@ -90,3 +90,20 @@ The selected 31/33/35/37/38 guides received additional topic-specific analysis t
 All other legacy/expanded shopping guides remain noindex pending substantive remediation. This is intentional: indexability is being treated as a quality gate rather than a publication-count target.
 
 The off-topic AI-agent marketplace article (ID 62) remains noindex because it does not fit the primary shopping/editorial purpose of Saleh Store.
+
+
+## Final reconciliation — 2026-10-06
+
+The remediation state has been reconciled with the current branch:
+
+- Total article records: 62.
+- Indexable editorial cohort: 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 61.
+- Noindex cohort: 1–30, 41–60, 62.
+- Product detail and dynamic category routes: noindex/follow and excluded from sitemap.
+- Compare/favorites utility routes: noindex/follow.
+- Direct sponsorship sales route: noindex/follow and excluded from sitemap.
+- Editorial article pages and the homepage: no AdSense or sponsor blocks in the rendered editorial surfaces.
+- Global `ai-content` metadata was removed.
+- CI and preview verification passed for the current verified head `3916d339251463bbf572a0064c77759b82555b74`.
+
+Decision: PREVIEW/CI PASS; production gate still open.
