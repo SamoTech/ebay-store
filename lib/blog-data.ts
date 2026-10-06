@@ -358,9 +358,7 @@ export const blogArticles: BlogArticle[] = [
     ]
   }
 ,
-
-  {
-    "id": 11,
+  { "id": 11,
     "slug": "wireless-earbuds-buying-guide",
     "title": "Wireless Earbuds Buying Guide: What to Compare Before You Buy",
     "excerpt": "A practical checklist for comparing wireless earbuds by sound features, battery life, fit, connectivity, microphones, and total cost.",
@@ -443,8 +441,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 12,
+  { "id": 12,
     "slug": "laptop-buying-checklist",
     "title": "Laptop Buying Checklist: CPU, RAM, Storage, Display and Battery",
     "excerpt": "Use this checklist to compare laptops without getting distracted by brand names or headline discounts.",
@@ -527,8 +524,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 13,
+  { "id": 13,
     "slug": "gaming-monitor-buying-guide",
     "title": "Gaming Monitor Buying Guide: Refresh Rate, Resolution, HDR and Response Time",
     "excerpt": "A practical method for comparing gaming monitors by the specifications that affect motion, image quality, and compatibility.",
@@ -611,8 +607,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 14,
+  { "id": 14,
     "slug": "mechanical-keyboard-buying-guide",
     "title": "Mechanical Keyboard Buying Guide: Switches, Layouts and Connectivity",
     "excerpt": "Compare mechanical keyboards by switch type, layout, keycaps, connectivity, software, and repairability.",
@@ -695,8 +690,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 15,
+  { "id": 15,
     "slug": "phone-accessories-buying-guide",
     "title": "Phone Accessories Buying Guide: Cases, Chargers, Cables and Power Banks",
     "excerpt": "How to compare phone accessories for compatibility, charging standards, protection, capacity, and total cost.",
@@ -779,8 +773,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 16,
+  { "id": 16,
     "slug": "smart-home-buying-guide",
     "title": "Smart Home Buying Guide: Compatibility, Hubs, Wi-Fi and Privacy",
     "excerpt": "A practical framework for choosing smart-home devices without getting trapped by incompatible ecosystems.",
@@ -863,8 +856,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 17,
+  { "id": 17,
     "slug": "used-phone-buying-guide",
     "title": "Used Smartphone Buying Guide: Model, Battery, IMEI and Condition",
     "excerpt": "A detailed checklist for comparing used smartphones by model, network compatibility, battery condition, physical condition, and return terms.",
@@ -947,8 +939,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 18,
+  { "id": 18,
     "slug": "tablet-buying-guide",
     "title": "Tablet Buying Guide: Screen, Performance, Storage and Accessories",
     "excerpt": "Compare tablets by display, processor generation, storage, software support, accessories, and intended workload.",
@@ -1031,8 +1022,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 19,
+  { "id": 19,
     "slug": "smartwatch-buying-guide",
     "title": "Smartwatch Buying Guide: Compatibility, Battery and Features",
     "excerpt": "A practical framework for comparing smartwatches by phone compatibility, sensors, battery life, display, durability, and ecosystem features.",
@@ -1115,8 +1105,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 20,
+  { "id": 20,
     "slug": "home-security-camera-buying-guide",
     "title": "Home Security Camera Buying Guide: Resolution, Storage, Power and Privacy",
     "excerpt": "Compare security cameras by image quality, night vision, storage, connectivity, power, subscriptions, and privacy controls.",
@@ -1199,8 +1188,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 21,
+  { "id": 21,
     "slug": "gaming-headset-buying-guide",
     "title": "Gaming Headset Buying Guide: Audio, Microphone, Comfort and Compatibility",
     "excerpt": "Compare gaming headsets by platform compatibility, microphone behavior, connection type, comfort, and controls.",
@@ -1283,8 +1271,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 22,
+  { "id": 22,
     "slug": "pc-gaming-accessories-guide",
     "title": "PC Gaming Accessories Buying Guide: Mouse, Keyboard, Headset and Controller",
     "excerpt": "A practical framework for building a compatible PC gaming accessory setup without paying for features you will not use.",
@@ -1367,8 +1354,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 23,
+  { "id": 23,
     "slug": "camera-buying-guide-beginners",
     "title": "Camera Buying Guide for Beginners: Sensor, Lenses, Video and Used Condition",
     "excerpt": "Learn how to compare cameras by sensor format, lens system, autofocus, video features, battery, and used condition.",
@@ -1451,8 +1437,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 24,
+  { "id": 24,
     "slug": "car-dash-cam-buying-guide",
     "title": "Dash Cam Buying Guide: Video Quality, Night Recording, Storage and Parking Mode",
     "excerpt": "Compare dash cams by image quality, night performance, storage, power, parking mode, and installation requirements.",
@@ -1535,8 +1520,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 25,
+  { "id": 25,
     "slug": "car-accessories-buying-guide",
     "title": "Car Accessories Buying Guide: Compatibility, Fitment and Safety",
     "excerpt": "A practical method for comparing automotive accessories by vehicle compatibility, fitment, installation, and safety considerations.",
@@ -1619,8 +1603,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 26,
+  { "id": 26,
     "slug": "office-chair-buying-guide",
     "title": "Office Chair Buying Guide: Adjustability, Seat Depth and Support",
     "excerpt": "Compare office chairs by adjustability, dimensions, materials, weight rating, and return logistics.",
@@ -1703,8 +1686,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 27,
+  { "id": 27,
     "slug": "standing-desk-buying-guide",
     "title": "Standing Desk Buying Guide: Height Range, Stability, Top Size and Motors",
     "excerpt": "How to compare standing desks by usable height range, stability, desktop dimensions, motor configuration, and warranty terms.",
@@ -1787,8 +1769,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 28,
+  { "id": 28,
     "slug": "home-appliance-buying-guide",
     "title": "Home Appliance Buying Guide: Capacity, Power, Features and Running Cost",
     "excerpt": "A practical framework for comparing household appliances by capacity, power, dimensions, maintenance, and total ownership cost.",
@@ -1871,8 +1852,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 29,
+  { "id": 29,
     "slug": "collectibles-buying-guide",
     "title": "Collectibles Buying Guide: Authenticity, Condition, Provenance and Storage",
     "excerpt": "How to compare collectible listings while paying attention to authenticity, condition, provenance, completeness, and storage requirements.",
@@ -1955,8 +1935,7 @@ export const blogArticles: BlogArticle[] = [
       }
     ]
   },
-  {
-    "id": 30,
+  { "id": 30,
     "slug": "ecommerce-deal-price-comparison-guide",
     "title": "How to Compare eBay Deals: Price, Shipping, Condition and Total Cost",
     "excerpt": "A reusable framework for comparing marketplace deals without letting the headline price distort the decision.",
@@ -2040,5 +2019,10 @@ export const blogArticles: BlogArticle[] = [
     ]
   },
 
-  ...expandedBlogArticles
+  // These legacy marketplace guides overlap heavily with the expanded corpus.
+  // Keep them available for internal navigation, but do not expose them as search pages.
+  ...expandedBlogArticles.map((article) => ({
+    ...article,
+    indexable: [31, 33, 34, 35, 36, 37, 38, 39, 61, 62].includes(article.id),
+  }))
 ];
