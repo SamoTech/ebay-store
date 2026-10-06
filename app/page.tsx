@@ -169,40 +169,6 @@ export default function Home() {
     return () => { isMounted = false; };
   }, []);
 
-  // Load a dedicated higher-value discovery feed. It stays separate from the
-  // primary catalog and Most Wanted feed so a failed request cannot affect them.
-  useEffect(() => {
-    let isMounted = true;
-
-    async function loadHighValueTrending(): Promise<void> {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
-        const response = await fetch('/api/ebay/high-value-trending?limit=8', {
-          signal: controller.signal,
-          cache: 'no-store',
-        });
-        clearTimeout(timeoutId);
-
-        const data = await response.json() as { products?: Product[] };
-        if (!isMounted) return;
-
-        if (response.ok && data.products?.length) {
-          setHighValueTrending(data.products.slice(0, 8));
-        }
-      } catch {
-        // Keep the section hidden when live discovery is unavailable.
-      } finally {
-        if (isMounted) {
-          setHighValueTrendingLoading(false);
-        }
-      }
-    }
-
-    void loadHighValueTrending();
-    return () => { isMounted = false; };
-  }, []);
-
   // Filter and sort products
   let filteredProducts = catalog.filter(p => 
     p.price >= priceRange[0] && p.price <= priceRange[1]
