@@ -317,39 +317,6 @@ export default function Home() {
         </div>
       </section>
 
-      {highValueTrendingLoading || highValueTrending.length > 0 ? (
-        <section className="max-w-6xl mx-auto px-4 pb-10" aria-labelledby="high-value-trending-heading">
-          <div className="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 md:p-8 shadow-lg">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-              <div>
-                <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-900/30 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#0064d2] dark:text-blue-300">
-                  Live eBay Best Match
-                </span>
-                <h2 id="high-value-trending-heading" className="mt-2 text-2xl md:text-3xl font-black text-gray-900 dark:text-white">
-                  High-Value Trending
-                </h2>
-                <p className="mt-2 max-w-2xl text-sm md:text-base text-gray-600 dark:text-gray-300">
-                  Higher-value products surfaced across active eBay shopping themes, using eBay&apos;s Best Match relevance rather than an invented sales rank.
-                </p>
-              </div>
-              <Link href="/search?q=high-value-deals" className="shrink-0 inline-flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 px-5 py-3 text-sm font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                Search more deals →
-              </Link>
-            </div>
-
-            {highValueTrendingLoading ? (
-              <ProductSkeletonGrid count={4} />
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {highValueTrending.slice(0, 8).map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      ) : null}
-
       {/* Featured category navigation. The full marketplace taxonomy lives on /categories. */}
       <section id="products" className="max-w-6xl mx-auto px-4 py-8" aria-labelledby="category-heading">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
