@@ -9,6 +9,7 @@ export interface BlogArticle {
   readTime: string;
   author: string;
   authorBio: string;
+  indexable?: boolean;
   gradient: string;
   relatedCategorySlugs?: string[];
   content: Array<{
@@ -45,14 +46,7 @@ export const blogArticles: BlogArticle[] = [
     { type: 'heading', text: 'Inspect Seller and Return Terms' },
     { type: 'paragraph', text: 'Seller information, return conditions, item location, and the detail of the listing description can change the practical risk of a purchase. A slightly higher price can be reasonable when uncertainty is materially lower.' },
     { type: 'heading', text: 'A Repeatable Comparison Workflow' },
-    { type: 'list', items: [
-      'Define the exact product and configuration you need.',
-      'Collect several comparable listings.',
-      'Normalize condition, accessories, shipping, and total cost.',
-      'Check seller information and return terms.',
-      'Use completed-sale evidence when available.',
-      'Record unanswered questions before making the purchase decision.'
-    ]},
+    { type: 'list', items: ['Define the exact product and configuration you need.', 'Collect several comparable listings.', 'Normalize condition, accessories, shipping, and total cost.', 'Check seller information and return terms.', 'Use completed-sale evidence when available.', 'Record unanswered questions before making the purchase decision.'] },
     { type: 'heading', text: 'What This Method Does Not Prove' },
     { type: 'paragraph', text: 'An unusual title, low asking price, old listing, or local-pickup requirement does not automatically mean a bargain exists. These are research signals, not guarantees. The value comes from verifying the underlying evidence.' },
     { type: 'heading', text: 'Disclosure' },
@@ -83,14 +77,7 @@ export const blogArticles: BlogArticle[] = [
     { type: 'heading', text: 'Think About Support and Compatibility' },
     { type: 'paragraph', text: 'Software support, operating-system compatibility, ports, network bands, accessories, and replacement availability can matter more than a small specification advantage. Check the requirements that affect your actual use.' },
     { type: 'heading', text: 'A Practical Electronics Comparison' },
-    { type: 'list', items: [
-      'Define the workload and must-have features.',
-      'Identify the exact model and configuration.',
-      'Compare condition and included accessories.',
-      'Calculate delivered cost rather than headline price.',
-      'Check compatibility, support, and return terms.',
-      'Compare multiple equivalent listings before deciding.'
-    ]},
+    { type: 'list', items: ['Define the workload and must-have features.', 'Identify the exact model and configuration.', 'Compare condition and included accessories.', 'Calculate delivered cost rather than headline price.', 'Check compatibility, support, and return terms.', 'Compare multiple equivalent listings before deciding.'] },
     { type: 'heading', text: 'Where Marketplace Research Adds Value' },
     { type: 'paragraph', text: 'Marketplace research is most useful when it helps a buyer compare real configurations and terms that are easy to miss in a generic product specification. The purpose of this guide is to improve that comparison, not to declare a universal best product.' },
     { type: 'heading', text: 'Disclosure' },
@@ -169,6 +156,7 @@ export const blogArticles: BlogArticle[] = [
 
   {
     id: 4,
+    indexable: false,
     slug: 'how-to-compare-ebay-prices-before-buying',
     title: 'How to Compare eBay Prices Before You Buy: A Practical Buyer Method',
     excerpt: 'Learn a repeatable way to compare listings, condition, shipping, seller history, and completed-sale evidence before committing to an eBay purchase.',
@@ -198,6 +186,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     id: 5,
+    indexable: false,
     slug: 'refurbished-open-box-used-ebay-guide',
     title: 'Refurbished vs Open-Box vs Used: How to Choose on eBay',
     excerpt: 'A clear guide to the differences between refurbished, open-box, and used products, including what to inspect before buying.',
@@ -227,6 +216,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     id: 6,
+    indexable: false,
     slug: 'ebay-seller-feedback-return-policy-guide',
     title: 'How to Read eBay Seller Feedback Without Getting Misled',
     excerpt: 'Seller feedback is useful, but the percentage alone is not enough. Here is what to examine before placing an order.',
@@ -255,6 +245,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     id: 7,
+    indexable: false,
     slug: 'how-to-buy-gaming-products-on-ebay',
     title: 'How to Buy Gaming Consoles and Accessories on eBay Safely',
     excerpt: 'A practical checklist for buying consoles, controllers, GPUs, games, and accessories while reducing avoidable purchase risk.',
@@ -283,6 +274,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     id: 8,
+    indexable: false,
     slug: 'smartphone-buying-checklist-ebay',
     title: 'Used Smartphone Buying Checklist: 12 Things to Verify Before Checkout',
     excerpt: 'From carrier compatibility and battery health to IMEI status and screen condition, use this checklist before buying a used phone on eBay.',
@@ -310,6 +302,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     id: 9,
+    indexable: false,
     slug: 'ebay-shipping-total-cost-guide',
     title: 'eBay Shipping Costs: How to Calculate the Real Price of a Deal',
     excerpt: 'Why the cheapest listing is not always the cheapest purchase, and how to compare shipping, taxes, accessories, and total delivered cost.',
