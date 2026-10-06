@@ -1,6 +1,6 @@
 # Saleh Store Project Status
 
-Last verified: 2026-09-27
+Last verified: 2026-10-06
 
 ## Current baseline
 
@@ -142,14 +142,18 @@ Completed in the current increment:
 Current decision remains `REMEDIATION_IN_PROGRESS`. Do not mark the site READY_FOR_REVIEW until the article-level quality inventory, technical verification, and live production verification pass.
 
 
-## AdSense remediation — latest loop (2026-10-06)
 
-The editorial corpus has now been reconciled at source level: 62 article records are present, but only a controlled subset is permitted to remain indexable during remediation. Repetitive and short marketplace templates are noindex until rewritten or merged. Product/category commerce surfaces remain noindex/follow and are excluded from the sitemap.
+## AdSense remediation — final pre-merge state (2026-10-06)
 
-Current candidate indexable articles: IDs 31, 33, 35, 37, 38, 61. Selected guides now receive additional category-specific decision analysis from lib/cornerstone-supplements.ts.
+The current remediation branch has a controlled 11-article indexable editorial cohort (31–40 and 61). Legacy, repetitive, off-topic, product, category, comparison, favorites, and sponsorship surfaces are quarantined with noindex where appropriate.
 
-Current decision: REMEDIATION_IN_PROGRESS.
+Repository verification for the current head passed:
+- conflict check
+- lint
+- typecheck
+- tests
+- build
 
-Latest branch commit: f431e37136255138e9330b390dbba8e14b022af0.
+Preview verification passed with HTTP 200 smoke tests, canonical checks, robots/indexability checks, sitemap checks, and confirmation that editorial pages do not contain AdSense or sponsorship blocks.
 
-The latest Vercel deployment is currently queued, so build and live preview verification are still pending. No merge, production deployment, or AdSense review request is authorized by this status.
+Production verification remains the only open gate before READY_FOR_REVIEW.
