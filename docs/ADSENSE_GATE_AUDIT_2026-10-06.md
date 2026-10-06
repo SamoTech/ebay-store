@@ -106,4 +106,4 @@ The remediation state has been reconciled with the current branch:
 - Global `ai-content` metadata was removed.
 - CI and preview verification passed for the current verified head `3916d339251463bbf572a0064c77759b82555b74`.
 
-Decision: PREVIEW/CI PASS; production gate still open.
+Decision: Historical preview/CI snapshot. Superseded by the production verification and final `READY_FOR_REVIEW` decision recorded below.
