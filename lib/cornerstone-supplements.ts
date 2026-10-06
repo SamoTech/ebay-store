@@ -68,4 +68,56 @@ export const cornerstoneSupplements: Record<number, ContentBlock[]> = {
     { type: 'paragraph', text: 'Words such as ergonomic, premium, executive, or all-day comfort are not substitutes for dimensions and adjustment ranges. Use those descriptions as clues, then verify the physical characteristics that determine whether the chair can be positioned correctly.' },
     { type: 'list', items: ['Seat height and depth', 'Seat width', 'Backrest dimensions and movement', 'Armrest range', 'Lumbar adjustment where applicable', 'Base, wheels and gas lift condition', 'Material and cushioning condition', 'Manufacturer weight capacity', 'Shipping and assembly', 'Return terms'] }
   ]
+
+  32: [
+    { type: 'heading', text: 'Refurbished Is a Process, Not a Condition Grade' },
+    { type: 'paragraph', text: 'The word refurbished describes a process, but the process can vary. Before comparing prices, identify who refurbished the device, what was replaced or repaired, what functional checks are documented, and what warranty or return terms actually apply. A seller label alone does not tell you how much inspection occurred.' },
+    { type: 'heading', text: 'Look for Evidence of the Work' },
+    { type: 'paragraph', text: 'For higher-value electronics, useful evidence can include a stated testing procedure, battery-health information, replaced-part disclosure, serial or model details, and clear photos of the actual unit. Missing information is not proof that the device is defective, but it should reduce the confidence assigned to a very low price.' },
+    { type: 'heading', text: 'Warranty Terms Are Part of the Deal' },
+    { type: 'paragraph', text: 'A warranty only adds value when its scope is understandable. Check who provides it, its duration, exclusions, return procedure, and whether the buyer is responsible for shipping. Compare the practical protection rather than treating the word warranty as a feature by itself.' },
+    { type: 'heading', text: 'Replacement Parts Can Change the Long-Term Cost' },
+    { type: 'paragraph', text: 'A refurbished device may use compatible replacement components rather than original parts. That can be perfectly acceptable for some products and more important for others. Consider availability of batteries, chargers, displays, storage, or proprietary accessories before calling two listings equivalent.' }
+  ],
+  34: [
+    { type: 'heading', text: 'Check What the GPU Can Actually Drive' },
+    { type: 'paragraph', text: 'A monitor specification only becomes useful in the context of the device feeding it. Confirm the GPU or console output, cable standard, and the input that supports the advertised resolution and refresh rate. Some headline combinations require a particular port or compression mode.' },
+    { type: 'heading', text: 'Adaptive Sync Is a Compatibility Question' },
+    { type: 'paragraph', text: 'Variable-refresh features can depend on the graphics hardware, input type, driver support, and monitor mode. Confirm the combination you plan to use instead of assuming a FreeSync, G-SYNC Compatible, or similar label guarantees every feature on every system.' },
+    { type: 'heading', text: 'OLED Needs a Different Condition Check' },
+    { type: 'paragraph', text: 'For used OLED monitors, inspect the listing for burn-in disclosures, usage history where available, panel condition, and return protection. A spotless exterior says little about a panel that has developed persistent image retention.' },
+    { type: 'heading', text: 'The Stand Can Be a Hidden Replacement Cost' },
+    { type: 'paragraph', text: 'Large monitors are often sold without the original stand or with a generic replacement. If you need desk mounting, verify VESA dimensions and monitor weight; if you need the original stand, price a replacement before treating a missing stand as a minor issue.' }
+  ],
+  36: [
+    { type: 'heading', text: 'A Dash Cam Is a Recording Pipeline' },
+    { type: 'paragraph', text: 'Image quality depends on more than resolution. Sensor behavior, lens quality, exposure, compression, bitrate, and the recording format all influence how well a plate or road sign can be read. When this is a deciding factor, independent sample footage is stronger evidence than a 4K label alone.' },
+    { type: 'heading', text: 'Memory Cards Deserve Their Own Check' },
+    { type: 'paragraph', text: 'Continuous loop recording writes to storage repeatedly. Verify the camera maker’s supported card type and capacity, and include the cost of a suitable card if one is not supplied. A cheaper camera with an unsuitable card can become an unreliable system.' },
+    { type: 'heading', text: 'Parking Mode Is a Power Decision' },
+    { type: 'paragraph', text: 'Parking surveillance can require a hardwire kit, low-voltage cutoff, or another power strategy. The important question is not simply whether the feature exists, but how the system gets power while the vehicle is parked and what protection is built into that arrangement.' },
+    { type: 'heading', text: 'Used Units Need Firmware and Accessory Checks' },
+    { type: 'paragraph', text: 'For a used camera, confirm that the required mount, cable, rear camera, GPS module, and memory support are available. Also check whether the manufacturer still provides the firmware or app support needed for the functions you care about.' }
+  ],
+  39: [
+    { type: 'heading', text: 'Build a Mount-Compatibility Matrix' },
+    { type: 'paragraph', text: 'For camera bodies and lenses, write down the body mount, lens mount, sensor format, and any adapter in the chain. This simple matrix catches many marketplace mistakes before money changes hands. Similar brand names do not imply identical mounts across generations.' },
+    { type: 'heading', text: 'Optical Condition Can Be Harder to See Than Cosmetic Wear' },
+    { type: 'paragraph', text: 'Scratches on the barrel are obvious. Haze, fungus, separation, decentered optics, and damaged coatings can be harder to judge from a small listing image. Look for clear photos of the glass and ask specific questions when an optical issue would materially change the purchase.' },
+    { type: 'heading', text: 'Separate Body Price From System Cost' },
+    { type: 'paragraph', text: 'A low-priced body can become expensive after adding a usable lens, battery, charger, memory card, or proprietary accessory. Conversely, a complete kit can be better value even when the body-only listing has the lower headline price. Compare the system you will actually use.' },
+    { type: 'heading', text: 'Return Protection Matters More for Condition-Sensitive Gear' },
+    { type: 'paragraph', text: 'Used optics and camera bodies can contain defects that are difficult to establish from photographs. A clear return policy can therefore carry more value than a small price difference. Read the conditions rather than assuming every return policy protects the same way.' }
+  ],
+  40: [
+    { type: 'heading', text: 'Establish a Price Baseline Before Calling Something a Deal' },
+    { type: 'paragraph', text: 'A useful baseline starts with the exact model or part number and several comparable current listings. Record condition, bundle contents, shipping, and the date checked. A crossed-out reference price is not enough to establish what the item is worth today.' },
+    { type: 'heading', text: 'Normalize the Listings' },
+    { type: 'paragraph', text: 'Remove differences that can distort a simple price comparison: used versus new condition, different storage or memory, missing accessories, international versus domestic versions, shipping charges, and seller return terms. The goal is to create a comparison where the remaining price difference means something.' },
+    { type: 'heading', text: 'Watch the Offer Format' },
+    { type: 'paragraph', text: 'Buy It Now, auction, best offer, and bundled listings can carry different levels of uncertainty. A lower possible price is not the same as a lower guaranteed acquisition cost. Decide whether certainty or the possibility of a deeper discount is more useful for the purchase.' },
+    { type: 'heading', text: 'Scarcity Should Change the Search, Not the Standards' },
+    { type: 'paragraph', text: 'When a product is genuinely hard to find, the best comparison set may be smaller. That does not make missing configuration or condition information less important. Scarcity can justify paying a different price, but it does not turn unclear evidence into good evidence.' }
+  ],
+
 };
