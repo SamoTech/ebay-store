@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { absoluteUrl } from '../../lib/site';
 
 export const metadata: Metadata = {
-  title: 'FAQ | Saleh Store',
+  title: 'FAQ',
   description:
     'Answers about Saleh Store, eBay product discovery, buying guides, prices, affiliate links, and support.',
   alternates: { canonical: absoluteUrl('/faq') },
