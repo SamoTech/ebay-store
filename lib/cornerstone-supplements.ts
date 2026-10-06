@@ -67,8 +67,7 @@ export const cornerstoneSupplements: Record<number, ContentBlock[]> = {
     { type: 'heading', text: 'Do Not Treat Comfort Claims as Measurements' },
     { type: 'paragraph', text: 'Words such as ergonomic, premium, executive, or all-day comfort are not substitutes for dimensions and adjustment ranges. Use those descriptions as clues, then verify the physical characteristics that determine whether the chair can be positioned correctly.' },
     { type: 'list', items: ['Seat height and depth', 'Seat width', 'Backrest dimensions and movement', 'Armrest range', 'Lumbar adjustment where applicable', 'Base, wheels and gas lift condition', 'Material and cushioning condition', 'Manufacturer weight capacity', 'Shipping and assembly', 'Return terms'] }
-  ]
-
+  ],
   32: [
     { type: 'heading', text: 'Refurbished Is a Process, Not a Condition Grade' },
     { type: 'paragraph', text: 'The word refurbished describes a process, but the process can vary. Before comparing prices, identify who refurbished the device, what was replaced or repaired, what functional checks are documented, and what warranty or return terms actually apply. A seller label alone does not tell you how much inspection occurred.' },
