@@ -3,7 +3,7 @@ import { absoluteUrl } from '../../lib/site';
 import LegalPageShell from '../../components/LegalPageShell';
 
 export const metadata: Metadata = {
-  title: 'Affiliate & Legal Disclaimers | Saleh Store',
+  title: 'Affiliate & Legal Disclaimers',
   description: 'Affiliate, pricing, availability, and third-party transaction disclosures for Saleh Store.',
   alternates: { canonical: absoluteUrl('/disclaimer') },
 };
