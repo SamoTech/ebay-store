@@ -65,10 +65,12 @@ IDs 61 and 62 are materially more developed, but still require factual/source re
 The previous blanket assumption that the expanded 31–62 corpus was indexable is rejected.
 
 Current indexability policy:
-- KEEP / indexable: 31, 33, 34, 35, 36, 37, 38, 39, 61, 62 — subject to final factual/editorial verification.
+- KEEP / indexable for now: 1, 2, 31, 33, 34, 35, 36, 37, 38, 39, 61, 62 — subject to final factual/editorial verification.
+- NOINDEX pending rewrite/merge: 4–9 and 10–30.
 - NOINDEX pending rewrite/merge: 41–60.
-- Previously quarantined: 4–9.
-- Requires individual review: 1–3 and 10–30.
+- Article #3 remains quarantined pending substantive remediation.
+
+This leaves 12 candidate indexable articles from the current corpus before final quality verification.
 
 This is a quality-protection decision, not a claim that Google has approved the site.
 
