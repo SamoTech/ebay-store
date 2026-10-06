@@ -331,7 +331,7 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     id: 10,
-    slug: 'ebay-buying-checklist-before-you-click-buy',
+        indexable: false,slug: 'ebay-buying-checklist-before-you-click-buy',
     title: 'The eBay Buyer Checklist: What to Check Before You Click Buy',
     excerpt: 'A concise pre-purchase checklist covering product identity, condition, seller, shipping, returns, and price research.',
     date: 'September 4, 2026',
