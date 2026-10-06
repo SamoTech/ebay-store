@@ -16,6 +16,8 @@ export default function Footer() {
               For questions, corrections, or partnership enquiries, use our
               <Link href="/contact" className="ml-1 text-blue-300 hover:text-white">Contact page</Link>.
             </p>
+          </div>
+
           {/* Quick Links */}
           <div>
             <h2 className="font-semibold mb-4">Quick Links</h2>
