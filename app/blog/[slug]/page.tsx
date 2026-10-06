@@ -57,6 +57,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     alternates: {
       canonical: absoluteUrl(`/blog/${post.slug}`),
     },
+    ...(post.indexable === false ? { robots: { index: false, follow: true } } : {}),
   };
 }
 
