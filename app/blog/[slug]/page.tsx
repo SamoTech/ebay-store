@@ -253,7 +253,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       </article>
 
-      {/* Related Posts */
+      {/* Related Posts */}
       {allRelatedPosts.length > 0 && (
         <section className="max-w-4xl mx-auto px-4 py-12">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
