@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { allProducts, categories } from '../../lib/products';
 import { blogArticles } from '../../lib/blog-data';
 import { SITE_URL } from '../../lib/site';
 
@@ -28,30 +27,15 @@ function buildEntries(): SitemapEntry[] {
     { loc: '/advertise', changefreq: 'monthly', priority: '0.6' },
   ];
 
-  // `all` maps to the homepage, which is already listed above.
-  const categoryPages: SitemapEntry[] = categories
-    .filter((category) => category.slug !== 'all')
-    .map((category) => ({
-      loc: `/category/${category.slug}`,
-      changefreq: 'daily',
-      priority: '0.9',
-    }));
-
-  const productPages: SitemapEntry[] = allProducts
-    .filter((product) => product.id < 1000)
-    .map((product) => ({
-      loc: `/product/${product.id}`,
-      changefreq: 'weekly',
-      priority: '0.7',
-    }));
-
+  // Product and category routes remain useful for visitors, but they are commerce/discovery
+  // surfaces rather than independent editorial pages and are intentionally excluded from the sitemap.
   const blogPages: SitemapEntry[] = blogArticles.filter((article) => article.indexable !== false).map((article) => ({
     loc: `/blog/${article.slug}`,
     changefreq: 'monthly',
     priority: '0.6',
   }));
 
-  return [...staticPages, ...categoryPages, ...productPages, ...blogPages];
+  return [...staticPages, ...blogPages];
 }
 
 export async function GET() {
