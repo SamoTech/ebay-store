@@ -77,3 +77,16 @@ This is a quality-protection decision, not a claim that Google has approved the 
 ### Next gate
 
 Remediate IDs 31–40 and 61–62 for factual integrity, source support, differentiation, and currentness. Then perform a second indexability review before merge.
+
+
+## Gate A final indexability decision for this increment
+
+The current branch deliberately exposes only a small quality-controlled editorial cohort to search while the remaining corpus is rewritten or consolidated.
+
+Current candidate indexable article IDs: **31, 33, 35, 37, 38, 61**.
+
+The selected 31/33/35/37/38 guides received additional topic-specific analysis through `lib/cornerstone-supplements.ts`. The supplements add decision criteria, failure modes, total-cost reasoning, compatibility checks, and category-specific evaluation rather than generic marketplace filler.
+
+All other legacy/expanded shopping guides remain noindex pending substantive remediation. This is intentional: indexability is being treated as a quality gate rather than a publication-count target.
+
+The off-topic AI-agent marketplace article (ID 62) remains noindex because it does not fit the primary shopping/editorial purpose of Saleh Store.
