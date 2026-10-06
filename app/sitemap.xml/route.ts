@@ -17,7 +17,6 @@ function buildEntries(): SitemapEntry[] {
   const staticPages: SitemapEntry[] = [
     { loc: '/', changefreq: 'daily', priority: '1.0' },
     { loc: '/blog', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/categories', changefreq: 'weekly', priority: '0.8' },
     { loc: '/about', changefreq: 'monthly', priority: '0.6' },
     { loc: '/about/editorial-team', changefreq: 'monthly', priority: '0.6' },
     { loc: '/tools/deal-comparison', changefreq: 'monthly', priority: '0.7' },
