@@ -89,7 +89,6 @@ export const siteMetadata: Metadata = {
   other: {
     'pinterest-rich-pin': 'true',
     'reddit-og': 'true',
-    'ai-content': 'shopping deals affiliate',
   },
   appleWebApp: {
     capable: true,
