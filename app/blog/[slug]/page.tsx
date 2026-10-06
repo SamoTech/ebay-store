@@ -7,9 +7,7 @@ import SocialShare from '../../../components/SocialShare';
 import Footer from '../../../components/Footer';
 import { absoluteUrl } from '../../../lib/site';
 import { generateArticleSchema, generateBreadcrumbSchema, SchemaScript } from '../../../lib/schema';
-import AdSenseBlock from '../../../components/AdSenseBlock';
 import { getRelatedBlogPosts } from '../../../lib/related-blog-posts';
-import SponsorSlot from '../../../components/SponsorSlot';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -211,8 +209,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </p>
         </div>
 
-        <AdSenseBlock placement="article-before-main-content" className="px-0 py-4" />
-
         {/* Main Content */}
         <div 
           className="prose prose-lg dark:prose-invert max-w-none
@@ -228,8 +224,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded"
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
-
-        <SponsorSlot slot="article-middle" className="px-0 py-4" />
 
         {/* Internal Linking */}
         <section className="mt-12 p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700" aria-labelledby="continue-reading">
@@ -283,7 +277,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </div>
 
-        <SponsorSlot slot="article-bottom" className="px-0 py-4" />
       </article>
 
       {/* Related Shopping Resources */}
