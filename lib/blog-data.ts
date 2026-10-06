@@ -87,9 +87,10 @@ export const blogArticles: BlogArticle[] = [
 },
   {
     id: 3,
-    slug: 'spot-counterfeit-products-security-checklist',
-    title: 'How to Spot Counterfeit Products: A Security Expert\'s Checklist',
-    excerpt: 'A practical counterfeit-awareness checklist covering pricing, seller information, listing photos, product identifiers, and what to do when authenticity is uncertain.',
+    indexable: false,
+    slug: 'spot-counterfeit-products-practical-buyer-checklist',
+    title: 'How to Spot Counterfeit Products: A Practical Buyer Checklist',
+    excerpt: 'A cautious authenticity checklist for marketplace purchases, focused on seller evidence, product identifiers, listing photos, and what to do when authenticity cannot be established.',
     date: 'February 12, 2026',
     category: 'Buyer Protection',
     readTime: '10 min read',
@@ -97,64 +98,34 @@ export const blogArticles: BlogArticle[] = [
     authorBio: 'The Saleh Store editorial team publishes practical buyer-protection guides focused on authenticity checks, listing evidence, seller information, and purchase terms.',
     gradient: 'from-red-500 to-orange-600',
     content: [
-      { type: 'paragraph', text: 'Counterfeit products can create financial, safety, and warranty risks. Buyers can reduce uncertainty by checking the listing evidence, seller information, product identifiers, packaging, and applicable platform protections before purchasing.' },
-      { type: 'heading', text: 'Red Flag #1: Price Too Good to Be True' },
-      { type: 'paragraph', text: 'A price far below comparable authentic listings is a reason to investigate further, but price alone does not establish that a product is counterfeit. Compare multiple current and completed listings and examine the seller and item evidence.' },
+      { type: 'paragraph', text: 'Counterfeit risk is not something a buyer can reliably reduce with one visual trick or a bargain-price rule. Authenticity depends on the product, seller, market, and the evidence available in the listing. A safer approach is to look for several independent signals and stop when the evidence is too weak.' },
+      { type: 'heading', text: 'Start With the Seller and Listing' },
+      { type: 'paragraph', text: 'Read the full description, inspect the seller information, and compare the item with other listings for the same model or variant. A polished title is not evidence of authenticity. Consistent photos, detailed specifications, and clear purchase terms are more useful.' },
+      { type: 'heading', text: 'Treat Price as a Warning Signal, Not Proof' },
+      { type: 'paragraph', text: 'A price far below comparable listings deserves investigation, but low price does not prove a counterfeit. Used, incomplete, discontinued, damaged, or locally collected items can have legitimate reasons for lower prices.' },
+      { type: 'heading', text: 'Inspect Product Identifiers' },
+      { type: 'paragraph', text: 'Check the model number, part number, serial or identification markings, packaging details, and included documentation when those features exist for the product. Compare them with the manufacturer information for the exact product rather than relying on memory or a generic image.' },
+      { type: 'heading', text: 'Compare the Photos With the Description' },
+      { type: 'paragraph', text: 'Look for actual-item photos that show the details relevant to authenticity. If photos are generic, heavily edited, inconsistent, or too limited to inspect important marks, the listing contains more uncertainty. Ask for clarification when appropriate.' },
+      { type: 'heading', text: 'Use Official Verification Channels' },
+      { type: 'paragraph', text: 'When the manufacturer provides an official serial-number, warranty, registration, or authentication process, use that process where applicable. A third-party comment or social-media post is not a substitute for an official verification source.' },
+      { type: 'heading', text: 'Do Not Confuse a Good-Looking Replica With an Authentic Product' },
+      { type: 'paragraph', text: 'High-quality photos and convincing packaging can still be copied. The relevant question is whether the available evidence establishes authenticity strongly enough for the purchase risk you are willing to accept.' },
+      { type: 'heading', text: 'Before Checkout' },
       { type: 'list', items: [
-        'Research market value - check 10+ sold listings',
-        'Fakes typically priced 50-70% below authentic',
-        'Authentic sellers cannot afford to discount 80%',
-        'Exception: Damaged/used items can be deeply discounted'
+        'Confirm the exact product, model, and variant.',
+        'Compare several genuine-looking listings rather than one reference item.',
+        'Inspect actual-item photos and identifying details.',
+        'Check the manufacturer or authorized verification method when available.',
+        'Review seller information and the return terms.',
+        'Keep the listing details and messages for your records.'
       ]},
-      { type: 'heading', text: 'Red Flag #2: Seller Location Mismatch' },
-      { type: 'paragraph', text: 'Check the item location vs where it is shipping from:' },
-      { type: 'list', items: [
-        'Shipping from China for US authentic Nike - obvious fake',
-        'Long shipping times (20-40 days) indicate overseas fakes',
-        'Authentic products ship domestically within 7 days max',
-        'Use eBay Item location filter - select your country only'
-      ]},
-      { type: 'heading', text: 'Red Flag #3: Suspicious Photos' },
-      { type: 'paragraph', text: 'Professional counterfeiters steal authentic photos. Look for these tells:' },
-      { type: 'list', items: [
-        'Stock photos or photos from brand websites - not their actual item',
-        'Photos with different backgrounds/lighting - stolen from multiple sources',
-        'Watermarks from other websites - copied listings',
-        'No photos of serial numbers, tags, or authentication marks',
-        'Blurry photos hiding quality issues'
-      ]},
-      { type: 'quote', text: 'If you cannot see serial numbers, authentication tags, and detailed close-ups, assume it is fake until proven otherwise.' },
-      { type: 'heading', text: 'Authentication Checklist: Nike Shoes' },
-      { type: 'list', items: [
-        'Check SKU on box matches SKU on size tag inside shoe',
-        'Stitching should be tight, even, and straight - fakes have messy stitching',
-        'Smell test - authentic shoes do not have chemical/glue smell',
-        'Swoosh should be smooth and precise - fake swooshes are often crooked',
-        'UPC barcode scan should match exact product when searched'
-      ]},
-      { type: 'heading', text: 'Authentication Checklist: Apple Products' },
-      { type: 'list', items: [
-        'Check serial number at Apple website - fakes show invalid',
-        'Weight test - fakes are usually lighter (cheap materials)',
-        'Lightning port should be perfectly centered and flush',
-        'iOS devices: Check Settings > General > About - should show correct model',
-        'AirPods: Connect to iPhone - real ones show battery animation'
-      ]},
-      { type: 'heading', text: 'What to Do If You Bought a Fake' },
-      { type: 'paragraph', text: 'Do not panic. You are protected:' },
-      { type: 'list', items: [
-        'Open eBay case within 30 days - select Item not as described',
-        'Upload photos showing it is counterfeit',
-        'Do not rely on a fixed success percentage; use the applicable eBay buyer-protection and counterfeit-reporting process',
-        'Full refund including return shipping',
-        'Report seller to eBay - they take counterfeits seriously'
-      ]},
-      { type: 'paragraph', text: 'If you suspect a counterfeit item, document the listing, preserve your purchase records, and use the applicable eBay reporting and buyer-protection processes. Avoid reselling suspected counterfeit goods.' },
+      { type: 'heading', text: 'If Authenticity Is Still Unclear' },
+      { type: 'paragraph', text: 'Do not force a purchase decision when important evidence is missing. Choose another listing, ask the seller a specific question, or use the applicable marketplace protection and reporting process after purchase. Do not resell an item you reasonably suspect is counterfeit.' },
       { type: 'heading', text: 'Disclosure' },
       { type: 'paragraph', text: 'Saleh Store participates in the eBay Partner Network. Some outbound links may earn a commission at no additional cost to the buyer.' }
     ]
   },
-
   {
     id: 4,
     indexable: false,
