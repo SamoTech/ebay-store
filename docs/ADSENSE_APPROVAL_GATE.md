@@ -151,3 +151,30 @@ Every future AdSense iteration must record:
 OBSERVE → ASSESS → PLAN → EXECUTE → VERIFY → RECORD → DECIDE
 
 Never convert a repository change into an approval claim.
+
+
+## PRODUCTION VERIFICATION — 2026-10-06
+
+Verified production deployment:
+- deployment: `dpl_24BtA2TP7qwpxXBUXbfJKVpgcpfa`
+- production commit: `2eb6fe3054416b20e67a54242392610881fd21a6`
+- state: READY
+- aliases include `www.saleh-store.com` and `saleh-store.com`
+
+Production checks:
+- homepage, blog, trust pages, utility pages, sitemap, robots.txt, and ads.txt returned HTTP 200.
+- `https://saleh-store.com` redirects to the canonical `https://www.saleh-store.com/` host.
+- homepage and approved editorial guides emit `index, follow`.
+- product/category/utility surfaces emit `noindex, follow` where intended.
+- canonical URLs use the `www.saleh-store.com` host.
+- `ai-content` metadata is absent from verified production pages.
+- verified editorial pages contain no `AdSenseBlock` or `SponsorSlot` markup.
+- production sitemap contains 11 article URLs and no product/category/compare/favorites/advertise URLs.
+
+## FINAL DECISION
+
+**READY_FOR_REVIEW — INTERNAL GATE PASS**
+
+The repository, CI, preview, and production gates now pass for the low-value-content remediation. This means the site is internally ready to request an AdSense review; it does **not** guarantee Google's approval.
+
+Before requesting review, verify the AdSense Sites page itself shows the expected site URL, ownership/ad-code verification, and ads.txt status. Google states that the site must be live, crawlable, have sufficient valuable content, and have policy issues resolved before review. citeturn0search0turn0search3turn0search5
