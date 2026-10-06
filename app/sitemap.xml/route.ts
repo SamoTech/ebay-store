@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { allProducts, categories } from '../../lib/products';
 import { blogArticles } from '../../lib/blog-data';
 import { SITE_URL } from '../../lib/site';
 
@@ -18,40 +17,27 @@ function buildEntries(): SitemapEntry[] {
   const staticPages: SitemapEntry[] = [
     { loc: '/', changefreq: 'daily', priority: '1.0' },
     { loc: '/blog', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/categories', changefreq: 'weekly', priority: '0.8' },
     { loc: '/about', changefreq: 'monthly', priority: '0.6' },
     { loc: '/about/editorial-team', changefreq: 'monthly', priority: '0.6' },
     { loc: '/tools/deal-comparison', changefreq: 'monthly', priority: '0.7' },
     { loc: '/research/ebay-deal-comparison-methodology', changefreq: 'monthly', priority: '0.7' },
     { loc: '/contact', changefreq: 'monthly', priority: '0.6' },
     { loc: '/faq', changefreq: 'monthly', priority: '0.6' },
-    { loc: '/advertise', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/privacy', changefreq: 'monthly', priority: '0.5' },
+    { loc: '/cookies', changefreq: 'monthly', priority: '0.5' },
+    { loc: '/terms', changefreq: 'monthly', priority: '0.5' },
+    { loc: '/disclaimer', changefreq: 'monthly', priority: '0.5' },
   ];
 
-  // `all` maps to the homepage, which is already listed above.
-  const categoryPages: SitemapEntry[] = categories
-    .filter((category) => category.slug !== 'all')
-    .map((category) => ({
-      loc: `/category/${category.slug}`,
-      changefreq: 'daily',
-      priority: '0.9',
-    }));
-
-  const productPages: SitemapEntry[] = allProducts
-    .filter((product) => product.id < 1000)
-    .map((product) => ({
-      loc: `/product/${product.id}`,
-      changefreq: 'weekly',
-      priority: '0.7',
-    }));
-
-  const blogPages: SitemapEntry[] = blogArticles.map((article) => ({
+  // Product and category routes remain useful for visitors, but they are commerce/discovery
+  // surfaces rather than independent editorial pages and are intentionally excluded from the sitemap.
+  const blogPages: SitemapEntry[] = blogArticles.filter((article) => article.indexable !== false).map((article) => ({
     loc: `/blog/${article.slug}`,
     changefreq: 'monthly',
     priority: '0.6',
   }));
 
-  return [...staticPages, ...categoryPages, ...productPages, ...blogPages];
+  return [...staticPages, ...blogPages];
 }
 
 export async function GET() {

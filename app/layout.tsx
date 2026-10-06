@@ -71,7 +71,6 @@ export default function RootLayout({
         {/* Social Media Meta Tags */}
         <meta name="pinterest-rich-pin" content="true" />
         <meta name="reddit-og" content="true" />
-        <meta name="ai-content" content="shopping deals affiliate products" />
         <meta name="x-pinterest" content="nopin" />
       </head>
 

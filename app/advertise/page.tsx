@@ -4,6 +4,7 @@ import { sponsorPackages } from '@/config/sponsor-packages';
 import { SPONSORSHIP_CONTACT } from '@/config/sponsorship';
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: true },
   title: 'Advertise on Saleh Store',
   description:
     'Direct sponsorship opportunities on Saleh Store for brands, stores, and relevant services.',

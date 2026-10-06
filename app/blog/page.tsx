@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
 };
 
-const displayPosts = blogArticles;
+const displayPosts = blogArticles.filter((post) => post.indexable !== false);
 
 export default function BlogPage() {
   const blogSchema = {
@@ -38,8 +38,8 @@ export default function BlogPage() {
         '@type': 'ItemList',
         '@id': absoluteUrl('/blog#articles'),
         name: 'Saleh Store shopping guides',
-        numberOfItems: blogArticles.length,
-        itemListElement: blogArticles.map((article, index) => ({
+        numberOfItems: displayPosts.length,
+        itemListElement: displayPosts.map((article, index) => ({
           '@type': 'ListItem',
           position: index + 1,
           url: absoluteUrl(`/blog/${article.slug}`),
@@ -122,8 +122,8 @@ export default function BlogPage() {
             Browse by Category
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {Array.from(new Set(blogArticles.map(article => article.category))).map((category) => {
-              const count = blogArticles.filter(article => article.category === category).length;
+            {Array.from(new Set(displayPosts.map(article => article.category))).map((category) => {
+              const count = displayPosts.filter(article => article.category === category).length;
               return (
                 <div key={category} className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
                   <div className="text-2xl mb-2">📝</div>
@@ -140,10 +140,10 @@ export default function BlogPage() {
         {/* Back to Shopping CTA */}
         <div className="mt-12 text-center bg-gray-100 dark:bg-gray-800 rounded-2xl p-8">
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            🎯 Ready to Start Shopping?
+            Continue From Research to Shopping
           </h3>
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            Browse curated products across 12 categories and compare current eBay listings, seller details, and purchase terms.
+            Use the guides above to narrow the product and configuration you need, then compare current eBay listings, seller details, condition, and purchase terms.
           </p>
           <Link 
             href="/"

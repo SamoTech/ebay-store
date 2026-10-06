@@ -4,7 +4,7 @@ import { absoluteUrl } from '../../lib/site';
 import LegalPageShell from '../../components/LegalPageShell';
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy | Saleh Store',
+  title: 'Cookie Policy',
   description: 'Cookie and tracking technology policy for Saleh Store.',
   alternates: { canonical: absoluteUrl('/cookies') },
 };

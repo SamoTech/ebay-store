@@ -5,13 +5,11 @@ import Image from 'next/image';
 import ProductCard from '@/components/ProductCard';
 import { ProductSkeletonGrid } from '@/components/ProductSkeleton';
 import Footer from '@/components/Footer';
-import DealOfTheDay from '@/components/DealOfTheDay';
 import { useToast } from '@/contexts/ToastContext';
 import { allProducts, categories, createSearchLink, featuredProducts, Product } from '@/lib/products';
+import { blogArticles } from '@/lib/blog-data';
 import { formatPrice } from '@/lib/utils/price';
 import { trackEvent } from '@/lib/analytics';
-import AdSenseBlock from '@/components/AdSenseBlock';
-import SponsorSlot from '@/components/SponsorSlot';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -38,8 +36,6 @@ export default function Home() {
   const [catalogSource, setCatalogSource] = useState<'static' | 'ebay_live' | 'error'>('static');
   const [mostWanted, setMostWanted] = useState<Product[]>(featuredProducts.slice(0, 8));
   const [mostWantedSource, setMostWantedSource] = useState<'static' | 'ebay_live'>('static');
-  const [highValueTrending, setHighValueTrending] = useState<Product[]>([]);
-  const [highValueTrendingLoading, setHighValueTrendingLoading] = useState(true);
   const [blackFridayTime, setBlackFridayTime] = useState({
     days: 0,
     hours: 0,
@@ -173,40 +169,6 @@ export default function Home() {
     return () => { isMounted = false; };
   }, []);
 
-  // Load a dedicated higher-value discovery feed. It stays separate from the
-  // primary catalog and Most Wanted feed so a failed request cannot affect them.
-  useEffect(() => {
-    let isMounted = true;
-
-    async function loadHighValueTrending(): Promise<void> {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
-        const response = await fetch('/api/ebay/high-value-trending?limit=8', {
-          signal: controller.signal,
-          cache: 'no-store',
-        });
-        clearTimeout(timeoutId);
-
-        const data = await response.json() as { products?: Product[] };
-        if (!isMounted) return;
-
-        if (response.ok && data.products?.length) {
-          setHighValueTrending(data.products.slice(0, 8));
-        }
-      } catch {
-        // Keep the section hidden when live discovery is unavailable.
-      } finally {
-        if (isMounted) {
-          setHighValueTrendingLoading(false);
-        }
-      }
-    }
-
-    void loadHighValueTrending();
-    return () => { isMounted = false; };
-  }, []);
-
   // Filter and sort products
   let filteredProducts = catalog.filter(p => 
     p.price >= priceRange[0] && p.price <= priceRange[1]
@@ -242,7 +204,53 @@ export default function Home() {
         </div>
       </section>
 
-      <SponsorSlot slot="homepage-top" />
+      <section className="max-w-6xl mx-auto px-4 py-10" aria-labelledby="editorial-research-heading">
+        <div className="rounded-3xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg">
+          <div className="max-w-3xl">
+            <span className="inline-flex rounded-full bg-blue-50 dark:bg-blue-900/30 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-700 dark:text-blue-300">Independent buyer research</span>
+            <h2 id="editorial-research-heading" className="mt-3 text-3xl font-black text-gray-900 dark:text-white">Research before you buy.</h2>
+            <p className="mt-3 text-gray-600 dark:text-gray-300 leading-7">Saleh Store publishes practical buying research focused on specifications, compatibility, condition, total cost, seller terms, and the questions that can change a purchase decision. The guides are designed to help you understand the market before you follow a marketplace link.</p>
+          </div>
+          <div className="mt-6 grid md:grid-cols-3 gap-4">
+            <Link href="/blog" className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 hover:border-blue-400 hover:shadow-md transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white">Shopping Guides</h3>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">Buyer-focused explanations and comparison frameworks.</p>
+            </Link>
+            <Link href="/research/ebay-deal-comparison-methodology" className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 hover:border-blue-400 hover:shadow-md transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white">Research Method</h3>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">How we compare marketplace listings without treating headline price as the whole decision.</p>
+            </Link>
+            <Link href="/about/editorial-team" className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 hover:border-blue-400 hover:shadow-md transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white">Editorial Standards</h3>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">Our sourcing, transparency, and evidence standards for published guides.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="max-w-6xl mx-auto px-4 py-8" aria-labelledby="featured-guides-heading">
+        <div className="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 md:p-8 shadow-lg">
+          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">Editorial library</span>
+              <h2 id="featured-guides-heading" className="mt-2 text-2xl md:text-3xl font-black text-gray-900 dark:text-white">Start with the buying decision</h2>
+              <p className="mt-2 max-w-3xl text-gray-600 dark:text-gray-300 leading-7">
+                These guides explain the details that are easy to miss in marketplace listings. Read the relevant guide first, then use the catalog to compare current offers.
+              </p>
+            </div>
+            <Link href="/blog" className="shrink-0 font-semibold text-[#0064d2] hover:underline">See all guides →</Link>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {blogArticles.filter((article) => article.indexable !== false).map((article) => (
+              <Link key={article.slug} href={`/blog/${article.slug}`} className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 hover:border-blue-400 hover:shadow-md transition-all">
+                <span className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{article.category}</span>
+                <h3 className="mt-2 font-bold text-gray-900 dark:text-white">{article.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-400">{article.excerpt}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="max-w-6xl mx-auto px-4 py-6" aria-labelledby="black-friday-heading">
         <div className="rounded-3xl bg-black text-white px-5 py-6 md:px-8 md:py-7 shadow-xl border border-gray-800">
@@ -273,8 +281,6 @@ export default function Home() {
       </section>
 
 
-
-      <AdSenseBlock placement="homepage-after-featured-content" />
 
       {catalogSource === 'ebay_live' && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="inline-flex items-center gap-2 rounded-full bg-green-100 text-green-700 px-4 py-1 text-sm font-medium dark:bg-green-900/30 dark:text-green-300">● Live eBay catalog active</div></section>)}
 
@@ -311,39 +317,6 @@ export default function Home() {
         </div>
       </section>
 
-      {highValueTrendingLoading || highValueTrending.length > 0 ? (
-        <section className="max-w-6xl mx-auto px-4 pb-10" aria-labelledby="high-value-trending-heading">
-          <div className="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 md:p-8 shadow-lg">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-              <div>
-                <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-900/30 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#0064d2] dark:text-blue-300">
-                  Live eBay Best Match
-                </span>
-                <h2 id="high-value-trending-heading" className="mt-2 text-2xl md:text-3xl font-black text-gray-900 dark:text-white">
-                  High-Value Trending
-                </h2>
-                <p className="mt-2 max-w-2xl text-sm md:text-base text-gray-600 dark:text-gray-300">
-                  Higher-value products surfaced across active eBay shopping themes, using eBay&apos;s Best Match relevance rather than an invented sales rank.
-                </p>
-              </div>
-              <Link href="/search?q=high-value-deals" className="shrink-0 inline-flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-600 px-5 py-3 text-sm font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                Search more deals →
-              </Link>
-            </div>
-
-            {highValueTrendingLoading ? (
-              <ProductSkeletonGrid count={4} />
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {highValueTrending.slice(0, 8).map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      ) : null}
-
       {/* Featured category navigation. The full marketplace taxonomy lives on /categories. */}
       <section id="products" className="max-w-6xl mx-auto px-4 py-8" aria-labelledby="category-heading">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
@@ -369,8 +342,6 @@ export default function Home() {
         </div>
       </section>
 
-      <DealOfTheDay />
-
       
 
       <section className="max-w-6xl mx-auto px-4 py-6"><div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"><h2 className="text-2xl font-bold text-gray-800 dark:text-white">{showAllProducts ? 'All Products' : 'Featured Products'}<span className="text-gray-500 dark:text-gray-400 text-base font-normal ml-3">({filteredProducts.length} products)</span></h2><div className="flex flex-wrap gap-3"><label htmlFor="product-sort" className="sr-only">Sort products</label><select id="product-sort" aria-label="Sort products" value={sortBy} onChange={(e) => setSortBy(e.target.value as 'price-low' | 'price-high' | 'name')} className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"><option value="name">Sort by Name</option><option value="price-low">Price: Low to High</option><option value="price-high">Price: High to Low</option></select><div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"><span className="text-sm text-gray-600 dark:text-gray-400">$</span><input type="number" value={priceRange[0]} onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])} className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none" placeholder="Min" /><span className="text-gray-400">-</span><input type="number" value={priceRange[1]} onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])} className="w-16 text-sm bg-transparent text-gray-700 dark:text-gray-200 focus:outline-none" placeholder="Max" /></div></div></div></section>
@@ -381,11 +352,25 @@ export default function Home() {
       {recentlyViewed.length > 0 && !isLoading && (<section className="max-w-6xl mx-auto px-4 py-8"><h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Recently Viewed</h2><div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">{recentlyViewed.slice(0, 5).map((product) => (<div key={product.id} className="flex-shrink-0 w-40"><a href={product.affiliateLink} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent({ event: 'affiliate_outbound_click', productId: product.id, source: 'homepage', category: product.category, placement: 'recently_viewed', url: product.affiliateLink })}><div className="relative w-full h-32 rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden"><Image src={product.image} alt={product.title} fill className="object-cover" sizes="160px" /></div><p className="text-sm font-medium mt-2 line-clamp-1 text-gray-700 dark:text-gray-300">{product.title}</p><p className="text-green-600 font-bold text-sm">{formatPrice(product.price, product.currency)}</p></a></div>))}</div></section>)}
 
       
-      <section className="bg-gray-100 dark:bg-gray-800 py-12 mt-12"><div className="max-w-4xl mx-auto px-4 text-center"><h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Can&apos;t Find What You&apos;re Looking For?</h2><p className="text-gray-600 dark:text-gray-300 mb-6">Browse millions of products on eBay through our affiliate links</p><a href={createSearchLink('trending deals')} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent({ event: 'affiliate_outbound_click', source: 'homepage', placement: 'browse_more_cta', url: createSearchLink('trending deals') })} className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">Browse More on eBay</a></div></section>
+      <section className="bg-gray-100 dark:bg-gray-800 py-12 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Need a broader search?</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            Start with the relevant buying guide, then use eBay search for additional listings when the catalog does not contain the configuration you need.
+          </p>
+          <a
+            href={createSearchLink('trending deals')}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackEvent({ event: 'affiliate_outbound_click', source: 'homepage', placement: 'browse_more_cta', url: createSearchLink('trending deals') })}
+            className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+          >
+            Search eBay →
+          </a>
+        </div>
+      </section>
 
       <section className="bg-blue-600 text-white py-12 mt-12"><div className="max-w-6xl mx-auto px-4"><div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-center items-center"><div><p className="text-4xl font-bold">{catalog.length}</p><p className="text-blue-200">Products loaded</p></div><div><p className="text-4xl font-bold">{categories.length - 1}</p><p className="text-blue-200">Categories</p></div><div><Link href="#products" className="inline-block bg-white text-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">Browse Deals</Link><p className="text-blue-200 text-sm mt-2">Current catalog</p></div></div></div></section>
-
-      <SponsorSlot slot="homepage-bottom" />
 
       <Footer />
     </main>

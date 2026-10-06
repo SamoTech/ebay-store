@@ -82,6 +82,10 @@ Do not fabricate personal experiences, tests, expert credentials, prices, produc
 
 Affiliate disclosure must remain intact.
 
+### AdSense content-value gate
+
+When the repository is under an AdSense low-value-content remediation, treat publisher value as a first-class acceptance gate. Editorial content must be the focal user value, not a wrapper around eBay inventory or affiliate conversion. Do not solve a low-value decision by mass-producing generic articles. Audit originality, evidence, repetition, factual risk, and commercial intent before publishing or expanding content. Keep AdSense blocks and sponsorship surfaces out of editorial content when they materially compete with the content's focal purpose. See `docs/ADSENSE_APPROVAL_GATE.md`.
+
 ## SEO / AI visibility rules
 
 SEO work must preserve:

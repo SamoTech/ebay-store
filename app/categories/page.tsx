@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { categories } from '../../lib/products';
 import { absoluteUrl } from '../../lib/site';
-import AdSenseBlock from '../../components/AdSenseBlock';
 
 export const metadata: Metadata = {
-  title: 'All Categories | Saleh Store',
+  title: 'All Categories',
   description: 'Explore Saleh Store categories covering electronics, motors, fashion, home, collectibles, sports, business, travel and more across eBay.',
   alternates: { canonical: absoluteUrl('/categories') },
+  robots: { index: false, follow: true },
 };
 
 export default function CategoriesPage() {
@@ -24,18 +24,18 @@ export default function CategoriesPage() {
           </nav>
           <h1 className="text-4xl md:text-5xl font-black tracking-tight">All Categories</h1>
           <p className="mt-4 max-w-3xl text-lg text-blue-100">
-            Browse popular Saleh Store departments and broad eBay marketplace categories. Each category is a searchable landing page for products in that department.
+            Browse the current Saleh Store category directory. Category pages are product-discovery surfaces; our independent buying guides provide the research used to evaluate configuration, compatibility, condition, cost, and purchase terms.
           </p>
         </div>
       </section>
-
-      <AdSenseBlock placement="categories-before-directory" />
 
       <section className="max-w-6xl mx-auto px-4 py-10" aria-labelledby="category-directory-heading">
         <div className="flex items-end justify-between gap-4 mb-6">
           <div>
             <h2 id="category-directory-heading" className="text-2xl font-black text-gray-900 dark:text-white">Marketplace directory</h2>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{visibleCategories.length} category landing pages available.</p>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              {visibleCategories.length} searchable category destinations. Start with a guide when you need decision help, then use a category to inspect current listings.
+            </p>
           </div>
           <Link href="/" className="hidden sm:inline-flex text-sm font-bold text-[#0064d2] hover:underline">Back to home</Link>
         </div>

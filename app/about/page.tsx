@@ -1,228 +1,111 @@
-import { Metadata } from 'next';
-import { absoluteUrl } from '../../lib/site';
+import type { Metadata } from 'next';
 import Link from 'next/link';
+import { absoluteUrl } from '../../lib/site';
 
 export const metadata: Metadata = {
-  title: 'About Us - Saleh Store',
-  description: 'Learn about Saleh Store, a product-discovery site focused on eBay listings, shopping research, and practical buying guides.',
-  alternates: {
-    canonical: absoluteUrl('/about'),
-  },
+  title: 'About Saleh Store',
+  description:
+    'Learn how Saleh Store combines eBay product discovery with practical, independent shopping research.',
+  alternates: { canonical: absoluteUrl('/about') },
 };
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            About Saleh Store
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            A product-discovery site for researching eBay listings
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <section className="bg-gradient-to-br from-[#0064d2] via-[#0054ad] to-[#003f7f] px-4 py-16 text-white">
+        <div className="mx-auto max-w-4xl">
+          <nav aria-label="Breadcrumb" className="text-sm text-blue-100">
+            <Link href="/" className="hover:text-white">Home</Link>
+            <span className="mx-2">/</span>
+            <span>About</span>
+          </nav>
+          <h1 className="mt-6 text-4xl font-black tracking-tight md:text-5xl">About Saleh Store</h1>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-blue-100">
+            Saleh Store is an eBay-only product-discovery site built around a simple principle:
+            useful shopping research should come before an affiliate click.
           </p>
         </div>
+      </section>
 
-        {/* Our Story */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-            Our Story
-          </h2>
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              Saleh Store was born from a simple idea: make online shopping smarter, easier, and more rewarding. 
-              We know how overwhelming it can be to find genuine deals among millions of products on eBay.
+      <article className="mx-auto max-w-4xl px-4 py-12">
+        <div className="space-y-10 text-gray-700 dark:text-gray-300">
+          <section>
+            <h2 className="text-2xl font-black text-gray-900 dark:text-white">What the site does</h2>
+            <p className="mt-3 leading-8">
+              The site brings together marketplace product discovery and editorial buying guidance.
+              Product listings are a changing commercial layer; the editorial library focuses on the
+              decisions that are easier to get wrong, such as exact configuration, compatibility,
+              condition, delivered cost, accessories, and return terms.
             </p>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              That&apos;s why we created Saleh Store - a curated platform that organizes product listings and practical buying information across electronics, 
-              gaming, fashion, home goods, and more. We focus on making comparison and research easier.
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-black text-gray-900 dark:text-white">How we approach research</h2>
+            <p className="mt-3 leading-8">
+              Guides are written to help a reader make a decision without depending on an affiliate
+              link. Where a claim depends on a live marketplace listing, current seller terms, price,
+              inventory, or availability, the marketplace listing is the final source of truth.
             </p>
-            <p className="text-gray-700 dark:text-gray-300">
-              We aim to help shoppers compare products, prices, seller information, and purchase terms before they buy.
+            <p className="mt-3 leading-8">
+              We avoid presenting generic listing copy as product testing and do not claim personal
+              ownership, hands-on testing, or credentials that are not documented.
             </p>
-          </div>
-        </section>
+          </section>
 
-        {/* Mission */}
-        <section className="mb-16 bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Our Mission
-          </h2>
-          <p className="text-lg text-gray-700 dark:text-gray-300">
-            To empower shoppers with the tools, information, and confidence they need to make smart purchasing 
-            decisions and get the best value for their money.
-          </p>
-        </section>
+          <section>
+            <h2 className="text-2xl font-black text-gray-900 dark:text-white">Editorial standards</h2>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+                <h3 className="font-bold text-gray-900 dark:text-white">Specific over generic</h3>
+                <p className="mt-2 text-sm leading-6">Focus on decisions, tradeoffs, and details that materially change a purchase.</p>
+              </div>
+              <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+                <h3 className="font-bold text-gray-900 dark:text-white">Evidence over claims</h3>
+                <p className="mt-2 text-sm leading-6">Separate known listing information from assumptions and avoid unsupported guarantees.</p>
+              </div>
+              <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+                <h3 className="font-bold text-gray-900 dark:text-white">Buyer value first</h3>
+                <p className="mt-2 text-sm leading-6">Affiliate links are secondary to the information needed to evaluate a purchase.</p>
+              </div>
+              <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+                <h3 className="font-bold text-gray-900 dark:text-white">Transparent limitations</h3>
+                <p className="mt-2 text-sm leading-6">When a conclusion cannot be established from available evidence, the guide says so.</p>
+              </div>
+            </div>
+          </section>
 
-        {/* How It Works */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-            How It Works
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-white">1</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                We Search
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                We monitor product listings and shopping topics to identify useful items and buying guides
-              </p>
+          <section>
+            <h2 className="text-2xl font-black text-gray-900 dark:text-white">Research resources</h2>
+            <div className="mt-4 flex flex-wrap gap-4">
+              <Link href="/about/editorial-team" className="font-semibold text-[#0064d2] hover:underline">
+                Editorial Team
+              </Link>
+              <Link href="/research/ebay-deal-comparison-methodology" className="font-semibold text-[#0064d2] hover:underline">
+                Comparison Methodology
+              </Link>
+              <Link href="/blog" className="font-semibold text-[#0064d2] hover:underline">
+                Shopping Guides
+              </Link>
+              <Link href="/contact" className="font-semibold text-[#0064d2] hover:underline">
+                Contact
+              </Link>
             </div>
+          </section>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-white">2</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                We Verify
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Listings are presented with available product and seller information; buyers should verify current details on eBay
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-white">3</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                You Save
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Browse the collection and review the listing details before purchasing
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-            Why Choose Saleh Store?
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Curated Selection</h3>
-                <p className="text-gray-600 dark:text-gray-400">Hand-picked deals across popular categories</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Regular Updates</h3>
-                <p className="text-gray-600 dark:text-gray-400">Product listings and guides are updated as the site changes</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Trusted Sellers</h3>
-                <p className="text-gray-600 dark:text-gray-400">Seller information is available so buyers can review the listing before purchase</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">100% Free</h3>
-                <p className="text-gray-600 dark:text-gray-400">No fees, no subscriptions, just great deals</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Easy to Use</h3>
-                <p className="text-gray-600 dark:text-gray-400">Simple interface, product search, and direct eBay checkout</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Secure Shopping</h3>
-                <p className="text-gray-600 dark:text-gray-400">All purchases through eBay&apos;s secure platform</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Stats */}
-        <section className="mb-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">Product listings</div>
-              <div className="text-gray-600 dark:text-gray-400">Catalog</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">6</div>
-              <div className="text-gray-600 dark:text-gray-400">Categories</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">Daily</div>
-              <div className="text-gray-600 dark:text-gray-400">Content updates</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">100%</div>
-              <div className="text-gray-600 dark:text-gray-400">Free Service</div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="text-center bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-12 text-white">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Saving?</h2>
-          <p className="text-lg mb-8 opacity-90">
-            Compare current listings and read our buying guides before you purchase
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/"
-              className="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-blue-600 bg-white hover:bg-gray-100 rounded-lg transition-colors duration-200"
-            >
-              Browse Deals
+          <section className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <h2 className="text-xl font-black text-gray-900 dark:text-white">Affiliate relationship</h2>
+            <p className="mt-3 leading-7">
+              Saleh Store participates in the eBay Partner Network. Some links may generate a
+              commission from qualifying purchases at no additional cost to the buyer. Product,
+              seller, price, inventory, shipping, and return information should be checked on eBay
+              before purchase.
+            </p>
+            <Link href="/disclaimer" className="mt-4 inline-block font-semibold text-[#0064d2] hover:underline">
+              Read the full affiliate and legal disclosure →
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-blue-800 hover:bg-blue-900 rounded-lg transition-colors duration-200"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </section>
-      </div>
-    </div>
+          </section>
+        </div>
+      </article>
+    </main>
   );
 }
