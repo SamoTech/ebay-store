@@ -40,3 +40,38 @@ Audit the remaining articles for:
 - indexability
 
 Then rewrite, merge, or quarantine the remaining weak cohort based on evidence.
+
+## Gate A — full corpus reconciliation
+
+The source inventory was reconciled against expanded-blog-data.ts and the legacy records in blog-data.ts.
+
+### Verified corpus
+
+- Expanded corpus: article IDs 31–62 = 32 records.
+- Legacy corpus: article IDs 1–30 = 30 records.
+- Total documented article records: 62.
+- This resolves the earlier 61/62 documentation drift.
+
+### Quality findings
+
+The expanded corpus is not homogeneous. IDs 41–60 contain a repeated marketplace-guide structure with substantially overlapping language and a generic comparison checklist. Their declared read times are much longer than the amount of distinct editorial material present.
+
+IDs 31–40 contain more developed topic-specific analysis, but IDs 32, 34, 36, 39, and 40 contain first-person/testing language that must be removed or substantiated before publication.
+
+IDs 61 and 62 are materially more developed, but still require factual/source review before being treated as cornerstone content.
+
+### Gate A decision
+
+The previous blanket assumption that the expanded 31–62 corpus was indexable is rejected.
+
+Current indexability policy:
+- KEEP / indexable: 31, 33, 34, 35, 36, 37, 38, 39, 61, 62 — subject to final factual/editorial verification.
+- NOINDEX pending rewrite/merge: 41–60.
+- Previously quarantined: 4–9.
+- Requires individual review: 1–3 and 10–30.
+
+This is a quality-protection decision, not a claim that Google has approved the site.
+
+### Next gate
+
+Remediate IDs 31–40 and 61–62 for factual integrity, source support, differentiation, and currentness. Then perform a second indexability review before merge.
