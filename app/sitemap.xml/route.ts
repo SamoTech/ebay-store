@@ -45,7 +45,7 @@ function buildEntries(): SitemapEntry[] {
       priority: '0.7',
     }));
 
-  const blogPages: SitemapEntry[] = blogArticles.map((article) => ({
+  const blogPages: SitemapEntry[] = blogArticles.filter((article) => article.indexable !== false).map((article) => ({
     loc: `/blog/${article.slug}`,
     changefreq: 'monthly',
     priority: '0.6',
