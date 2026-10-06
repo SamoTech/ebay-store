@@ -35,7 +35,7 @@ export function getRelatedBlogPosts(
   const postExcerptTerms = terms(post.excerpt);
 
   return articles
-    .filter((candidate) => candidate.slug !== post.slug)
+    .filter((candidate) => candidate.slug !== post.slug && candidate.indexable !== false)
     .map((candidate, index) => {
       const candidateTitleTerms = terms(candidate.title);
       const candidateExcerptTerms = terms(candidate.excerpt);
