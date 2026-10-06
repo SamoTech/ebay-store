@@ -5,8 +5,6 @@ import CategoryPageClient from '../../../components/CategoryPageClient';
 import { allProducts, categories } from '../../../lib/products';
 import { absoluteUrl } from '../../../lib/site';
 import { generateBreadcrumbSchema, SchemaScript } from '../../../lib/schema';
-import AdSenseBlock from '../../../components/AdSenseBlock';
-import SponsorSlot from '../../../components/SponsorSlot';
 
 const categoryFocus: Record<string, string> = {
   electronics: 'Compare consumer electronics, devices, accessories, and related eBay listings with clear product details and current marketplace links.',
@@ -46,6 +44,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: absoluteUrl(`/category/${slug}`),
     },
     alternates: { canonical: absoluteUrl(`/category/${slug}`) },
+    // Category pages are dynamic marketplace discovery surfaces; keep them usable while
+    // reserving search indexing for independent editorial and research content.
+    robots: { index: false, follow: true },
   };
 }
 
@@ -140,8 +141,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         </section>
       )}
 
-      <SponsorSlot slot="category-top" />
-      <AdSenseBlock placement="category-after-intro" />
       <CategoryPageClient slug={slug} />
     </>
   );
