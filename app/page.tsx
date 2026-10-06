@@ -244,6 +244,30 @@ export default function Home() {
 
       <SponsorSlot slot="homepage-top" />
 
+      <section className="max-w-6xl mx-auto px-4 py-10" aria-labelledby="editorial-research-heading">
+        <div className="rounded-3xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg">
+          <div className="max-w-3xl">
+            <span className="inline-flex rounded-full bg-blue-50 dark:bg-blue-900/30 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-700 dark:text-blue-300">Independent buyer research</span>
+            <h2 id="editorial-research-heading" className="mt-3 text-3xl font-black text-gray-900 dark:text-white">Research before you buy.</h2>
+            <p className="mt-3 text-gray-600 dark:text-gray-300 leading-7">Saleh Store publishes practical buying research focused on specifications, compatibility, condition, total cost, seller terms, and the questions that can change a purchase decision. The guides are designed to help you understand the market before you follow a marketplace link.</p>
+          </div>
+          <div className="mt-6 grid md:grid-cols-3 gap-4">
+            <Link href="/blog" className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 hover:border-blue-400 hover:shadow-md transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white">Shopping Guides</h3>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">Buyer-focused explanations and comparison frameworks.</p>
+            </Link>
+            <Link href="/research/ebay-deal-comparison-methodology" className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 hover:border-blue-400 hover:shadow-md transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white">Research Method</h3>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">How we compare marketplace listings without treating headline price as the whole decision.</p>
+            </Link>
+            <Link href="/about/editorial-team" className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 hover:border-blue-400 hover:shadow-md transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white">Editorial Standards</h3>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">Our sourcing, transparency, and evidence standards for published guides.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="max-w-6xl mx-auto px-4 py-6" aria-labelledby="black-friday-heading">
         <div className="rounded-3xl bg-black text-white px-5 py-6 md:px-8 md:py-7 shadow-xl border border-gray-800">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
@@ -273,8 +297,6 @@ export default function Home() {
       </section>
 
 
-
-      <AdSenseBlock placement="homepage-after-featured-content" />
 
       {catalogSource === 'ebay_live' && !isLoading && (<section className="max-w-6xl mx-auto px-4 pt-4"><div className="inline-flex items-center gap-2 rounded-full bg-green-100 text-green-700 px-4 py-1 text-sm font-medium dark:bg-green-900/30 dark:text-green-300">● Live eBay catalog active</div></section>)}
 
