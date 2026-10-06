@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { absoluteUrl } from '../../lib/site';
 
 export const metadata: Metadata = {
-  title: 'Contact Us - Saleh Store',
+  title: 'Contact Us',
   description: 'Contact Saleh Store for corrections, editorial questions, partnership enquiries, or general site feedback.',
   alternates: { canonical: absoluteUrl('/contact') },
 };
