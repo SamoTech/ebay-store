@@ -3,7 +3,7 @@ import { absoluteUrl } from '../../lib/site';
 import LegalPageShell from '../../components/LegalPageShell';
 
 export const metadata: Metadata = {
-  title: 'Terms of Use | Saleh Store',
+  title: 'Terms of Use',
   description: 'Terms of Use for Saleh Store, an eBay affiliate deals hub.',
   alternates: { canonical: absoluteUrl('/terms') },
 };
