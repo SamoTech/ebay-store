@@ -12,8 +12,6 @@ import { formatPrice } from '../../../lib/utils/price';
 import { absoluteUrl } from '../../../lib/site';
 import { generateBreadcrumbSchema, SchemaScript } from '../../../lib/schema';
 import { generateProductStructuredData } from '../../../lib/seo/structured-data';
-import AdSenseBlock from '../../../components/AdSenseBlock';
-import SponsorSlot from '../../../components/SponsorSlot';
 
 /**
  * ISR Configuration
@@ -47,7 +45,10 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 
   return {
-    title: `${product.title} - $${product.price}`,
+    title: `${product.title} - ${product.price}`,
+    // Product pages are commerce destinations, not independent editorial pages.
+    // Keep them available to users while preventing thin marketplace surfaces from entering search.
+    robots: { index: false, follow: true },
     description: product.description,
     openGraph: {
       title: product.title,
@@ -218,8 +219,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </p>
             </div>
 
-            <AdSenseBlock placement="product-before-primary-cta" className="px-0 py-4" />
-
             <div className="flex gap-4">
               <AffiliateLink
                 href={product.affiliateLink}
@@ -231,8 +230,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 Buy Now on eBay 🛒
               </AffiliateLink>
             </div>
-
-            <SponsorSlot slot="product-sidebar" className="px-0 py-4" />
 
             <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
               <div className="flex items-start gap-3">
