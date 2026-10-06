@@ -25,6 +25,7 @@ describe('AdSense editorial gate', () => {
 
   it('keeps commercial ad/sponsorship components out of editorial and research pages', () => {
     const routes = [
+      'app/page.tsx',
       'app/blog/[slug]/page.tsx',
       'app/blog/page.tsx',
       'app/categories/page.tsx',
