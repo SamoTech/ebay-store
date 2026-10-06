@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { blogArticles, BlogArticle } from '../../../lib/blog-data';
-import { allProducts, categories } from '../../../lib/products';
 import SocialShare from '../../../components/SocialShare';
 import Footer from '../../../components/Footer';
 import { absoluteUrl } from '../../../lib/site';
@@ -80,32 +79,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     url: postUrl,
   });
   const allRelatedPosts = getRelatedBlogPosts(post, blogArticles, 3);
-
-  const blogCategoryMap: Record<string, string> = {
-    Electronics: 'electronics',
-    Gaming: 'gaming',
-    'Smart Home': 'smart-home',
-    Auto: 'auto',
-    Office: 'office',
-    Home: 'home',
-    Collectibles: 'collectibles',
-    'Cameras & Photo': 'cameras-photo',
-    Computers: 'computers-tablets-networking',
-  };
-  const categorySlug = blogCategoryMap[post.category];
-  const linkedCategory = categorySlug
-    ? categories.find((category) => category.slug === categorySlug)
-    : undefined;
-  const resourceCategories = (post.relatedCategorySlugs ?? (categorySlug ? [categorySlug] : []))
-    .map((slug) => categories.find((category) => category.slug === slug))
-    .filter((category): category is (typeof categories)[number] => Boolean(category));
-  const linkedProducts = resourceCategories.length > 0
-    ? allProducts
-        .filter((product) => resourceCategories.some((category) => product.category.toLowerCase() === category.name.toLowerCase()))
-        .slice(0, 6)
-    : linkedCategory
-      ? allProducts.filter((product) => product.category.toLowerCase() === linkedCategory.name.toLowerCase()).slice(0, 4)
-      : [];
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: absoluteUrl('/') },
@@ -249,7 +222,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Social Share - Bottom */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
           <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
-            Found this helpful? Share it with your network!
+            Share this guide
           </p>
           <SocialShare
             url={postUrl}
@@ -280,55 +253,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       </article>
 
-      {/* Related Shopping Resources */}
-      {(linkedCategory || linkedProducts.length > 0) && (
-        <section className="max-w-4xl mx-auto px-4 pb-12" aria-labelledby="related-shopping-resources">
-          <div className="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6">
-            <h2 id="related-shopping-resources" className="text-2xl font-bold text-gray-900 dark:text-white">
-              Related Shopping Resources
-            </h2>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">
-              Continue researching the category and compare related products before buying.
-            </p>
-            {resourceCategories.length > 0 ? (
-              <div className="mt-5 flex flex-wrap gap-3">
-                {resourceCategories.map((category) => (
-                  <Link
-                    key={category.slug}
-                    href={`/category/${category.slug}`}
-                    className="inline-flex font-semibold text-blue-600 dark:text-blue-400 hover:underline"
-                  >
-                    Browse {category.name} →
-                  </Link>
-                ))}
-              </div>
-            ) : linkedCategory ? (
-              <Link
-                href={`/category/${linkedCategory.slug}`}
-                className="mt-5 inline-flex font-semibold text-blue-600 dark:text-blue-400 hover:underline"
-              >
-                Browse {linkedCategory.name} →
-              </Link>
-            ) : null}
-            {linkedProducts.length > 0 && (
-              <ul className="mt-5 grid sm:grid-cols-2 gap-3">
-                {linkedProducts.map((product) => (
-                  <li key={product.id}>
-                    <Link
-                      href={`/product/${product.id}`}
-                      className="font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
-                    >
-                      {product.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Related Posts */}
+      {/* Related Posts */
       {allRelatedPosts.length > 0 && (
         <section className="max-w-4xl mx-auto px-4 py-12">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
