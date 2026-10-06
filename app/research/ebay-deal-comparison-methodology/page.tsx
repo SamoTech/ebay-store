@@ -4,7 +4,7 @@ import { absoluteUrl } from '../../../lib/site';
 import { SchemaScript } from '../../../lib/schema';
 
 export const metadata: Metadata = {
-  title: 'eBay Deal Comparison Methodology | Saleh Store',
+  title: 'eBay Deal Comparison Methodology',
   description: 'The Saleh Store methodology for comparing eBay marketplace listings by product configuration, condition, price, shipping, accessories, and purchase terms.',
   alternates: { canonical: absoluteUrl('/research/ebay-deal-comparison-methodology') },
 };
