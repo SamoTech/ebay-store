@@ -5,7 +5,11 @@ import { blogArticles } from '../../lib/blog-data';
 describe('AdSense editorial gate', () => {
   it('keeps the public editorial corpus intentionally small and explicit', () => {
     expect(blogArticles.filter((article) => article.indexable !== false).map((article) => article.id))
-      .toEqual([31, 33, 35, 37, 38, 61]);
+      .toEqual([31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 61]);
+  });
+
+  it('keeps the indexable corpus above the minimum content threshold', () => {
+    expect(blogArticles.filter((article) => article.indexable !== false).length).toBe(11);
   });
 
   it('does not expose duplicate article slugs', () => {
