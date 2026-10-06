@@ -123,3 +123,20 @@ A direct sponsorship system was added independently of AdSense. The public sales
 Advertiser contact channels are Telegram @OssamaHashim and ossama.hashim.m@gmail.com. Package pricing is intentionally Custom quote rather than an unverified market-rate claim.
 
 AdSense remains implemented through AdSenseBlock and is not used as a sponsor fallback.
+
+
+## AdSense low-value remediation — 2026-10-06
+
+Google AdSense currently reports **Low value content** for saleh-store.com. This is treated as an external approval decision, not a repository defect with a single deterministic fix.
+
+A dedicated remediation loop is tracked in `docs/ADSENSE_APPROVAL_GATE.md` using OBSERVE → ASSESS → PLAN → EXECUTE → VERIFY → RECORD → DECIDE.
+
+Current branch: `fix/adsense-editorial-value-gate`.
+
+Completed in the current increment:
+- Blog article pages were made content-first by removing direct AdSense and sponsorship blocks from article bodies.
+- Homepage now presents an explicit independent-buyer-research section before the primary product merchandising flow.
+- Editorial Standards, Research Method, and Shopping Guides are surfaced as first-class research destinations.
+- AGENTS.md now treats publisher-value and commercial-restraint checks as an explicit AdSense remediation gate.
+
+Current decision remains `REMEDIATION_IN_PROGRESS`. Do not mark the site READY_FOR_REVIEW until the article-level quality inventory, technical verification, and live production verification pass.
