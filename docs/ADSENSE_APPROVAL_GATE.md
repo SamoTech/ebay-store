@@ -134,3 +134,26 @@ Every future AdSense iteration must record:
 OBSERVE → ASSESS → PLAN → EXECUTE → VERIFY → RECORD → DECIDE
 
 No agent may skip VERIFY or convert a repository change into an approval claim.
+
+
+## Commerce indexation remediation — 2026-10-06
+
+The current remediation also separates thin marketplace surfaces from the site's indexable editorial corpus:
+
+- Product detail pages are now noindex/follow.
+- Product detail pages no longer contain AdSense or sponsor slots.
+- Dynamic category pages are now noindex/follow.
+- Dynamic category pages no longer contain AdSense or sponsor slots.
+- Product and category routes are excluded from the XML sitemap.
+- Editorial and research/trust routes remain in the sitemap.
+- The content writer standard now explicitly prohibits fabricated testing, ownership, credentials, and unsupported performance claims.
+
+### Preview verification
+
+Latest branch tip before this documentation update: 9a1b2302a626debb8a7d708902f02bbe9c7908ac.
+
+The latest Vercel preview deployment for that tip was READY and the GitHub Vercel status was success. HTTP 200 smoke tests passed for the homepage, blog index, editorial team page, sitemap, and robots.txt.
+
+Preview responses expose X-Robots-Tag: noindex at the Vercel preview layer. Production indexability must therefore be verified after deployment; preview noindex must not be interpreted as the application's production robots policy.
+
+Current decision remains REMEDIATION_IN_PROGRESS.
