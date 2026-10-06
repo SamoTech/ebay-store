@@ -140,3 +140,16 @@ Completed in the current increment:
 - AGENTS.md now treats publisher-value and commercial-restraint checks as an explicit AdSense remediation gate.
 
 Current decision remains `REMEDIATION_IN_PROGRESS`. Do not mark the site READY_FOR_REVIEW until the article-level quality inventory, technical verification, and live production verification pass.
+
+
+## AdSense remediation — latest loop (2026-10-06)
+
+The editorial corpus has now been reconciled at source level: 62 article records are present, but only a controlled subset is permitted to remain indexable during remediation. Repetitive and short marketplace templates are noindex until rewritten or merged. Product/category commerce surfaces remain noindex/follow and are excluded from the sitemap.
+
+Current candidate indexable articles: IDs 31, 33, 35, 37, 38, 61. Selected guides now receive additional category-specific decision analysis from lib/cornerstone-supplements.ts.
+
+Current decision: REMEDIATION_IN_PROGRESS.
+
+Latest branch commit: f431e37136255138e9330b390dbba8e14b022af0.
+
+The latest Vercel deployment is currently queued, so build and live preview verification are still pending. No merge, production deployment, or AdSense review request is authorized by this status.
