@@ -22,7 +22,7 @@ export interface BlogArticle {
 export const blogArticles: BlogArticle[] = [
   {
   id: 1,
-  slug: 'ultimate-guide-finding-hidden-gems-ebay',
+      indexable: false,slug: 'ultimate-guide-finding-hidden-gems-ebay',
   title: 'How to Find Overlooked eBay Listings: A Practical Research Method',
   excerpt: 'A repeatable method for comparing search variations, listing condition, seller terms, total cost, and completed-sale evidence without assuming that an unusual listing is automatically a bargain.',
   date: 'February 16, 2026',
@@ -55,7 +55,7 @@ export const blogArticles: BlogArticle[] = [
 },
   {
   id: 2,
-  slug: 'electronics-buying-guide-best-tech-deals',
+      indexable: false,slug: 'electronics-buying-guide-best-tech-deals',
   title: 'Electronics Buying Guide: How to Compare Value Before You Buy',
   excerpt: 'A practical framework for comparing laptops, phones, tablets, and accessories by configuration, condition, compatibility, total cost, support, and return terms.',
   date: 'February 14, 2026',
