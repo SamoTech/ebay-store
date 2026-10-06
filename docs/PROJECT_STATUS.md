@@ -1,6 +1,6 @@
 # Saleh Store Project Status
 
-Last verified: 2026-10-06
+Last verified: 2026-10-06 (production deployment `dpl_AEBThH4VipsEyp79m2HiGbdTsi8f` READY)
 
 ## Current baseline
 
