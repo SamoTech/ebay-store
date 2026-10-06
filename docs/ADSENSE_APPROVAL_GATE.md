@@ -2,158 +2,152 @@
 
 ## Objective
 
-Restore saleh-store.com to AdSense review readiness after the Google decision: **Low value content**.
+Restore saleh-store.com to AdSense review readiness after Google's **Low value content** decision.
 
-This gate is an operational control, not a promise of approval. Google evaluates the live site and account; repository evidence can establish readiness work but cannot guarantee the external decision.
+This document is an internal acceptance gate, not a promise of Google approval. AdSense evaluates the live site and account.
 
-## External policy baseline
+## External baseline
 
-Google's current AdSense guidance requires unique, relevant content that provides users a reason to visit. Google specifically warns that affiliate-program content without sufficient added value can be a content-quality problem. Google also states that publisher content must remain the focal point of pages carrying Google ads.
+Google's AdSense readiness guidance emphasizes unique, useful content, good user experience and navigation, a live/crawlable site, and policy compliance. Affiliate-oriented sites need meaningful added value rather than pages whose primary purpose is simply sending visitors to another site.
 
 Authoritative references:
-- https://support.google.com/adsense/answer/81904
-- https://support.google.com/adsense/answer/12176698
 - https://support.google.com/adsense/answer/7299563
+- https://support.google.com/adsense/answer/12176698
+- https://support.google.com/adsense/answer/81904
 - https://support.google.com/publisherpolicies/answer/11112688
 
 ## OBSERVE — 2026-10-06
 
-Verified repository state before remediation:
-- 62 published shopping guides are documented in current project state.
-- Editorial pages contain substantial server-rendered article text and an editorial-team identity.
-- The homepage is heavily product/marketplace oriented and contains live eBay discovery, product cards, affiliate CTAs, and commercial merchandising surfaces.
-- Blog articles previously contained both AdSense blocks and direct sponsorship slots around the editorial content.
-- Older content contains repeated marketplace-buying patterns and some historical first-person/product claims that require editorial review before being treated as authoritative.
-- Repository documentation has inconsistent article counts (61 vs 62), which is a documentation-governance defect.
+Repository inventory:
+- 62 article records total: legacy IDs 1–30 and expanded IDs 31–62.
+- The site currently exposes a controlled 11-article editorial cohort for indexing.
+- Product detail and dynamic category pages are noindex/follow.
+- Personalized comparison and favorites utilities are noindex/follow.
+- The direct sponsorship sales page is noindex/follow.
+- Editorial article bodies no longer contain direct AdSense or sponsor placements.
+- Homepage merchandising is preceded by buyer-research content.
+- `public/ads.txt` contains the current AdSense publisher entry.
 
 ## ASSESS
 
-### Primary risk
+Primary risk: insufficient differentiated publisher value relative to the commercial eBay/affiliate layer.
 
-The likely approval risk is not lack of page count. It is insufficiently differentiated publisher value relative to the commercial eBay/affiliate layer.
-
-### Secondary risks
-
-1. Commercial surfaces can visually dominate the user journey.
-2. Repeated buying-guide templates can make individually useful articles appear programmatic or interchangeable.
-3. Historical first-person claims must not imply testing or experience that cannot be evidenced.
-4. Product/category/search pages are not equivalent to editorial inventory and should not be treated as the site's primary content proof.
-5. Documentation drift makes the content inventory less trustworthy.
+Secondary risks:
+- repeated marketplace templates
+- unsupported first-person testing or credential claims
+- thin commerce/query surfaces being mistaken for editorial content
+- stale or duplicated SEO metadata
+- documentation drift
 
 ## PLAN
 
-The approval loop uses this order:
+publisher value → editorial integrity → commercial restraint → crawlability → CI → preview verification → production verification → external review
 
-publisher value → editorial integrity → commercial restraint → crawlability → verification → external review
+Do not solve a low-value decision by mass-generating generic articles.
 
-Do not respond to a low-value decision by simply generating more articles.
+### Indexable article quality gate
 
-### Quality gate for every indexable editorial article
+Every indexable guide must:
+- solve a real buyer decision
+- contain category-specific reasoning or comparison logic
+- explain trade-offs, caveats, or failure modes
+- remain useful without clicking an affiliate link
+- avoid unsupported claims and fabricated personal experience
+- avoid timeless price/availability claims
+- keep affiliate recommendations secondary
 
-An article should have a clear reason to exist beyond sending the reader to eBay. It should provide original decision support, meaningful comparison logic, useful caveats/trade-offs, and claims that can be supported by the site's stated research method or an identifiable source.
+### Humanization gate
 
-Reject or remediate articles that are primarily:
-- generic marketplace advice with little differentiation
-- repeated variants of another guide
-- product-listing wrappers
-- unsupported personal experience
-- unsupported expert credentials
-- price/availability claims presented as timeless facts
-- affiliate CTAs with little editorial substance
+All future public editorial content must remove obvious AI fingerprints:
+- no formulaic “ultimate/comprehensive guide” framing
+- no repetitive structure copied across unrelated topics
+- no keyword stuffing
+- no filler added to hit a word count
+- no fabricated first-hand testing, ownership, credentials, or stories
+- use concrete observations, trade-offs, limitations, and decision rules
+- vary paragraph rhythm and article structure naturally
+
+Humanization must never invent first-hand experience.
 
 ## EXECUTE — current increment
 
-### Completed in branch fix/adsense-editorial-value-gate
+Completed:
+1. Removed AdSense and direct sponsorship blocks from editorial article pages.
+2. Removed homepage sponsor placements and direct sponsorship promotion from the global footer.
+3. Put buyer research and the editorial library before marketplace merchandising on the homepage.
+4. Restricted blog listing and related-post discovery to the indexable editorial cohort.
+5. Quarantined legacy and repetitive cohorts with noindex.
+6. Added topic-specific supplements to promoted guides.
+7. Removed the nonstandard `ai-content` metadata marker from global/generated metadata.
+8. Added noindex/follow boundaries for product, category, compare, favorites, and sponsorship surfaces.
+9. Added regression tests for editorial corpus, duplicate slugs, fabricated first-person claims, and commercial restraint.
+10. Corrected duplicated metadata titles.
+11. Added privacy, cookies, terms, and disclosure pages to the sitemap.
+12. Corrected contact/about/FAQ content to remove unsupported promises and placeholders.
+13. Kept `public/ads.txt` present and unchanged.
 
-1. Blog article pages were made content-first by removing direct AdSense blocks and direct sponsorship slots from the article body.
-2. The homepage was changed to expose an explicit independent-buyer-research section before the main product merchandising flow.
-3. The homepage now links directly to Shopping Guides, the eBay Deal Comparison Methodology research asset, and Editorial Standards.
-4. This branch keeps affiliate functionality intact; it changes the hierarchy so research value is visible before commerce conversion.
+### Current approved indexable cohort
 
-Commits:
-- 3930adae0066920b939c579392e65194ac7dc99d — content-first blog pages
-- 01475b419252c47497896a8c2583b97286ad65c6 — editorial-first homepage
+**31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 61**
 
-## NEXT EXECUTION GATES
+IDs 1–30, 41–60, and 62 remain noindex.
 
-### Gate A — content inventory
+Article 62 remains noindex because the AI-agent marketplace topic is outside the primary Saleh Store shopping/editorial purpose.
 
-Audit all 62 articles and assign:
+## VERIFY
 
-KEEP | REWRITE | MERGE | NOINDEX | REMOVE
+### CI evidence
 
-Score each article for:
-- originality
-- information density
-- evidence quality
-- factual-risk level
-- repetition
-- commercial intent
-- buyer-decision value
+Verified GitHub Actions run for branch head `3916d339251463bbf572a0064c77759b82555b74`:
+- conflict-marker check: PASS
+- lint: PASS
+- type check: PASS
+- tests: PASS
+- build: PASS
 
-### Gate B — article remediation
+### Preview evidence
 
-Rewrite or consolidate the weak cohort. Do not inflate word count merely to satisfy a numeric target.
+Verified Vercel preview:
+- deployment: `dpl_4MTqa75W13gGwSzgZEhUrKFHKEA4`
+- state: READY
+- branch: `fix/adsense-editorial-value-gate`
+- commit: `3916d339251463bbf572a0064c77759b82555b74`
+- Vercel GitHub status: success
 
-### Gate C — commercial-surface review
+Smoke-tested preview routes returned HTTP 200, including:
+- `/`
+- `/blog`
+- selected indexable guides
+- quarantined commerce routes
+- `/sitemap.xml`
+- `/robots.txt`
+- trust/legal/contact pages
 
-Review product, category, search, homepage, sponsor, and affiliate surfaces. The editorial corpus must remain the site's primary evidence of publisher value.
+The preview HTML verified:
+- approved guides: `index, follow`
+- quarantined commerce/utility pages: `noindex, follow`
+- canonical URLs use `https://www.saleh-store.com`
+- `ai-content` metadata is absent
+- editorial pages contain no `AdSenseBlock` or `SponsorSlot`
 
-### Gate D — technical verification
+The live preview sitemap contains the homepage, editorial/trust resources, and the 11 approved article URLs; product/category/sponsorship utility routes are excluded.
 
-Run:
-- conflict verification
-- lint
-- typecheck
-- tests
-- production build
-- live route smoke tests
-- robots/sitemap checks
-- canonical/indexability checks
+## PRODUCTION GATE
 
-### Gate E — production evidence
+Production has not yet been verified for this increment because the remediation branch is not merged to `main`.
 
-Verify the deployed saleh-store.com routes after merge. Do not claim deployment success from a Git commit alone.
+## DECISION
 
-### Gate F — AdSense decision
+**REMEDIATION_IN_PROGRESS — CI/PREVIEW PASS**
 
-Only after the remediation and live verification gates pass should the site be marked READY_FOR_REVIEW.
+The remediation increment has passed repository and preview gates. Merge is allowed only after the final branch-head verification remains green. After merge, production routes and canonical redirects must be independently verified before declaring `READY_FOR_REVIEW`.
 
-READY_FOR_REVIEW means the repository and live-site evidence are internally ready for a new AdSense request. It does not mean Google has approved the site.
+No AdSense review request should be submitted until the production gate passes.
 
-## Current decision
-
-REMEDIATION_IN_PROGRESS
-
-The first architectural/content-hierarchy increment is implemented. The site is **not yet declared AdSense-ready** because the 62-article quality inventory and live production verification remain outstanding.
-
-## Agent loop rule
+## Agent loop
 
 Every future AdSense iteration must record:
 
 OBSERVE → ASSESS → PLAN → EXECUTE → VERIFY → RECORD → DECIDE
 
-No agent may skip VERIFY or convert a repository change into an approval claim.
-
-
-## Commerce indexation remediation — 2026-10-06
-
-The current remediation also separates thin marketplace surfaces from the site's indexable editorial corpus:
-
-- Product detail pages are now noindex/follow.
-- Product detail pages no longer contain AdSense or sponsor slots.
-- Dynamic category pages are now noindex/follow.
-- Dynamic category pages no longer contain AdSense or sponsor slots.
-- Product and category routes are excluded from the XML sitemap.
-- Editorial and research/trust routes remain in the sitemap.
-- The content writer standard now explicitly prohibits fabricated testing, ownership, credentials, and unsupported performance claims.
-
-### Preview verification
-
-Latest branch tip before this documentation update: 9a1b2302a626debb8a7d708902f02bbe9c7908ac.
-
-The latest Vercel preview deployment for that tip was READY and the GitHub Vercel status was success. HTTP 200 smoke tests passed for the homepage, blog index, editorial team page, sitemap, and robots.txt.
-
-Preview responses expose X-Robots-Tag: noindex at the Vercel preview layer. Production indexability must therefore be verified after deployment; preview noindex must not be interpreted as the application's production robots policy.
-
-Current decision remains REMEDIATION_IN_PROGRESS.
+Never convert a repository change into an approval claim.
