@@ -2023,6 +2023,6 @@ export const blogArticles: BlogArticle[] = [
   // Keep them available for internal navigation, but do not expose them as search pages.
   ...expandedBlogArticles.map((article) => ({
     ...article,
-    indexable: [31, 33, 34, 35, 36, 37, 38, 39, 61, 62].includes(article.id),
+    indexable: [61].includes(article.id),
   }))
 ];
