@@ -427,7 +427,7 @@ export const expandedBlogArticles: BlogArticle[] = [
     { type: 'paragraph', text: 'Holiday promotions can have different return windows, category exclusions, final-sale rules, marketplace seller policies, and return-shipping conditions. A small additional discount is rarely worth accepting a return policy you have not read.' },
     { type: 'heading', text: '5. Black Friday 2026 FAQ' },
     { type: 'heading', text: 'Is Black Friday actually cheaper than Cyber Monday?' },
-    { type: 'paragraph', text: 'Not universally. Category timing matters. Black Friday has historically been strong for TVs, toys, and appliances, while Cyber Monday can be stronger for electronics, apparel, and computers. Treat both as checkpoints in one broader promotional season.' },
+    { type: 'paragraph', text: 'Not universally. Category timing matters. Deal timing varies by category and retailer. Treat Black Friday and Cyber Monday as checkpoints in one broader promotional season instead of assuming one date is universally cheaper.' },
     { type: 'heading', text: 'Do retailers price match during Black Friday?' },
     { type: 'paragraph', text: 'Sometimes, but special-event exclusions are common. Check the retailer’s current price-matching policy for Black Friday and Cyber Monday before assuming a later adjustment will be available.' },
     { type: 'heading', text: 'Are Black Friday discounts fake?' },
