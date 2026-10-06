@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Compare Products | Saleh Store',
+  title: 'Compare Products',
   robots: { index: false, follow: true },
 };
 
