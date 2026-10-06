@@ -24,7 +24,6 @@ function buildEntries(): SitemapEntry[] {
     { loc: '/research/ebay-deal-comparison-methodology', changefreq: 'monthly', priority: '0.7' },
     { loc: '/contact', changefreq: 'monthly', priority: '0.6' },
     { loc: '/faq', changefreq: 'monthly', priority: '0.6' },
-    { loc: '/advertise', changefreq: 'monthly', priority: '0.6' },
   ];
 
   // Product and category routes remain useful for visitors, but they are commerce/discovery
