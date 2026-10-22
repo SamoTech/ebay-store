@@ -25,6 +25,10 @@ export const MKRID = '711-53200-19255-0';
 /** `mkcid=1` = affiliate / partner network link. */
 export const MKCID = '1';
 
+/** EPN link generator parameters for standard tracked outbound links. */
+export const TOOLID = '10001';
+export const MKEVT = '1';
+
 function clean(value: string | undefined): string | undefined {
   const trimmed = typeof value === 'string' ? value.trim() : '';
   return trimmed.length > 0 ? trimmed : undefined;
@@ -63,19 +67,25 @@ function encodeQuery(params: URLSearchParams): string {
   return params.toString().replace(/\+/g, '%20');
 }
 
-/** Build an affiliate-tracked eBay search URL. */
-export function createSearchLink(keyword: string, customId?: string): string {
-  const params = new URLSearchParams();
-  params.set('_nkw', keyword);
+/** Apply the standard EPN tracking parameters to a URL's query string. */
+function applyTrackingParameters(params: URLSearchParams, customId?: string): void {
   params.set('mkcid', MKCID);
   params.set('mkrid', MKRID);
   params.set('siteid', SITEID);
   params.set('campid', getCampaignId());
+  params.set('toolid', TOOLID);
+  params.set('mkevt', MKEVT);
 
   if (customId) {
     params.set('customid', customId);
   }
+}
 
+/** Build an affiliate-tracked eBay search URL. */
+export function createSearchLink(keyword: string, customId?: string): string {
+  const params = new URLSearchParams();
+  params.set('_nkw', keyword);
+  applyTrackingParameters(params, customId);
   return `https://www.ebay.com/sch/i.html?${encodeQuery(params)}`;
 }
 
@@ -83,15 +93,7 @@ export function createSearchLink(keyword: string, customId?: string): string {
 export function createAffiliateUrl(ebayUrl: string, customId?: string): string {
   try {
     const url = new URL(ebayUrl);
-    url.searchParams.set('mkcid', MKCID);
-    url.searchParams.set('mkrid', MKRID);
-    url.searchParams.set('siteid', SITEID);
-    url.searchParams.set('campid', getCampaignId());
-
-    if (customId) {
-      url.searchParams.set('customid', customId);
-    }
-
+    applyTrackingParameters(url.searchParams, customId);
     url.search = encodeQuery(url.searchParams);
     return url.toString();
   } catch {
