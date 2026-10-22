@@ -14,13 +14,15 @@ describe('affiliate', () => {
   });
 
   describe('createAffiliateUrl', () => {
-    it('adds the EPN tracking parameters', () => {
+    it('adds the standard EPN tracking parameters', () => {
       const url = new URL(createAffiliateUrl('https://www.ebay.com/itm/123'));
 
       expect(url.searchParams.get('mkcid')).toBe('1');
       expect(url.searchParams.get('mkrid')).toBe('711-53200-19255-0');
       expect(url.searchParams.get('siteid')).toBe('0');
       expect(url.searchParams.get('campid')).toBe(DEFAULT_CAMPAIGN_ID);
+      expect(url.searchParams.get('toolid')).toBe('10001');
+      expect(url.searchParams.get('mkevt')).toBe('1');
     });
 
     it('percent-encodes the custom id (not + or double-encoded)', () => {
@@ -36,6 +38,8 @@ describe('affiliate', () => {
 
       expect(url).toContain('var=red');
       expect(url).toContain('campid=');
+      expect(url).toContain('toolid=10001');
+      expect(url).toContain('mkevt=1');
     });
 
     it('returns the input for an invalid URL', () => {
@@ -59,11 +63,16 @@ describe('affiliate', () => {
   });
 
   describe('createSearchLink', () => {
-    it('builds a search URL with affiliate tracking', () => {
+    it('builds a search URL with standard EPN tracking', () => {
       const url = new URL(createSearchLink('gaming laptop'));
 
       expect(url.searchParams.get('_nkw')).toBe('gaming laptop');
       expect(url.searchParams.get('campid')).toBe(DEFAULT_CAMPAIGN_ID);
+      expect(url.searchParams.get('mkcid')).toBe('1');
+      expect(url.searchParams.get('mkrid')).toBe('711-53200-19255-0');
+      expect(url.searchParams.get('siteid')).toBe('0');
+      expect(url.searchParams.get('toolid')).toBe('10001');
+      expect(url.searchParams.get('mkevt')).toBe('1');
     });
 
     it('encodes spaces as %20, not +', () => {
