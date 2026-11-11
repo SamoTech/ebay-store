@@ -67,8 +67,15 @@ export const expandedBlogArticles: BlogArticle[] = [
       { type: 'list', items: ['Business laptops with strong construction and replaceable components.', 'Previous-generation phones that still meet your software and connectivity needs.', 'Camera bodies and lenses where condition can be inspected.', 'Gaming hardware from a previous generation that still meets your target performance.', 'Monitors and office equipment where cosmetic wear matters less than function.'] },
       { type: 'heading', text: 'When to Walk Away' },
       { type: 'paragraph', text: 'If a listing leaves major questions unanswered and the price advantage is small, the uncertainty is usually not worth it. The same applies when photos contradict the written condition, important model information is missing, or the return terms do not fit the risk.' },
-      { type: 'heading', text: 'A Five-Minute Refurbished Check' },
-      { type: 'list', items: ['Identify the exact model and generation.', 'Read the complete condition description.', 'Check battery information when relevant.', 'Confirm every required accessory.', 'Review seller feedback and returns.', 'Compare delivered price with new and other used listings.'] },
+      { type: 'heading', text: 'US Buyer Checklist for Refurbished Electronics' },
+      { type: 'paragraph', text: 'Look for the eBay Refurbished badge on the listing. For eligible US purchases, eBay lists a two-year Allstate-serviced warranty for Certified Refurbished and a one-year warranty for Excellent, Very Good, and Good. If a listing only says refurbished, check whether the seller provides separate coverage and who handles claims. See the <a href="https://pages.ebay.com/refurbishedprogramwarranty/">official eBay Refurbished warranty terms</a> for eligibility and exclusions.' },
+      { type: 'list', items: [
+        'Match the exact model and configuration before comparing prices. For a laptop, check the processor, RAM, storage, and display.',
+        'Ask for measured battery capacity or a diagnostic report if runtime matters. Budget for a replacement if the listing leaves the battery condition unclear.',
+        'Confirm what comes in the box. For a laptop, verify that the included charger has the right connector and wattage.',
+        'Check the return window, who pays for return shipping, and any disclosed deductions. Record the return terms separately from the warranty.',
+        'Compare the price at checkout, including shipping and estimated sales tax. Add any charger or battery you expect to buy separately.',
+      ] },
       { type: 'paragraph', text: 'The best refurbished purchase is not the one with the largest discount printed on the page. It is the one where the remaining uncertainty is small enough that the lower price makes sense.' },
       { type: 'paragraph', text: 'Disclosure: Saleh Store participates in the eBay Partner Network. Some outbound links may earn a commission at no additional cost to the buyer.' }
     ]
