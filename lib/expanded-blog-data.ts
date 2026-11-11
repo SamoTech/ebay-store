@@ -76,6 +76,14 @@ export const expandedBlogArticles: BlogArticle[] = [
         'Check the return window, who pays for return shipping, and any disclosed deductions. Record the return terms separately from the warranty.',
         'Compare the price at checkout, including shipping and estimated sales tax. Add any charger or battery you expect to buy separately.',
       ] },
+      { type: 'heading', text: 'Example: Buying a Refurbished Dell Latitude 5420 on eBay' },
+      { type: 'paragraph', text: 'In US listing snapshots reviewed November 11, 2026, an <a href="https://www.ebay.com/itm/128059993798">eBay Refurbished Latitude 5420</a> was advertised at $271.17 with a Core i5, 16 GB of RAM, a 512 GB SSD, and Windows 11. The listing showed Very Good condition, a one-year Allstate-serviced warranty, and 30-day seller-paid returns. A <a href="https://www.dellrefurbished.com/laptops?model_f%5B%5D=Latitude+5420">Dell Refurbished offer</a> showed $359 for a Grade B Core i7-1185G7 configuration with 16 GB of RAM, a 512 GB SSD, a 14-inch FHD screen, and Windows 10 Pro. The CPU and operating system differ, so the roughly $88 gap does not establish the savings on an identical laptop.' },
+      { type: 'paragraph', text: 'A <a href="https://www.ebay.com/itm/236372472269">second eBay listing</a> showed $248 for a Core i5-1145G7 model with a touchscreen, 16 GB of RAM, and a 512 GB SSD. It was out of stock when reviewed. Its displayed price and units-sold count do not tell you what individual buyers paid. Treat all three prices as examples and check current listings for availability and terms.' },
+      { type: 'list', items: [
+        'Confirm the full CPU model and whether the display is touch or non-touch. Search using those details and the RAM and SSD capacity when looking for comparable sold listings.',
+        'Ask for a battery report showing full charge capacity and design capacity. Also confirm that a compatible charger is included and the laptop recognizes it.',
+        'Compare the price delivered to your ZIP code, plus any charger or battery you expect to buy. Check who handles warranty claims and whether you would pay return shipping.',
+      ] },
       { type: 'paragraph', text: 'The best refurbished purchase is not the one with the largest discount printed on the page. It is the one where the remaining uncertainty is small enough that the lower price makes sense.' },
       { type: 'paragraph', text: 'Disclosure: Saleh Store participates in the eBay Partner Network. Some outbound links may earn a commission at no additional cost to the buyer.' }
     ]
