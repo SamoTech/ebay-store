@@ -90,25 +90,21 @@ export default function BlogPage() {
                     <span>{post.readTime}</span>
                   </div>
                   <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 min-h-[3.5rem]">
-                    {post.title}
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="hover:underline focus-visible:underline"
+                    >
+                      {post.title}
+                    </Link>
                   </h2>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 text-sm leading-relaxed">
                     {post.excerpt}
                   </p>
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                  <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
                     <div className="text-sm">
                       <p className="text-gray-900 dark:text-white font-medium">{post.author}</p>
                       <p className="text-gray-500 dark:text-gray-400 text-xs">{post.date}</p>
                     </div>
-                    <Link
-                        href={`/blog/${post.slug}`}
-                        className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold text-sm flex items-center gap-1 group"
-                      >
-                        Read
-                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                      </Link>
                   </div>
                 </div>
               </article>
