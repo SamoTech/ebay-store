@@ -84,6 +84,11 @@ export const expandedBlogArticles: BlogArticle[] = [
         'Ask for a battery report showing full charge capacity and design capacity. Also confirm that a compatible charger is included and the laptop recognizes it.',
         'Compare the price delivered to your ZIP code, plus any charger or battery you expect to buy. Check who handles warranty claims and whether you would pay return shipping.',
       ] },
+      { type: 'heading', text: 'Which USB-C Charger Fits the Dell Latitude 5420?' },
+      { type: 'paragraph', text: 'The <a href="https://device.report/manuals/dell-latitude-5420-setup-specifications-guide">Latitude 5420 setup guide</a> lists 65W and 90W USB-C adapters. Confirm the exact model on the laptop and match the wattage specified for your configuration. The older Latitude E5420 is a different model. Ask for a clear photo of the adapter label and connector before buying a replacement, and check whether the wall cord is included.' },
+      { type: 'heading', text: 'Example: Buying a Used Steam Deck OLED 512GB on eBay' },
+      { type: 'paragraph', text: 'Confirm the OLED model and 512GB internal SSD separately from any bundled microSD card. <a href="https://www.steamdeck.com/en/tech">Valve lists a 50Wh battery and a 45W USB-C power supply</a> for the OLED model. Those are factory specs. Ask the seller for a recent battery health reading and a video showing the screen, buttons, sticks, and charging port working.' },
+      { type: 'paragraph', text: 'One <a href="https://www.ebay.com/itm/336746269052">completed eBay listing</a> included the case, charger, and a separate 512GB microSD card. The seller did not accept returns. Use this example to check what is included and what you would pay to replace missing accessories. Compare several completed sales for the same model before estimating a typical price.' },
       { type: 'paragraph', text: 'The best refurbished purchase is not the one with the largest discount printed on the page. It is the one where the remaining uncertainty is small enough that the lower price makes sense.' },
       { type: 'paragraph', text: 'Disclosure: Saleh Store participates in the eBay Partner Network. Some outbound links may earn a commission at no additional cost to the buyer.' }
     ]
