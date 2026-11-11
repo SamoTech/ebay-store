@@ -7,7 +7,7 @@
 
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
-import Script from 'next/script'
+import { SchemaScript } from '../lib/schema'
 import './globals.css'
 import Header from '../components/Header'
 import { ToastProvider } from '../contexts/ToastContext'
@@ -59,11 +59,7 @@ export default function RootLayout({
         ></script>
 
         {/* Structured Data (JSON-LD) */}
-        <Script
-          id="structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteStructuredData) }}
-        />
+        <SchemaScript schema={siteStructuredData} />
 
         {/* RSS Feed */}
         <link rel="alternate" type="application/rss+xml" title="Saleh Store RSS" href="/rss.xml" />
