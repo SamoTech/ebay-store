@@ -5,7 +5,7 @@ export default function Loading() {
         {/* Header Skeleton */}
         <div className="mb-12">
           <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-lg w-64 mb-4 animate-pulse" />
-          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-lg w-96 animate-pulse" />
+          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-lg w-96 max-w-full animate-pulse" />
         </div>
 
         {/* Product Grid Skeleton */}
