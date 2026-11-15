@@ -19,14 +19,21 @@ export const cornerstoneSupplements: Record<number, ContentBlock[]> = {
   33: [
     { type: 'heading', text: 'Network Compatibility Comes Before Price' },
     { type: 'paragraph', text: 'A used smartphone can be inexpensive and still be the wrong purchase if its regional model, carrier status, network support, or software compatibility does not fit the buyer. Confirm the exact model identifier and supported networks before comparing prices. “Unlocked” in a title should not replace verification of the actual variant.' },
-    { type: 'heading', text: 'Battery Health Is a Deferred Cost' },
-    { type: 'paragraph', text: 'Battery condition is one of the easiest ways for a cheap used phone to become expensive. A degraded battery may reduce practical runtime and create a near-term replacement expense. When battery health is unavailable, include that uncertainty in the value calculation rather than assuming it is healthy.' },
+    { type: 'heading', text: 'Worked Example: Compare Two Used Phone Listings' },
+    { type: 'paragraph', text: 'Suppose two listings offer the same unlocked model and storage. Listing A costs $240 plus $12 shipping and needs a battery replacement quoted at $85. Listing B costs $295 with free shipping and has documented battery condition that meets your needs. Before tax, A totals $337 and B totals $295. The $55 difference in sticker price becomes a $42 advantage for B. These are illustrative USD figures, so replace them with your checkout totals and a local repair quote.' },
+    { type: 'paragraph', text: 'In this example, the repair break-even point is $43 ($295 minus $252). If A needs more than $43 in immediate work, B costs less. If the repair cost is uncertain, compare both scenarios and check whether you could return A after inspecting it. Confirm the exact model and carrier compatibility before applying the price comparison.' },
     { type: 'heading', text: 'Inspect Functional Risk, Not Just Cosmetic Wear' },
     { type: 'paragraph', text: 'Scratches and dents are visible and easy to discuss. Less obvious risks include charging-port wear, unreliable buttons, damaged camera lenses, biometric problems, display defects, weak speakers, or unknown repair parts. Separate visible condition from functional claims and verify what the listing actually establishes.' },
     { type: 'heading', text: 'Activation, Account and Return Risk' },
     { type: 'paragraph', text: 'A phone can look perfect and still be difficult to use if activation, account ownership, carrier restrictions, or device status is unclear. The safest listing is one where the seller provides enough information to understand the device state and the return policy provides meaningful protection if the item does not match the description.' },
-    { type: 'heading', text: 'Used Phone Value Is Total Cost' },
-    { type: 'paragraph', text: 'Compare purchase price plus shipping and any immediately necessary accessories or repairs. Then compare that total with another listing in similar condition. A slightly more expensive phone with clearer condition, stronger return protection, and a healthier battery can be the lower-risk purchase.' },
+    { type: 'heading', text: 'What to Test When the Phone Arrives' },
+    { type: 'paragraph', text: 'Check the return deadline in your order and test the phone early. Keep the original packaging and listing details until you have verified the purchase.' },
+    { type: 'list', items: [
+      'Open the device settings to confirm the model and storage match the listing. Complete setup and check for a previous owner account prompt.',
+      'Use your intended SIM or eSIM to make a call and load a page on mobile data with Wi-Fi turned off.',
+      'Test wired charging, speakers, microphone, cameras, and the entire touchscreen. Check battery health in settings if the device exposes it.',
+      'If you find a mismatch, record which listing claim differs from the delivered device and use the return options shown in your eBay order.'
+    ] },
     { type: 'list', items: ['Exact model and regional variant', 'Storage capacity', 'Network and activation status', 'Battery information', 'Screen and camera condition', 'Charging port and buttons', 'Repair disclosures', 'Included accessories', 'Seller information', 'Return terms and delivered cost'] }
   ],
   35: [
